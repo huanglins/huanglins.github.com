@@ -1,52 +1,29 @@
-# Dependencies
-markdown:	redcarpet
-pygments:	true
+# Site settings
+title: Vincent
+header-img: img/home-bg.jpg
+email: 1@vincents.cn
+description: "//"
+baseurl: ""
+url: "http://huanglins.github.io"
+twitter_username: vincent
+github_username:  huanglins
+facebook_username:  vincent
+weibo_username: linxiaomu1995
+zhihu_username: huang-lin-70-49
 
-# Permalinks
-permalink:	/blog/:title
+# Build settings
+markdown: kramdown 
 
-# Setup
-title:		Thinny
-tagline:	'blog'
-description:	'My personal blog.'
-url:		http://camporez.com
+# markdown: redcarpet
+# redcarpet can auto highlight code, but the lack of header-id make the catalog impossible 
 
-author:
-  name:		'Ian Camporez Brunelli'
-  url:		https://google.com/+IanCamporezBrunelli
+highlighter: pygments
+permalink: pretty
+paginate: 20
+exclude: ["less","node_modules","Gruntfile.js","package.json","README.md"]
 
-paginate:	5
+# use Github Flavored Markdown !important
+# document: http://jekyllrb.com/docs/configuration/#kramdown
 
-# Custom vars
-icon:		/assets/images/icon.png
-cover:		/assets/images/cover.jpg
-
-social:
-  - icon:	twitter
-    url:	https://twitter.com/iancamporez
-    desc:	Follow me on twitter
-
-  - icon:	github
-    url:	https://github.com/camporez
-    desc:	Fork me on github
-
-  - icon:	googleplus-alt
-    url:	https://google.com/+IanCamporezBrunelli
-    desc:	Add me on google+
-
-  - icon:	feed
-    url:	http://camporez.com/atom.xml
-    desc:	Subscribe to my feed
-    
-menu:
-  - title:	Home
-    url:	/
-    
-  - title:	About
-    url:	/about
-    
-copyright:
-  author:	Camporez
-  url:		http://camporez.com
-  type_title:	Some rights reserved
-  type_url:	http://creativecommons.org/licenses/by-nc/2.5
+kramdown:
+  input: GFM
