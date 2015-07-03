@@ -1,35 +1,52 @@
-name: vincent's
-description: Blogging about stuffs
-meta_description: "Your New Jekyll Site, Blogging about stuffs"
+# Dependencies
+markdown:	redcarpet
+pygments:	true
 
-aboutPage: true
+# Permalinks
+permalink:	/blog/:title
 
-markdown: redcarpet
-highlighter: pygments
+# Setup
+title:		Thinny
+tagline:	'blog'
+description:	'My personal blog.'
+url:		http://camporez.com
 
-paginate: 20
-baseurl: /
-domain_name: 'http://yourblog-domain.com'
-google_analytics: 'UA-XXXXXXXX-X'
-disqus_shortname: 'your-disqus-shortname'
+author:
+  name:		'Ian Camporez Brunelli'
+  url:		https://google.com/+IanCamporezBrunelli
 
-# Details for the RSS feed generator
-url:            'http://your-blog-url.example.com'
-author:         'Your Name'
-authorTwitter:  'YourTwitterUsername'
+paginate:	5
 
-permalink:       /:year/:title/
+# Custom vars
+icon:		/assets/images/icon.png
+cover:		/assets/images/cover.jpg
 
-defaults:
-    -
-        scope:
-            path: "" # empty string for all files
-            type: pages
-        values:
-            layout: default
-    -
-        scope:
-            path: "" # empty string for all files
-            type: posts
-        values:
-            layout: post
+social:
+  - icon:	twitter
+    url:	https://twitter.com/iancamporez
+    desc:	Follow me on twitter
+
+  - icon:	github
+    url:	https://github.com/camporez
+    desc:	Fork me on github
+
+  - icon:	googleplus-alt
+    url:	https://google.com/+IanCamporezBrunelli
+    desc:	Add me on google+
+
+  - icon:	feed
+    url:	http://camporez.com/atom.xml
+    desc:	Subscribe to my feed
+    
+menu:
+  - title:	Home
+    url:	/
+    
+  - title:	About
+    url:	/about
+    
+copyright:
+  author:	Camporez
+  url:		http://camporez.com
+  type_title:	Some rights reserved
+  type_url:	http://creativecommons.org/licenses/by-nc/2.5
