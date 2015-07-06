@@ -4,7 +4,7 @@ title:      "四海一家"
 subtitle:   "一家挺贵的自助餐"
 date:       2015-07-06 00:10:00
 author:     ""
-header-img: "img/home-bg-v.jpg"
+header-img: "img/sihaiyijia/sihaiyijia_header.jpg"
 tags:
     - 生活
 ---
@@ -12,7 +12,7 @@ tags:
 > 周末,下午陪软妹去修手机.傍晚请去吃四海一家.
 
 位置在江北嘴大剧院,对面就是朝天门.
-![img](/img/sihaiyijia/sihaiyijia_header.jpg)
+![img](/img/sihaiyijia/sihaiyijia_screne.jpg)
 附几张食物图片:
 ![img](/img/sihaiyijia/food_1.jpg)
 ![img](/img/sihaiyijia/food_2.jpg)
