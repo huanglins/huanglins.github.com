@@ -11,7 +11,7 @@ tags:
 > 周末,下午陪软妹去修手机.傍晚请去吃四海一家.
 
 位置在江北嘴大剧院,对面就是朝天门.
-![手机拍了一张全景照,夜景非常美丽](/img/sihaiyijia/food_1.jpg)
+![img](/img/sihaiyijia/food_1.jpg)
 附几张食物图片:
 ![img](/img/sihaiyijia/food_1.jpg)
 ![img](/img/sihaiyijia/food_2.jpg)
