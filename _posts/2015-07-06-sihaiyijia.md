@@ -6,7 +6,7 @@ date:       2015-07-06 00:10:00
 author:     ""
 header-img: "img/home-bg-v.jpg"
 tags:
-	- 生活
+    - 生活
 ---
 
 > 周末,下午陪软妹去修手机.傍晚请去吃四海一家.
