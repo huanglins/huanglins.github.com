@@ -1,29 +1,69 @@
-# Site settings
-title: Vincent
+# Site settings  站点信息
+title: tnecniV
+SEOTitle: Vincent Blog | 永远年轻，永远热泪盈眶
 header-img: img/home-bg.jpg
 email: 1@vincents.cn
-description: "//"
+description: "// iOS Developer，也在也Android。正在学习全栈。很高兴认识你。"
 baseurl: ""
 url: "http://huanglins.github.io"
-twitter_username: vincent
-github_username:  huanglins
+
+# SNS setting 社交网络ID
+#twitter_username: vincent_darnel
+#zhihu_username: huang-lin-70-49
 #facebook_username:  vincent
+github_username:  huanglins
 weibo_username: linxiaomu1995
-zhihu_username: huang-lin-70-49
 
 # Build settings
-markdown: kramdown 
-
-# markdown: redcarpet
-# redcarpet can auto highlight code, but the lack of header-id make the catalog impossible 
-
-highlighter: pygments
+# from 2016, 'pygments' is unsupported on GitHub Pages. Use 'rouge' for highlighting instead.
+highlighter: rouge
 permalink: pretty
-paginate: 20
-exclude: ["less","node_modules","Gruntfile.js","package.json","README.md"]
+paginate: 10
+exclude: ["less","node_modules","Gruntfile.js","package.json","README.md","README.zh.md"]
+anchorjs: true                          # if you want to customize anchor. check out line:181 of `post.html`
 
-# use Github Flavored Markdown !important
+# Markdown 配置
+# Markdown settings
+# replace redcarpet to kramdown,
+# although redcarpet can auto highlight code, the lack of header-id make the catalog impossible, so I switch to kramdown
 # document: http://jekyllrb.com/docs/configuration/#kramdown
-
+markdown: kramdown
 kramdown:
-  input: GFM
+  input: GFM                            # use Github Flavored Markdown !important
+
+# Gems
+# from PR#40, to support local preview for Jekyll 3.0
+gems: [jekyll-paginate]
+
+# 多说评论
+# Disqus settings
+#disqus_username: _your_disqus_short_name_
+
+# Duoshuo settings
+duoshuo_username: vincents
+# Share component is depend on Comment so we can NOT use share only.
+duoshuo_share: true                     # set to false if you want to use Comment without Sharing
+
+# Analytics settings  百度统计
+# Baidu Analytics
+ba_track_id: df0ae995d64933728fd782f538ecf05d
+# Google Analytics
+ga_track_id: 'UA-49627206-1'            # Format: UA-xxxxxx-xx
+ga_domain: vincents.cn
+
+# Sidebar settings  侧边栏配置
+sidebar: true                           # whether or not using Sidebar.
+sidebar-about-description: "逗逼程序猿，白羊座，拖延症。请不要伤害他。"
+sidebar-avatar: /img/avatar_sea-vincent.jpg      # use absolute URL, seeing it's used in both `/` and `/about/`
+
+# Featured Tags 是否显示标签
+featured-tags: true                     # whether or not using Feature-Tags
+featured-condition-size: 1              # A tag will be featured if the size of it is more than this condition value
+
+# Friends 友链
+friends: [
+    {
+        title: "黄玄的博客",
+        href: "http://huangxuan.me/"
+    }
+]

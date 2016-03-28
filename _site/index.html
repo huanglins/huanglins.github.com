@@ -4,12 +4,13 @@
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="google-site-verification" content="xBT4GhYoi5qRD5tr338pgPM5OWHHIDR6mNg1a3euekI" />
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="keyword"  content="vincents @vincents,darnel,iOS Developer">
-    <meta name="description" content="//">
-    <link rel="shortcut icon" href="img/favicon.ico">
+    <meta name="description" content="// iOS Developer，也在也Android。正在学习全栈。很高兴认识你。">
+    <meta name="keyword"  content="">
+    <link rel="shortcut icon" href="/img/favicon.ico">
 
-    <title>tnecniV - Vincent</title>
+    <title>Vincent Blog | 永远年轻，永远热泪盈眶</title>
 
     <link rel="canonical" href="http://huanglins.github.io/">
 
@@ -17,7 +18,7 @@
     <link rel="stylesheet" href="/css/bootstrap.min.css">
 
     <!-- Custom CSS -->
-    <link rel="stylesheet" href="/css/hux-blog.css">
+    <link rel="stylesheet" href="/css/hux-blog.min.css">
 
     <!-- Pygments Github CSS -->
     <link rel="stylesheet" href="/css/syntax.css">
@@ -28,12 +29,12 @@
     <link href="http://cdn.staticfile.org/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
 
 
-    <!-- Hux Delete, sad but pending in China 
+    <!-- Hux Delete, sad but pending in China
     <link href='http://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic' rel='stylesheet' type='text/css'>
     <link href='http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800' rel='stylesheet' type='text/
     css'>
     -->
-    
+
 
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -42,21 +43,12 @@
         <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
     <![endif]-->
 
-
-    <!-- Hux add tongji.baidu -->
-    <script>
-        var _hmt = _hmt || [];
-        (function() {
-          var hm = document.createElement("script");
-          hm.src = "//hm.baidu.com/hm.js?4cc1f2d8f3067386cc5cdb626a202900";
-          var s = document.getElementsByTagName("script")[0]; 
-          s.parentNode.insertBefore(hm, s);
-        })();
-    </script>
-    
+    <!-- ga & ba script hoook -->
+    <script></script>
 </head>
 
 
+<!-- hack iOS CSS :active style -->
 <body ontouchstart="">
 
     <!-- Navigation -->
@@ -64,45 +56,90 @@
     <div class="container-fluid">
         <!-- Brand and toggle get grouped for better mobile display -->
         <div class="navbar-header page-scroll">
-            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+            <button type="button" class="navbar-toggle">
                 <span class="sr-only">Toggle navigation</span>
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
             </button>
-            <a class="navbar-brand" href="/">Vincent</a>
+            <a class="navbar-brand" href="/">tnecniV</a>
         </div>
 
         <!-- Collect the nav links, forms, and other content for toggling -->
-        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-            <ul class="nav navbar-nav navbar-right">
-                <li>
-                    <a href="/">Home</a>
-                </li>
-                
-                <li>
-                    <a href="/about/">About</a>
-                </li>
-                
-                <li>
-                    <a href="/">tnecniV</a>
-                </li>
-                
-                <li>
-                    <a href="/tags/">Tags</a>
-                </li>
-                
-
-                <!-- Hux customized -->
-
-
-                <!-- Hux end -->
-            </ul>
+        <div id="huxblog_navbar">
+            <div class="navbar-collapse">
+                <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="/">Home</a>
+                    </li>
+                    
+                    <li>
+                        <a href="/about/">About</a>
+                    </li>
+                    
+                    <li>
+                        <a href="/tags/">Tags</a>
+                    </li>
+                    
+                </ul>
+            </div>
         </div>
         <!-- /.navbar-collapse -->
     </div>
     <!-- /.container -->
 </nav>
+<script>
+    // Drop Bootstarp low-performance Navbar
+    // Use customize navbar with high-quality material design animation
+    // in high-perf jank-free CSS3 implementation
+    var $body   = document.body;
+    var $toggle = document.querySelector('.navbar-toggle');
+    var $navbar = document.querySelector('#huxblog_navbar');
+    var $collapse = document.querySelector('.navbar-collapse');
+
+    var __HuxNav__ = {
+        close: function(){
+            $navbar.className = " ";
+            // wait until animation end.
+            setTimeout(function(){
+                // prevent frequently toggle
+                if($navbar.className.indexOf('in') < 0) {
+                    $collapse.style.height = "0px"
+                }
+            },400)
+        },
+        open: function(){
+            $collapse.style.height = "auto"
+            $navbar.className += " in";
+        }
+    }
+
+    // Bind Event
+    $toggle.addEventListener('click', function(e){
+        if ($navbar.className.indexOf('in') > 0) {
+            __HuxNav__.close()
+        }else{
+            __HuxNav__.open()
+        }
+    })
+
+    /**
+     * Since Fastclick is used to delegate 'touchstart' globally
+     * to hack 300ms delay in iOS by performing a fake 'click',
+     * Using 'e.stopPropagation' to stop 'touchstart' event from 
+     * $toggle/$collapse will break global delegation.
+     * 
+     * Instead, we use a 'e.target' filter to prevent handler
+     * added to document close HuxNav.  
+     *
+     * Also, we use 'click' instead of 'touchstart' as compromise
+     */
+    document.addEventListener('click', function(e){
+        if(e.target == $toggle) return;
+        if(e.target.className == 'icon-bar') return;
+        __HuxNav__.close();
+    })
+</script>
 
 
     <!-- Page Header -->
@@ -112,8 +149,8 @@
             <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1 ">
                 <div class="site-heading">
                     <h1>tnecniV</h1>
-                    <hr class="small">
-                    <span class="subheading">如果天黑之前来得及 我要忘了你的眼睛</span>
+                    <!--<hr class="small">-->
+                    <span class="subheading">你那么擅长安慰他人，一定度过了很多自己安慰自己的日子吧。</span>
                 </div>
             </div>
         </div>
@@ -123,136 +160,22 @@
 <!-- Main Content -->
 <div class="container">
 	<div class="row">
-		<div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1 post-container">
-			
-<div class="post-preview">
-    <a href="/2015/08/31/i'm-blue/">
-        <h2 class="post-title">            还我蔚蓝
-        </h2>
         
-        <h3 class="post-subtitle">
-            梦想总是要有的,万一实现了呢?
-        </h3>
-        
-        <div class="post-content-preview">
-            
-  时间不会瞬间改变天空的颜色
-别让我在黑夜看不清方向
-记忆中的每幅画面不再是绿色
-希望总会布满每一个角落
-             -反光镜乐队
 
-
-
-  怒江兔峨中学 还我蔚蓝
-优酷地址
-
-
-
-        </div>
-    </a>
-    <p class="post-meta">Posted by vincent on August 31, 2015</p>
-        
-</div>
-<hr>
-
-<div class="post-preview">
-    <a href="/2015/08/28/appendicitis/">
-        <h2 class="post-title">            爸爸得了急性阑尾炎
-        </h2>
-        
-        <h3 class="post-subtitle">
-            Everything Will Be Fine
-        </h3>
-        
-        <div class="post-content-preview">
-            下午妈妈给我打电话说爸爸得了急性阑尾炎。和我7年前得的一样。
-
-同样被误诊,最早的时候被当成肠炎医治。结果后来转为急性阑尾炎只有动手术切除。听到这个消息非常气愤,我就是被误诊害得不清,硬生生疼了很久。到后来才被发现原来真不是肠炎。那是我第一次动手术,在我中学旁边的一家医院里,躺着手术室上,被麻醉,那种感觉无论何时想起都记忆犹新。
-
-接到电话的时候很急,反倒是妈妈表现得轻松,说没有多痛。还打趣...
-        </div>
-    </a>
-    <p class="post-meta">Posted by  on August 28, 2015</p>
-        
-</div>
-<hr>
-
-<div class="post-preview">
-    <a href="/2015/07/07/ci-anyong/">
-        <h2 class="post-title">            暗涌
-        </h2>
-        
-        <h3 class="post-subtitle">
-            王菲
-        </h3>
-        
-        <div class="post-content-preview">
-            就算天空再深
-看不出裂痕
-眉头 仍骤满密云
-就算一屋暗灯
-照不穿我身
-仍可反映你心
-让这口烟跳升
-我身躯下沉
-曾多么想多么想贴近
-你的心和眼
-口和耳亦没缘分
-我都捉不紧
-害怕悲剧重演
-我的命中命中
-越美丽的东西我越不可碰
-历史在重演
-这么烦烧城中
-没理由 相恋可以没有暗涌
-其实我再去爱惜你又有何用
-难道这次我抱紧你未必落空
-仍静候着你说 我别错用神
-什么我 都有预感
-然后睁不开两眼
-看命运光...
-        </div>
-    </a>
-    <p class="post-meta">Posted by  on July 7, 2015</p>
-        
-</div>
-<hr>
-
-<div class="post-preview">
-    <a href="/2015/07/06/sihaiyijia/">
-        <h2 class="post-title">            四海一家
-        </h2>
-        
-        <h3 class="post-subtitle">
-            一家挺贵的自助餐
-        </h3>
-        
-        <div class="post-content-preview">
-            
-  周末,下午陪软妹去修手机.傍晚请去吃四海一家.
-
-
-位置在江北嘴大剧院,对面就是朝天门.
-
-附几张食物图片:
-
-
-
-### 小插曲
-临结束的时候有个小插曲,邻桌的刚好是一位女士的生日。然后就看到他跑去前台接话筒来说话。大意是,今天是我老婆XX岁生日,在这里祝她生日快乐。我会用我余生来爱你,给你我所有。
-之后邻座的女士的老公还挨桌挨桌的敬酒,真赞！
-
-        </div>
-    </a>
-    <p class="post-meta">Posted by  on July 6, 2015</p>
-        
-</div>
-<hr>
-
+<!-- USE SIDEBAR -->
+    <!-- PostList Container -->
+    		<div class="
+                col-lg-8 col-lg-offset-1
+                col-md-8 col-md-offset-1
+                col-sm-12
+                col-xs-12
+                postlist-container
+            ">
+    			
 <div class="post-preview">
     <a href="/2015/07/05/beautiful-for-ever/">
-        <h2 class="post-title">            终身美丽
+        <h2 class="post-title">
+            终身美丽
         </h2>
         
         <h3 class="post-subtitle">
@@ -261,33 +184,52 @@
         
         <div class="post-content-preview">
             塔尖仍旧记得
+
 这拥抱极美好
+
 爱有千斤重
+
 重过无涯的铁路
+
 你那手指再笨拙再粗
+
 肌肤也被你修补
+
 从前那一位
+
 永未能做到
+
 是你去唤醒我
+
 努力才能被爱慕
+
 但回头目睹你
+
 为我好自己不好
+
 我这幸运儿合着眼睛
+
 只得你沉重身影
+
 如果这记忆非爱情
+
 连天都不会太高兴
+
 莫非可终生美丽才值得勾勾手指发誓
+
 对你不止感激敬礼
+
 当你知己才是虚伪
+
 莫非多一分秀丽
+
 才值得分享我的一切
-给我自信给我地位
-这叫幸福不怕流逝
-任他...
+...
         </div>
     </a>
-    <p class="post-meta">Posted by  on July 5, 2015</p>
-        
+    <p class="post-meta">
+        Posted by  on July 5, 2015
+    </p>
 </div>
 <hr>
 
@@ -295,12 +237,82 @@
 <!-- Pager -->
 
 
-		</div>
+
+    		</div>
+    <!-- Sidebar Container -->
+            <div class="
+                col-lg-3 col-lg-offset-0
+                col-md-3 col-md-offset-0
+                col-sm-12
+                col-xs-12
+                sidebar-container
+            ">
+                <!-- Featured Tags -->
+                
+                <section>
+                    <hr class="hidden-sm hidden-xs">
+                    <h5><a href="/tags/">FEATURED TAGS</a></h5>
+                    <div class="tags">
+                        
+                            
+                        
+                    </div>
+                </section>
+                
+
+                <!-- Short About -->
+                <section class="visible-md visible-lg">
+                    <hr><h5><a href="/about/">ABOUT ME</a></h5>
+                    <div class="short-about">
+                        
+                            <img src="/img/avatar_sea-vincent.jpg" />
+                        
+                        
+                            <p>逗逼程序猿，白羊座，拖延症。请不要伤害他。</p>
+                        
+                        <!-- SNS Link -->
+                        <ul class="list-inline">
+                            
+                            
+                            
+                            
+                            <li>
+                                <a target="_blank" href="http://weibo.com/linxiaomu1995">
+                                    <span class="fa-stack fa-lg">
+                                        <i class="fa fa-circle fa-stack-2x"></i>
+                                        <i class="fa fa-weibo fa-stack-1x fa-inverse"></i>
+                                    </span>
+                                </a>
+                            </li>
+                            
+                            
+                            
+                            <li>
+                                <a target="_blank" href="https://github.com/huanglins">
+                                    <span class="fa-stack fa-lg">
+                                        <i class="fa fa-circle fa-stack-2x"></i>
+                                        <i class="fa fa-github fa-stack-1x fa-inverse"></i>
+                                    </span>
+                                </a>
+                            </li>
+                            
+                        </ul>
+                    </div>
+                </section>
+                <!-- Friends Blog -->
+                
+                <hr>
+                <h5>FRIENDS</h5>
+                <ul class="list-inline">
+                    
+                        <li><a href="http://huangxuan.me/">黄玄的博客</a></li>
+                    
+                </ul>
+                
+    		</div>
+        
 	</div>
 </div>
-
-
-
 
 
     <!-- Footer -->
@@ -309,39 +321,11 @@
         <div class="row">
             <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
                 <ul class="list-inline text-center">
-                    <!-- stop RSS, Twitter by Hux -->
-                    <!--
-                    <li>
-                        <a href="/feed.xml">
-                            <span class="fa-stack fa-lg">
-                                <i class="fa fa-circle fa-stack-2x"></i>
-                                <i class="fa fa-rss fa-stack-1x fa-inverse"></i>
-                            </span>
-                        </a>
-                    </li>
                     
-                    <li>
-                        <a href="https://twitter.com/vincent">
-                            <span class="fa-stack fa-lg">
-                                <i class="fa fa-circle fa-stack-2x"></i>
-                                <i class="fa fa-twitter fa-stack-1x fa-inverse"></i>
-                            </span>
-                        </a>
-                    </li>
                     
-                    --> 
 
                     <!-- add Weibo, Zhihu by Hux, add target = "_blank" to <a> by Hux -->
                     
-                    
-                    <li>
-                        <a target="_blank" href="https://www.zhihu.com/people/huang-lin-70-49">
-                            <span class="fa-stack fa-lg">
-                                <i class="fa fa-circle fa-stack-2x"></i>
-                                <i class="fa  fa-stack-1x fa-inverse">知</i>
-                            </span>
-                        </a>
-                    </li>
                     
                     
                     <li>
@@ -367,8 +351,15 @@
                     </li>
                     
                 </ul>
-                <p class="copyright text-muted">Copyright &copy; Vincent 2015 
-                	<!--| 鸣谢 <a target="_blank" href="https://github.com/Huxpro/huxpro.github.io">@Hux</a>-->
+                <p class="copyright text-muted">
+                    Copyright &copy; tnecniV 2016
+                    <br>
+                    Theme © <a href="http://huangxuan.me">Hux</a> |
+                    <iframe
+                        style="margin-left: 2px; margin-bottom:-5px;"
+                        frameborder="0" scrolling="0" width="91px" height="20px"
+                        src="https://ghbtns.com/github-btn.html?user=huxpro&repo=huxpro.github.io&type=star&count=true" >
+                    </iframe>
                 </p>
             </div>
         </div>
@@ -425,7 +416,6 @@
 <img src="/img/icon_wechat.png" width="0" height="0" />
 <!-- Migrate from head to bottom, no longer block render and still work -->
 
-<script type="text/javascript" src="http://tajs.qq.com/stats?sId=43623438" charset="UTF-8"></script>
 </body>
 
 </html>

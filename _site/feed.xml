@@ -1,220 +1,111 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>Vincent</title>
-    <description>//</description>
+    <title>tnecniV</title>
+    <description>// iOS Developer，也在也Android。正在学习全栈。很高兴认识你。</description>
     <link>http://huanglins.github.io/</link>
     <atom:link href="http://huanglins.github.io/feed.xml" rel="self" type="application/rss+xml" />
-    <pubDate>Mon, 31 Aug 2015 01:00:25 +0800</pubDate>
-    <lastBuildDate>Mon, 31 Aug 2015 01:00:25 +0800</lastBuildDate>
-    <generator>Jekyll v2.5.3</generator>
-    
-      <item>
-        <title>还我蔚蓝</title>
-        <description>&lt;blockquote&gt;
-  &lt;p&gt;时间不会瞬间改变天空的颜色&lt;br /&gt;
-别让我在黑夜看不清方向&lt;br /&gt;
-记忆中的每幅画面不再是绿色&lt;br /&gt;
-希望总会布满每一个角落&lt;br /&gt;
-             -反光镜乐队&lt;/p&gt;
-&lt;/blockquote&gt;
-
-&lt;blockquote&gt;
-  &lt;p&gt;怒江兔峨中学 &lt;em&gt;还我蔚蓝&lt;/em&gt;&lt;br /&gt;
-&lt;a href=&quot;http://v.youku.com/v_show/id_XNTU4MjgwMzg4.html?from=s1.8-1-1.2&quot;&gt;优酷地址&lt;/a&gt;&lt;/p&gt;
-&lt;/blockquote&gt;
-
-</description>
-        <pubDate>Mon, 31 Aug 2015 08:00:00 +0800</pubDate>
-        <link>http://huanglins.github.io/2015/08/31/i'm-blue/</link>
-        <guid isPermaLink="true">http://huanglins.github.io/2015/08/31/i'm-blue/</guid>
-        
-        <category>还我蔚蓝</category>
-        
-        
-      </item>
-    
-      <item>
-        <title>爸爸得了急性阑尾炎</title>
-        <description>&lt;p&gt;下午妈妈给我打电话说爸爸得了急性阑尾炎。和我7年前得的一样。&lt;/p&gt;
-
-&lt;p&gt;同样被误诊,最早的时候被当成肠炎医治。结果后来转为急性阑尾炎只有动手术切除。听到这个消息非常气愤,我就是被误诊害得不清,硬生生疼了很久。到后来才被发现原来真不是肠炎。那是我第一次动手术,在我中学旁边的一家医院里,躺着手术室上,被麻醉,那种感觉无论何时想起都记忆犹新。&lt;/p&gt;
-
-&lt;p&gt;接到电话的时候很急,反倒是妈妈表现得轻松,说没有多痛。还打趣的讲,你看爸爸肚子上的肉很多,需要全麻,就笑了起来。&lt;/p&gt;
-
-&lt;p&gt;我根本轻松不起来,下午开始就没有心思工作。隔一会儿就电话过去问多久会动手术,开始是6点,然后是8点,最后说快了快了还得一两个小时。&lt;/p&gt;
-
-&lt;p&gt;我很讨厌去医院,什么都是白色的感觉少了好多生气。今年去了好几次医院,去看望我妹妹,干妈,兴梅,其他亲戚。他们都住了院,各种原因。人呐,在生老病死前总显得脆弱。一切都会好起来的,我相信。&lt;/p&gt;
-
-&lt;p&gt;&lt;strong&gt;其他&lt;/strong&gt;&lt;br /&gt;
-晚饭的时候精神一直很恍惚,也不知道是工作太忙还是愁着医院的爸爸。突然有一下就觉得自己好累好累,需要躺下来休息。我坐在靠窗的位置,重庆的夜景真的很美,对面就是闪亮闪亮的解放碑。可是我每天都看得到阿。&lt;/p&gt;
-
-&lt;p&gt;15年就这么不知不觉过去一半了。依稀记得年初给自己定了好多好多目标,得看多少书,看多少场电影,写多少日记。像我如此三分钟热度的人,除了拼命工作好像什么都没坚持下来。&lt;/p&gt;
-
-&lt;p&gt;兴梅出院的时候他们讲起说,你知道曾经初中那谁那谁吗,她结婚了吗,相亲了吗,生孩子了吗？感觉好几年的时间一转眼就过去,除了唏嘘真不知道能干嘛了。我还讲了一个很好笑的笑话,这个笑话我没和任何人讲起。我在动阑尾炎手术后还在上课的时候偷偷跑出去上网,肚子上缝着线,走路像个瘸子跛着去网吧。结果被班主任逮住了,告诉了我妈妈。真是不知道我那时得是有多喜欢上网。&lt;/p&gt;
-
-&lt;p&gt;前两天妹妹也过了20岁的生日,在我同龄的长大的小伙伴里,都迈过了20的坎。可是她还像是一个小孩子样,叫我陪她喝酒,也不知我本来就不会喝酒。她还交了新的男朋友,我不能再像从前一样,告诉你的男朋友得对你好阿,不然我就去教训他。&lt;/p&gt;
-
-&lt;p&gt;我蓄了好久的胡子没有刮,很久了。&lt;/p&gt;
-
-&lt;hr /&gt;
-&lt;p&gt;穷极一生做不完一场梦&lt;br /&gt;
-大梦初醒荒唐了一生&lt;/p&gt;
-</description>
-        <pubDate>Fri, 28 Aug 2015 07:00:30 +0800</pubDate>
-        <link>http://huanglins.github.io/2015/08/28/appendicitis/</link>
-        <guid isPermaLink="true">http://huanglins.github.io/2015/08/28/appendicitis/</guid>
-        
-        <category>生活</category>
-        
-        
-      </item>
-    
-      <item>
-        <title>暗涌</title>
-        <description>&lt;p&gt;就算天空再深&lt;br /&gt;
-看不出裂痕&lt;br /&gt;
-眉头 仍骤满密云&lt;br /&gt;
-就算一屋暗灯&lt;br /&gt;
-照不穿我身&lt;br /&gt;
-仍可反映你心&lt;br /&gt;
-让这口烟跳升&lt;br /&gt;
-我身躯下沉&lt;br /&gt;
-曾多么想多么想贴近&lt;br /&gt;
-你的心和眼&lt;br /&gt;
-口和耳亦没缘分&lt;br /&gt;
-我都捉不紧&lt;br /&gt;
-害怕悲剧重演&lt;br /&gt;
-我的命中命中&lt;br /&gt;
-越美丽的东西我越不可碰&lt;br /&gt;
-历史在重演&lt;br /&gt;
-这么烦烧城中&lt;br /&gt;
-没理由 相恋可以没有暗涌&lt;br /&gt;
-其实我再去爱惜你又有何用&lt;br /&gt;
-难道这次我抱紧你未必落空&lt;br /&gt;
-仍静候着你说 我别错用神&lt;br /&gt;
-什么我 都有预感&lt;br /&gt;
-然后睁不开两眼&lt;br /&gt;
-看命运光临&lt;br /&gt;
-然后天空又再涌起密云&lt;br /&gt;
-就算天空再深&lt;br /&gt;
-看不出裂痕&lt;br /&gt;
-眉头 仍骤满密云&lt;br /&gt;
-就算一屋暗灯&lt;br /&gt;
-照不穿我身&lt;br /&gt;
-仍可反映你心&lt;br /&gt;
-让这口烟跳升&lt;br /&gt;
-我身躯下沉&lt;br /&gt;
-曾多么想多么想贴近&lt;br /&gt;
-你的心和眼&lt;br /&gt;
-口和耳亦没缘分&lt;br /&gt;
-我都捉不紧&lt;br /&gt;
-害怕悲剧重演&lt;br /&gt;
-我的命中命中&lt;br /&gt;
-越美丽的东西我越不可碰&lt;br /&gt;
-历史在重演 这么烦烧城中&lt;br /&gt;
-没理由 相恋可以没有暗涌&lt;br /&gt;
-其实我再去爱惜你又有何用&lt;br /&gt;
-难道这次我抱紧你未必落空&lt;br /&gt;
-仍静候着你说&lt;br /&gt;
-我别错用神&lt;br /&gt;
-什么我 都有预感&lt;br /&gt;
-然后睁不开两眼&lt;br /&gt;
-看命运光临&lt;br /&gt;
-然后天空又再涌起密云&lt;br /&gt;
-仍静候着你说&lt;br /&gt;
-我别错用神&lt;br /&gt;
-什么我 都有预感&lt;br /&gt;
-然后睁不开两眼&lt;br /&gt;
-看命运光临&lt;br /&gt;
-然后天空又再涌起密云&lt;br /&gt;
-然后天空又再涌起密云&lt;/p&gt;
-
-</description>
-        <pubDate>Tue, 07 Jul 2015 08:00:30 +0800</pubDate>
-        <link>http://huanglins.github.io/2015/07/07/ci-anyong/</link>
-        <guid isPermaLink="true">http://huanglins.github.io/2015/07/07/ci-anyong/</guid>
-        
-        <category>歌词</category>
-        
-        
-      </item>
-    
-      <item>
-        <title>四海一家</title>
-        <description>&lt;blockquote&gt;
-  &lt;p&gt;周末,下午陪软妹去修手机.傍晚请去吃四海一家.&lt;/p&gt;
-&lt;/blockquote&gt;
-
-&lt;p&gt;位置在江北嘴大剧院,对面就是朝天门.&lt;br /&gt;
-&lt;img src=&quot;/img/sihaiyijia/sihaiyijia_screne.jpg&quot; alt=&quot;img&quot; /&gt;&lt;br /&gt;
-附几张食物图片:&lt;br /&gt;
-&lt;img src=&quot;/img/sihaiyijia/food_1.jpg&quot; alt=&quot;img&quot; /&gt;&lt;br /&gt;
-&lt;img src=&quot;/img/sihaiyijia/food_2.jpg&quot; alt=&quot;img&quot; /&gt;&lt;br /&gt;
-&lt;img src=&quot;/img/sihaiyijia/food_3.jpg&quot; alt=&quot;img&quot; /&gt;&lt;br /&gt;
-### 小插曲&lt;br /&gt;
-临结束的时候有个小插曲,邻桌的刚好是一位女士的生日。然后就看到他跑去前台接话筒来说话。大意是,今天是我老婆XX岁生日,在这里祝她生日快乐。我会用我余生来爱你,给你我所有。&lt;br /&gt;
-之后邻座的女士的老公还挨桌挨桌的敬酒,真赞！&lt;/p&gt;
-</description>
-        <pubDate>Mon, 06 Jul 2015 08:10:00 +0800</pubDate>
-        <link>http://huanglins.github.io/2015/07/06/sihaiyijia/</link>
-        <guid isPermaLink="true">http://huanglins.github.io/2015/07/06/sihaiyijia/</guid>
-        
-        <category>生活</category>
-        
-        
-      </item>
+    <pubDate>Mon, 28 Mar 2016 14:55:39 +0800</pubDate>
+    <lastBuildDate>Mon, 28 Mar 2016 14:55:39 +0800</lastBuildDate>
+    <generator>Jekyll v3.1.2</generator>
     
       <item>
         <title>终身美丽</title>
-        <description>&lt;p&gt;塔尖仍旧记得&lt;br /&gt;
-这拥抱极美好&lt;br /&gt;
-爱有千斤重&lt;br /&gt;
-重过无涯的铁路&lt;br /&gt;
-你那手指再笨拙再粗&lt;br /&gt;
-肌肤也被你修补&lt;br /&gt;
-从前那一位&lt;br /&gt;
-永未能做到&lt;br /&gt;
-是你去唤醒我&lt;br /&gt;
-努力才能被爱慕&lt;br /&gt;
-但回头目睹你&lt;br /&gt;
-为我好自己不好&lt;br /&gt;
-我这幸运儿合着眼睛&lt;br /&gt;
-只得你沉重身影&lt;br /&gt;
-如果这记忆非爱情&lt;br /&gt;
-连天都不会太高兴&lt;br /&gt;
-莫非可终生美丽才值得勾勾手指发誓&lt;br /&gt;
-对你不止感激敬礼&lt;br /&gt;
-当你知己才是虚伪&lt;br /&gt;
-莫非多一分秀丽&lt;br /&gt;
-才值得分享我的一切&lt;br /&gt;
-给我自信给我地位&lt;br /&gt;
-这叫幸福不怕流逝&lt;br /&gt;
-任他们多漂亮&lt;br /&gt;
-未及你矜贵&lt;br /&gt;
-记忆无论再轻&lt;br /&gt;
-轻不过脉搏声&lt;br /&gt;
-靠你的手臂&lt;br /&gt;
-抱我人潮中畅泳&lt;br /&gt;
-我这幸运儿幸运到一转身找得到你&lt;br /&gt;
-来为我打气&lt;br /&gt;
-如果可抱起这爱情&lt;br /&gt;
-连天都会替我高兴&lt;br /&gt;
-莫非可终生美丽&lt;br /&gt;
-才值得勾勾手指发誓&lt;br /&gt;
-对你不止感激敬礼&lt;br /&gt;
-当你知己才是虚伪&lt;br /&gt;
-莫非多一分秀丽&lt;br /&gt;
-才值得分享我的一切&lt;br /&gt;
-给我自信给我地位&lt;br /&gt;
-这叫幸福不怕流逝&lt;br /&gt;
-任他们多漂亮&lt;br /&gt;
-未及你矜贵&lt;br /&gt;
-因有自信&lt;br /&gt;
-所以美丽&lt;br /&gt;
-使我自卑都放低&lt;br /&gt;
-在半空之中亲你&lt;br /&gt;
-不管身世&lt;/p&gt;
+        <description>&lt;p&gt;塔尖仍旧记得&lt;/p&gt;
+
+&lt;p&gt;这拥抱极美好&lt;/p&gt;
+
+&lt;p&gt;爱有千斤重&lt;/p&gt;
+
+&lt;p&gt;重过无涯的铁路&lt;/p&gt;
+
+&lt;p&gt;你那手指再笨拙再粗&lt;/p&gt;
+
+&lt;p&gt;肌肤也被你修补&lt;/p&gt;
+
+&lt;p&gt;从前那一位&lt;/p&gt;
+
+&lt;p&gt;永未能做到&lt;/p&gt;
+
+&lt;p&gt;是你去唤醒我&lt;/p&gt;
+
+&lt;p&gt;努力才能被爱慕&lt;/p&gt;
+
+&lt;p&gt;但回头目睹你&lt;/p&gt;
+
+&lt;p&gt;为我好自己不好&lt;/p&gt;
+
+&lt;p&gt;我这幸运儿合着眼睛&lt;/p&gt;
+
+&lt;p&gt;只得你沉重身影&lt;/p&gt;
+
+&lt;p&gt;如果这记忆非爱情&lt;/p&gt;
+
+&lt;p&gt;连天都不会太高兴&lt;/p&gt;
+
+&lt;p&gt;莫非可终生美丽才值得勾勾手指发誓&lt;/p&gt;
+
+&lt;p&gt;对你不止感激敬礼&lt;/p&gt;
+
+&lt;p&gt;当你知己才是虚伪&lt;/p&gt;
+
+&lt;p&gt;莫非多一分秀丽&lt;/p&gt;
+
+&lt;p&gt;才值得分享我的一切&lt;/p&gt;
+
+&lt;p&gt;给我自信给我地位&lt;/p&gt;
+
+&lt;p&gt;这叫幸福不怕流逝&lt;/p&gt;
+
+&lt;p&gt;任他们多漂亮&lt;/p&gt;
+
+&lt;p&gt;未及你矜贵&lt;/p&gt;
+
+&lt;p&gt;记忆无论再轻&lt;/p&gt;
+
+&lt;p&gt;轻不过脉搏声&lt;/p&gt;
+
+&lt;p&gt;靠你的手臂&lt;/p&gt;
+
+&lt;p&gt;抱我人潮中畅泳&lt;/p&gt;
+
+&lt;p&gt;我这幸运儿幸运到一转身找得到你&lt;/p&gt;
+
+&lt;p&gt;来为我打气&lt;/p&gt;
+
+&lt;p&gt;如果可抱起这爱情&lt;/p&gt;
+
+&lt;p&gt;连天都会替我高兴&lt;/p&gt;
+
+&lt;p&gt;莫非可终生美丽&lt;/p&gt;
+
+&lt;p&gt;才值得勾勾手指发誓&lt;/p&gt;
+
+&lt;p&gt;对你不止感激敬礼&lt;/p&gt;
+
+&lt;p&gt;当你知己才是虚伪&lt;/p&gt;
+
+&lt;p&gt;莫非多一分秀丽&lt;/p&gt;
+
+&lt;p&gt;才值得分享我的一切&lt;/p&gt;
+
+&lt;p&gt;给我自信给我地位&lt;/p&gt;
+
+&lt;p&gt;这叫幸福不怕流逝&lt;/p&gt;
+
+&lt;p&gt;任他们多漂亮&lt;/p&gt;
+
+&lt;p&gt;未及你矜贵&lt;/p&gt;
+
+&lt;p&gt;因有自信&lt;/p&gt;
+
+&lt;p&gt;所以美丽&lt;/p&gt;
+
+&lt;p&gt;使我自卑都放低&lt;/p&gt;
+
+&lt;p&gt;在半空之中亲你&lt;/p&gt;
+
+&lt;p&gt;不管身世&lt;/p&gt;
 </description>
         <pubDate>Sun, 05 Jul 2015 19:30:30 +0800</pubDate>
         <link>http://huanglins.github.io/2015/07/05/beautiful-for-ever/</link>

@@ -1,6 +1,5 @@
 ---
-title:      "tnecniV"
-description: "如果天黑之前来得及 我要忘了你的眼睛"
+description: "你那么擅长安慰他人，一定度过了很多自己安慰自己的日子吧。"
 layout: page
 header-img: "img/home-bg-v.jpg"
 ---
@@ -8,7 +7,8 @@ header-img: "img/home-bg-v.jpg"
 {% for post in paginator.posts %}
 <div class="post-preview">
     <a href="{{ post.url | prepend: site.baseurl }}">
-        <h2 class="post-title">            {{ post.title }}
+        <h2 class="post-title">
+            {{ post.title }}
         </h2>
         {% if post.subtitle %}
         <h3 class="post-subtitle">
@@ -19,8 +19,9 @@ header-img: "img/home-bg-v.jpg"
             {{ post.content | strip_html | truncate:200 }}
         </div>
     </a>
-    <p class="post-meta">Posted by {% if post.author %}{{ post.author }}{% else %}{{ site.title }}{% endif %} on {{ post.date | date: "%B %-d, %Y" }}</p>
-        
+    <p class="post-meta">
+        Posted by {% if post.author %}{{ post.author }}{% else %}{{ site.title }}{% endif %} on {{ post.date | date: "%B %-d, %Y" }}
+    </p>
 </div>
 <hr>
 {% endfor %}
