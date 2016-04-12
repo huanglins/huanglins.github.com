@@ -62,6 +62,10 @@ featured-condition-size: 1              # A tag will be featured if the size of 
 
 # Friends 友链
 friends: [
+	{
+        title: "自动签到",
+        href: "http://qiandao.vincents.cn/"
+    },
     {
         title: "黄玄的博客",
         href: "http://huangxuan.me/"
