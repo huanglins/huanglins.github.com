@@ -63,6 +63,10 @@ featured-condition-size: 1              # A tag will be featured if the size of 
 # Friends 友链
 friends: [
 	{
+        title: "Darnel工作室",
+        href: "http://wechat.vincents.cn/"
+    },
+	{
         title: "自动签到",
         href: "http://qiandao.vincents.cn/"
     },
