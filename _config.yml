@@ -4,15 +4,16 @@ SEOTitle: Vincent Blog | 永远年轻，永远热泪盈眶
 header-img: img/home-bg.jpg
 email: 1@vincents.cn
 description: "// iOS Developer，也在也Android。正在学习全栈。很高兴认识你。"
-baseurl: ""
+keyword: "vincent，vincents，黄霖，黄金霖，darnel，个人网站，APP，微信公众号"
 url: "http://huanglins.github.io"
+baseurl: ""
 
 # SNS setting 社交网络ID
 #twitter_username: vincent_darnel
 #zhihu_username: huang-lin-70-49
 #facebook_username:  vincent
-github_username:  huanglins
-weibo_username: linxiaomu1995
+github_username:    huanglins
+weibo_username:     linxiaomu1995
 
 # Build settings
 # from 2016, 'pygments' is unsupported on GitHub Pages. Use 'rouge' for highlighting instead.
@@ -22,6 +23,10 @@ paginate: 10
 exclude: ["less","node_modules","Gruntfile.js","package.json","README.md","README.zh.md"]
 anchorjs: true                          # if you want to customize anchor. check out line:181 of `post.html`
 
+# Gems
+# from PR#40, to support local preview for Jekyll 3.0
+gems: [jekyll-paginate]
+
 # Markdown 配置
 # Markdown settings
 # replace redcarpet to kramdown,
@@ -30,10 +35,6 @@ anchorjs: true                          # if you want to customize anchor. check
 markdown: kramdown
 kramdown:
   input: GFM                            # use Github Flavored Markdown !important
-
-# Gems
-# from PR#40, to support local preview for Jekyll 3.0
-gems: [jekyll-paginate]
 
 # 多说评论
 # Disqus settings
