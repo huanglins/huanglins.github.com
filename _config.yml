@@ -9,11 +9,12 @@ url: "http://huanglins.github.io"
 baseurl: ""
 
 # SNS setting 社交网络ID
-#twitter_username: vincent_darnel
-#zhihu_username: huang-lin-70-49
-#facebook_username:  vincent
-github_username:    huanglins
+zhihu_username: huang-lin-70-49
 weibo_username:     linxiaomu1995
+twitter_username: vincent_darnel
+github_username:    huanglins
+
+#facebook_username:  vincent
 
 # Build settings
 # from 2016, 'pygments' is unsupported on GitHub Pages. Use 'rouge' for highlighting instead.
@@ -41,9 +42,9 @@ kramdown:
 #disqus_username: _your_disqus_short_name_
 
 # Duoshuo settings
-duoshuo_username: vincents
+#duoshuo_username: vincents
 # Share component is depend on Comment so we can NOT use share only.
-duoshuo_share: true                     # set to false if you want to use Comment without Sharing
+#duoshuo_share: true                     # set to false if you want to use Comment without Sharing
 
 # Analytics settings  百度统计
 # Baidu Analytics
@@ -54,7 +55,7 @@ ga_domain: vincents.cn
 
 # Sidebar settings  侧边栏配置
 sidebar: true                           # whether or not using Sidebar.
-sidebar-about-description: "逗逼程序猿，白羊座，拖延症。请不要伤害他。"
+sidebar-about-description: "逗逼程序猿，白羊座，拖延症。"
 sidebar-avatar: /img/avatar_sea-vincent.jpg      # use absolute URL, seeing it's used in both `/` and `/about/`
 
 # Featured Tags 是否显示标签
