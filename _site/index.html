@@ -180,6 +180,38 @@
             ">
     			
 <div class="post-preview">
+    <a href="/2017/03/14/ios-lock/">
+        <h2 class="post-title">
+            iOS 多线程和线程锁
+        </h2>
+        
+        <h3 class="post-subtitle">
+            自旋锁，互斥锁，信号量等
+        </h3>
+        
+        <div class="post-content-preview">
+            在 ibireme 的 不再安全的 OSSpinLock 一文中，有一张图简单比较了各种所的加锁性能
+
+下面根据顺序分析每个加锁的实现原理。注意：加解锁速度并不表示锁的效率，只表示加解锁的操作在执行时的复杂度。
+
+锁之间的关系
+
+忙等类
+
+test_and_set -&gt; OSSpinLock -&gt; os_unfair_lock
+
+休眠类
+
+lll_futex_wait -&gt;...
+        </div>
+    </a>
+    <p class="post-meta">
+        Posted by vincent on March 14, 2017
+    </p>
+</div>
+<hr>
+
+<div class="post-preview">
     <a href="/2017/03/09/ssh-login/">
         <h2 class="post-title">
             ssh登录服务器自动发邮件
@@ -391,6 +423,10 @@ var _hmt = _hmt || [];
                                 </a>
                             
                         
+                            
+                                <a href="/tags/#iOS" title="iOS" rel="2">
+                                    iOS
+                                </a>
                             
                         
                             

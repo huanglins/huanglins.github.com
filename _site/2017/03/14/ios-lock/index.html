@@ -1,0 +1,1020 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="google-site-verification" content="xBT4GhYoi5qRD5tr338pgPM5OWHHIDR6mNg1a3euekI" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="// iOS Developer，也写Android和python。正在学习全栈。很高兴认识你。">
+    <meta name="keywords"  content="vincent，vincents，黄霖，黄金霖，darnel，个人网站，APP，微信公众号">
+    <meta name="theme-color" content="#000000">
+    
+    <title>iOS 多线程和线程锁 - Vincent Blog | 永远年轻，永远热泪盈眶</title>
+
+    <!-- Web App Manifest -->
+    <link rel="manifest" href="/pwa/manifest.json">
+
+    <!-- Favicon -->
+    <link rel="shortcut icon" href="/img/favicon.ico">
+    
+    <!-- Canonical URL -->
+    <link rel="canonical" href="http://localhost:4000/2017/03/14/ios-lock/">
+
+    <!-- Bootstrap Core CSS -->
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/css/hux-blog.min.css">
+
+    <!-- Pygments Github CSS -->
+    <link rel="stylesheet" href="/css/syntax.css">
+
+    <!-- Custom Fonts -->
+    <!-- <link href="http://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet" type="text/css"> -->
+    <!-- Hux change font-awesome CDN to qiniu -->
+    <link href="//cdnjs.cloudflare.com/ajax/libs/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+
+
+    <!-- Hux Delete, sad but pending in China
+    <link href='http://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic' rel='stylesheet' type='text/css'>
+    <link href='http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800' rel='stylesheet' type='text/
+    css'>
+    -->
+
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+    <!-- ga & ba script hoook -->
+    <script></script>
+</head>
+
+
+<!-- hack iOS CSS :active style -->
+<body ontouchstart="">
+
+    <!-- Navigation -->
+<nav class="navbar navbar-default navbar-custom navbar-fixed-top">
+    <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header page-scroll">
+            <button type="button" class="navbar-toggle">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="/">tnecniV</a>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <div id="huxblog_navbar">
+            <div class="navbar-collapse">
+                <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="/">Home</a>
+                    </li>
+                    
+                    <li>
+                        <a href="/about/">关于</a>
+                    </li>
+                    
+                    <li>
+                        <a href="/tags/">标签</a>
+                    </li>
+                    
+                </ul>
+            </div>
+        </div>
+        <!-- /.navbar-collapse -->
+    </div>
+    <!-- /.container -->
+</nav>
+<script>
+    // Drop Bootstarp low-performance Navbar
+    // Use customize navbar with high-quality material design animation
+    // in high-perf jank-free CSS3 implementation
+    var $body   = document.body;
+    var $toggle = document.querySelector('.navbar-toggle');
+    var $navbar = document.querySelector('#huxblog_navbar');
+    var $collapse = document.querySelector('.navbar-collapse');
+
+    var __HuxNav__ = {
+        close: function(){
+            $navbar.className = " ";
+            // wait until animation end.
+            setTimeout(function(){
+                // prevent frequently toggle
+                if($navbar.className.indexOf('in') < 0) {
+                    $collapse.style.height = "0px"
+                }
+            },400)
+        },
+        open: function(){
+            $collapse.style.height = "auto"
+            $navbar.className += " in";
+        }
+    }
+
+    // Bind Event
+    $toggle.addEventListener('click', function(e){
+        if ($navbar.className.indexOf('in') > 0) {
+            __HuxNav__.close()
+        }else{
+            __HuxNav__.open()
+        }
+    })
+
+    /**
+     * Since Fastclick is used to delegate 'touchstart' globally
+     * to hack 300ms delay in iOS by performing a fake 'click',
+     * Using 'e.stopPropagation' to stop 'touchstart' event from 
+     * $toggle/$collapse will break global delegation.
+     * 
+     * Instead, we use a 'e.target' filter to prevent handler
+     * added to document close HuxNav.  
+     *
+     * Also, we use 'click' instead of 'touchstart' as compromise
+     */
+    document.addEventListener('click', function(e){
+        if(e.target == $toggle) return;
+        if(e.target.className == 'icon-bar') return;
+        __HuxNav__.close();
+    })
+</script>
+
+
+    <!-- Image to hack wechat -->
+<!-- <img src="/img/icon_wechat.png" width="0" height="0"> -->
+<!-- <img src="/img/post-bg-7-ios-lock.jpg" width="0" height="0"> -->
+
+<!-- Post Header -->
+<style type="text/css">
+    header.intro-header{
+        position: relative;
+        background-image: url('/img/post-bg-7-ios-lock.jpg')
+    }
+
+    
+</style>
+<header class="intro-header" >
+    <div class="header-mask"></div>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <div class="post-heading">
+                    <div class="tags">
+                        
+                        <a class="tag" href="/tags/#iOS" title="iOS">iOS</a>
+                        
+                    </div>
+                    <h1>iOS 多线程和线程锁</h1>
+                    
+                    
+                    <h2 class="subheading">自旋锁，互斥锁，信号量等</h2>
+                    
+                    <span class="meta">Posted by vincent on March 14, 2017</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+
+<!-- Post Content -->
+<article>
+    <div class="container">
+        <div class="row">
+
+    <!-- Post Container -->
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                post-container">
+
+				<p>在 <strong>ibireme</strong> 的 <a href="https://bestswifter.com/ios-lock/">不再安全的 OSSpinLock</a> 一文中，有一张图简单比较了各种所的加锁性能
+<img src="/img/ios-lock/lock_benchmark.png" alt="" />
+下面根据顺序分析每个加锁的实现原理。注意：加解锁速度并不表示锁的效率，只表示加解锁的操作在执行时的复杂度。</p>
+
+<h2 id="section">锁之间的关系</h2>
+
+<h4 id="section-1">忙等类</h4>
+
+<p>test_and_set -&gt; OSSpinLock -&gt; os_unfair_lock</p>
+
+<h4 id="section-2">休眠类</h4>
+
+<h5 id="lllfutexwait---gcd">lll_futex_wait -&gt; GCD信号量</h5>
+
+<h5 id="lllfutexwait---pthreadmutex">lll_futex_wait -&gt; pthread_mutex</h5>
+<p>1.加上错误处理 -&gt; NSLock</p>
+
+<p>2.加上条件判断 -&gt; NSCondition + Value -&gt; NSConditionLock</p>
+
+<p>3.加上递归特性 -&gt; NSRecursiveLock</p>
+
+<p>4.加上递归特性、哈希特性 -&gt; @Synchronized(Obj)</p>
+
+<h2 id="osspinlock-">OSSpinLock 自旋锁</h2>
+
+<h4 id="section-3">自旋锁原理</h4>
+
+<p>自旋锁的实现思路很简单，理论上来说只要定义一个全局变量，用来表示锁的可用情况即可，伪代码如下:</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>bool lock = false; // 一开始没有锁上，任何线程都可以申请锁  
+do {  
+    while(lock); // 如果 lock 为 true 就一直死循环，相当于申请锁
+    lock = true; // 挂上锁，这样别的线程就无法获得锁
+        Critical section  // 临界区
+    lock = false; // 相当于释放锁，这样别的线程可以进入临界区
+        Reminder section // 不需要锁保护的代码        
+}
+</code></pre>
+</div>
+
+<h4 id="osspinlock">OSSpinLock</h4>
+
+<p>忙等锁，会消耗大量的CPU资源。不适合较长时间的任务，因为会导致其他线程忙等。</p>
+
+<p>示例代码</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>// OSSpinLock
+#import &lt;libkern/OSAtomic.h&gt;
+
+// 自旋锁
+- (void)testOSSpinLock {
+    __block OSSpinLock osLock = OS_SPINLOCK_INIT;
+    
+    // 线程1
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0), ^{
+        NSLog(@"线程1 准备上锁");
+        OSSpinLockLock(&amp;osLock);
+        NSLog(@"线程1");
+        OSSpinLockUnlock(&amp;osLock);
+        NSLog(@"线程1 解锁完成");
+    });
+    
+    // 线程2
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
+        NSLog(@"线程2 准备上锁");
+        OSSpinLockLock(&amp;osLock);
+        NSLog(@"线程2");
+        OSSpinLockUnlock(&amp;osLock);
+        NSLog(@"线程2 解锁完成");
+    });
+}
+</code></pre>
+</div>
+<p>参考学习中的连接已经说明 OSSpinLock 其实已经不再安全。主要原因在于</p>
+
+<blockquote>
+  <p>当低优先级线程拿到锁时，高优先级线程进入忙等(budy-wait)状态，消耗大量 CPU 时间，从而导致低优先级线程拿不到 CPU 时间，也就无法完成任务并释放锁。这种问题被称为 <code class="highlighter-rouge">优先级反转</code></p>
+</blockquote>
+
+<p>而且，实际上苹果在<code class="highlighter-rouge">iOS10</code>中也不再推荐使用 OSSpinLock,转而使用 <code class="highlighter-rouge">os_unfair_lock()</code></p>
+
+<h2 id="osunfairlock">os_unfair_lock</h2>
+
+<p>iOS 10.+ 之后添加的，也是属于忙等锁。</p>
+
+<p>示例代码</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>// os_unfair_lock
+#import &lt;os/lock.h&gt;
+
+os_unfair_lock_t unfairlock = &amp;(OS_UNFAIR_LOCK_INIT);
+
+os_unfair_lock_lock(unfairlock);
+NSLog(@"os_unfair_lock 执行");
+os_unfair_lock_unlock(unfairlock);
+
+</code></pre>
+</div>
+
+<h2 id="dispatchsemaphore-gcd">dispatch_semaphore GCD信号量</h2>
+
+<p>加锁时会把信号量的值减一，并判断是否大于零。如果大于零，说明不用等待，立刻执行。在没有等待的情况下，性能比 pthread_mutex 高，但是一旦有等待的情况出现，性能就会急剧下降。其优势在于等待时不会消耗 CPU 资源，会进行线程休眠。</p>
+
+<p>然而，主动让出时间片(线程休眠)并不总是代表效率高，让出时间片会导致操作系统切换到另一个线程，这类上线文切换一般需要10ms左右，且至少需要两次切换才能切换回本线程。如果小于20ms，忙等就比线程睡眠更加高效了。</p>
+
+<p>示例代码</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>// 信号量
+- (void)testDispatch_semaphore {
+    dispatch_semaphore_t signal = dispatch_semaphore_create(1);
+    dispatch_time_t timeout = dispatch_time(DISPATCH_TIME_NOW, 3.0f * NSEC_PER_SEC);
+    // DISPATCH_TIME_FOREVER 不限时
+    
+    // 线程1
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+        NSLog(@"线程1 等待ing");
+        dispatch_semaphore_wait(signal, timeout);   // signal 值 - 1
+        sleep(2);
+        NSLog(@"线程1");
+        dispatch_semaphore_signal(signal);          // signal 值 + 1
+        NSLog(@"线程1 发送信号");
+    });
+    
+    // 线程2
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+        NSLog(@"线程2 等待ing");
+        dispatch_semaphore_wait(signal, timeout);   // signal 值 - 1
+        NSLog(@"线程2 sleep");
+        sleep(2);
+        NSLog(@"线程2");
+        dispatch_semaphore_signal(signal);          // signal 值 + 1
+        NSLog(@"线程2 发送信号");
+    });
+}
+</code></pre>
+</div>
+
+<h2 id="pthreadmutex--">pthread_mutex  互斥锁</h2>
+
+<p>pthread 表示 POSIX thread，定义了一组跨平台的线程相关的API，pthread_mutex 表示互斥锁。互斥锁的实现原理与信号量非常相似，不是使用忙等，而是阻塞线程并睡眠，需要进行上线文切换。</p>
+
+<p>示例代码</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>// pthread
+#import &lt;pthread.h&gt;
+
+// pthread_mutex 互斥锁
+- (void)testPthread_mutex {
+    static pthread_mutex_t pLock;
+    pthread_mutex_init(&amp;pLock, NULL);
+    
+    // 线程1
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+        NSLog(@"线程1 准备上锁");
+        pthread_mutex_lock(&amp;pLock);
+        NSLog(@"线程1");
+        sleep(3);
+        pthread_mutex_unlock(&amp;pLock);
+        NSLog(@"线程1 释放锁");
+    });
+    
+    // 线程2
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0), ^{
+        NSLog(@"线程2 准备上锁");
+        pthread_mutex_lock(&amp;pLock);
+        NSLog(@"线程2");
+        pthread_mutex_unlock(&amp;pLock);
+        NSLog(@"线程2 释放锁");
+    });
+}
+</code></pre>
+</div>
+
+<p><strong>\/</strong> 一般情况下，一个线程只能申请一次锁，也只能在获得锁的情况下才能释放锁，多次申请锁或者释放未获得的锁都会导致崩溃。假设在已经获得锁的情况下再次申请锁，线程会因为等待锁的释放而进入睡眠状态，因此就不可能再释放锁，从而导致死锁。</p>
+
+<p>然而这种情况会经常发生，比如某个函数申请了锁，在临界区内又递归调用了自己。幸运的是 <code class="highlighter-rouge">pthread_mutex</code> 支持递归锁，也就是允许一个线程递归的申请锁。</p>
+
+<h4 id="pthreadmutex-">pthread_mutex 递归锁</h4>
+
+<p>示例代码</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>// pthread_mutex 递归锁
+- (void)testPthread_mutex_recursive {
+    static pthread_mutex_t pLock;
+    // 定义锁的属性
+    pthread_mutexattr_t attr;
+    pthread_mutexattr_init(&amp;attr);
+    pthread_mutexattr_settype(&amp;attr, PTHREAD_MUTEX_RECURSIVE); // 设置为递归锁
+    
+    pthread_mutex_init(&amp;pLock, &amp;attr);
+    pthread_mutexattr_destroy(&amp;attr);
+    
+    // 线程1
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+        static void (^RecursiveBlock)(int);
+        RecursiveBlock = ^(int value) {
+            pthread_mutex_lock(&amp;pLock);
+            if (value &gt; 0) {
+                NSLog(@"value: %d", value);
+                sleep(1);
+                RecursiveBlock(value - 1);
+            }
+        };
+        
+        NSLog(@"线程1 准备上锁");
+        RecursiveBlock(5);
+        NSLog(@"线程1");
+        pthread_mutex_unlock(&amp;pLock);
+        NSLog(@"线程1 解锁");
+    });
+    
+    // 线程2
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+        NSLog(@"线程2 准备上锁");
+        pthread_mutex_lock(&amp;pLock);
+        NSLog(@"线程2");
+        pthread_mutex_unlock(&amp;pLock);
+        NSLog(@"线程2 解锁");
+    });
+}
+</code></pre>
+</div>
+
+<p>递归锁比较安全，可以认为同一线程加且仅加一次锁，重复加锁不会造成死锁。无论同一线程加锁多少次，解锁1次即可。</p>
+
+<h4 id="section-4">互斥锁的实现</h4>
+
+<p>互斥锁在申请锁时，调用了<code class="highlighter-rouge">pthread_mutex_lock</code>方法，它在不同的系统上实现各有不同，有时候它的内部是使用信号量来实现，即使不用信号量，也会调用到<code class="highlighter-rouge">lll_futex_wait</code>函数，从而导致线程休眠。</p>
+
+<p>上面提到说，如果线程等待的临界区很短，忙等的效率也许更高，所以在有些版本的实现中，会首先尝试一定次数(比如1000次)的test and set，这样可以在错误使用互斥锁时提高性能。</p>
+
+<p>另外，由于 <code class="highlighter-rouge">pthread_mutex</code>有多种类型，可以支持递归锁等，因此在申请加锁时，需要对锁的类型加以判断，这也就是为什么它和信号量的实现类似，但效率略低的原因。</p>
+
+<h2 id="nslock--nsrecursivelock">NSLock 和 NSRecursiveLock</h2>
+
+<p>NSLock /NSRecursiveLock  是 Objective-c 以对象的形式暴露给开发者的一种锁。</p>
+
+<p>示例代码</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>// NSLock
+- (void)testNSLock {
+    NSLock *lock = [NSLock new];
+    [lock lock];
+    NSLog(@"加锁运行");
+    [lock unlock];
+    
+    NSRecursiveLock *recursiveLock = [NSRecursiveLock new];
+    [recursiveLock lock];
+    NSLog(@"加锁运行");
+    [recursiveLock unlock];
+}
+</code></pre>
+</div>
+
+<p>这里的 NSLock 和 NSRecursiveLock 都是封装的互斥锁 <code class="highlighter-rouge">pthread_mutex</code>。</p>
+
+<p>NSLock 只是在内部封装了一个 pthread_mutex，属性为 <code class="highlighter-rouge">PTHREAD_MUTEX_ERRORCHECK</code>，他会损失一定的性能换来错误提示。理论上来说，NSLock 和 pthread_mutex 拥有相同的运行效率，实际由于封装的原因会略慢一点。由于有缓存存在，相差不会很多。</p>
+
+<p>NSRecursiveLock 与 NSLock 的区别在于内部封装的 pthread_mutex_t 对象的类型不同，NSRecursiveLock 的类型为 PTHREAD_MUTEX_RECURSIVE。</p>
+
+<h2 id="nscondition">NSCondition</h2>
+
+<p>它通常用于表明共享资源是佛偶可被访问或者确保一系列任务能按照指定的执行顺序执行。如果一个线程视图访问一个共享资源，而正在访问该资源的线程将其条件设置为不可访问，那么该线程会被阻塞，知道正在访问该资源的线程将访问条件更改为可访问状态或者说给被阻塞的线程发送信号后，被阻塞的线程才能正常访问这个资源。</p>
+
+<p><code class="highlighter-rouge">NSCondition</code> 的底层是通过条件变量(condition variable) <code class="highlighter-rouge">pthread_cond_t</code> 来实现的。条件变量有点像信号量，提供了线程阻塞与信号机制，隐藏可以用来阻塞某个线程，并等待某个数据就绪，随后唤醒线程。比如常见的  生产者–消费者模式。</p>
+
+<h4 id="nsconditionlock">NSConditionLock</h4>
+
+<p><code class="highlighter-rouge">NSConditionLock</code> 借助 <code class="highlighter-rouge">NSCondition</code> 来实现，它的本质就是个【生产者–消费者】模型。’条件被满足’可以理解为生产者提供了新的内容。<code class="highlighter-rouge">NSConditionLock</code> 的内部持有一个 <code class="highlighter-rouge">NSCondition</code> 对象，以及 <code class="highlighter-rouge">_condition_value</code> 属性。</p>
+
+<p>示例代码</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>// NSConditionLock
+- (void)testNSConditionLock {
+    NSConditionLock *cLock = [[NSConditionLock alloc] initWithCondition:0];
+    
+    // 线程1
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+        NSLog(@"线程1 加锁");
+        [cLock lockWhenCondition:1];
+        NSLog(@"线程1");
+        [cLock unlockWithCondition:3];
+        NSLog(@"线程1 解锁");
+    });
+    
+    // 线程2
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_LOW, 0), ^{
+        NSLog(@"线程2 加锁");
+        if ([cLock tryLockWhenCondition:0]) {
+            NSLog(@"线程2");
+            [cLock unlockWithCondition:1];
+            NSLog(@"线程2 解锁");
+        } else {
+            NSLog(@"失败");
+        }
+    });
+    
+    // 线程3
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0), ^{
+        NSLog(@"线程3 加锁");
+        [cLock lockWhenCondition:3];
+        NSLog(@"线程3");
+        [cLock unlockWithCondition:2];
+        NSLog(@"线程3 解锁");
+    });
+}
+</code></pre>
+</div>
+
+<p>上述代码会按照：线程2 &gt; 线程1 &gt; 线程3 的顺序执行。</p>
+
+<h2 id="synchronized">@synchronized</h2>
+
+<p>示例代码</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>@synchronized (self) {
+   NSLog(@"加锁运行");
+}
+</code></pre>
+</div>
+
+<p>只要关键字中的对象一致，则多个线程会互斥等待程序运行完成。</p>
+
+<p>@synchronized 实际上是把修饰对象当做锁来使用。这是通过一个哈希表来实现的，OC在底层使用了一个互斥锁的数组（可以理解为锁池），通过对对象去哈希值来得到对应的互斥锁。</p>
+
+<h2 id="section-5">一些多线程的基础知识</h2>
+
+<h4 id="section-6">时间片轮转调度算法</h4>
+
+<p>了解多线程加锁必须知道时间片轮转调度算法，才能深切理解其原理，性能瓶颈。</p>
+
+<p>现代操作系统在管理普通线程时，通常采用时间片轮转算法（Round Robin，简称RR）。每个线程会被分配一段时间片（quantum），通常在10-100毫秒左右。当线程用于属于自己的时间片以后，就会被系统挂起，放入等待队列中，知道下一次被分配时间片，如果线程在时间片结束前阻塞或者结束，则CPU当即进行切换。由于线程切换需要时间，如果时间片太短，会导致大量CPU时间浪费在切换上；而如果这个时间太长，会使得其他线程等待太久。</p>
+
+<h4 id="section-7">原子操作</h4>
+
+<p>狭义上的原子操作表示一条不可打断的操作，也就是说线程在执行操作过程中，不会被操作系统挂起，而是一定会执行完（理论上拥有CPU时间片无限长）。在单处理器环境下，一条汇编指令显然是原子操作，因为中断也要通过指令来实现，但一句高级语言的代码却不是原子的，因为它最终是由多条汇编语言完成，CPU在进行时间片切换时，大多都会在某条代码的执行过程中。
+但在多核处理器下，则需要硬件支持，没了解过具体实现。</p>
+
+<h4 id="section-8">自旋锁和互斥锁</h4>
+
+<p>都属于CPU时间片算法下的实现保护共享资源的一种机制。都实现互斥操作，加锁后仅允许一个访问者。</p>
+
+<p>区别在于自旋锁不会是线程进入wait状态，而是通过轮询不停查看是否该自旋锁的持有者已经释放的锁；对应的，互斥锁在出现锁已经被占用的情况下会进入wait状态，CPU会当即切换时间片。</p>
+
+<h4 id="section-9">自旋锁实现原理</h4>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>lock = 0;
+do{
+    while(test_and_set(&amp;lock));
+    临界区
+    lock = 0;
+    其余部分
+} while(1)
+</code></pre>
+</div>
+
+<p>test_and_set用来保证条件判断的原子性操作，lock为旗标。
+自旋锁的一大缺陷是会使得线程处于忙等状态。因为如果临界区执行时间过长，其它线程就会在当前整个时间片一直处于忙等状态，浪费大量CPU时间。所以，如果临界区时间很短，可以使用自旋锁，否则建议使用互斥锁。</p>
+
+<h4 id="section-10">互斥锁的实现原理</h4>
+
+<p>互斥锁在出现锁的争夺时，未获得锁的线程会主动让出时间片，阻塞线程并睡眠，需要进行上下文切换，CPU会切换其它线程继续操作。
+主动让出时间片并不总是代表效率高。让出时间片会导致操作系统切换到另一个线程，这种上下文切换通常需要 10 微秒左右，而且至少需要两次切换。如果等待时间很短，比如只有几个微秒，忙等就比线程睡眠更高效。</p>
+
+<h4 id="section-11">信号量的实现</h4>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>int sem_wait (sem_t *sem) {  
+  int *futex = (int *) sem;
+  if (atomic_decrement_if_positive (futex) &gt; 0)
+    return 0;
+  int err = lll_futex_wait (futex, 0);
+    return -1;
+)
+</code></pre>
+</div>
+
+<p>信号量和互斥锁类似，都是在获取锁失败后线程进入wait状态，CPU会切换时间片。
+信号量在最终都是调用一个sem_wait方法，并原子性的判断信号量，如果对其-1后依然大于0，则直接返回，继续临界区操作，否则进入等待状态。</p>
+
+<h2 id="section-12">多线程中的常见术语名词</h2>
+
+<h6 id="mutex">互斥锁(mutex)</h6>
+
+<p>提供共享资源互斥访问的锁。一个互斥锁同一时间只能被一个线程拥有。视图获取一个已经被其他线程拥有的互斥锁，会把当前线程置于休眠状态，直到该锁被其他线程释放并让当前线程获取。</p>
+
+<p>####### 递归锁(recursive lock)</p>
+
+<p>可以被同一线程多次锁住的锁。</p>
+
+<h6 id="semaphore">信号量(semaphore)</h6>
+
+<p>一个受保护的变量，它限制共享资源的访问。互斥锁(mutexes)和条件(conditions)都是不同类型的信号量。</p>
+
+<h6 id="condition">条件(condition)</h6>
+
+<p>一个用来同步资源访问的结构。线程等待某一个条件来决定是否被允许继续运行，知道其他线程显示的给该条件发送信号</p>
+
+<h6 id="critical-section">临界区(critical section)</h6>
+
+<p>同一时间只能不被一个线程执行的代码。</p>
+
+<h6 id="input-source">输入源(input source)</h6>
+
+<p>一个线程的异步事件源。输入源可以是基于端口的或者手工触发，并且必须被附加到某一个线程的run loop上面。</p>
+
+<h6 id="thread">线程(thread)</h6>
+
+<p>进程里面的一个执行过程流。每个线程都有它自己的栈空间，但除此之外同一进程的其他线程共享内存。</p>
+
+<h6 id="main-thread">主线程(main thread)</h6>
+
+<p>当创建进程时一起创建的特定类型的线程。当程序的主线程退出，则程序即退出。</p>
+
+<h6 id="join-thread">可连接的线程(join thread)</h6>
+
+<p>退出时资源不会被立即回收的线程。可连接的线程在资源被回收之前必须被显示脱离或由其他线程连接。可连接线程提供了一个返回值给连接它的线程。</p>
+
+<h6 id="operation-object">操作对象(operation object)</h6>
+
+<p>NSOperation 类的示例。操作对象封装了和某一任务相关的代码到一个执行单元里面。</p>
+
+<h6 id="operation-queue">操作队列(operation queue)</h6>
+
+<p>NSOperationQueue 类的示例。操作队列管理操作对象的执行。</p>
+
+<h2 id="section-13">参考学习链接</h2>
+
+<blockquote>
+
+  <ol>
+    <li><a href="http://www.chaisong.xyz/2017/02/06/2017-02-06/">【iOS】从同步锁到多线程</a></li>
+    <li><a href="http://blog.ibireme.com/2016/01/16/spinlock_is_unsafe_in_ios/">深入理解iOS开发中的锁</a></li>
+    <li><a href="https://bestswifter.com/ios-lock/">不再安全的 OSSpinLock</a></li>
+  </ol>
+</blockquote>
+
+
+
+                <hr>
+
+                
+
+
+                <ul class="pager">
+                    
+                    <li class="previous">
+                        <a href="/2017/03/09/ssh-login/" data-toggle="tooltip" data-placement="top" title="ssh登录服务器自动发邮件">
+                        Previous<br>
+                        <span>ssh登录服务器自动发邮件</span>
+                        </a>
+                    </li>
+                    
+                    
+                </ul>
+
+
+                
+
+                
+
+            </div>  
+
+    <!-- Side Catalog Container -->
+        
+            <div class="
+                col-lg-2 col-lg-offset-0
+                visible-lg-block
+                sidebar-container
+                catalog-container">
+                <div class="side-catalog">
+                    <hr class="hidden-sm hidden-xs">
+                    <h5>
+                        <a class="catalog-toggle" href="#">CATALOG</a>
+                    </h5>
+                    <ul class="catalog-body"></ul>
+                </div>
+            </div>
+        
+
+    <!-- Sidebar Container -->
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                sidebar-container">
+
+                <!-- Featured Tags -->
+                
+                <section>
+                    <hr class="hidden-sm hidden-xs">
+                    <h5><a href="/tags/">FEATURED TAGS</a></h5>
+                    <div class="tags">
+        				
+                            
+                				<a href="/tags/#把酒慰风尘" title="把酒慰风尘" rel="2">
+                                    把酒慰风尘
+                                </a>
+                            
+        				
+                            
+                				<a href="/tags/#旅行" title="旅行" rel="2">
+                                    旅行
+                                </a>
+                            
+        				
+                            
+                				<a href="/tags/#iOS" title="iOS" rel="2">
+                                    iOS
+                                </a>
+                            
+        				
+                            
+        				
+                            
+        				
+                            
+        				
+        			</div>
+                </section>
+                
+
+                <!-- Friends Blog -->
+                
+                <hr>
+                <h5>FRIENDS</h5>
+                <ul class="list-inline">
+                    
+                        <li><a href="https://shop130631028.taobao.com/">在回忆中 - 卖点小东西</a></li>
+                    
+                        <li><a href="https://unsplash.com">unsplash - 好看的图片</a></li>
+                    
+                </ul>
+                
+            </div>
+        </div>
+    </div>
+</article>
+
+
+
+
+
+
+
+
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+<!-- anchor-js, Doc:http://bryanbraun.github.io/anchorjs/ -->
+<script>
+    async("//cdnjs.cloudflare.com/ajax/libs/anchor-js/1.1.1/anchor.min.js",function(){
+        anchors.options = {
+          visible: 'always',
+          placement: 'right',
+          icon: '#'
+        };
+        anchors.add().remove('.intro-header h1').remove('.subheading').remove('.sidebar-container h5');
+    })
+</script>
+<style>
+    /* place left on bigger screen */
+    @media all and (min-width: 800px) {
+        .anchorjs-link{
+            position: absolute;
+            left: -0.75em;
+            font-size: 1.1em;
+            margin-top : -0.1em;
+        }
+    }
+</style>
+
+
+    <!-- Footer -->
+<footer>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <ul class="list-inline text-center">
+                    
+                    
+                    <li>
+                        <a href="https://twitter.com/vincent_darnel">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-twitter fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                    
+
+                    <!-- add Weibo, Zhihu by Hux, add target = "_blank" to <a> by Hux -->
+                    
+                    <li>
+                        <a target="_blank" href="https://www.zhihu.com/people/huang-lin-70-49">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa  fa-stack-1x fa-inverse">知</i>
+                            </span>
+                        </a>
+                    </li>
+                    
+                    
+                    <li>
+                        <a target="_blank" href="http://weibo.com/linxiaomu1995">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-weibo fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                    
+
+
+                    
+                    
+                    <li>
+                        <a target="_blank" href="https://github.com/huanglins">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-github fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                    
+                    
+                </ul>
+                <p class="copyright text-muted">
+                    Copyright &copy; tnecniV 2017
+                    <br>
+                    Theme by <a href="http://huangxuan.me">Hux</a> |
+                    <iframe
+                        style="margin-left: 2px; margin-bottom:-5px;"
+                        frameborder="0" scrolling="0" width="100px" height="20px"
+                        src="https://ghbtns.com/github-btn.html?user=huxpro&repo=huxpro.github.io&type=star&count=true" >
+                    </iframe>
+                </p>
+            </div>
+        </div>
+    </div>
+</footer>
+
+<!-- jQuery -->
+<script src="/js/jquery.min.js "></script>
+
+<!-- Bootstrap Core JavaScript -->
+<script src="/js/bootstrap.min.js "></script>
+
+<!-- Custom Theme JavaScript -->
+<script src="/js/hux-blog.min.js "></script>
+
+<!-- Service Worker -->
+
+<script type="text/javascript">
+    if(navigator.serviceWorker){
+        // For security reasons, a service worker can only control the pages that are in the same directory level or below it. That's why we put sw.js at ROOT level.
+        navigator.serviceWorker
+            .register('/sw.js')
+            .then((registration) => {console.log('Service Worker Registered. ', registration)})
+            .catch((error) => {console.log('ServiceWorker registration failed: ', error)})
+    }
+</script>
+
+
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+
+<!-- 
+     Because of the native support for backtick-style fenced code blocks 
+     right within the Markdown is landed in Github Pages, 
+     From V1.6, There is no need for Highlight.js, 
+     so Huxblog drops it officially.
+
+     - https://github.com/blog/2100-github-pages-now-faster-and-simpler-with-jekyll-3-0  
+     - https://help.github.com/articles/creating-and-highlighting-code-blocks/ 
+     - https://github.com/jneen/rouge/wiki/list-of-supported-languages-and-lexers   
+-->
+<!--
+    <script>
+        async("http://cdn.bootcss.com/highlight.js/8.6/highlight.min.js", function(){
+            hljs.initHighlightingOnLoad();
+        })
+    </script>
+    <link href="http://cdn.bootcss.com/highlight.js/8.6/styles/github.min.css" rel="stylesheet">
+-->
+
+
+<!-- jquery.tagcloud.js -->
+<script>
+    // only load tagcloud.js in tag.html
+    if($('#tag_cloud').length !== 0){
+        async('/js/jquery.tagcloud.js',function(){
+            $.fn.tagcloud.defaults = {
+                //size: {start: 1, end: 1, unit: 'em'},
+                color: {start: '#bbbbee', end: '#0085a1'},
+            };
+            $('#tag_cloud a').tagcloud();
+        })
+    }
+</script>
+
+<!--fastClick.js -->
+<script>
+    async("//cdnjs.cloudflare.com/ajax/libs/fastclick/1.0.6/fastclick.min.js", function(){
+        var $nav = document.querySelector("nav");
+        if($nav) FastClick.attach($nav);
+    })
+</script>
+
+
+<!-- Google Analytics -->
+
+<script>
+    // dynamic User by Hux
+    var _gaId = 'UA-49627206-1';
+    var _gaDomain = 'vincents.cn';
+
+    // Originial
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+    ga('create', _gaId, _gaDomain);
+    ga('send', 'pageview');
+</script>
+
+
+
+<!-- Baidu Tongji -->
+
+<script>
+    // dynamic User by Hux
+    var _baId = 'df0ae995d64933728fd782f538ecf05d';
+
+    // Originial
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?" + _baId;
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+</script>
+
+
+
+
+<!-- Side Catalog -->
+
+<script type="text/javascript">
+    function generateCatalog (selector) {
+        var P = $('div.post-container'),a,n,t,l,i,c;
+        a = P.find('h1,h2,h3,h4,h5,h6');
+        a.each(function () {
+            n = $(this).prop('tagName').toLowerCase();
+            i = "#"+$(this).prop('id');
+            t = $(this).text();
+            c = $('<a href="'+i+'" rel="nofollow">'+t+'</a>');
+            l = $('<li class="'+n+'_nav"></li>').append(c);
+            $(selector).append(l);
+        });
+        return true;    
+    }
+
+    generateCatalog(".catalog-body");
+
+    // toggle side catalog
+    $(".catalog-toggle").click((function(e){
+        e.preventDefault();
+        $('.side-catalog').toggleClass("fold")
+    }))
+
+    /*
+     * Doc: https://github.com/davist11/jQuery-One-Page-Nav
+     * Fork by Hux to support padding
+     */
+    async("/js/jquery.nav.js", function () {
+        $('.catalog-body').onePageNav({
+            currentClass: "active",
+            changeHash: !1,
+            easing: "swing",
+            filter: "",
+            scrollSpeed: 700,
+            scrollOffset: 0,
+            scrollThreshold: .2,
+            begin: null,
+            end: null,
+            scrollChange: null,
+            padding: 80
+        });
+    });
+</script>
+
+
+
+
+
+<!-- Image to hack wechat -->
+<!-- <img src="/img/icon_wechat.png" width="0" height="0" /> -->
+<!-- Migrate from head to bottom, no longer block render and still work -->
+
+</body>
+
+</html>
