@@ -1,11 +1,11 @@
 # Site settings  站点信息
-title: tnecniV
+title: "tnecniV"
 SEOTitle: Vincent Blog | 永远年轻，永远热泪盈眶
 header-img: img/home-bg.jpg
 email: 1@vincents.cn
-description: "// iOS Developer，也写Android。正在学习全栈。很高兴认识你。"
+description: "// iOS Developer，也写Android和python。正在学习全栈。很高兴认识你。"
 keyword: "vincent，vincents，黄霖，黄金霖，darnel，个人网站，APP，微信公众号"
-url: "http://huanglins.github.io"
+url: "https://www.vincents.cn"
 baseurl: ""
 
 # SNS setting 社交网络ID
@@ -19,6 +19,7 @@ github_username:    huanglins
 # Build settings
 # from 2016, 'pygments' is unsupported on GitHub Pages. Use 'rouge' for highlighting instead.
 highlighter: rouge
+linenos: true  			# 代码显示行数
 permalink: pretty
 paginate: 10
 exclude: ["less","node_modules","Gruntfile.js","package.json","README.md","README.zh.md"]
@@ -56,24 +57,24 @@ ga_domain: vincents.cn
 # Sidebar settings  侧边栏配置
 sidebar: true                           # whether or not using Sidebar.
 sidebar-about-description: "逗逼程序猿，白羊座，拖延症。"
-sidebar-avatar: /img/avatar_sea-vincent.jpg      # use absolute URL, seeing it's used in both `/` and `/about/`
+sidebar-avatar: /img/avatar-sea-vincent.jpg      # use absolute URL, seeing it's used in both `/` and `/about/`
 
 # Featured Tags 是否显示标签
 featured-tags: true                     # whether or not using Feature-Tags
 featured-condition-size: 1              # A tag will be featured if the size of it is more than this condition value
 
+# Progressive Web Apps
+chrome-tab-theme-color: "#000000"
+service-worker: true
+
 # Friends 友链
 friends: [
-	{
-        title: "Darnel工作室",
-        href: "http://wechat.vincents.cn/"
-    },
-	{
-        title: "自动签到",
-        href: "http://qiandao.vincents.cn/"
-    },
     {
-    	title: "在回忆中-卖点小东西",
+    	title: "在回忆中 - 卖点小东西",
     	href: "https://shop130631028.taobao.com/"
     },
+    {
+    	title: "unsplash - 好看的图片",
+    	href: "https://unsplash.com"
+    }
 ]

@@ -3,7 +3,7 @@ layout: default
 ---
 
 <!-- Page Header -->
-<header class="intro-header" style="background-image: url('{{ site.baseurl }}/{% if page.header-img %}{{ page.header-img }}{% else %}{{ site.header-img }}{% endif %}')">
+<header class="intro-header" style="background-image: url('{{ site.baseurl }}{% if page.header-img %}{{ page.header-img }}{% else %}{{ site.header-img }}{% endif %}')">
     <div class="container">
         <div class="row">
             <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1 ">
@@ -178,12 +178,13 @@ layout: default
 
                         </ul>
                     </div>
-                    <!-- 微信公众号 -->
-                    <hr><h5>微信公众号</h5>
-                    <div class="short-about">
-                        <img src="/img/wechat_pub_qrcode.jpg">
-                    </div>
                 </section>
+                <!-- 微信公众号 -->
+                <hr>
+                <h5>微信公众号</h5>
+                <div class="short-about">
+                    <img src="/img/wechat-pub-qrcode.jpg">
+                </div>
                 <!-- Friends Blog -->
                 {% if site.friends %}
                 <hr>
@@ -194,6 +195,17 @@ layout: default
                     {% endfor %}
                 </ul>
                 {% endif %}
+                <!-- 一言 -->
+                <hr>
+                <h5>一言</h5>
+                
+                <div id="lwlhitokoto">
+                <script type="text/javascript" src="https://api.lwl12.com/hitokoto/main/get?encode=js&charset=utf-8"></script>
+                <script type="text/javascript">
+                lwlhitokoto()
+                </script>
+                </div>
+                
     		</div>
         {% endif %}
 	</div>

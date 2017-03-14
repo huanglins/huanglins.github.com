@@ -2,12 +2,474 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>tnecniV</title>
-    <description>// iOS Developer，也在也Android。正在学习全栈。很高兴认识你。</description>
+    <description>// iOS Developer，也写Android和python。正在学习全栈。很高兴认识你。</description>
     <link>http://localhost:4000/</link>
     <atom:link href="http://localhost:4000/feed.xml" rel="self" type="application/rss+xml" />
-    <pubDate>Fri, 06 Jan 2017 13:16:10 +0800</pubDate>
-    <lastBuildDate>Fri, 06 Jan 2017 13:16:10 +0800</lastBuildDate>
+    <pubDate>Fri, 10 Mar 2017 17:00:37 +0800</pubDate>
+    <lastBuildDate>Fri, 10 Mar 2017 17:00:37 +0800</lastBuildDate>
     <generator>Jekyll v3.3.1</generator>
+    
+      <item>
+        <title>ssh登录服务器自动发邮件</title>
+        <description>&lt;h2 id=&quot;python-&quot;&gt;python 读取登录信息，并发送邮件&lt;/h2&gt;
+&lt;p&gt;效果就是，每当有人通过 &lt;code class=&quot;highlighter-rouge&quot;&gt;ssh&lt;/code&gt; 登录到阿里云服务器的时候就会将登录者的ip和登录时间发送一封邮箱到指定的邮箱里面。&lt;/p&gt;
+
+&lt;h4 id=&quot;section&quot;&gt;获取登录信息&lt;/h4&gt;
+
+&lt;p&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;CentOS&lt;/code&gt; 中 &lt;code class=&quot;highlighter-rouge&quot;&gt;/var/log/wtmp&lt;/code&gt; 记录每个用户的登录IP，登录次数，持续时间等信息。
+#### 使用 smtplib 发送邮件&lt;/p&gt;
+
+&lt;ol&gt;
+  &lt;li&gt;注意 发送方邮箱的密码，不是账号的密码。而是开启 &lt;code class=&quot;highlighter-rouge&quot;&gt;SMTP&lt;/code&gt; 后获取的授权码&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;h4 id=&quot;section-1&quot;&gt;代码如下&lt;/h4&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;#-*- coding:utf-8 -*-
+
+
+import poplib,email
+from email.header import decode_header
+import smtplib
+import time
+import os,sys
+import re
+
+# 发送方邮箱服务器
+smtp_server = 'smtp.163.com'
+# 发送方显示名称
+sender_nikename = 'vincent'
+# 发送方邮箱
+sender = '****@163.com'
+# 发送方邮箱授权码(不是密码)
+sender_password = '********'
+# 接收方
+receiver = '*****@**.com'
+
+def sshuserinfo():
+    tmpfile = os.popen(&quot;who /var/log/wtmp&quot;)
+    count = 0
+    userlist = []
+    for line in tmpfile:
+        count = count + 1
+        userlist.append(line)
+    pat = re.compile(r&quot;\((.*)\)&quot;)
+    valuelist = []
+    if count &amp;gt; 0:
+        result = pat.search(userlist[count - 1])
+        valuelist.append(count)
+        ipaddress = result.group(1)
+        valuelist.append(ipaddress)
+        alist = re.split(&quot;\s+&quot;,userlist[len(userlist)-1])
+        valuelist.append(alist[2])       #时间年月日
+
+        valuelist.append(alist[3])       #时间时分
+
+    return valuelist
+
+def sendmail(val):
+    mail_to = smtplib.SMTP(smtp_server, 25)
+    mail_to.login(sender, sender_password)
+    msg = &quot;From: &quot; + sender_nikename + &quot;&amp;lt;&quot; + sender + &quot;&quot;&quot;&amp;gt;
+To: &amp;lt;&quot;&quot;&quot; + receiver + &quot;&amp;gt;&quot; + &quot;&quot;&quot;
+Subject: [有人远程登录了服务器] - sshusers added
+
+someone ssh your host ,the user info is:
+&quot;&quot;&quot; + val[1] + &quot; &quot; + val[2] + &quot; &quot; + val[3]
+    mail_to.sendmail(sender, receiver, msg)
+    mail_to.close()
+
+if __name__ == '__main__':
+    old_count = 0
+    while 1:
+        time.sleep(5)
+        val = sshuserinfo()
+        if len(val) &amp;gt; 0:
+            if val[0] &amp;gt; old_count:
+                print &quot;add users&quot;
+                sendmail(val)
+                old_count = val[0]
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;h2 id=&quot;nohup-&quot;&gt;使用 nohup 后台执行&lt;/h2&gt;
+&lt;p&gt;Linux 后台进程运行的方法有好几种，比如&lt;code class=&quot;highlighter-rouge&quot;&gt;nohup&lt;/code&gt;，&lt;code class=&quot;highlighter-rouge&quot;&gt;supervisor&lt;/code&gt;，&lt;code class=&quot;highlighter-rouge&quot;&gt;screen&lt;/code&gt;等。这里使用&lt;code class=&quot;highlighter-rouge&quot;&gt;nohup&lt;/code&gt;来简单使用&lt;/p&gt;
+
+&lt;h4 id=&quot;nohup--1&quot;&gt;使用 nohup 命令&lt;/h4&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;[root@iZ949j21i58Z ssh]# nohup python ssh_monitor.py &amp;amp;
+[1] 19852
+[root@iZ949j21i58Z ssh]# nohup: 忽略输入并把输出追加到&quot;nohup.out&quot;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;ol&gt;
+  &lt;li&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;&amp;amp;&lt;/code&gt; 表示将程序放到后台执行，但是如果启动该程序的logout，则该进程随记终止&lt;/li&gt;
+  &lt;li&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;nohup&lt;/code&gt; 使用 nohup命令后，原程序的标准输出被自动改向到当前目录的nohup.out文件，起到了log的作用，实现完整的守护进程功能。&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;h4 id=&quot;nohup--2&quot;&gt;终止 nohup 执行&lt;/h4&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;[root@iZ949j21i58Z ssh]# ps -ef | grep ssh_monitor
+root     19852 19781  0 11:03 pts/2    00:00:00 python ssh_monitor.py
+root     19856 19781  0 11:03 pts/2    00:00:00 grep --color=auto ssh_monitor
+[root@iZ949j21i58Z ssh]# kill 19852
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;h2 id=&quot;linux-python&quot;&gt;关于Linux Python执行的进程&lt;/h2&gt;
+&lt;p&gt;当用户启动一个进程的时候，这个进程是运行在前台，使用与相应控制终端相联系的标准输入输如，输出进行输入和输出。即时将进程的输入输出重定向，并将进程放在后台执行，进程仍然和当前前端设备有关系。正因为如此，在当前的登录会话结束时，控制终端设备将和登录进程相脱，那么系统就像所有与这个终端联系的进程发送&lt;code class=&quot;highlighter-rouge&quot;&gt;SIGHUP&lt;/code&gt;的信号，通知进程线路已经挂起了，如果程序没有接管这个信号的处理，那么缺省的反应是进程结束。&lt;/p&gt;
+
+&lt;p&gt;因此普通的程序并不能真正脱离登录会话而运行进程，为了使得在系统登录后还可以正常执行，只有使用&lt;code class=&quot;highlighter-rouge&quot;&gt;nohup&lt;/code&gt;这一类的来启动相应程序。&lt;/p&gt;
+
+&lt;h4 id=&quot;section-2&quot;&gt;守护进程&lt;/h4&gt;
+&lt;p&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;nohup&lt;/code&gt;启动的程序在进程执行完毕就退出了，比如&lt;code class=&quot;highlighter-rouge&quot;&gt;kill&lt;/code&gt; 掉相关进程。而一些常见的服务进程通常永久的运行在后台，不想屏幕输出结果。
+在 Linux/Unix 中这些永久的后台进程称为&lt;code class=&quot;highlighter-rouge&quot;&gt;守护进程（daemon）&lt;/code&gt;。守护进程通常从系统启动时自动开始执行，系统关闭时才停止。如果偶然某个守护进程消失了，那么它提供的服务将不再能被使用。&lt;/p&gt;
+
+&lt;h4 id=&quot;centos-&quot;&gt;CentOS 常见的守护进程&lt;/h4&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;硬件管理守护进程
+apmd
+apmd （Advanced Power Management）是高级电源管理。传统的电源管理标准，对于笔记本电脑比较有用，可以了解系统的电池电量信
+息。并将相关信息通过 syslogd  写入日志。也可以用来在电源不足时关机。
+acpid
+acpid （Advanced Configuration and Power Interface ）是为替代传统的 APM  电源管理标准而推出的新型电源管理标准。通常笔记本电
+脑需要启动电源进行管理。
+alsasound Alsa 声卡驱动守护程序。 Alsa 和  OSS/Free 及  OSS/Linux 兼容，但是有自己的接口，甚至比OSS优秀。
+cups cups(Common UNIX Printing System) 是通用UNIX打印守护进程，为Linux 提供第三代打印功能。
+cups-config-
+daemons
+cups  打印系统切换守护进程。
+cups-lpd cups  行打印守护进程。
+lpd lpd  是老式打印守护程序，负责将 lpr  等程序提交给打印作业。
+gpm
+gpm（General Purpose Mouse Daemon  ）守护进程为文本模式下的 Linux  程序如 mc(Midnight Commander) 提供了鼠标的支持。它
+也支持控制台下鼠标的拷贝，粘贴操作以及弹出式菜单。
+irqbalance 对多个系统处理器环境下的系统中断请求进行负载平衡的守护程序。如果你只安装了一个CPU，就不需要加载这个守护程序。
+kudzu
+硬件自动检测程序，会自动检测硬件是否发生变动，并相应进行硬件的添加、删除工作。当系统启动时，kudzu会对当前的硬件进行检测，并
+且和存储在 /etc/sysconfig/hwconf 中的硬件信息进行对照，如果某个硬件从系统中被添加或者删除时，那么 kudzu  就会察觉到，并且通知
+用户是否进行相关配置，然后修改 /etc/sysconfig/hwconf ，使硬件资料与系统保持同步。如果 /etc/sysconfig/hwconf  这个文件不存在，
+那么kudzu将会从 /etc/modprobe.conf 、/etc/sysconfig/network-scripts/ 和 /etc/X11/XF86Config  中探测已经存在的硬件。如果你
+不打算增加新硬件，那么就可以关闭这个启动服务，以加快系统启动时间。
+lm_seroems 检测主板工作情况守护进程。
+mdmonitor RAID  相关设备的守护程序。
+microcode_ctl 可编码以及发送新的微代码到内核以更新 Intel IA32  系列处理器守护进程。
+pcmcia 主要用于支持笔记本电脑接口守护进程。
+rawdevices 在使用集群文件系统时用于加载 raw  设备的守护进程。
+smartd Self Monitor Analysis and Reporting Technology System，监控你的硬盘是否出现故障。
+
+系统管理守护进程
+atd at和batch 命令守护进程，用户用at命令调度的任务。batch 用于在系统负荷比较低时  运行批处理任务。
+anacron
+一个自动化运行任务守护进程。CentOS 随带四个自动化任务的工具：cron、 anacron 、at、和 batch。  当你的Linux 服务器并不是全天运
+行，这个 anacron  就可以帮你执行在”crontab” 设定的时间内没有执行的工作。
+crond cron  周期地运行用户  调度任务。
+cpuspeed 监测系统空闲百分比，降低或加快CPU时钟速度和电压从而在系统空闲时将能源消耗降为最小，而在系统繁忙时最大化加快系统执行速度。
+iiim 中文输入法服务器守护进程。
+
+psacct 该守护进程包括几个工具用来监控进程活动的工具，包括ac,lastcomm, accton  和sa。
+random 保存和恢复系统的高质量随机数生成器，这些随机数是系统一些随机行为提供的。
+syslog 一个让系统引导时启动 syslog  和 klogd  系统日志守候进程的脚本。
+xfs X Window 字型服务器守护进程，为本地和远程 X  服务器提供字型集。
+yum-updatesd RPM 操作系统自动升级和软件包管理守护进程。
+文件服务守护进程
+amd 自动安装NFS守护进程。
+atalk AppleTalk 网络守护进程。注意不要在后台运行该程序，该程序的数据结构必须在运行其他进程前先花一定时间初始化。
+autofs 自动安装管理进程automount，与NFS相关，依赖于NIS服务器。
+netdump 远程网络备份服务器守护进程。
+diskdump 服务器磁盘备份守护进程。
+portmap 该守护进程用来支持RPC连接，RPC 被用于 NFS  以及 NIS  等服务。
+netfs Network Filesystem Mounter，该进程安装和卸载NFS、SAMBA和NCP网络文件系统。
+nfs 网络文件系统守护进程。
+nfslock NFS是一个流行的通过TCP/IP网络共享文件的协议，此守护进程提供了NFS文件锁定功能。
+rsync remote sync  远程数据备份守护进程。
+
+数据库管理守护进程
+arptables_jf 为 arptables  网络的用户控制过滤的守护进程。
+arpwatch 记录日志并构建一个在LAN 接口上看到的以太网地址和IP 地址对数据库。
+bootparamd 引导参数服务器，为LAN 上的无盘工作站提供引导所需的相关信息。
+ldap ldap（Lightweight Directory Access Protocol ）目录访问协议服务器守护进程。
+mysqld 一个快速高效可靠的轻型  SQL   数据库引擎守护进程。
+postgresql PostgreSQL  关系数据库引擎。
+ypbind 为NIS（网络信息系统）客户机激活 ypbind 服务进程。
+yppasswdd NIS口令服务器守护进程。
+ypserv NIS 主服务器守护进程。
+
+网络设备守护进程
+bluetooch 蓝牙服务器守护进程。
+netplugd
+netplugd（network cable hotplug management daemon ）守护程序，用于监控一个或多个网络接口的状态，当某些事件触发时运行一个
+外部脚本程序。
+messagebus
+D-BUS 是一个库，为两个或两个以上的应用程序提供一对一的通讯。 dbus-daemon-1  是一个应用程序，它使用这个库来实现 messagebus 守
+护程序。多个应用程序通过连接 messagebus  守护程序可以实现与其他程序交换信息。
+pppoe ADSL连接守护进程。
+irda 红外端口守护进程。
+isdn isdn启动和中止服务守护进程。
+snmpd 本地简单网络管理守护进程。
+network 激活/ 关闭启动时的各个网络接口守护进程。
+iptables iptables 防火墙守护进程。
+
+网络服务守护进程
+chargen
+使用 tcp 协议的 chargen server ，chargen（Character Generator Protocol）是一种网络服务，主要功能是提供类似远程打字
+的功能。
+chargen-udp 使用UDP协议的chargen server 。
+dhcpd 动态主机控制协议(Dynamic Host Control Protocol)的服务守护进程。
+
+daytime 使用TCP 协议的 Daytime 守护进程，该协议为客户机实现从远程服务器获取日期  和时间的功能。预设端口：13。
+daytime-udp 使用 UDP  协议的 Daytime 守护进程。
+time 该守护进程从远程主机获取时间和日期，采用TCP 协议。
+time-udp 该守护进程从远程主机获取时间和日期，采用UDP协议。
+dc_server 使用SSL 安全套接字的代理服务器守护进程。
+dc_client 使用SSL 安全套接字的客户端守护进程。
+echo 服务器回显客户数据服务守护进程。
+echo-udp 使用UDP协议的服务器回显客户数据服务守护进程。
+named DNS（BIND）服务器守护进程。
+gated 网关路由守护进程。它支持各种路由协议，包括RIP版本1和2、DCN HELLO 协议、 OSPF 版本2以及EGP 版本2到4。
+httpd Web服务器Apache 守护进程，可用来提供HTML文件以  及CGI 动态内容服务。
+innd Usenet新闻服务器守护进程。
+ntpd Network time Protocol daemon（网络时间校正协议）。ntpd是用来使系统和一个精确的时间源保持时间同步的协议守护进程。
+proftpd proftpd  是Unix下的一个配置灵活的 ftp 服务器的守护程序。
+readahead 、
+readahead_early
+readahead 和readahead_early 是在Fedora core 2中最新推出的两个后台运行的守护程序。其作用是在启动系统期间，将启动系
+统所要用到的文件首先读取到内存中，然后在内存中进行执行，以加快系统的启动速度。
+routed 该守护程序支持RIP协议的自动IP 路由表维护。RIP主要  使用在小型网络上，大一点的网络就需要复杂一点的协议。
+rsh 远程主机上启动一个shell，并执行用户命令。
+rwhod 允许远程用户获得运行rwho 守护程序的机器上所有已登录用户的列表。
+rstatd 一个为LAN 上的其它机器收集和提供系统信息的守候进程。
+ruserd 远程用户定位服务。  这是一个基于RPC的服务，它提供关于当前记录到 LAN  上一个机器日志中的用户信息
+rwalld 远程用户消息发送服务。这是一项基于RPC的服务，允许用户给每个注册到 LAN  机器上的其他终端写消息。
+rwhod rwhod  服务进程，它支持 LAN  的 rwho 和 ruptime  服务。
+saslauthd 使用 SASL 的认证守护进程。
+sendmail sendmail MTA 守护进程。
+postfix postfix MTA 守护进程。
+smb Samba  文件共享/ 打印服务守护进程。
+squid 代理服务器squid 守护进程。
+sshd OpenSSH  服务器守护进程。Secure Shell Protocol可以实现安全地远程管理主机。
+tux 在Linux 内核中运行apache 服务器的守护进程。
+vsftpd vsftpd 服务器的守护进程。
+vncserver VNC （Virtual Network Computing ，虚拟网络计算），它提供了一种在本地系统上显示远程计算机整个” 桌面” 的轻量型协议。
+inetd
+因特网操作守护程序。监控网络对各种它管理的服务的需求，并在必要的时候启动相应的服务程序。在 Redhat  和 Mandrake  中被
+xinetd 代替。Debian, Slackware, SuSE仍然使用。
+xinetd 支持多种网络服务的超级服务器守护进程。
+eklogin 使用 kerberos 5 加密的一种rlogin 会话鉴证守护进程。
+gssftp 使用 kerberos 5 认证的 ftp 守护进程
+krb5-telnet 使用 kerberos 5 认证的 telnet  守护进程。
+klogin 使用 kerberos 5 认证远程登录守护进程。
+kshell 使用 kerberos 5 认证的远程 Shell 守护进程。
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+</description>
+        <pubDate>Thu, 09 Mar 2017 00:00:00 +0800</pubDate>
+        <link>http://localhost:4000/2017/03/09/ssh-login/</link>
+        <guid isPermaLink="true">http://localhost:4000/2017/03/09/ssh-login/</guid>
+        
+        <category>python</category>
+        
+        <category>Linux</category>
+        
+        
+      </item>
+    
+      <item>
+        <title>非越狱iOS逆向微信</title>
+        <description>&lt;blockquote&gt;
+  &lt;ul&gt;
+    &lt;li&gt;
+      &lt;p&gt;本文参考学习链接为： 
+&lt;a href=&quot;https://github.com/buginux/WeChatRedEnvelop&quot;&gt;buginux&lt;/a&gt;&lt;/p&gt;
+    &lt;/li&gt;
+    &lt;li&gt;
+      &lt;p&gt;《 iOS 应用逆向工程》第二版&lt;/p&gt;
+    &lt;/li&gt;
+  &lt;/ul&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;鉴于&lt;code class=&quot;highlighter-rouge&quot;&gt;《iOS逆向工程》&lt;/code&gt;这本书其实买了很久，但是又断断续续的荒废了。看到 &lt;a href=&quot;https://github.com/buginux/WeChatRedEnvelop&quot;&gt;buginux&lt;/a&gt; 写的这篇文章后，果断又尝试起来。
+由于目前手上没有能越狱越狱的手机，打包尝试起来特别麻烦。好在最后还是完成了。上图。&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/img/reverse_wechat/result.jpg&quot; /&gt;&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;PS：目前最新的 6.5.5 版本红包并不能使用。
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;h2 id=&quot;ipa&quot;&gt;1.获取砸壳后的微信ipa&lt;/h2&gt;
+&lt;p&gt;有两种方法
+1. 通过 &lt;a href=&quot;https://github.com/KJCracks/Clutch&quot;&gt;Clutch&lt;/a&gt; 对越狱手机上的应用砸壳
+2. 直接在 PP助手上下载&lt;/p&gt;
+
+&lt;p&gt;由于手里没有越狱的手机，所以就直接在 PP助手上下载了。
+将下载后的 &lt;code class=&quot;highlighter-rouge&quot;&gt;wechat.ipa&lt;/code&gt; 解压
+&lt;code class=&quot;highlighter-rouge&quot;&gt;
+$ unzip wechat.ipa -d wechat
+&lt;/code&gt;&lt;/p&gt;
+
+&lt;h2 id=&quot;class-dump-&quot;&gt;2.使用 class-dump 导出微信头文件&lt;/h2&gt;
+
+&lt;h4 id=&quot;class-dump&quot;&gt;2.1 下载 class-dump&lt;/h4&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;$ https://code.google.com/archive/p/networkpx/downloads
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;p&gt;1.1 解压并拷入到 /usr/bin/&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;$ tar -zxvf class-dump-z_0.2a.tar.gz
+$ sudo cp mac_x86/class-dump-z /usr/bin/
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;h4 id=&quot;opendev-&quot;&gt;2.1.1 或者下载安装 &lt;code class=&quot;highlighter-rouge&quot;&gt;OpenDev&lt;/code&gt; 环境。&lt;/h4&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;class-dump已经包含在openDev中,openDev 存放文件夹opt/IOSOpenDev/bin 中,
+
+并在/Users/vincent/bash_profile 注册了系统变量 路径
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;h4 id=&quot;h-&quot;&gt;2.2 导出 &lt;code class=&quot;highlighter-rouge&quot;&gt;.h&lt;/code&gt; 头文件&lt;/h4&gt;
+
+&lt;p&gt;可执行文件位置在
+&lt;code class=&quot;highlighter-rouge&quot;&gt;
+~/wechat/Payload/WeChat.app/WeChat
+&lt;/code&gt;
+拷贝出来执行&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;$ class-dump
+-H
+WeChat
+-o
+heads
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;ol&gt;
+  &lt;li&gt;WeChat 是应用的可执行文件的路径&lt;/li&gt;
+  &lt;li&gt;headers 是存放dump出来头文件的文件夹路径&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;h2 id=&quot;dylib-&quot;&gt;3. 准备 dylib 动态链接库&lt;/h2&gt;
+&lt;p&gt;将 &lt;a href=&quot;https://github.com/huanglins/WeChatRedEnvelop&quot;&gt;WeChatRedEnvelop&lt;/a&gt; clone 下来。执行 &lt;code class=&quot;highlighter-rouge&quot;&gt;make&lt;/code&gt; , dylib 文件在 &lt;code class=&quot;highlighter-rouge&quot;&gt;WeChatRedEnvelop/.theos/obj/debug/WeChatRedEnvelop.dylib&lt;/code&gt;&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;$ git https://github.com/huanglins/WeChatRedEnvelop
+$ cd WeChatRedEnvelop
+make
+
+$ cp .theos/obj/debug/WeChatRedEnvelop.dylib ~/Desktop # 注意是 .theos 目录，这是个隐藏目录
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;h4 id=&quot;section&quot;&gt;3.1 修改动态链接库依赖项&lt;/h4&gt;
+&lt;p&gt;使用 macOS 自带的 &lt;code class=&quot;highlighter-rouge&quot;&gt;otool&lt;/code&gt; 工具检查 dylib 的依赖项&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;$ otool -L WeChatRedEnvelop.dylib
+
+WeChatRedEnvelop2.dylib (architecture armv7):
+	/Library/MobileSubstrate/DynamicLibraries/WeChatRedEnvelop.dylib (compatibility version 0.0.0, current version 0.0.0)
+	/usr/lib/libobjc.A.dylib (compatibility version 1.0.0, current version 228.0.0)
+	/System/Library/Frameworks/Foundation.framework/Foundation (compatibility version 300.0.0, current version 1349.13.0)
+	/System/Library/Frameworks/CoreFoundation.framework/CoreFoundation (compatibility version 150.0.0, current version 1348.22.0)
+	/System/Library/Frameworks/UIKit.framework/UIKit (compatibility version 1.0.0, current version 3600.6.21)
+	/Library/Frameworks/CydiaSubstrate.framework/CydiaSubstrate (compatibility version 0.0.0, current version 0.0.0)
+	/usr/lib/libc++.1.dylib (compatibility version 1.0.0, current version 307.4.0)
+	/usr/lib/libSystem.B.dylib (compatibility version 1.0.0, current version 1238.0.0)
+WeChatRedEnvelop2.dylib (architecture arm64):
+	/Library/MobileSubstrate/DynamicLibraries/WeChatRedEnvelop.dylib (compatibility version 0.0.0, current version 0.0.0)
+	/usr/lib/libobjc.A.dylib (compatibility version 1.0.0, current version 228.0.0)
+	/System/Library/Frameworks/Foundation.framework/Foundation (compatibility version 300.0.0, current version 1349.13.0)
+	/System/Library/Frameworks/CoreFoundation.framework/CoreFoundation (compatibility version 150.0.0, current version 1348.22.0)
+	/System/Library/Frameworks/UIKit.framework/UIKit (compatibility version 1.0.0, current version 3600.6.21)
+	/Library/Frameworks/CydiaSubstrate.framework/CydiaSubstrate (compatibility version 0.0.0, current version 0.0.0)
+	/usr/lib/libc++.1.dylib (compatibility version 1.0.0, current version 307.4.0)
+	/usr/lib/libSystem.B.dylib (compatibility version 1.0.0, current version 1238.0.0)
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;p&gt;修改 &lt;code class=&quot;highlighter-rouge&quot;&gt;/Library/Frameworks/CydiaSubstrate.framework/CydiaSubstrate&lt;/code&gt; 链接地址到 &lt;code class=&quot;highlighter-rouge&quot;&gt;libsubstrate.dylib&lt;/code&gt;&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;$ install_name_tool -change /Library/Frameworks/CydiaSubstrate.framework/CydiaSubstrate 
+@loader_path/libsubstrate.dylib WeChatRedEnvelop.dylib
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;PS：libsubstrate.dylib 是越狱环境 MobileSubstrate 提供动态注入的一个链接库&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;h2 id=&quot;section-1&quot;&gt;4 将动态链接库注入到二进制文件中&lt;/h2&gt;
+
+&lt;h4 id=&quot;libsubstratedylib--wechatredenvelopdylib-wechatapp&quot;&gt;4.1 将 &lt;code class=&quot;highlighter-rouge&quot;&gt;libsubstrate.dylib&lt;/code&gt; 和 &lt;code class=&quot;highlighter-rouge&quot;&gt;WeChatRedEnvelop.dylib&lt;/code&gt; 拷贝到WeChat.app中&lt;/h4&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;$ cp libsubstrate.dylib WeChatRedEnvelop.dylib wechat/Payload/WeChat.app
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;h4 id=&quot;optoolhttpsgithubcomalexzielenskioptool-&quot;&gt;4.2 使用开源的 &lt;a href=&quot;https://github.com/alexzielenski/optool&quot;&gt;optool&lt;/a&gt; 工具&lt;/h4&gt;
+&lt;p&gt;编译安装 &lt;code class=&quot;highlighter-rouge&quot;&gt;optool&lt;/code&gt; 工具&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;# 因为 optool 添加了 submodule，因为需要使用 --recuresive 选项，将子模块全部 clone 下来
+$ git clone --recursive https://github.com/alexzielenski/optool.git
+$ cd optool
+$ xcodebuild -project optool.xcodeproj -configuration Release ARCHS=&quot;x86_64&quot; build
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;h4 id=&quot;optool-&quot;&gt;4.3 optool 注入&lt;/h4&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;$ /path/to/optool install -c load -p &quot;@executable_path/WeChatRedEnvelop.dylib&quot; 
+-t 
+wechat/Payload/WeChat.app/WeChat
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;h2 id=&quot;section-2&quot;&gt;5. 打包，重新签名&lt;/h2&gt;
+&lt;p&gt;打包和重新签名可以直接使用图形化操作工具 &lt;a href=&quot;https://github.com/DanTheMan827/ios-app-signer&quot;&gt;ios-app-signer&lt;/a&gt; 来完成。&lt;/p&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;需要使用开发者证书 ~~~~(&amp;gt;_&amp;lt;)~~~~&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;&lt;img src=&quot;/img/reverse_wechat/ios-app-signer.png&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;点击 start 后，指定保存路径，iOS App Signer 就会帮你搞定所有事情。&lt;/p&gt;
+
+&lt;h2 id=&quot;section-3&quot;&gt;6. 安装&lt;/h2&gt;
+&lt;p&gt;使用 Xcode 菜单 - Window - Devices 中打开设置窗口 
+&lt;img src=&quot;/img/reverse_wechat/xcode.png&quot; /&gt;&lt;/p&gt;
+
+&lt;h2 id=&quot;end&quot;&gt;End&lt;/h2&gt;
+
+</description>
+        <pubDate>Fri, 03 Mar 2017 00:00:00 +0800</pubDate>
+        <link>http://localhost:4000/2017/03/03/reverse-wechat/</link>
+        <guid isPermaLink="true">http://localhost:4000/2017/03/03/reverse-wechat/</guid>
+        
+        <category>iOS</category>
+        
+        <category>逆向工程</category>
+        
+        
+      </item>
+    
+      <item>
+        <title>花样年华</title>
+        <description>&lt;blockquote&gt;
+  &lt;p&gt;如果我有多一张票，你会不会跟我走。&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;&lt;img src=&quot;http://ojc898k6f.bkt.clouddn.com/ba-shufa.jpg&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
+</description>
+        <pubDate>Sun, 05 Feb 2017 08:30:30 +0800</pubDate>
+        <link>http://localhost:4000/2017/02/05/blossom-age/</link>
+        <guid isPermaLink="true">http://localhost:4000/2017/02/05/blossom-age/</guid>
+        
+        <category>旅行</category>
+        
+        
+      </item>
     
       <item>
         <title>色达</title>

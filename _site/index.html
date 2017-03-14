@@ -6,12 +6,19 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="google-site-verification" content="xBT4GhYoi5qRD5tr338pgPM5OWHHIDR6mNg1a3euekI" />
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="description" content="// iOS Developer，也在也Android。正在学习全栈。很高兴认识你。">
-    <meta name="keyword"  content="vincent，vincents，黄霖，黄金霖，darnel，个人网站，APP，微信公众号">
-    <link rel="shortcut icon" href="/img/favicon.ico">
-
+    <meta name="description" content="// iOS Developer，也写Android和python。正在学习全栈。很高兴认识你。">
+    <meta name="keywords"  content="vincent，vincents，黄霖，黄金霖，darnel，个人网站，APP，微信公众号">
+    <meta name="theme-color" content="#000000">
+    
     <title>Vincent Blog | 永远年轻，永远热泪盈眶</title>
 
+    <!-- Web App Manifest -->
+    <link rel="manifest" href="/pwa/manifest.json">
+
+    <!-- Favicon -->
+    <link rel="shortcut icon" href="/img/favicon.ico">
+    
+    <!-- Canonical URL -->
     <link rel="canonical" href="http://localhost:4000/">
 
     <!-- Bootstrap Core CSS -->
@@ -26,7 +33,7 @@
     <!-- Custom Fonts -->
     <!-- <link href="http://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet" type="text/css"> -->
     <!-- Hux change font-awesome CDN to qiniu -->
-    <link href="http://cdn.staticfile.org/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+    <link href="//cdnjs.cloudflare.com/ajax/libs/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet" type="text/css">
 
 
     <!-- Hux Delete, sad but pending in China
@@ -143,7 +150,7 @@
 
 
     <!-- Page Header -->
-<header class="intro-header" style="background-image: url('/img/write21_header.jpg')">
+<header class="intro-header" style="background-image: url('img/home-bg.jpg')">
     <div class="container">
         <div class="row">
             <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1 ">
@@ -172,6 +179,97 @@
                 postlist-container
             ">
     			
+<div class="post-preview">
+    <a href="/2017/03/09/ssh-login/">
+        <h2 class="post-title">
+            ssh登录服务器自动发邮件
+        </h2>
+        
+        <h3 class="post-subtitle">
+            python小脚本，nohup后台运行
+        </h3>
+        
+        <div class="post-content-preview">
+            python 读取登录信息，并发送邮件
+效果就是，每当有人通过 ssh 登录到阿里云服务器的时候就会将登录者的ip和登录时间发送一封邮箱到指定的邮箱里面。
+
+获取登录信息
+
+CentOS 中 /var/log/wtmp 记录每个用户的登录IP，登录次数，持续时间等信息。
+#### 使用 smtplib 发送邮件
+
+
+  注意 发送方邮箱的密码，不是账号的密码。而是开启 SMTP 后获取的授权...
+        </div>
+    </a>
+    <p class="post-meta">
+        Posted by  on March 9, 2017
+    </p>
+</div>
+<hr>
+
+<div class="post-preview">
+    <a href="/2017/03/03/reverse-wechat/">
+        <h2 class="post-title">
+            非越狱iOS逆向微信
+        </h2>
+        
+        <h3 class="post-subtitle">
+            自动抢红包，消息防撤回，修改微信运动步数
+        </h3>
+        
+        <div class="post-content-preview">
+            
+  
+    
+      本文参考学习链接为： 
+buginux
+    
+    
+      《 iOS 应用逆向工程》第二版
+    
+  
+
+
+鉴于《iOS逆向工程》这本书其实买了很久，但是又断断续续的荒废了。看到 buginux 写的这篇文章后，果断又尝试起来。
+由于目前手上没有能越狱越狱的手机，打包尝试起来特别麻烦。好在最后还是完成了。上图。
+
+
+
+PS：目前最新的 6.5....
+        </div>
+    </a>
+    <p class="post-meta">
+        Posted by  on March 3, 2017
+    </p>
+</div>
+<hr>
+
+<div class="post-preview">
+    <a href="/2017/02/05/blossom-age/">
+        <h2 class="post-title">
+            花样年华
+        </h2>
+        
+        <h3 class="post-subtitle">
+            乌山画廊七人游
+        </h3>
+        
+        <div class="post-content-preview">
+            
+  如果我有多一张票，你会不会跟我走。
+
+
+
+
+        </div>
+    </a>
+    <p class="post-meta">
+        Posted by  on February 5, 2017
+    </p>
+</div>
+<hr>
+
 <div class="post-preview">
     <a href="/2016/05/03/seda/">
         <h2 class="post-title">
@@ -256,6 +354,7 @@
 var _hmt = _hmt || [];
 (function() {
   var hm = document.createElement("script");
+  // hm.src = "//hm.baidu.com/hm.js?df0ae995d64933728fd782f538ecf05d";
   hm.src = "//hm.baidu.com/hm.js?df0ae995d64933728fd782f538ecf05d";
   var s = document.getElementsByTagName("script")[0]; 
   s.parentNode.insertBefore(hm, s);
@@ -287,6 +386,18 @@ var _hmt = _hmt || [];
                             
                         
                             
+                                <a href="/tags/#旅行" title="旅行" rel="2">
+                                    旅行
+                                </a>
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
                         
                     </div>
                 </section>
@@ -297,7 +408,7 @@ var _hmt = _hmt || [];
                     <hr><h5><a href="/about/">ABOUT ME</a></h5>
                     <div class="short-about">
                         
-                            <img src="/img/avatar_sea-vincent.jpg" />
+                            <img src="/img/avatar-sea-vincent.jpg" />
                         
                         
                             <p>逗逼程序猿，白羊座，拖延症。</p>
@@ -354,25 +465,35 @@ var _hmt = _hmt || [];
 
                         </ul>
                     </div>
-                    <!-- 微信公众号 -->
-                    <hr><h5>微信公众号</h5>
-                    <div class="short-about">
-                        <img src="/img/wechat_pub_qrcode.jpg">
-                    </div>
                 </section>
+                <!-- 微信公众号 -->
+                <hr>
+                <h5>微信公众号</h5>
+                <div class="short-about">
+                    <img src="/img/wechat-pub-qrcode.jpg">
+                </div>
                 <!-- Friends Blog -->
                 
                 <hr>
                 <h5>FRIENDS</h5>
                 <ul class="list-inline">
                     
-                        <li><a href="http://wechat.vincents.cn/">Darnel工作室</a></li>
+                        <li><a href="https://shop130631028.taobao.com/">在回忆中 - 卖点小东西</a></li>
                     
-                        <li><a href="http://qiandao.vincents.cn/">自动签到</a></li>
-                    
-                        <li><a href="https://shop130631028.taobao.com/">在回忆中-卖点小东西</a></li>
+                        <li><a href="https://unsplash.com">unsplash - 好看的图片</a></li>
                     
                 </ul>
+                
+                <!-- 一言 -->
+                <hr>
+                <h5>一言</h5>
+                
+                <div id="lwlhitokoto">
+                <script type="text/javascript" src="https://api.lwl12.com/hitokoto/main/get?encode=js&charset=utf-8"></script>
+                <script type="text/javascript">
+                lwlhitokoto()
+                </script>
+                </div>
                 
     		</div>
         
@@ -388,6 +509,16 @@ var _hmt = _hmt || [];
                 <ul class="list-inline text-center">
                     
                     
+                    <li>
+                        <a href="https://twitter.com/vincent_darnel">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-twitter fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                    
+
                     <!-- add Weibo, Zhihu by Hux, add target = "_blank" to <a> by Hux -->
                     
                     <li>
@@ -400,7 +531,6 @@ var _hmt = _hmt || [];
                     </li>
                     
                     
-                    
                     <li>
                         <a target="_blank" href="http://weibo.com/linxiaomu1995">
                             <span class="fa-stack fa-lg">
@@ -411,6 +541,8 @@ var _hmt = _hmt || [];
                     </li>
                     
 
+
+                    
                     
                     <li>
                         <a target="_blank" href="https://github.com/huanglins">
@@ -421,28 +553,15 @@ var _hmt = _hmt || [];
                         </a>
                     </li>
                     
-
-                    
-                    <li>
-                        <a href="https://twitter.com/vincent_darnel">
-                            <span class="fa-stack fa-lg">
-                                <i class="fa fa-circle fa-stack-2x"></i>
-                                <i class="fa fa-twitter fa-stack-1x fa-inverse"></i>
-                            </span>
-                        </a>
-                    </li>
-                    
-
-                    
                     
                 </ul>
                 <p class="copyright text-muted">
                     Copyright &copy; tnecniV 2017
                     <br>
-                    Theme © <a href="http://huangxuan.me">Hux</a> |
+                    Theme by <a href="http://huangxuan.me">Hux</a> |
                     <iframe
                         style="margin-left: 2px; margin-bottom:-5px;"
-                        frameborder="0" scrolling="0" width="91px" height="20px"
+                        frameborder="0" scrolling="0" width="100px" height="20px"
                         src="https://ghbtns.com/github-btn.html?user=huxpro&repo=huxpro.github.io&type=star&count=true" >
                     </iframe>
                 </p>
@@ -460,17 +579,19 @@ var _hmt = _hmt || [];
 <!-- Custom Theme JavaScript -->
 <script src="/js/hux-blog.min.js "></script>
 
-<!-- TODO: only load in tag.html -->
-<script src="/js/jquery.tagcloud.js" type="text/javascript" charset="utf-8"></script> 
-<script language="javascript">
-    $.fn.tagcloud.defaults = {
-        //size: {start: 1, end: 1, unit: 'em'},
-        color: {start: '#bbbbee', end: '#0085a1'},
-    };
-    $(function () {
-        $('#tag_cloud a').tagcloud();
-    });
+<!-- Service Worker -->
+
+<script type="text/javascript">
+    if(navigator.serviceWorker){
+        // For security reasons, a service worker can only control the pages that are in the same directory level or below it. That's why we put sw.js at ROOT level.
+        navigator.serviceWorker
+            .register('/sw.js')
+            .then((registration) => {console.log('Service Worker Registered. ', registration)})
+            .catch((error) => {console.log('ServiceWorker registration failed: ', error)})
+    }
 </script>
+
+
 
 <!-- async load function -->
 <script>
@@ -484,21 +605,95 @@ var _hmt = _hmt || [];
     }
 </script>
 
-<!-- Highlight.js -->
+<!-- 
+     Because of the native support for backtick-style fenced code blocks 
+     right within the Markdown is landed in Github Pages, 
+     From V1.6, There is no need for Highlight.js, 
+     so Huxblog drops it officially.
+
+     - https://github.com/blog/2100-github-pages-now-faster-and-simpler-with-jekyll-3-0  
+     - https://help.github.com/articles/creating-and-highlighting-code-blocks/ 
+     - https://github.com/jneen/rouge/wiki/list-of-supported-languages-and-lexers   
+-->
+<!--
+    <script>
+        async("http://cdn.bootcss.com/highlight.js/8.6/highlight.min.js", function(){
+            hljs.initHighlightingOnLoad();
+        })
+    </script>
+    <link href="http://cdn.bootcss.com/highlight.js/8.6/styles/github.min.css" rel="stylesheet">
+-->
+
+
+<!-- jquery.tagcloud.js -->
 <script>
-    async("http://cdn.bootcss.com/highlight.js/8.6/highlight.min.js",function(){
-        hljs.initHighlightingOnLoad();
+    // only load tagcloud.js in tag.html
+    if($('#tag_cloud').length !== 0){
+        async('/js/jquery.tagcloud.js',function(){
+            $.fn.tagcloud.defaults = {
+                //size: {start: 1, end: 1, unit: 'em'},
+                color: {start: '#bbbbee', end: '#0085a1'},
+            };
+            $('#tag_cloud a').tagcloud();
+        })
+    }
+</script>
+
+<!--fastClick.js -->
+<script>
+    async("//cdnjs.cloudflare.com/ajax/libs/fastclick/1.0.6/fastclick.min.js", function(){
+        var $nav = document.querySelector("nav");
+        if($nav) FastClick.attach($nav);
     })
 </script>
-<link href="http://cdn.bootcss.com/highlight.js/8.6/styles/github.min.css" rel="stylesheet">
 
+
+<!-- Google Analytics -->
+
+<script>
+    // dynamic User by Hux
+    var _gaId = 'UA-49627206-1';
+    var _gaDomain = 'vincents.cn';
+
+    // Originial
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+    ga('create', _gaId, _gaDomain);
+    ga('send', 'pageview');
+</script>
+
+
+
+<!-- Baidu Tongji -->
+
+<script>
+    // dynamic User by Hux
+    var _baId = 'df0ae995d64933728fd782f538ecf05d';
+
+    // Originial
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?" + _baId;
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+</script>
+
+
+
+
+<!-- Side Catalog -->
 
 
 
 
 
 <!-- Image to hack wechat -->
-<img src="/img/icon_wechat.png" width="0" height="0" />
+<!-- <img src="/img/icon_wechat.png" width="0" height="0" /> -->
 <!-- Migrate from head to bottom, no longer block render and still work -->
 
 </body>
