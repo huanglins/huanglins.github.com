@@ -9,6 +9,8 @@ tags:
     - 旅行
 ---
 
->如果我有多一张票，你会不会跟我走。
+>如果我有多一张票，你会不会同我走。
 
-![](http://ojc898k6f.bkt.clouddn.com/ba-shufa.jpg)
+![](/img/blossom_age/ba-shufa.jpg)
+
+

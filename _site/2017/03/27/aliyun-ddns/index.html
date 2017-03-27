@@ -1,0 +1,838 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="google-site-verification" content="xBT4GhYoi5qRD5tr338pgPM5OWHHIDR6mNg1a3euekI" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="// iOS Developer，也写Android和python。正在学习全栈。很高兴认识你。">
+    <meta name="keywords"  content="vincent，vincents，黄霖，黄金霖，darnel，个人网站，APP，微信公众号">
+    <meta name="theme-color" content="#000000">
+    
+    <title>阿里云DNS动态解析 - Vincent Blog | 永远年轻，永远热泪盈眶</title>
+
+    <!-- Web App Manifest -->
+    <link rel="manifest" href="/pwa/manifest.json">
+
+    <!-- Favicon -->
+    <link rel="shortcut icon" href="/img/favicon.ico">
+    
+    <!-- Canonical URL -->
+    <link rel="canonical" href="http://localhost:4000/2017/03/27/aliyun-ddns/">
+
+    <!-- Bootstrap Core CSS -->
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/css/hux-blog.min.css">
+
+    <!-- Pygments Github CSS -->
+    <link rel="stylesheet" href="/css/syntax.css">
+
+    <!-- Custom Fonts -->
+    <!-- <link href="http://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet" type="text/css"> -->
+    <!-- Hux change font-awesome CDN to qiniu -->
+    <link href="//cdnjs.cloudflare.com/ajax/libs/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+
+
+    <!-- Hux Delete, sad but pending in China
+    <link href='http://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic' rel='stylesheet' type='text/css'>
+    <link href='http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800' rel='stylesheet' type='text/
+    css'>
+    -->
+
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+    <!-- ga & ba script hoook -->
+    <script></script>
+</head>
+
+
+<!-- hack iOS CSS :active style -->
+<body ontouchstart="">
+
+    <!-- Navigation -->
+<nav class="navbar navbar-default navbar-custom navbar-fixed-top">
+    <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header page-scroll">
+            <button type="button" class="navbar-toggle">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="/">tnecniV</a>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <div id="huxblog_navbar">
+            <div class="navbar-collapse">
+                <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="/">Home</a>
+                    </li>
+                    
+                    <li>
+                        <a href="/about/">关于</a>
+                    </li>
+                    
+                    <li>
+                        <a href="/tags/">标签</a>
+                    </li>
+                    
+                </ul>
+            </div>
+        </div>
+        <!-- /.navbar-collapse -->
+    </div>
+    <!-- /.container -->
+</nav>
+<script>
+    // Drop Bootstarp low-performance Navbar
+    // Use customize navbar with high-quality material design animation
+    // in high-perf jank-free CSS3 implementation
+    var $body   = document.body;
+    var $toggle = document.querySelector('.navbar-toggle');
+    var $navbar = document.querySelector('#huxblog_navbar');
+    var $collapse = document.querySelector('.navbar-collapse');
+
+    var __HuxNav__ = {
+        close: function(){
+            $navbar.className = " ";
+            // wait until animation end.
+            setTimeout(function(){
+                // prevent frequently toggle
+                if($navbar.className.indexOf('in') < 0) {
+                    $collapse.style.height = "0px"
+                }
+            },400)
+        },
+        open: function(){
+            $collapse.style.height = "auto"
+            $navbar.className += " in";
+        }
+    }
+
+    // Bind Event
+    $toggle.addEventListener('click', function(e){
+        if ($navbar.className.indexOf('in') > 0) {
+            __HuxNav__.close()
+        }else{
+            __HuxNav__.open()
+        }
+    })
+
+    /**
+     * Since Fastclick is used to delegate 'touchstart' globally
+     * to hack 300ms delay in iOS by performing a fake 'click',
+     * Using 'e.stopPropagation' to stop 'touchstart' event from 
+     * $toggle/$collapse will break global delegation.
+     * 
+     * Instead, we use a 'e.target' filter to prevent handler
+     * added to document close HuxNav.  
+     *
+     * Also, we use 'click' instead of 'touchstart' as compromise
+     */
+    document.addEventListener('click', function(e){
+        if(e.target == $toggle) return;
+        if(e.target.className == 'icon-bar') return;
+        __HuxNav__.close();
+    })
+</script>
+
+
+    <!-- Image to hack wechat -->
+<!-- <img src="/img/icon_wechat.png" width="0" height="0"> -->
+<!-- <img src="/img/post-bg-8-aliyun-ddns.jpg" width="0" height="0"> -->
+
+<!-- Post Header -->
+<style type="text/css">
+    header.intro-header{
+        position: relative;
+        background-image: url('/img/post-bg-8-aliyun-ddns.jpg')
+    }
+
+    
+</style>
+<header class="intro-header" >
+    <div class="header-mask"></div>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <div class="post-heading">
+                    <div class="tags">
+                        
+                        <a class="tag" href="/tags/#python" title="python">python</a>
+                        
+                    </div>
+                    <h1>阿里云DNS动态解析</h1>
+                    
+                    
+                    <h2 class="subheading">DDNS</h2>
+                    
+                    <span class="meta">Posted by vincent on March 27, 2017</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+
+<!-- Post Content -->
+<article>
+    <div class="container">
+        <div class="row">
+
+    <!-- Post Container -->
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                post-container">
+
+				<p>想要通过域名直接访问路由器的公网IP，但是路由器的外网IP不是固定的，每次重启路由器都会改变。于是想要实现阿里云的DDNS(动态解析)。</p>
+
+<p>好在阿里云提供了 SDK 可供我们使用，这里使用python来操作。<a href="https://develop.aliyun.com/sdk/python?spm=5176.7926450.210367.2.Xov5Bp">python-sdk</a></p>
+
+<h2 id="section">准备</h2>
+
+<h4 id="python-sdk">安装 python sdk</h4>
+<p>首先需要在当前机器上安装阿里云的 python SDK</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>pip install aliyun-python-sdk-alidns
+</code></pre>
+</div>
+
+<p>因为这里只需要使用它的 dns 功能，需要其他的功能可以查看 <a href="https://help.aliyun.com/document_detail/30003.html">阿里云 python-sdk 列表</a></p>
+
+<h4 id="access-key">Access Key</h4>
+
+<p><a href="https://ak-console.aliyun.com/#/accesskey">Access Key管理</a></p>
+
+<ol>
+  <li>Access Key ID</li>
+  <li>Access Key Secret</li>
+</ol>
+
+<h4 id="section-1">添加一条域名解析</h4>
+
+<p>添加一条A记录，主机记录可以为你的二级域名，例如： <code class="highlighter-rouge">xx.vincents.cn</code>。记录值随便写 <code class="highlighter-rouge">8.8.8.8</code>，因为后面会根据实际的IP进行动态更改。</p>
+
+<h2 id="python-sdk-1">使用阿里云的 python SDK</h2>
+
+<p>通过脚本更新DNS记录需要几个关键的信息，</p>
+
+<ol>
+  <li>一级域名（你的域名）</li>
+  <li>主机记录（你的二级域名）</li>
+  <li>记录值 （你的机器的IP地址）</li>
+  <li>记录ID （这条解析记录的ID）</li>
+  <li>记录TTL （这条解析记录的生存时间）</li>
+</ol>
+
+<h4 id="ip">获取当前机器的IP</h4>
+
+<p>可以通过访问 <a href="ip.cn">ip.cn</a>这个网站，获取本机的IP。
+在终端中输入</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>curl -s ip.cn
+</code></pre>
+</div>
+
+<p>结果为：</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>Vincents-iMac:~ vincent$ curl -s ip.cn
+当前 IP：xx.xx.xxx.xxx 来自：重庆市 联通
+</code></pre>
+</div>
+
+<p>python code:</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>"""
+通过 ip.cn 获取当前主机的外网IP
+"""
+def get_my_publick_ip():
+    get_ip_method = os.popen('curl -s ip.cn')
+    get_ip_responses = get_ip_method.readlines()[0]
+    get_ip_pattern = re.compile(r'\d+\.\d+\.\d+\.\d+')
+    get_ip_value = get_ip_pattern.findall(get_ip_responses)
+    return get_ip_value
+</code></pre>
+</div>
+
+<h4 id="id">获取解析记录ID</h4>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>"""
+获取域名的解析信息
+"""
+def check_records(dns_domain):
+    clt = client.AcsClient(access_key_id, access_key_secret, 'cn-hangzhou')
+    request = DescribeDomainRecordsRequest.DescribeDomainRecordsRequest()
+    request.set_DomainName(dns_domain)
+    request.set_accept_format(rc_format)
+    result = clt.do_action(request)
+    result = json.JSONDecoder().decode(result)
+    return result
+</code></pre>
+</div>
+
+<h4 id="id-1">根据解析记录ID查询上一次的记录值</h4>
+<div class="highlighter-rouge"><pre class="highlight"><code>"""
+根据域名解析记录ID查询上一次的IP记录
+"""
+def get_old_ip(record_id):
+    clt = client.AcsClient(access_key_id,access_key_secret,'cn-hangzhou')
+    request = DescribeDomainRecordInfoRequest.DescribeDomainRecordInfoRequest()
+    request.set_RecordId(record_id)
+    request.set_accept_format(rc_format)
+    result = clt.do_action(request)
+    result = json.JSONDecoder().decode(result)
+    result = result['Value']
+    return result
+</code></pre>
+</div>
+
+<h4 id="section-2">更新解析记录</h4>
+<div class="highlighter-rouge"><pre class="highlight"><code>"""
+更新阿里云域名解析记录信息
+"""
+def update_dns(dns_rr, dns_type, dns_value, dns_record_id, dns_ttl, dns_format):
+    clt = client.AcsClient(access_key_id, access_key_secret, 'cn-hangzhou')
+    request = UpdateDomainRecordRequest.UpdateDomainRecordRequest()
+    request.set_RR(dns_rr)
+    request.set_Type(dns_type)
+    request.set_Value(dns_value)
+    request.set_RecordId(dns_record_id)
+    request.set_TTL(dns_ttl)
+    request.set_accept_format(dns_format)
+    result = clt.do_action(request)
+    return result
+</code></pre>
+</div>
+
+<h2 id="section-3">完整脚本</h2>
+<div class="highlighter-rouge"><pre class="highlight"><code><span class="c">#!/usr/bin/env python</span>
+<span class="c"># -*- coding: utf-8 -*-</span>
+
+<span class="kn">import</span> <span class="nn">json</span>
+<span class="kn">import</span> <span class="nn">os</span>
+<span class="kn">import</span> <span class="nn">re</span>
+<span class="kn">from</span> <span class="nn">datetime</span> <span class="kn">import</span> <span class="n">datetime</span>
+
+<span class="kn">from</span> <span class="nn">aliyunsdkcore</span> <span class="kn">import</span> <span class="n">client</span>
+<span class="kn">from</span> <span class="nn">aliyunsdkalidns.request.v20150109</span> <span class="kn">import</span> <span class="n">DescribeDomainRecordsRequest</span>
+<span class="kn">from</span> <span class="nn">aliyunsdkalidns.request.v20150109</span> <span class="kn">import</span> <span class="n">DescribeDomainRecordInfoRequest</span>
+<span class="kn">from</span> <span class="nn">aliyunsdkalidns.request.v20150109</span> <span class="kn">import</span> <span class="n">UpdateDomainRecordRequest</span>
+
+<span class="c"># 阿里云 Access Key ID</span>
+<span class="n">access_key_id</span> <span class="o">=</span> <span class="s">"xxxxx"</span>
+<span class="c"># 阿里云 Access Key Secret</span>
+<span class="n">access_key_secret</span> <span class="o">=</span> <span class="s">"xxxxxxxx"</span>
+<span class="c"># 阿里云 一级域名</span>
+<span class="n">rc_domain</span> <span class="o">=</span> <span class="s">'xxx.cn'</span>
+<span class="c"># 返回内容格式</span>
+<span class="n">rc_format</span> <span class="o">=</span> <span class="s">'json'</span>
+
+<span class="s">"""
+获取域名的解析信息
+"""</span>
+<span class="k">def</span> <span class="nf">check_records</span><span class="p">(</span><span class="n">dns_domain</span><span class="p">):</span>
+    <span class="n">clt</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">AcsClient</span><span class="p">(</span><span class="n">access_key_id</span><span class="p">,</span> <span class="n">access_key_secret</span><span class="p">,</span> <span class="s">'cn-hangzhou'</span><span class="p">)</span>
+    <span class="n">request</span> <span class="o">=</span> <span class="n">DescribeDomainRecordsRequest</span><span class="o">.</span><span class="n">DescribeDomainRecordsRequest</span><span class="p">()</span>
+    <span class="n">request</span><span class="o">.</span><span class="n">set_DomainName</span><span class="p">(</span><span class="n">dns_domain</span><span class="p">)</span>
+    <span class="n">request</span><span class="o">.</span><span class="n">set_accept_format</span><span class="p">(</span><span class="n">rc_format</span><span class="p">)</span>
+    <span class="n">result</span> <span class="o">=</span> <span class="n">clt</span><span class="o">.</span><span class="n">do_action</span><span class="p">(</span><span class="n">request</span><span class="p">)</span>
+    <span class="n">result</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">JSONDecoder</span><span class="p">()</span><span class="o">.</span><span class="n">decode</span><span class="p">(</span><span class="n">result</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">result</span>
+
+<span class="s">"""
+根据域名解析记录ID查询上一次的IP记录
+"""</span>
+<span class="k">def</span> <span class="nf">get_old_ip</span><span class="p">(</span><span class="n">record_id</span><span class="p">):</span>
+    <span class="n">clt</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">AcsClient</span><span class="p">(</span><span class="n">access_key_id</span><span class="p">,</span><span class="n">access_key_secret</span><span class="p">,</span><span class="s">'cn-hangzhou'</span><span class="p">)</span>
+    <span class="n">request</span> <span class="o">=</span> <span class="n">DescribeDomainRecordInfoRequest</span><span class="o">.</span><span class="n">DescribeDomainRecordInfoRequest</span><span class="p">()</span>
+    <span class="n">request</span><span class="o">.</span><span class="n">set_RecordId</span><span class="p">(</span><span class="n">record_id</span><span class="p">)</span>
+    <span class="n">request</span><span class="o">.</span><span class="n">set_accept_format</span><span class="p">(</span><span class="n">rc_format</span><span class="p">)</span>
+    <span class="n">result</span> <span class="o">=</span> <span class="n">clt</span><span class="o">.</span><span class="n">do_action</span><span class="p">(</span><span class="n">request</span><span class="p">)</span>
+    <span class="n">result</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">JSONDecoder</span><span class="p">()</span><span class="o">.</span><span class="n">decode</span><span class="p">(</span><span class="n">result</span><span class="p">)</span>
+    <span class="n">result</span> <span class="o">=</span> <span class="n">result</span><span class="p">[</span><span class="s">'Value'</span><span class="p">]</span>
+    <span class="k">return</span> <span class="n">result</span>
+
+<span class="s">"""
+更新阿里云域名解析记录信息
+"""</span>
+<span class="k">def</span> <span class="nf">update_dns</span><span class="p">(</span><span class="n">dns_rr</span><span class="p">,</span> <span class="n">dns_type</span><span class="p">,</span> <span class="n">dns_value</span><span class="p">,</span> <span class="n">dns_record_id</span><span class="p">,</span> <span class="n">dns_ttl</span><span class="p">,</span> <span class="n">dns_format</span><span class="p">):</span>
+    <span class="n">clt</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">AcsClient</span><span class="p">(</span><span class="n">access_key_id</span><span class="p">,</span> <span class="n">access_key_secret</span><span class="p">,</span> <span class="s">'cn-hangzhou'</span><span class="p">)</span>
+    <span class="n">request</span> <span class="o">=</span> <span class="n">UpdateDomainRecordRequest</span><span class="o">.</span><span class="n">UpdateDomainRecordRequest</span><span class="p">()</span>
+    <span class="n">request</span><span class="o">.</span><span class="n">set_RR</span><span class="p">(</span><span class="n">dns_rr</span><span class="p">)</span>
+    <span class="n">request</span><span class="o">.</span><span class="n">set_Type</span><span class="p">(</span><span class="n">dns_type</span><span class="p">)</span>
+    <span class="n">request</span><span class="o">.</span><span class="n">set_Value</span><span class="p">(</span><span class="n">dns_value</span><span class="p">)</span>
+    <span class="n">request</span><span class="o">.</span><span class="n">set_RecordId</span><span class="p">(</span><span class="n">dns_record_id</span><span class="p">)</span>
+    <span class="n">request</span><span class="o">.</span><span class="n">set_TTL</span><span class="p">(</span><span class="n">dns_ttl</span><span class="p">)</span>
+    <span class="n">request</span><span class="o">.</span><span class="n">set_accept_format</span><span class="p">(</span><span class="n">dns_format</span><span class="p">)</span>
+    <span class="n">result</span> <span class="o">=</span> <span class="n">clt</span><span class="o">.</span><span class="n">do_action</span><span class="p">(</span><span class="n">request</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">result</span>
+
+<span class="s">"""
+通过 ip.cn 获取当前主机的外网IP
+"""</span>
+<span class="k">def</span> <span class="nf">get_my_publick_ip</span><span class="p">():</span>
+    <span class="n">get_ip_method</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">popen</span><span class="p">(</span><span class="s">'curl -s ip.cn'</span><span class="p">)</span>
+    <span class="n">get_ip_responses</span> <span class="o">=</span> <span class="n">get_ip_method</span><span class="o">.</span><span class="n">readlines</span><span class="p">()[</span><span class="mi">0</span><span class="p">]</span>
+    <span class="n">get_ip_pattern</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="nb">compile</span><span class="p">(</span><span class="s">r'</span><span class="err">\</span><span class="s">d+</span><span class="err">\</span><span class="s">.</span><span class="err">\</span><span class="s">d+</span><span class="err">\</span><span class="s">.</span><span class="err">\</span><span class="s">d+</span><span class="err">\</span><span class="s">.</span><span class="err">\</span><span class="s">d+'</span><span class="p">)</span>
+    <span class="n">get_ip_value</span> <span class="o">=</span> <span class="n">get_ip_pattern</span><span class="o">.</span><span class="n">findall</span><span class="p">(</span><span class="n">get_ip_responses</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">get_ip_value</span>
+
+<span class="k">def</span> <span class="nf">write_to_file</span><span class="p">(</span><span class="n">new_ip</span><span class="p">):</span>
+    <span class="n">time_now</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">now</span><span class="p">()</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="s">'</span><span class="si">%</span><span class="s">Y-</span><span class="si">%</span><span class="s">m-</span><span class="si">%</span><span class="s">d </span><span class="si">%</span><span class="s">H:</span><span class="si">%</span><span class="s">M:</span><span class="si">%</span><span class="s">S'</span><span class="p">)</span>
+    <span class="n">write_log</span> <span class="o">=</span> <span class="nb">open</span><span class="p">(</span><span class="s">'aliyun_ddns.txt'</span><span class="p">,</span> <span class="s">'a'</span><span class="p">)</span>
+    <span class="n">write_log</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">time_now</span> <span class="o">+</span> <span class="s">' '</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">new_ip</span><span class="p">)</span> <span class="o">+</span> <span class="s">'</span><span class="se">\n</span><span class="s">'</span><span class="p">)</span>
+    <span class="k">return</span>
+
+<span class="k">if</span> <span class="n">__name__</span> <span class="o">==</span> <span class="s">'__main__'</span><span class="p">:</span>
+    <span class="c"># # 之前的解析记录</span>
+    <span class="n">old_ip</span> <span class="o">=</span> <span class="s">""</span>
+    <span class="n">record_id</span> <span class="o">=</span> <span class="s">""</span>
+    <span class="n">dns_records</span> <span class="o">=</span> <span class="n">check_records</span><span class="p">(</span><span class="n">rc_domain</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">record</span> <span class="ow">in</span> <span class="n">dns_records</span><span class="p">[</span><span class="s">"DomainRecords"</span><span class="p">][</span><span class="s">"Record"</span><span class="p">]:</span>
+        <span class="k">if</span> <span class="n">record</span><span class="p">[</span><span class="s">"Type"</span><span class="p">]</span> <span class="o">==</span> <span class="s">'A'</span> <span class="ow">and</span> <span class="n">record</span><span class="p">[</span><span class="s">"RR"</span><span class="p">]</span> <span class="o">==</span> <span class="s">'q'</span><span class="p">:</span>
+            <span class="n">record_id</span> <span class="o">=</span> <span class="n">record</span><span class="p">[</span><span class="s">"RecordId"</span><span class="p">]</span>
+            <span class="k">print</span> <span class="s">"q.vincents.cn recordID is </span><span class="si">%</span><span class="s">s"</span> <span class="o">%</span> <span class="p">(</span><span class="n">record_id</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">record_id</span> <span class="o">!=</span> <span class="s">""</span><span class="p">:</span>
+                <span class="n">old_ip</span> <span class="o">=</span> <span class="n">get_old_ip</span><span class="p">(</span><span class="n">record_id</span><span class="p">)</span>
+               
+    <span class="n">old_ip</span> <span class="o">=</span> <span class="n">get_old_ip</span><span class="p">(</span><span class="n">record_id</span><span class="p">)</span>
+    <span class="c"># 获取主机当前的IP</span>
+    <span class="n">now_ip</span> <span class="o">=</span> <span class="n">get_my_publick_ip</span><span class="p">()[</span><span class="mi">0</span><span class="p">]</span>
+    <span class="k">print</span> <span class="s">"now host ip is </span><span class="si">%</span><span class="s">s, dns ip is </span><span class="si">%</span><span class="s">s"</span> <span class="o">%</span> <span class="p">(</span><span class="n">now_ip</span><span class="p">,</span> <span class="n">old_ip</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">old_ip</span> <span class="o">==</span> <span class="n">now_ip</span><span class="p">:</span>
+        <span class="k">print</span> <span class="s">"The specified value of parameter Value is the same as old"</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">rc_rr</span> <span class="o">=</span> <span class="s">'q'</span>                 <span class="c"># 解析记录</span>
+        <span class="n">rc_type</span> <span class="o">=</span> <span class="s">'a'</span>               <span class="c"># 记录类型, DDNS填写A记录</span>
+        <span class="n">rc_value</span> <span class="o">=</span> <span class="n">now_ip</span>           <span class="c"># 新的解析记录值</span>
+        <span class="n">rc_record_id</span> <span class="o">=</span> <span class="n">record_id</span>    <span class="c"># 记录ID</span>
+        <span class="n">rc_ttl</span> <span class="o">=</span> <span class="s">'1000'</span>             <span class="c"># 解析记录有效生存时间TTL,单位:秒</span>
+
+        <span class="k">print</span> <span class="n">update_dns</span><span class="p">(</span><span class="n">rc_rr</span><span class="p">,</span> <span class="n">rc_type</span><span class="p">,</span> <span class="n">rc_value</span><span class="p">,</span> <span class="n">rc_record_id</span><span class="p">,</span> <span class="n">rc_ttl</span><span class="p">,</span> <span class="n">rc_format</span><span class="p">)</span>
+
+        <span class="n">write_to_file</span><span class="p">(</span><span class="n">now_ip</span><span class="p">)</span>
+
+</code></pre>
+</div>
+
+<h2 id="crontab-">crontab 定时运行</h2>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>crontab -e
+</code></pre>
+</div>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>*/10 * * * * /usr/bin/python aliyun_ddns.py /dev/null 1&gt;/dev/null
+</code></pre>
+</div>
+
+<p>其中脚本存放路径替换为自己的实际路径</p>
+
+<h2 id="section-4">参考学习</h2>
+<ol>
+  <li><a href="https://enginx.cn/2016/08/22/%E9%80%9A%E8%BF%87python%E5%B0%86%E9%98%BF%E9%87%8C%E4%BA%91dns%E8%A7%A3%E6%9E%90%E4%BD%9C%E4%B8%BAddns%E4%BD%BF%E7%94%A8.html">通过python将阿里云DNS解析作为DDNS使用</a></li>
+  <li><a href="https://www.v2ex.com/t/249694">通过阿里云域名动态解析 IP 地址</a></li>
+</ol>
+
+
+
+                <hr>
+
+                
+
+
+                <ul class="pager">
+                    
+                    <li class="previous">
+                        <a href="/2017/03/14/ios-lock/" data-toggle="tooltip" data-placement="top" title="iOS 多线程和线程锁">
+                        Previous<br>
+                        <span>iOS 多线程和线程锁</span>
+                        </a>
+                    </li>
+                    
+                    
+                </ul>
+
+
+                
+
+                
+
+            </div>  
+
+    <!-- Side Catalog Container -->
+        
+            <div class="
+                col-lg-2 col-lg-offset-0
+                visible-lg-block
+                sidebar-container
+                catalog-container">
+                <div class="side-catalog">
+                    <hr class="hidden-sm hidden-xs">
+                    <h5>
+                        <a class="catalog-toggle" href="#">CATALOG</a>
+                    </h5>
+                    <ul class="catalog-body"></ul>
+                </div>
+            </div>
+        
+
+    <!-- Sidebar Container -->
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                sidebar-container">
+
+                <!-- Featured Tags -->
+                
+                <section>
+                    <hr class="hidden-sm hidden-xs">
+                    <h5><a href="/tags/">FEATURED TAGS</a></h5>
+                    <div class="tags">
+        				
+                            
+                				<a href="/tags/#把酒慰风尘" title="把酒慰风尘" rel="2">
+                                    把酒慰风尘
+                                </a>
+                            
+        				
+                            
+                				<a href="/tags/#旅行" title="旅行" rel="2">
+                                    旅行
+                                </a>
+                            
+        				
+                            
+                				<a href="/tags/#iOS" title="iOS" rel="2">
+                                    iOS
+                                </a>
+                            
+        				
+                            
+        				
+                            
+                				<a href="/tags/#python" title="python" rel="2">
+                                    python
+                                </a>
+                            
+        				
+                            
+        				
+        			</div>
+                </section>
+                
+
+                <!-- Friends Blog -->
+                
+                <hr>
+                <h5>FRIENDS</h5>
+                <ul class="list-inline">
+                    
+                        <li><a href="https://shop130631028.taobao.com/">在回忆中 - 卖点小东西</a></li>
+                    
+                        <li><a href="https://unsplash.com">unsplash - 好看的图片</a></li>
+                    
+                </ul>
+                
+            </div>
+        </div>
+    </div>
+</article>
+
+
+
+
+
+
+
+
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+<!-- anchor-js, Doc:http://bryanbraun.github.io/anchorjs/ -->
+<script>
+    async("//cdnjs.cloudflare.com/ajax/libs/anchor-js/1.1.1/anchor.min.js",function(){
+        anchors.options = {
+          visible: 'always',
+          placement: 'right',
+          icon: '#'
+        };
+        anchors.add().remove('.intro-header h1').remove('.subheading').remove('.sidebar-container h5');
+    })
+</script>
+<style>
+    /* place left on bigger screen */
+    @media all and (min-width: 800px) {
+        .anchorjs-link{
+            position: absolute;
+            left: -0.75em;
+            font-size: 1.1em;
+            margin-top : -0.1em;
+        }
+    }
+</style>
+
+
+    <!-- Footer -->
+<footer>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <ul class="list-inline text-center">
+                    
+                    
+                    <li>
+                        <a href="https://twitter.com/vincent_darnel">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-twitter fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                    
+
+                    <!-- add Weibo, Zhihu by Hux, add target = "_blank" to <a> by Hux -->
+                    
+                    <li>
+                        <a target="_blank" href="https://www.zhihu.com/people/huang-lin-70-49">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa  fa-stack-1x fa-inverse">知</i>
+                            </span>
+                        </a>
+                    </li>
+                    
+                    
+                    <li>
+                        <a target="_blank" href="http://weibo.com/linxiaomu1995">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-weibo fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                    
+
+
+                    
+                    
+                    <li>
+                        <a target="_blank" href="https://github.com/huanglins">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-github fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                    
+                    
+                </ul>
+                <p class="copyright text-muted">
+                    渝ICP备17003502号 | Copyright &copy; tnecniV 2017
+                    <br>
+                    Theme by <a target="_blank" href="http://huangxuan.me">Hux</a> |
+                    <iframe
+                        style="margin-left: 2px; margin-bottom:-5px;"
+                        frameborder="0" scrolling="0" width="100px" height="20px"
+                        src="https://ghbtns.com/github-btn.html?user=huxpro&repo=huxpro.github.io&type=star&count=true" >
+                    </iframe>
+                </p>
+            </div>
+        </div>
+    </div>
+</footer>
+
+<!-- jQuery -->
+<script src="/js/jquery.min.js "></script>
+
+<!-- Bootstrap Core JavaScript -->
+<script src="/js/bootstrap.min.js "></script>
+
+<!-- Custom Theme JavaScript -->
+<script src="/js/hux-blog.min.js "></script>
+
+<!-- Service Worker -->
+
+<script type="text/javascript">
+    if(navigator.serviceWorker){
+        // For security reasons, a service worker can only control the pages that are in the same directory level or below it. That's why we put sw.js at ROOT level.
+        navigator.serviceWorker
+            .register('/sw.js')
+            .then((registration) => {console.log('Service Worker Registered. ', registration)})
+            .catch((error) => {console.log('ServiceWorker registration failed: ', error)})
+    }
+</script>
+
+
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+
+<!-- 
+     Because of the native support for backtick-style fenced code blocks 
+     right within the Markdown is landed in Github Pages, 
+     From V1.6, There is no need for Highlight.js, 
+     so Huxblog drops it officially.
+
+     - https://github.com/blog/2100-github-pages-now-faster-and-simpler-with-jekyll-3-0  
+     - https://help.github.com/articles/creating-and-highlighting-code-blocks/ 
+     - https://github.com/jneen/rouge/wiki/list-of-supported-languages-and-lexers   
+-->
+<!--
+    <script>
+        async("http://cdn.bootcss.com/highlight.js/8.6/highlight.min.js", function(){
+            hljs.initHighlightingOnLoad();
+        })
+    </script>
+    <link href="http://cdn.bootcss.com/highlight.js/8.6/styles/github.min.css" rel="stylesheet">
+-->
+
+
+<!-- jquery.tagcloud.js -->
+<script>
+    // only load tagcloud.js in tag.html
+    if($('#tag_cloud').length !== 0){
+        async('/js/jquery.tagcloud.js',function(){
+            $.fn.tagcloud.defaults = {
+                //size: {start: 1, end: 1, unit: 'em'},
+                color: {start: '#bbbbee', end: '#0085a1'},
+            };
+            $('#tag_cloud a').tagcloud();
+        })
+    }
+</script>
+
+<!--fastClick.js -->
+<script>
+    async("//cdnjs.cloudflare.com/ajax/libs/fastclick/1.0.6/fastclick.min.js", function(){
+        var $nav = document.querySelector("nav");
+        if($nav) FastClick.attach($nav);
+    })
+</script>
+
+
+<!-- Google Analytics -->
+
+<script>
+    // dynamic User by Hux
+    var _gaId = 'UA-49627206-1';
+    var _gaDomain = 'vincents.cn';
+
+    // Originial
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+    ga('create', _gaId, _gaDomain);
+    ga('send', 'pageview');
+</script>
+
+
+
+<!-- Baidu Tongji -->
+
+<script>
+    // dynamic User by Hux
+    var _baId = 'df0ae995d64933728fd782f538ecf05d';
+
+    // Originial
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?" + _baId;
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+</script>
+
+
+
+
+<!-- Side Catalog -->
+
+<script type="text/javascript">
+    function generateCatalog (selector) {
+        var P = $('div.post-container'),a,n,t,l,i,c;
+        a = P.find('h1,h2,h3,h4,h5,h6');
+        a.each(function () {
+            n = $(this).prop('tagName').toLowerCase();
+            i = "#"+$(this).prop('id');
+            t = $(this).text();
+            c = $('<a href="'+i+'" rel="nofollow">'+t+'</a>');
+            l = $('<li class="'+n+'_nav"></li>').append(c);
+            $(selector).append(l);
+        });
+        return true;    
+    }
+
+    generateCatalog(".catalog-body");
+
+    // toggle side catalog
+    $(".catalog-toggle").click((function(e){
+        e.preventDefault();
+        $('.side-catalog').toggleClass("fold")
+    }))
+
+    /*
+     * Doc: https://github.com/davist11/jQuery-One-Page-Nav
+     * Fork by Hux to support padding
+     */
+    async("/js/jquery.nav.js", function () {
+        $('.catalog-body').onePageNav({
+            currentClass: "active",
+            changeHash: !1,
+            easing: "swing",
+            filter: "",
+            scrollSpeed: 700,
+            scrollOffset: 0,
+            scrollThreshold: .2,
+            begin: null,
+            end: null,
+            scrollChange: null,
+            padding: 80
+        });
+    });
+</script>
+
+
+
+
+
+<!-- Image to hack wechat -->
+<!-- <img src="/img/icon_wechat.png" width="0" height="0" /> -->
+<!-- Migrate from head to bottom, no longer block render and still work -->
+
+</body>
+
+</html>
