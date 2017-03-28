@@ -5,9 +5,95 @@
     <description>// iOS Developer，也写Android和python。正在学习全栈。很高兴认识你。</description>
     <link>http://localhost:4000/</link>
     <atom:link href="http://localhost:4000/feed.xml" rel="self" type="application/rss+xml" />
-    <pubDate>Mon, 27 Mar 2017 17:00:05 +0800</pubDate>
-    <lastBuildDate>Mon, 27 Mar 2017 17:00:05 +0800</lastBuildDate>
+    <pubDate>Tue, 28 Mar 2017 17:33:25 +0800</pubDate>
+    <lastBuildDate>Tue, 28 Mar 2017 17:33:25 +0800</lastBuildDate>
     <generator>Jekyll v3.3.1</generator>
+    
+      <item>
+        <title>webbench - Web服务器压力测试工具</title>
+        <description>&lt;blockquote&gt;
+  &lt;p&gt;Webbench是有名的网站压力测试工具，它是由 Lionbridge公司开发。&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;因为之前公司网站的服务器各种拒绝连接，于是想测试一下网站的QPS(每秒查询率)，于是找到这个工具。但是结果果然超乎想象，2333…&lt;/p&gt;
+
+&lt;h2 id=&quot;webbench&quot;&gt;Webbench&lt;/h2&gt;
+
+&lt;p&gt;webbench是有名的网站压力测试工具，最多可以模拟3万个并发连接去测试网站的负载能力。
+webbench能测试处在相同硬件上，不同服务的性能以及不同硬件上同一个服务的运行状况。
+webbench的标准测试可以向我们展示服务器的两项内容：每秒钟相应请求数和每秒钟传输数据量。&lt;/p&gt;
+
+&lt;h2 id=&quot;mac&quot;&gt;MAC安装&lt;/h2&gt;
+
+&lt;p&gt;在Mac环境下，通过&lt;code class=&quot;highlighter-rouge&quot;&gt;brew&lt;/code&gt;进行安装&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;brew install ctags # 依赖安装
+
+wget http://blog.zyan.cc/soft/linux/webbench/webbench-1.5.tar.gz
+
+tar -zxvf webbench-1.5.tar.gz
+
+cd webbench-1.5
+
+mkdir -pv /usr/local/man/man1 # 关键
+
+sodu make &amp;amp;&amp;amp; sudo make install # sudo 权限因为需要创建文件夹
+
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;h2 id=&quot;section&quot;&gt;使用&lt;/h2&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;webbench -c 100 -t 30 [URL]
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;参数说明：&lt;code class=&quot;highlighter-rouge&quot;&gt;-c&lt;/code&gt;表示并发数，&lt;code class=&quot;highlighter-rouge&quot;&gt;-t&lt;/code&gt;表示时间(秒)&lt;/p&gt;
+
+&lt;h4 id=&quot;section-1&quot;&gt;参数列表&lt;/h4&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;
+webbench [option]... URL
+
+  -f|--force               压测时不等待服务端返回
+  -r|--reload              Send reload request - Pragma: no-cache.
+  -t|--time &amp;lt;sec&amp;gt;          压测时间/s, 默认30/s
+  -p|--proxy &amp;lt;server:port&amp;gt; 使用代理来进行请求
+  -c|--clients &amp;lt;n&amp;gt;         并发数量默认1个
+  -9|--http09              使用HTTP/0.9 协议请求
+  -1|--http10              使用HTTP/1.0 协议请求
+  -2|--http11              使用HTTP/1.1 协议请求
+  --get                    使用GET方式请求
+  --head                   使用 HEAD 方式请求
+  --options                Use OPTIONS request method.
+  --trace                  Use TRACE request method.
+  -?|-h|--help             This information.
+  -V|--version             显示当前版本
+
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;h2 id=&quot;section-2&quot;&gt;使用结果&lt;/h2&gt;
+
+&lt;p&gt;&lt;img src=&quot;/img/webbench/result.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;貌似只有 0 failed 访问才不会有太大影响。其他或多或少都会有影响。 神经病的马赛克。~&lt;/p&gt;
+
+&lt;h2 id=&quot;end&quot;&gt;END&lt;/h2&gt;
+
+&lt;p&gt;性能测试工具目前最常见的有以下几种：&lt;code class=&quot;highlighter-rouge&quot;&gt;ab&lt;/code&gt;、&lt;code class=&quot;highlighter-rouge&quot;&gt;http_load&lt;/code&gt;、&lt;code class=&quot;highlighter-rouge&quot;&gt;siege&lt;/code&gt;，后面有用到再来试试。&lt;/p&gt;
+
+&lt;p&gt;&lt;a href=&quot;http://www.open-open.com/news/view/d6dff4&quot;&gt;Webbench 一款 Linux 下的压力测试工具 for Mac&lt;/a&gt;&lt;/p&gt;
+
+</description>
+        <pubDate>Tue, 28 Mar 2017 00:00:00 +0800</pubDate>
+        <link>http://localhost:4000/2017/03/28/webbench/</link>
+        <guid isPermaLink="true">http://localhost:4000/2017/03/28/webbench/</guid>
+        
+        <category>web服务器</category>
+        
+        
+      </item>
     
       <item>
         <title>阿里云DNS动态解析</title>
