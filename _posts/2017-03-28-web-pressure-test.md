@@ -74,7 +74,7 @@ webbench [option]... URL
 
 #### 使用结果
 
-![](/img/webbench/result.png)
+![](/img/webbench/webbench-result.png)
 
 貌似只有 0 failed 访问才不会有太大影响。其他或多或少都会有影响。 神经病的马赛克。~
 
@@ -149,13 +149,13 @@ siege -c 100 -r 20 -f urls.txt -i
 siege -c 2000 -r 100 -f urls.txt -i -b  
 ```
 
-指定 http 请求头请求
+**>>** 指定 http 请求头请求
 
 ```
 siege -H "Content-Type:application/json" -c 100 -r 20 -f urls.txt -i -b  
 ```
 
-POST 请求
+**>>** POST 请求
 
 ```
 siege -c 100 -r 20 http://www.baidu.com/ POST p1=v1&p2=v2  
@@ -163,7 +163,7 @@ siege -c 100 -r 20 http://www.baidu.com/ POST p1=v1&p2=v2
 
 #### Siege 输出结果说明
 
-![](/img/web-test-tool/siege.png)
+![](/img/web-test-tool/siege-result.png)
 
 
 ------- | -------

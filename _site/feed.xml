@@ -5,8 +5,8 @@
     <description>// iOS Developer，也写Android和python。正在学习全栈。很高兴认识你。</description>
     <link>http://localhost:4000/</link>
     <atom:link href="http://localhost:4000/feed.xml" rel="self" type="application/rss+xml" />
-    <pubDate>Fri, 31 Mar 2017 10:42:07 +0800</pubDate>
-    <lastBuildDate>Fri, 31 Mar 2017 10:42:07 +0800</lastBuildDate>
+    <pubDate>Fri, 31 Mar 2017 11:01:19 +0800</pubDate>
+    <lastBuildDate>Fri, 31 Mar 2017 11:01:19 +0800</lastBuildDate>
     <generator>Jekyll v3.3.1</generator>
     
       <item>
@@ -77,7 +77,7 @@ webbench [option]... URL
 
 &lt;h4 id=&quot;section-2&quot;&gt;使用结果&lt;/h4&gt;
 
-&lt;p&gt;&lt;img src=&quot;/img/webbench/result.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;/img/webbench/webbench-result.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
 
 &lt;p&gt;貌似只有 0 failed 访问才不会有太大影响。其他或多或少都会有影响。 神经病的马赛克。~&lt;/p&gt;
 
@@ -154,13 +154,13 @@ webbench [option]... URL
 &lt;/code&gt;&lt;/pre&gt;
 &lt;/div&gt;
 
-&lt;p&gt;指定 http 请求头请求&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;»&lt;/strong&gt; 指定 http 请求头请求&lt;/p&gt;
 
 &lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;siege -H &quot;Content-Type:application/json&quot; -c 100 -r 20 -f urls.txt -i -b  
 &lt;/code&gt;&lt;/pre&gt;
 &lt;/div&gt;
 
-&lt;p&gt;POST 请求&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;»&lt;/strong&gt; POST 请求&lt;/p&gt;
 
 &lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;siege -c 100 -r 20 http://www.baidu.com/ POST p1=v1&amp;amp;p2=v2  
 &lt;/code&gt;&lt;/pre&gt;
@@ -168,7 +168,7 @@ webbench [option]... URL
 
 &lt;h4 id=&quot;siege-&quot;&gt;Siege 输出结果说明&lt;/h4&gt;
 
-&lt;p&gt;&lt;img src=&quot;/img/web-test-tool/siege.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;/img/web-test-tool/siege-result.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
 
 &lt;table&gt;
   &lt;tbody&gt;
