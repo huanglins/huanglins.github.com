@@ -10,7 +10,7 @@
     <meta name="keywords"  content="vincent，vincents，黄霖，黄金霖，darnel，个人网站，APP，微信公众号">
     <meta name="theme-color" content="#000000">
     
-    <title>webbench - Web服务器压力测试工具 - Vincent Blog | 永远年轻，永远热泪盈眶</title>
+    <title>Web服务器压力测试工具 - webbench,Siege - Vincent Blog | 永远年轻，永远热泪盈眶</title>
 
     <!-- Web App Manifest -->
     <link rel="manifest" href="/pwa/manifest.json">
@@ -19,7 +19,7 @@
     <link rel="shortcut icon" href="/img/favicon.ico">
     
     <!-- Canonical URL -->
-    <link rel="canonical" href="http://localhost:4000/2017/03/28/webbench/">
+    <link rel="canonical" href="http://localhost:4000/2017/03/28/web-pressure-test/">
 
     <!-- Bootstrap Core CSS -->
     <link rel="stylesheet" href="/css/bootstrap.min.css">
@@ -173,10 +173,10 @@
                         <a class="tag" href="/tags/#web服务器" title="web服务器">web服务器</a>
                         
                     </div>
-                    <h1>webbench - Web服务器压力测试工具</h1>
+                    <h1>Web服务器压力测试工具 - webbench,Siege</h1>
                     
                     
-                    <h2 class="subheading">webbench</h2>
+                    <h2 class="subheading">webbench,Siege</h2>
                     
                     <span class="meta">Posted by vincent on March 28, 2017</span>
                 </div>
@@ -200,15 +200,17 @@
   <p>Webbench是有名的网站压力测试工具，它是由 Lionbridge公司开发。</p>
 </blockquote>
 
-<p>因为之前公司网站的服务器各种拒绝连接，于是想测试一下网站的QPS(每秒查询率)，于是找到这个工具。但是结果果然超乎想象，2333…</p>
+<p>因为之前公司网站的服务器各种拒绝连接，想要测试一下网站的QPS(每秒查询率)，看下大概能到多少并发，于是找到这个工具。但是结果果然超乎想象，2333…</p>
 
 <h2 id="webbench">Webbench</h2>
 
-<p>webbench是有名的网站压力测试工具，最多可以模拟3万个并发连接去测试网站的负载能力。
-webbench能测试处在相同硬件上，不同服务的性能以及不同硬件上同一个服务的运行状况。
-webbench的标准测试可以向我们展示服务器的两项内容：每秒钟相应请求数和每秒钟传输数据量。</p>
+<p>webbench是有名的网站压力测试工具，最多可以模拟3万个并发连接去测试网站的负载能力。</p>
 
-<h2 id="mac">MAC安装</h2>
+<p>webbench能测试处在相同硬件上，不同服务的性能以及不同硬件上同一个服务的运行状况。</p>
+
+<p>webbench的标准测试可以向我们展示服务器的两项内容：每秒钟相应请求数和每秒钟传输数据量。</p>
+
+<h4 id="mac">MAC安装</h4>
 
 <p>在Mac环境下，通过<code class="highlighter-rouge">brew</code>进行安装</p>
 
@@ -227,7 +229,7 @@ sodu make &amp;&amp; sudo make install # sudo 权限因为需要创建文件夹
 </code></pre>
 </div>
 
-<h2 id="section">使用</h2>
+<h6 id="section">使用</h6>
 
 <div class="highlighter-rouge"><pre class="highlight"><code>webbench -c 100 -t 30 [URL]
 </code></pre>
@@ -235,7 +237,7 @@ sodu make &amp;&amp; sudo make install # sudo 权限因为需要创建文件夹
 
 <p>参数说明：<code class="highlighter-rouge">-c</code>表示并发数，<code class="highlighter-rouge">-t</code>表示时间(秒)</p>
 
-<h4 id="section-1">参数列表</h4>
+<h4 id="section-1">相关命令</h4>
 
 <div class="highlighter-rouge"><pre class="highlight"><code>
 webbench [option]... URL
@@ -258,17 +260,154 @@ webbench [option]... URL
 </code></pre>
 </div>
 
-<h2 id="section-2">使用结果</h2>
+<h4 id="section-2">使用结果</h4>
 
 <p><img src="/img/webbench/result.png" alt="" /></p>
 
 <p>貌似只有 0 failed 访问才不会有太大影响。其他或多或少都会有影响。 神经病的马赛克。~</p>
 
+<h2 id="siege">Siege</h2>
+
+<p>一款开源的压力测试工具，可以根据配置对一个WEB站点进行多用户的并发访问，记录每个用户所有请求过程的相应时间，并在一定数量的并发访问下重复进行。</p>
+
+<ul>
+  <li>最新版本：<a href="http://download.joedog.org/siege/siege-latest.tar.gz">http://download.joedog.org/siege/siege-latest.tar.gz</a></li>
+  <li>源代码：<a href="https://github.com/JoeDog/siege.git">https://github.com/JoeDog/siege.git</a></li>
+</ul>
+
+<h4 id="mac-">mac 安装</h4>
+
+<div class="highlighter-rouge"><pre class="highlight"><code># wget http://download.joedog.org/siege/siege-latest.tar.gz
+# tar -zxvf siege-latest.tar.gz
+# cd siege-latest/
+# ./configure
+# make &amp;&amp; make install
+</code></pre>
+</div>
+
+<h4 id="section-3">相关命令</h4>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>-V, --version             VERSION, prints the version number.
+  -h, --help                HELP, prints this section.
+  -C, --config              CONFIGURATION, show the current config.
+  -v, --verbose             VERBOSE, prints notification to screen.
+  -q, --quiet               QUIET turns verbose off and suppresses output.
+  -g, --get                 GET, pull down HTTP headers and display the
+                            transaction. Great for application debugging.
+  -c, --concurrent=NUM      CONCURRENT users, default is 10
+  -i, --internet            INTERNET user simulation, hits URLs randomly.
+  -b, --benchmark           BENCHMARK: no delays between requests.
+  -t, --time=NUMm           TIMED testing where "m" is modifier S, M, or H
+                            ex: --time=1H, one hour test.
+  -r, --reps=NUM            REPS, number of times to run the test.
+  -f, --file=FILE           FILE, select a specific URLS FILE.
+  -R, --rc=FILE             RC, specify an siegerc file
+  -l, --log[=FILE]          LOG to FILE. If FILE is not specified, the
+                            default is used: PREFIX/var/siege.log
+  -m, --mark="text"         MARK, mark the log file with a string.
+  -d, --delay=NUM           Time DELAY, random delay before each requst
+                            between .001 and NUM. (NOT COUNTED IN STATS)
+  -H, --header="text"       Add a header to request (can be many)
+  -A, --user-agent="text"   Sets User-Agent in request
+  -T, --content-type="text" Sets Content-Type in request
+</code></pre>
+</div>
+
+<h4 id="section-4">使用</h4>
+
+<p>100个并发访问 <code class="highlighter-rouge">http://www.baidu.com</code>，并重复20次</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>siege -c 100 -r 20 http://www.baidu.com
+</code></pre>
+</div>
+
+<p>在 urls.txt 中列出所有网址</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>siege -c 100 -r 20 -f urls.txt  
+</code></pre>
+</div>
+
+<p>随机选取 urls.txt 中列出的网址</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>siege -c 100 -r 20 -f urls.txt -i
+</code></pre>
+</div>
+
+<p>不等待返回结果,100个并发随机选取urls.txt重复请求20个</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>siege -c 2000 -r 100 -f urls.txt -i -b  
+</code></pre>
+</div>
+
+<p>指定 http 请求头请求</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>siege -H "Content-Type:application/json" -c 100 -r 20 -f urls.txt -i -b  
+</code></pre>
+</div>
+
+<p>POST 请求</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>siege -c 100 -r 20 http://www.baidu.com/ POST p1=v1&amp;p2=v2  
+</code></pre>
+</div>
+
+<h4 id="siege-">Siege 输出结果说明</h4>
+
+<p><img src="/img/web-test-tool/siege.png" alt="" /></p>
+
+<table>
+  <tbody>
+    <tr>
+      <td>Transactions</td>
+      <td>总共测试次数</td>
+    </tr>
+    <tr>
+      <td>Availability</td>
+      <td>成功次数百分比</td>
+    </tr>
+    <tr>
+      <td>Elapsed time</td>
+      <td>总共耗时多少秒</td>
+    </tr>
+    <tr>
+      <td>Data transferred</td>
+      <td>总共数据传输</td>
+    </tr>
+    <tr>
+      <td>Response time</td>
+      <td>等到响应耗时</td>
+    </tr>
+    <tr>
+      <td>Transaction rate</td>
+      <td>平均每秒处理请求数</td>
+    </tr>
+    <tr>
+      <td>Throughput</td>
+      <td>吞吐率</td>
+    </tr>
+    <tr>
+      <td>Concurrency</td>
+      <td>最高并发</td>
+    </tr>
+    <tr>
+      <td>Successful transactions</td>
+      <td>成功的请求数</td>
+    </tr>
+    <tr>
+      <td>Failed transactions</td>
+      <td>失败的请求数</td>
+    </tr>
+  </tbody>
+</table>
+
 <h2 id="end">END</h2>
 
-<p>性能测试工具目前最常见的有以下几种：<code class="highlighter-rouge">ab</code>、<code class="highlighter-rouge">http_load</code>、<code class="highlighter-rouge">siege</code>，后面有用到再来试试。</p>
+<p>性能测试工具目前最常见的有以下几种：<code class="highlighter-rouge">ab</code>、<code class="highlighter-rouge">webbench</code>,<code class="highlighter-rouge">http_load</code>、<code class="highlighter-rouge">siege</code>，后面有用到再来试试。</p>
 
-<p><a href="http://www.open-open.com/news/view/d6dff4">Webbench 一款 Linux 下的压力测试工具 for Mac</a></p>
+<ul>
+  <li><a href="http://www.open-open.com/news/view/d6dff4">Webbench 一款 Linux 下的压力测试工具 for Mac</a></li>
+  <li><a href="https://www.skyf.org/webbench-web-test-tools/">记录：Web服务器压力测试工具WebBench、Siege</a></li>
+</ul>
 
 
 
@@ -366,9 +505,9 @@ webbench [option]... URL
                 <h5>FRIENDS</h5>
                 <ul class="list-inline">
                     
-                        <li><a href="https://shop130631028.taobao.com/">在回忆中 - 卖点小东西</a></li>
+                        <li><a target="_blank" href="https://shop130631028.taobao.com/">在回忆中 - 卖点小东西</a></li>
                     
-                        <li><a href="https://unsplash.com">unsplash - 好看的图片</a></li>
+                        <li><a target="_blank" href="https://unsplash.com">unsplash - 好看的图片</a></li>
                     
                 </ul>
                 

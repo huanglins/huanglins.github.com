@@ -5,25 +5,27 @@
     <description>// iOS Developer，也写Android和python。正在学习全栈。很高兴认识你。</description>
     <link>http://localhost:4000/</link>
     <atom:link href="http://localhost:4000/feed.xml" rel="self" type="application/rss+xml" />
-    <pubDate>Tue, 28 Mar 2017 17:33:25 +0800</pubDate>
-    <lastBuildDate>Tue, 28 Mar 2017 17:33:25 +0800</lastBuildDate>
+    <pubDate>Fri, 31 Mar 2017 10:42:07 +0800</pubDate>
+    <lastBuildDate>Fri, 31 Mar 2017 10:42:07 +0800</lastBuildDate>
     <generator>Jekyll v3.3.1</generator>
     
       <item>
-        <title>webbench - Web服务器压力测试工具</title>
+        <title>Web服务器压力测试工具 - webbench,Siege</title>
         <description>&lt;blockquote&gt;
   &lt;p&gt;Webbench是有名的网站压力测试工具，它是由 Lionbridge公司开发。&lt;/p&gt;
 &lt;/blockquote&gt;
 
-&lt;p&gt;因为之前公司网站的服务器各种拒绝连接，于是想测试一下网站的QPS(每秒查询率)，于是找到这个工具。但是结果果然超乎想象，2333…&lt;/p&gt;
+&lt;p&gt;因为之前公司网站的服务器各种拒绝连接，想要测试一下网站的QPS(每秒查询率)，看下大概能到多少并发，于是找到这个工具。但是结果果然超乎想象，2333…&lt;/p&gt;
 
 &lt;h2 id=&quot;webbench&quot;&gt;Webbench&lt;/h2&gt;
 
-&lt;p&gt;webbench是有名的网站压力测试工具，最多可以模拟3万个并发连接去测试网站的负载能力。
-webbench能测试处在相同硬件上，不同服务的性能以及不同硬件上同一个服务的运行状况。
-webbench的标准测试可以向我们展示服务器的两项内容：每秒钟相应请求数和每秒钟传输数据量。&lt;/p&gt;
+&lt;p&gt;webbench是有名的网站压力测试工具，最多可以模拟3万个并发连接去测试网站的负载能力。&lt;/p&gt;
 
-&lt;h2 id=&quot;mac&quot;&gt;MAC安装&lt;/h2&gt;
+&lt;p&gt;webbench能测试处在相同硬件上，不同服务的性能以及不同硬件上同一个服务的运行状况。&lt;/p&gt;
+
+&lt;p&gt;webbench的标准测试可以向我们展示服务器的两项内容：每秒钟相应请求数和每秒钟传输数据量。&lt;/p&gt;
+
+&lt;h4 id=&quot;mac&quot;&gt;MAC安装&lt;/h4&gt;
 
 &lt;p&gt;在Mac环境下，通过&lt;code class=&quot;highlighter-rouge&quot;&gt;brew&lt;/code&gt;进行安装&lt;/p&gt;
 
@@ -42,7 +44,7 @@ sodu make &amp;amp;&amp;amp; sudo make install # sudo 权限因为需要创建�
 &lt;/code&gt;&lt;/pre&gt;
 &lt;/div&gt;
 
-&lt;h2 id=&quot;section&quot;&gt;使用&lt;/h2&gt;
+&lt;h6 id=&quot;section&quot;&gt;使用&lt;/h6&gt;
 
 &lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;webbench -c 100 -t 30 [URL]
 &lt;/code&gt;&lt;/pre&gt;
@@ -50,7 +52,7 @@ sodu make &amp;amp;&amp;amp; sudo make install # sudo 权限因为需要创建�
 
 &lt;p&gt;参数说明：&lt;code class=&quot;highlighter-rouge&quot;&gt;-c&lt;/code&gt;表示并发数，&lt;code class=&quot;highlighter-rouge&quot;&gt;-t&lt;/code&gt;表示时间(秒)&lt;/p&gt;
 
-&lt;h4 id=&quot;section-1&quot;&gt;参数列表&lt;/h4&gt;
+&lt;h4 id=&quot;section-1&quot;&gt;相关命令&lt;/h4&gt;
 
 &lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;
 webbench [option]... URL
@@ -73,22 +75,159 @@ webbench [option]... URL
 &lt;/code&gt;&lt;/pre&gt;
 &lt;/div&gt;
 
-&lt;h2 id=&quot;section-2&quot;&gt;使用结果&lt;/h2&gt;
+&lt;h4 id=&quot;section-2&quot;&gt;使用结果&lt;/h4&gt;
 
 &lt;p&gt;&lt;img src=&quot;/img/webbench/result.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
 
 &lt;p&gt;貌似只有 0 failed 访问才不会有太大影响。其他或多或少都会有影响。 神经病的马赛克。~&lt;/p&gt;
 
+&lt;h2 id=&quot;siege&quot;&gt;Siege&lt;/h2&gt;
+
+&lt;p&gt;一款开源的压力测试工具，可以根据配置对一个WEB站点进行多用户的并发访问，记录每个用户所有请求过程的相应时间，并在一定数量的并发访问下重复进行。&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;最新版本：&lt;a href=&quot;http://download.joedog.org/siege/siege-latest.tar.gz&quot;&gt;http://download.joedog.org/siege/siege-latest.tar.gz&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;源代码：&lt;a href=&quot;https://github.com/JoeDog/siege.git&quot;&gt;https://github.com/JoeDog/siege.git&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h4 id=&quot;mac-&quot;&gt;mac 安装&lt;/h4&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;# wget http://download.joedog.org/siege/siege-latest.tar.gz
+# tar -zxvf siege-latest.tar.gz
+# cd siege-latest/
+# ./configure
+# make &amp;amp;&amp;amp; make install
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;h4 id=&quot;section-3&quot;&gt;相关命令&lt;/h4&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;-V, --version             VERSION, prints the version number.
+  -h, --help                HELP, prints this section.
+  -C, --config              CONFIGURATION, show the current config.
+  -v, --verbose             VERBOSE, prints notification to screen.
+  -q, --quiet               QUIET turns verbose off and suppresses output.
+  -g, --get                 GET, pull down HTTP headers and display the
+                            transaction. Great for application debugging.
+  -c, --concurrent=NUM      CONCURRENT users, default is 10
+  -i, --internet            INTERNET user simulation, hits URLs randomly.
+  -b, --benchmark           BENCHMARK: no delays between requests.
+  -t, --time=NUMm           TIMED testing where &quot;m&quot; is modifier S, M, or H
+                            ex: --time=1H, one hour test.
+  -r, --reps=NUM            REPS, number of times to run the test.
+  -f, --file=FILE           FILE, select a specific URLS FILE.
+  -R, --rc=FILE             RC, specify an siegerc file
+  -l, --log[=FILE]          LOG to FILE. If FILE is not specified, the
+                            default is used: PREFIX/var/siege.log
+  -m, --mark=&quot;text&quot;         MARK, mark the log file with a string.
+  -d, --delay=NUM           Time DELAY, random delay before each requst
+                            between .001 and NUM. (NOT COUNTED IN STATS)
+  -H, --header=&quot;text&quot;       Add a header to request (can be many)
+  -A, --user-agent=&quot;text&quot;   Sets User-Agent in request
+  -T, --content-type=&quot;text&quot; Sets Content-Type in request
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;h4 id=&quot;section-4&quot;&gt;使用&lt;/h4&gt;
+
+&lt;p&gt;100个并发访问 &lt;code class=&quot;highlighter-rouge&quot;&gt;http://www.baidu.com&lt;/code&gt;，并重复20次&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;siege -c 100 -r 20 http://www.baidu.com
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;在 urls.txt 中列出所有网址&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;siege -c 100 -r 20 -f urls.txt  
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;随机选取 urls.txt 中列出的网址&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;siege -c 100 -r 20 -f urls.txt -i
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;不等待返回结果,100个并发随机选取urls.txt重复请求20个&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;siege -c 2000 -r 100 -f urls.txt -i -b  
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;指定 http 请求头请求&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;siege -H &quot;Content-Type:application/json&quot; -c 100 -r 20 -f urls.txt -i -b  
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;POST 请求&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;siege -c 100 -r 20 http://www.baidu.com/ POST p1=v1&amp;amp;p2=v2  
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;h4 id=&quot;siege-&quot;&gt;Siege 输出结果说明&lt;/h4&gt;
+
+&lt;p&gt;&lt;img src=&quot;/img/web-test-tool/siege.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
+
+&lt;table&gt;
+  &lt;tbody&gt;
+    &lt;tr&gt;
+      &lt;td&gt;Transactions&lt;/td&gt;
+      &lt;td&gt;总共测试次数&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;Availability&lt;/td&gt;
+      &lt;td&gt;成功次数百分比&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;Elapsed time&lt;/td&gt;
+      &lt;td&gt;总共耗时多少秒&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;Data transferred&lt;/td&gt;
+      &lt;td&gt;总共数据传输&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;Response time&lt;/td&gt;
+      &lt;td&gt;等到响应耗时&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;Transaction rate&lt;/td&gt;
+      &lt;td&gt;平均每秒处理请求数&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;Throughput&lt;/td&gt;
+      &lt;td&gt;吞吐率&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;Concurrency&lt;/td&gt;
+      &lt;td&gt;最高并发&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;Successful transactions&lt;/td&gt;
+      &lt;td&gt;成功的请求数&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;Failed transactions&lt;/td&gt;
+      &lt;td&gt;失败的请求数&lt;/td&gt;
+    &lt;/tr&gt;
+  &lt;/tbody&gt;
+&lt;/table&gt;
+
 &lt;h2 id=&quot;end&quot;&gt;END&lt;/h2&gt;
 
-&lt;p&gt;性能测试工具目前最常见的有以下几种：&lt;code class=&quot;highlighter-rouge&quot;&gt;ab&lt;/code&gt;、&lt;code class=&quot;highlighter-rouge&quot;&gt;http_load&lt;/code&gt;、&lt;code class=&quot;highlighter-rouge&quot;&gt;siege&lt;/code&gt;，后面有用到再来试试。&lt;/p&gt;
+&lt;p&gt;性能测试工具目前最常见的有以下几种：&lt;code class=&quot;highlighter-rouge&quot;&gt;ab&lt;/code&gt;、&lt;code class=&quot;highlighter-rouge&quot;&gt;webbench&lt;/code&gt;,&lt;code class=&quot;highlighter-rouge&quot;&gt;http_load&lt;/code&gt;、&lt;code class=&quot;highlighter-rouge&quot;&gt;siege&lt;/code&gt;，后面有用到再来试试。&lt;/p&gt;
 
-&lt;p&gt;&lt;a href=&quot;http://www.open-open.com/news/view/d6dff4&quot;&gt;Webbench 一款 Linux 下的压力测试工具 for Mac&lt;/a&gt;&lt;/p&gt;
+&lt;ul&gt;
+  &lt;li&gt;&lt;a href=&quot;http://www.open-open.com/news/view/d6dff4&quot;&gt;Webbench 一款 Linux 下的压力测试工具 for Mac&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;https://www.skyf.org/webbench-web-test-tools/&quot;&gt;记录：Web服务器压力测试工具WebBench、Siege&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
 
 </description>
         <pubDate>Tue, 28 Mar 2017 00:00:00 +0800</pubDate>
-        <link>http://localhost:4000/2017/03/28/webbench/</link>
-        <guid isPermaLink="true">http://localhost:4000/2017/03/28/webbench/</guid>
+        <link>http://localhost:4000/2017/03/28/web-pressure-test/</link>
+        <guid isPermaLink="true">http://localhost:4000/2017/03/28/web-pressure-test/</guid>
         
         <category>web服务器</category>
         
