@@ -5,9 +5,437 @@
     <description>// iOS Developer，也写Android和python。正在学习全栈。很高兴认识你。</description>
     <link>http://localhost:4000/</link>
     <atom:link href="http://localhost:4000/feed.xml" rel="self" type="application/rss+xml" />
-    <pubDate>Fri, 31 Mar 2017 11:01:19 +0800</pubDate>
-    <lastBuildDate>Fri, 31 Mar 2017 11:01:19 +0800</lastBuildDate>
+    <pubDate>Wed, 05 Apr 2017 16:55:03 +0800</pubDate>
+    <lastBuildDate>Wed, 05 Apr 2017 16:55:03 +0800</lastBuildDate>
     <generator>Jekyll v3.3.1</generator>
+    
+      <item>
+        <title>CentOS LAMP/LEMP 等各种服务环境搭建</title>
+        <description>&lt;blockquote&gt;
+  &lt;p&gt;由于之前捣鼓学习一些东西所作的笔记等都存放在印象笔记中，比较分散和杂乱。加上又准备更新自己的博客，
+于是将折腾阿里云服务器整理出来，这篇会持续更新。(&lt;em&gt;^__^&lt;/em&gt;)&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;h2 id=&quot;l---linux--&quot;&gt;L - Linux &amp;gt; 一台云服务器&lt;/h2&gt;
+
+&lt;p&gt;首先你得有一台云服务器。常用的云服务提供商有，&lt;code class=&quot;highlighter-rouge&quot;&gt;阿里云&lt;/code&gt;，&lt;code class=&quot;highlighter-rouge&quot;&gt;腾讯云&lt;/code&gt;，&lt;code class=&quot;highlighter-rouge&quot;&gt;亚马逊 AWS&lt;/code&gt;，&lt;code class=&quot;highlighter-rouge&quot;&gt;微软 Azure&lt;/code&gt;等。
+但是在国内的话，个人还是比较推荐阿里云。最低配一个月60块钱的样子。&lt;/p&gt;
+
+&lt;p&gt;购买后阿里云会给你分配一个云服务器的公网IP地址。通过 SSH 连接云服务器：&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;ssh root@xxx.xxx.xxx.xxx
+
+输入密码
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;h2 id=&quot;yum&quot;&gt;yum&lt;/h2&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;Yum（全称为 Yellow dog Updater, Modified）是一个在Fedora和RedHat以及CentOS中的Shell前端软件包管理器。基于RPM包管理，能够从指定的服务器自动下载RPM包并且安装，可以自动处理依赖性关系，并且一次安装所有依赖的软件包，无须繁琐地一次次下载、安装。&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;通过 yum 命令我们可以很方便的安装管理例如 mysql，php等常用的软件包服务。&lt;/p&gt;
+
+&lt;p&gt;yum 命令格式为：&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;yum [options] [command] [package ...]
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;h4 id=&quot;section&quot;&gt;更新源&lt;/h4&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;yum update
+
+yum upgrade
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;h2 id=&quot;a---apache---httpd&quot;&gt;A - Apache -&amp;gt; httpd&lt;/h2&gt;
+
+&lt;p&gt;Apache 在Linux系统中，叫 &lt;strong&gt;httpd&lt;/strong&gt;。O__O “…&lt;/p&gt;
+
+&lt;h4 id=&quot;apache&quot;&gt;安装 Apache&lt;/h4&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;yum install httpd
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;&lt;strong&gt;&amp;gt;&lt;/strong&gt; 启动Apache&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;systemctl start httpd.service 
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;这时在浏览器中输入IP地址，你可以看到Apache的Test页面。&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;&amp;gt;&lt;/strong&gt; 关闭Apache&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;systemctl stop httpd.service
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;&lt;strong&gt;&amp;gt;&lt;/strong&gt; 设置Apache开启自动启动&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;systemctl enable httpd.service 
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;h4 id=&quot;section-1&quot;&gt;使用&lt;/h4&gt;
+
+&lt;p&gt;Apache 在CentOS中默认的根目录在 &lt;code class=&quot;highlighter-rouge&quot;&gt;/var/www/html&lt;/code&gt;&lt;/p&gt;
+
+&lt;p&gt;Apache 相关的配置文件目录在 &lt;code class=&quot;highlighter-rouge&quot;&gt;/etc/httpd/conf/httpd.conf&lt;/code&gt;&lt;/p&gt;
+
+&lt;p&gt;其他相关的配置文件目录在 &lt;code class=&quot;highlighter-rouge&quot;&gt;/etc/httpd/conf.d/&lt;/code&gt;&lt;/p&gt;
+
+&lt;h2 id=&quot;j---java&quot;&gt;J - Java&lt;/h2&gt;
+
+&lt;p&gt;查看可用的 JDK软件包列表:&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;yum search java | grep -i --color JDK
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;安装 java-jdk&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;yum install java-1.8.0-openjdk  java-1.8.0-openjdk-devel  #安装openjdk
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;查看当前 java 版本&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;java -version     #查看java版本
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;java 存放的地址  &lt;code class=&quot;highlighter-rouge&quot;&gt;/usr/lib/jvm&lt;/code&gt;&lt;/p&gt;
+
+&lt;h4 id=&quot;java-&quot;&gt;配置 Java 环境变量&lt;/h4&gt;
+
+&lt;p&gt;将 jdk 拷贝到 /usr/local/java 目录下。没有的话 &lt;code class=&quot;highlighter-rouge&quot;&gt;mkdir&lt;/code&gt;创建，统一放到 /usr/local 目录下便于管理。&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;cd /usr/lib/jvm
+
+cp -R java-1.8.0-openjdk /usr/local/java/jdk1.8
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;h6 id=&quot;section-2&quot;&gt;配置环境变量&lt;/h6&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;vi /etc/profile
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;将下面内容添加到文件末尾，for循环后面。这里直接引用 /usr/lib/jvm 目录下的 JDK也是可以的。&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;export JAVA_HOME=/usr/local/java/jdk1.8
+export PATH=$JAVA_HOME/bin:$PATH:
+export JAVA_BIN=$JAVA_HOME/bin
+export CLASSPATH=.:$JAVA_HOME/lib/tools.jar:$JAVA_HOME/lib/dt.jar
+export JAVA_HOME JAVA_BIN PATH CLASSPAT
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;让配置立即生效&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;source /etc/profile
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;检查环境变量&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;# echo $JAVA_HOME
+
+-&amp;gt; /usr/local/java/jdk1.8
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;h2 id=&quot;t---tomcat&quot;&gt;T - Tomcat&lt;/h2&gt;
+
+&lt;p&gt;Tomcat 官网 : &lt;a href=&quot;http://tomcat.apache.org/&quot;&gt;http://tomcat.apache.org/&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;选择一个版本的 tar.gz 文件进行下载&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;# wget http://ftp.cuhk.edu.hk/pub/packages/apache.org/tomcat/tomcat-6/v6.0.51/bin/apache-tomcat-6.0.51.tar.gz
+
+# tar -zxvf apache-tomcat-6.0.51.tar.gz   # 解压
+
+拷贝 tomcat 到 /usr/local 目录下
+
+# cp -R apache-tomcat-6.0.51 /usr/local/tomcat7
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;h4 id=&quot;section-3&quot;&gt;使用&lt;/h4&gt;
+
+&lt;p&gt;启动Tomcat&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;cd /usr/local/tomcat7/bin
+
+sh startup.sh
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;停止Tomcat&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;sh shutdown.sh
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;h2 id=&quot;m---mysql---mariadb&quot;&gt;M - MySQL -&amp;gt; MariaDB&lt;/h2&gt;
+
+&lt;p&gt;MySQL本身是开源免费的，但是在Mysql被Oracle收购后，有将MySQL闭源的风险。MariaDB是MySQL源代码的一个分支，是由MySQL的创始人麦克尔·维德纽斯主导开发，使用这些分支避免这个潜在的风险。&lt;/p&gt;
+
+&lt;p&gt;详细的一些区别参考这篇：&lt;a href=&quot;http://bijian1013.iteye.com/blog/2315665&quot;&gt;浅谈MySQL和mariadb区别&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;em&gt;&amp;gt;&lt;/em&gt; centOS 7 以后，软件源中默认的是MariaDB 而不是MySQL&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;&amp;gt;&lt;/strong&gt; 安装 MariaDB&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;yum install mariadb-server -y
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;&lt;strong&gt;&amp;gt;&lt;/strong&gt; 启动 MariaDB&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;systemctl start mariadb.service
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;&lt;strong&gt;&amp;gt;&lt;/strong&gt; 停止 MariaDB&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;systemctl stop mariadb.service
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;&lt;strong&gt;&amp;gt;&lt;/strong&gt; 设置开启自动启动&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;systemctl enable mariadb.service
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;进入MySQL，第一次进入不用密码需要自己修改&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;[root@VM_140_194_centos ~]# mysql
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;p&gt;&lt;img src=&quot;/img/centos-lnmp/mysql-login.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;&amp;gt;&lt;/strong&gt; 修改MySQL密码&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;mysql_secure_installation
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;根据提示进行设置。&lt;/p&gt;
+
+&lt;p&gt;用户权限管理设置等：&lt;a href=&quot;http://blog.csdn.net/xyang81/article/details/51822252&quot;&gt;MySQL用户权限管理&lt;/a&gt;&lt;/p&gt;
+
+&lt;h2 id=&quot;p---php&quot;&gt;P - PHP&lt;/h2&gt;
+
+&lt;p&gt;我自己使用到PHP的地方一般也只是用它来使用 &lt;strong&gt;PHPMyAdmin&lt;/strong&gt;，而web服务也是用 Java或者Python开发的，所以PHP用得比较少。&lt;/p&gt;
+
+&lt;h4 id=&quot;section-4&quot;&gt;安装&lt;/h4&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;yum install php
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;&lt;strong&gt;&amp;gt;&lt;/strong&gt; 需要重启一下Apache服务&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;service httpd restart
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;测试一下是否安装好&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;# vi /var/www/html/info.php
+
+输入 i 进行插入
+
+# &amp;lt;?php phpinfo(); ?&amp;gt;
+
+ESC -&amp;gt; 英文冒号 -&amp;gt; wq 保存退出
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;然后再浏览器地址中输入 &lt;code class=&quot;highlighter-rouge&quot;&gt;ip地址/info.php&lt;/code&gt;，这时应该能看到到当前的 php信息。&lt;/p&gt;
+
+&lt;h4 id=&quot;php--mysql&quot;&gt;关联 PHP 和 MySQL&lt;/h4&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;yum install php-mysql php-gd php-imap php-ldap php-odbc php-pear php-xml php-xmlrpc
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;安装完后重启 Apache&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;systemctl restart httpd.service
+或者
+service httpd restart
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;然后在 info.php 中就能看到mysql的模块。&lt;/p&gt;
+
+&lt;h4 id=&quot;phpmyadmin&quot;&gt;安装 phpMyadmin&lt;/h4&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;yum install phpMyAdmin php-mcrypt
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;安装完后会在 &lt;code class=&quot;highlighter-rouge&quot;&gt;/usr/share&lt;/code&gt; 目录下有个 &lt;strong&gt;phpMydmin&lt;/strong&gt;目录，将该目录拷贝的 html 目录下。&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;# cd /usr/share
+# cp -a phpMyAdmin/ /var/www/html/phpmyadmin
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;h6 id=&quot;section-5&quot;&gt;一些错误&lt;/h6&gt;
+
+&lt;p&gt;The mbstring extension is missing. Please check your PHP configuration.&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;# vi /etc/php.ini
+	
+在 [PHP] 下面插入
+	
+# extension=php_mbstring.dll
+   
+* 重启 httpd.service
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;You don’t have permission to access /phpmyadmin/ on this server.&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;vi /etc/httpd/conf.d/phpMyAdmin.conf
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;p&gt;&lt;img src=&quot;/img/centos-lnmp/phpmyadmin-permission.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
+
+&lt;h2 id=&quot;n---nginx&quot;&gt;N - Nginx&lt;/h2&gt;
+
+&lt;h4 id=&quot;apache-nginx&quot;&gt;有了Apache为什么要使用 Nginx&lt;/h4&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;&lt;a href=&quot;http://willis.blog.51cto.com/11907152/1852083&quot;&gt;Apache, Tomcat, Nginx的区别&lt;/a&gt;&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;Apache 和 Nginx 都叫做 [&lt;em&gt;HTTP Server&lt;/em&gt;]，Tomcat这一类的则是 [&lt;em&gt;Application Server&lt;/em&gt;]。&lt;/p&gt;
+
+&lt;p&gt;Nginx 相对于Apache而言，具有&lt;/p&gt;
+
+&lt;h4 id=&quot;section-6&quot;&gt;安装&lt;/h4&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;yum install nginx
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;&lt;strong&gt;&amp;gt;&lt;/strong&gt; 启动 Nginx 。注意，Apache和Nginx默认都是监听的80端口，所以注意端口占用，要么修改默认的端口。&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;# nginx
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;p&gt;&lt;strong&gt;&amp;gt;&lt;/strong&gt; 停止nginx&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;nginx -s stop
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;&lt;strong&gt;&amp;gt;&lt;/strong&gt; 重启nginx&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;# nginx -s reload
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;nginx 相关配置文件路径 ：&lt;code class=&quot;highlighter-rouge&quot;&gt;/etc/nginx/nginx.conf&lt;/code&gt;&lt;/p&gt;
+
+&lt;h2 id=&quot;r---redis&quot;&gt;R - Redis&lt;/h2&gt;
+
+&lt;p&gt;Redis是一个开源的使用ANSI C语言编写、支持网络、可基于内存亦可持久化的日志型、Key-Value数据库，并提供多种语言的API。&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;&amp;gt;&lt;/strong&gt; 安装&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;yum install -y redis
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;&lt;strong&gt;&amp;gt;&lt;/strong&gt; 启动&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;systemctl start redis
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;&lt;strong&gt;&amp;gt;&lt;/strong&gt; 开机启动&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;systemctl enable redis
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;&lt;strong&gt;&amp;gt;&lt;/strong&gt; 停止&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;systemctl stop redis
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;h2 id=&quot;f---ftp&quot;&gt;F - FTP&lt;/h2&gt;
+
+&lt;p&gt;&lt;strong&gt;vsftpd&lt;/strong&gt; 是Linux 下比较著名的FTP服务器。&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;&amp;gt;&lt;/strong&gt;安装&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;yum -y install vsftpd
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;&lt;strong&gt;&amp;gt;&lt;/strong&gt;相关操作&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;# systemctl start vsftpd     # 启动 vsftpd
+# systemctl enable vsftpd		# 设置开机启动
+# systemctl stop vsftpd		# 停止 vsftpd
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;h4 id=&quot;section-7&quot;&gt;修改配置文件&lt;/h4&gt;
+
+&lt;p&gt;打开 &lt;strong&gt;/etc/vsftpd/vsftpd.conf&lt;/strong&gt;，修改配置：&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;anonymous_enable=NO 	#设定不允许匿名访问
+local_enable=YES 			#设定本地用户可以访问。注：如使用虚拟宿主用户，在该项目设定为NO的情况下所有虚拟用户将无法访问
+ascii_upload_enable=YES
+ascii_download_enable=YES #设定支持ASCII模式的上传和下载功能
+chroot_list_enable=YES 	#使用户不能离开主目录
+pam_service_name=vsftpd   #PAM认证文件名。PAM将根据/etc/pam.d/vsftpd进行认证
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;以下这些是关于vsftpd虚拟用户支持的重要配置项，默认vsftpd.conf中不包含这些设定项目，需要自己手动添加&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;guest_enable=YES			#设定启用虚拟用户功能
+guest_username=ftp		#指定虚拟用户的宿主用户，CentOS中已经有内置的ftp用户了
+user_config_dir=/etc/vsftpd/vuser_conf #设定虚拟用户个人vsftp的CentOS FTP服务文件存放路径。存放虚拟用户个性的CentOS FTP服务文件(配置文件名=虚拟用户名
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;h4 id=&quot;section-8&quot;&gt;添加用户&lt;/h4&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;useradd vicnent 	# 添加一个用户
+passwd vincent		# 给用户设置密码
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;在 &lt;code class=&quot;highlighter-rouge&quot;&gt;/home&lt;/code&gt; 路径下，就会多出一个 &lt;strong&gt;vincent&lt;/strong&gt; 的文件夹。&lt;/p&gt;
+
+&lt;p&gt;然后就可以在其他电脑上通过FileZilla这类的FTP软件进行上传下载文件了。但是要注意文件的权限。&lt;/p&gt;
+
+</description>
+        <pubDate>Fri, 31 Mar 2017 00:00:00 +0800</pubDate>
+        <link>http://localhost:4000/2017/03/31/centos-lamp/</link>
+        <guid isPermaLink="true">http://localhost:4000/2017/03/31/centos-lamp/</guid>
+        
+        <category>web服务器</category>
+        
+        
+      </item>
     
       <item>
         <title>Web服务器压力测试工具 - webbench,Siege</title>
@@ -44,7 +472,7 @@ sodu make &amp;amp;&amp;amp; sudo make install # sudo 权限因为需要创建�
 &lt;/code&gt;&lt;/pre&gt;
 &lt;/div&gt;
 
-&lt;h6 id=&quot;section&quot;&gt;使用&lt;/h6&gt;
+&lt;h4 id=&quot;section&quot;&gt;使用&lt;/h4&gt;
 
 &lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;webbench -c 100 -t 30 [URL]
 &lt;/code&gt;&lt;/pre&gt;
@@ -479,6 +907,19 @@ def update_dns(dns_rr, dns_type, dns_value, dns_record_id, dns_ttl, dns_format):
 &lt;/div&gt;
 
 &lt;p&gt;其中脚本存放路径替换为自己的实际路径&lt;/p&gt;
+
+&lt;h4 id=&quot;crontab--1&quot;&gt;** crontab 定时重启服务器&lt;/h4&gt;
+
+&lt;p&gt;由于个人使用的服务器配置一般都不高，重启服务器又能释放一些占用的内存。所以在凌晨定时重启服务器还是很有必要的。亲测，自己1G的内存，使用一段时间省了100M左右的内存可以使用，重启后，又变成600M多了。2333…&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;crontab -e
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;# 凌晨5点重启一次服务器
+0 5 * * * /sbin/reboot
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
 
 &lt;h2 id=&quot;section-4&quot;&gt;参考学习&lt;/h2&gt;
 &lt;ol&gt;

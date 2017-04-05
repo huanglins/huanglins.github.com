@@ -10,7 +10,7 @@
     <meta name="keywords"  content="vincent，vincents，黄霖，黄金霖，darnel，个人网站，APP，微信公众号">
     <meta name="theme-color" content="#000000">
     
-    <title>非越狱iOS逆向微信 - Vincent Blog | 永远年轻，永远热泪盈眶</title>
+    <title>CentOS LAMP/LEMP 等各种服务环境搭建 - Vincent Blog | 永远年轻，永远热泪盈眶</title>
 
     <!-- Web App Manifest -->
     <link rel="manifest" href="/pwa/manifest.json">
@@ -19,7 +19,7 @@
     <link rel="shortcut icon" href="/img/favicon.ico">
     
     <!-- Canonical URL -->
-    <link rel="canonical" href="http://localhost:4000/2017/03/03/reverse-wechat/">
+    <link rel="canonical" href="http://localhost:4000/2017/03/31/centos-lamp/">
 
     <!-- Bootstrap Core CSS -->
     <link rel="stylesheet" href="/css/bootstrap.min.css">
@@ -151,13 +151,13 @@
 
     <!-- Image to hack wechat -->
 <!-- <img src="/img/icon_wechat.png" width="0" height="0"> -->
-<!-- <img src="/img/post-bg-5-reverse-wechat.jpg" width="0" height="0"> -->
+<!-- <img src="/img/post-bg-10-centos-lamp.jpg" width="0" height="0"> -->
 
 <!-- Post Header -->
 <style type="text/css">
     header.intro-header{
         position: relative;
-        background-image: url('/img/post-bg-5-reverse-wechat.jpg')
+        background-image: url('/img/post-bg-10-centos-lamp.jpg')
     }
 
     
@@ -170,17 +170,15 @@
                 <div class="post-heading">
                     <div class="tags">
                         
-                        <a class="tag" href="/tags/#iOS" title="iOS">iOS</a>
-                        
-                        <a class="tag" href="/tags/#逆向工程" title="逆向工程">逆向工程</a>
+                        <a class="tag" href="/tags/#web服务器" title="web服务器">web服务器</a>
                         
                     </div>
-                    <h1>非越狱iOS逆向微信</h1>
+                    <h1>CentOS LAMP/LEMP 等各种服务环境搭建</h1>
                     
                     
-                    <h2 class="subheading">自动抢红包，消息防撤回，修改微信运动步数</h2>
+                    <h2 class="subheading">nginx,apache,mysql,php,java,tomcat,....</h2>
                     
-                    <span class="meta">Posted by  on March 3, 2017</span>
+                    <span class="meta">Posted by vincent on March 31, 2017</span>
                 </div>
             </div>
         </div>
@@ -199,168 +197,420 @@
                 post-container">
 
 				<blockquote>
-  <ul>
-    <li>
-      <p>本文参考学习链接为： 
-<a href="https://github.com/buginux/WeChatRedEnvelop">buginux</a></p>
-    </li>
-    <li>
-      <p>《 iOS 应用逆向工程》第二版</p>
-    </li>
-  </ul>
+  <p>由于之前捣鼓学习一些东西所作的笔记等都存放在印象笔记中，比较分散和杂乱。加上又准备更新自己的博客，
+于是将折腾阿里云服务器整理出来，这篇会持续更新。(<em>^__^</em>)</p>
 </blockquote>
 
-<p>鉴于<code class="highlighter-rouge">《iOS逆向工程》</code>这本书其实买了很久，但是又断断续续的荒废了。看到 <a href="https://github.com/buginux/WeChatRedEnvelop">buginux</a> 写的这篇文章后，果断又尝试起来。
-由于目前手上没有能越狱越狱的手机，打包尝试起来特别麻烦。好在最后还是完成了。上图。</p>
+<h2 id="l---linux--">L - Linux &gt; 一台云服务器</h2>
 
-<p><img src="/img/reverse_wechat/result.jpg" /></p>
+<p>首先你得有一台云服务器。常用的云服务提供商有，<code class="highlighter-rouge">阿里云</code>，<code class="highlighter-rouge">腾讯云</code>，<code class="highlighter-rouge">亚马逊 AWS</code>，<code class="highlighter-rouge">微软 Azure</code>等。
+但是在国内的话，个人还是比较推荐阿里云。最低配一个月60块钱的样子。</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>PS：目前最新的 6.5.5 版本红包并不能使用。
+<p>购买后阿里云会给你分配一个云服务器的公网IP地址。通过 SSH 连接云服务器：</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>ssh root@xxx.xxx.xxx.xxx
+
+输入密码
 </code></pre>
 </div>
 
-<h2 id="ipa">1.获取砸壳后的微信ipa</h2>
-<p>有两种方法
-1. 通过 <a href="https://github.com/KJCracks/Clutch">Clutch</a> 对越狱手机上的应用砸壳
-2. 直接在 PP助手上下载</p>
-
-<p>由于手里没有越狱的手机，所以就直接在 PP助手上下载了。
-将下载后的 <code class="highlighter-rouge">wechat.ipa</code> 解压
-<code class="highlighter-rouge">
-$ unzip wechat.ipa -d wechat
-</code></p>
-
-<h2 id="class-dump-">2.使用 class-dump 导出微信头文件</h2>
-
-<h4 id="class-dump">2.1 下载 class-dump</h4>
-
-<div class="highlighter-rouge"><pre class="highlight"><code>$ https://code.google.com/archive/p/networkpx/downloads
-</code></pre>
-</div>
-<p>1.1 解压并拷入到 /usr/bin/</p>
-
-<div class="highlighter-rouge"><pre class="highlight"><code>$ tar -zxvf class-dump-z_0.2a.tar.gz
-$ sudo cp mac_x86/class-dump-z /usr/bin/
-</code></pre>
-</div>
-
-<h4 id="opendev-">2.1.1 或者下载安装 <code class="highlighter-rouge">OpenDev</code> 环境。</h4>
-
-<div class="highlighter-rouge"><pre class="highlight"><code>class-dump已经包含在openDev中,openDev 存放文件夹opt/IOSOpenDev/bin 中,
-
-并在/Users/vincent/bash_profile 注册了系统变量 路径
-</code></pre>
-</div>
-
-<h4 id="h-">2.2 导出 <code class="highlighter-rouge">.h</code> 头文件</h4>
-
-<p>可执行文件位置在
-<code class="highlighter-rouge">
-~/wechat/Payload/WeChat.app/WeChat
-</code>
-拷贝出来执行</p>
-
-<div class="highlighter-rouge"><pre class="highlight"><code>$ class-dump
--H
-WeChat
--o
-heads
-</code></pre>
-</div>
-<ol>
-  <li>WeChat 是应用的可执行文件的路径</li>
-  <li>headers 是存放dump出来头文件的文件夹路径</li>
-</ol>
-
-<h2 id="dylib-">3. 准备 dylib 动态链接库</h2>
-<p>将 <a href="https://github.com/huanglins/WeChatRedEnvelop">WeChatRedEnvelop</a> clone 下来。执行 <code class="highlighter-rouge">make</code> , dylib 文件在 <code class="highlighter-rouge">WeChatRedEnvelop/.theos/obj/debug/WeChatRedEnvelop.dylib</code></p>
-
-<div class="highlighter-rouge"><pre class="highlight"><code>$ git https://github.com/huanglins/WeChatRedEnvelop
-$ cd WeChatRedEnvelop
-make
-
-$ cp .theos/obj/debug/WeChatRedEnvelop.dylib ~/Desktop # 注意是 .theos 目录，这是个隐藏目录
-</code></pre>
-</div>
-
-<h4 id="section">3.1 修改动态链接库依赖项</h4>
-<p>使用 macOS 自带的 <code class="highlighter-rouge">otool</code> 工具检查 dylib 的依赖项</p>
-
-<div class="highlighter-rouge"><pre class="highlight"><code>$ otool -L WeChatRedEnvelop.dylib
-
-WeChatRedEnvelop2.dylib (architecture armv7):
-	/Library/MobileSubstrate/DynamicLibraries/WeChatRedEnvelop.dylib (compatibility version 0.0.0, current version 0.0.0)
-	/usr/lib/libobjc.A.dylib (compatibility version 1.0.0, current version 228.0.0)
-	/System/Library/Frameworks/Foundation.framework/Foundation (compatibility version 300.0.0, current version 1349.13.0)
-	/System/Library/Frameworks/CoreFoundation.framework/CoreFoundation (compatibility version 150.0.0, current version 1348.22.0)
-	/System/Library/Frameworks/UIKit.framework/UIKit (compatibility version 1.0.0, current version 3600.6.21)
-	/Library/Frameworks/CydiaSubstrate.framework/CydiaSubstrate (compatibility version 0.0.0, current version 0.0.0)
-	/usr/lib/libc++.1.dylib (compatibility version 1.0.0, current version 307.4.0)
-	/usr/lib/libSystem.B.dylib (compatibility version 1.0.0, current version 1238.0.0)
-WeChatRedEnvelop2.dylib (architecture arm64):
-	/Library/MobileSubstrate/DynamicLibraries/WeChatRedEnvelop.dylib (compatibility version 0.0.0, current version 0.0.0)
-	/usr/lib/libobjc.A.dylib (compatibility version 1.0.0, current version 228.0.0)
-	/System/Library/Frameworks/Foundation.framework/Foundation (compatibility version 300.0.0, current version 1349.13.0)
-	/System/Library/Frameworks/CoreFoundation.framework/CoreFoundation (compatibility version 150.0.0, current version 1348.22.0)
-	/System/Library/Frameworks/UIKit.framework/UIKit (compatibility version 1.0.0, current version 3600.6.21)
-	/Library/Frameworks/CydiaSubstrate.framework/CydiaSubstrate (compatibility version 0.0.0, current version 0.0.0)
-	/usr/lib/libc++.1.dylib (compatibility version 1.0.0, current version 307.4.0)
-	/usr/lib/libSystem.B.dylib (compatibility version 1.0.0, current version 1238.0.0)
-</code></pre>
-</div>
-<p>修改 <code class="highlighter-rouge">/Library/Frameworks/CydiaSubstrate.framework/CydiaSubstrate</code> 链接地址到 <code class="highlighter-rouge">libsubstrate.dylib</code></p>
-
-<div class="highlighter-rouge"><pre class="highlight"><code>$ install_name_tool -change /Library/Frameworks/CydiaSubstrate.framework/CydiaSubstrate 
-@loader_path/libsubstrate.dylib WeChatRedEnvelop.dylib
-</code></pre>
-</div>
+<h2 id="yum">yum</h2>
 
 <blockquote>
-  <p>PS：libsubstrate.dylib 是越狱环境 MobileSubstrate 提供动态注入的一个链接库</p>
+  <p>Yum（全称为 Yellow dog Updater, Modified）是一个在Fedora和RedHat以及CentOS中的Shell前端软件包管理器。基于RPM包管理，能够从指定的服务器自动下载RPM包并且安装，可以自动处理依赖性关系，并且一次安装所有依赖的软件包，无须繁琐地一次次下载、安装。</p>
 </blockquote>
 
-<h2 id="section-1">4 将动态链接库注入到二进制文件中</h2>
+<p>通过 yum 命令我们可以很方便的安装管理例如 mysql，php等常用的软件包服务。</p>
 
-<h4 id="libsubstratedylib--wechatredenvelopdylib-wechatapp">4.1 将 <code class="highlighter-rouge">libsubstrate.dylib</code> 和 <code class="highlighter-rouge">WeChatRedEnvelop.dylib</code> 拷贝到WeChat.app中</h4>
+<p>yum 命令格式为：</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>$ cp libsubstrate.dylib WeChatRedEnvelop.dylib wechat/Payload/WeChat.app
+<div class="highlighter-rouge"><pre class="highlight"><code>yum [options] [command] [package ...]
 </code></pre>
 </div>
 
-<h4 id="optoolhttpsgithubcomalexzielenskioptool-">4.2 使用开源的 <a href="https://github.com/alexzielenski/optool">optool</a> 工具</h4>
-<p>编译安装 <code class="highlighter-rouge">optool</code> 工具</p>
+<h4 id="section">更新源</h4>
 
-<div class="highlighter-rouge"><pre class="highlight"><code># 因为 optool 添加了 submodule，因为需要使用 --recuresive 选项，将子模块全部 clone 下来
-$ git clone --recursive https://github.com/alexzielenski/optool.git
-$ cd optool
-$ xcodebuild -project optool.xcodeproj -configuration Release ARCHS="x86_64" build
+<div class="highlighter-rouge"><pre class="highlight"><code>yum update
+
+yum upgrade
 </code></pre>
 </div>
 
-<h4 id="optool-">4.3 optool 注入</h4>
+<h2 id="a---apache---httpd">A - Apache -&gt; httpd</h2>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>$ /path/to/optool install -c load -p "@executable_path/WeChatRedEnvelop.dylib" 
--t 
-wechat/Payload/WeChat.app/WeChat
+<p>Apache 在Linux系统中，叫 <strong>httpd</strong>。O__O “…</p>
+
+<h4 id="apache">安装 Apache</h4>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>yum install httpd
 </code></pre>
 </div>
 
-<h2 id="section-2">5. 打包，重新签名</h2>
-<p>打包和重新签名可以直接使用图形化操作工具 <a href="https://github.com/DanTheMan827/ios-app-signer">ios-app-signer</a> 来完成。</p>
+<p><strong>&gt;</strong> 启动Apache</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>systemctl start httpd.service 
+</code></pre>
+</div>
+
+<p>这时在浏览器中输入IP地址，你可以看到Apache的Test页面。</p>
+
+<p><strong>&gt;</strong> 关闭Apache</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>systemctl stop httpd.service
+</code></pre>
+</div>
+
+<p><strong>&gt;</strong> 设置Apache开启自动启动</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>systemctl enable httpd.service 
+</code></pre>
+</div>
+
+<h4 id="section-1">使用</h4>
+
+<p>Apache 在CentOS中默认的根目录在 <code class="highlighter-rouge">/var/www/html</code></p>
+
+<p>Apache 相关的配置文件目录在 <code class="highlighter-rouge">/etc/httpd/conf/httpd.conf</code></p>
+
+<p>其他相关的配置文件目录在 <code class="highlighter-rouge">/etc/httpd/conf.d/</code></p>
+
+<h2 id="j---java">J - Java</h2>
+
+<p>查看可用的 JDK软件包列表:</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>yum search java | grep -i --color JDK
+</code></pre>
+</div>
+
+<p>安装 java-jdk</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>yum install java-1.8.0-openjdk  java-1.8.0-openjdk-devel  #安装openjdk
+</code></pre>
+</div>
+
+<p>查看当前 java 版本</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>java -version     #查看java版本
+</code></pre>
+</div>
+
+<p>java 存放的地址  <code class="highlighter-rouge">/usr/lib/jvm</code></p>
+
+<h4 id="java-">配置 Java 环境变量</h4>
+
+<p>将 jdk 拷贝到 /usr/local/java 目录下。没有的话 <code class="highlighter-rouge">mkdir</code>创建，统一放到 /usr/local 目录下便于管理。</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>cd /usr/lib/jvm
+
+cp -R java-1.8.0-openjdk /usr/local/java/jdk1.8
+</code></pre>
+</div>
+
+<h6 id="section-2">配置环境变量</h6>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>vi /etc/profile
+</code></pre>
+</div>
+
+<p>将下面内容添加到文件末尾，for循环后面。这里直接引用 /usr/lib/jvm 目录下的 JDK也是可以的。</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>export JAVA_HOME=/usr/local/java/jdk1.8
+export PATH=$JAVA_HOME/bin:$PATH:
+export JAVA_BIN=$JAVA_HOME/bin
+export CLASSPATH=.:$JAVA_HOME/lib/tools.jar:$JAVA_HOME/lib/dt.jar
+export JAVA_HOME JAVA_BIN PATH CLASSPAT
+</code></pre>
+</div>
+
+<p>让配置立即生效</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>source /etc/profile
+</code></pre>
+</div>
+
+<p>检查环境变量</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code># echo $JAVA_HOME
+
+-&gt; /usr/local/java/jdk1.8
+</code></pre>
+</div>
+
+<h2 id="t---tomcat">T - Tomcat</h2>
+
+<p>Tomcat 官网 : <a href="http://tomcat.apache.org/">http://tomcat.apache.org/</a></p>
+
+<p>选择一个版本的 tar.gz 文件进行下载</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code># wget http://ftp.cuhk.edu.hk/pub/packages/apache.org/tomcat/tomcat-6/v6.0.51/bin/apache-tomcat-6.0.51.tar.gz
+
+# tar -zxvf apache-tomcat-6.0.51.tar.gz   # 解压
+
+拷贝 tomcat 到 /usr/local 目录下
+
+# cp -R apache-tomcat-6.0.51 /usr/local/tomcat7
+</code></pre>
+</div>
+
+<h4 id="section-3">使用</h4>
+
+<p>启动Tomcat</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>cd /usr/local/tomcat7/bin
+
+sh startup.sh
+</code></pre>
+</div>
+
+<p>停止Tomcat</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>sh shutdown.sh
+</code></pre>
+</div>
+
+<h2 id="m---mysql---mariadb">M - MySQL -&gt; MariaDB</h2>
+
+<p>MySQL本身是开源免费的，但是在Mysql被Oracle收购后，有将MySQL闭源的风险。MariaDB是MySQL源代码的一个分支，是由MySQL的创始人麦克尔·维德纽斯主导开发，使用这些分支避免这个潜在的风险。</p>
+
+<p>详细的一些区别参考这篇：<a href="http://bijian1013.iteye.com/blog/2315665">浅谈MySQL和mariadb区别</a></p>
+
+<p><em>&gt;</em> centOS 7 以后，软件源中默认的是MariaDB 而不是MySQL</p>
+
+<p><strong>&gt;</strong> 安装 MariaDB</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>yum install mariadb-server -y
+</code></pre>
+</div>
+
+<p><strong>&gt;</strong> 启动 MariaDB</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>systemctl start mariadb.service
+</code></pre>
+</div>
+
+<p><strong>&gt;</strong> 停止 MariaDB</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>systemctl stop mariadb.service
+</code></pre>
+</div>
+
+<p><strong>&gt;</strong> 设置开启自动启动</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>systemctl enable mariadb.service
+</code></pre>
+</div>
+
+<p>进入MySQL，第一次进入不用密码需要自己修改</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>[root@VM_140_194_centos ~]# mysql
+</code></pre>
+</div>
+<p><img src="/img/centos-lnmp/mysql-login.png" alt="" /></p>
+
+<p><strong>&gt;</strong> 修改MySQL密码</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>mysql_secure_installation
+</code></pre>
+</div>
+
+<p>根据提示进行设置。</p>
+
+<p>用户权限管理设置等：<a href="http://blog.csdn.net/xyang81/article/details/51822252">MySQL用户权限管理</a></p>
+
+<h2 id="p---php">P - PHP</h2>
+
+<p>我自己使用到PHP的地方一般也只是用它来使用 <strong>PHPMyAdmin</strong>，而web服务也是用 Java或者Python开发的，所以PHP用得比较少。</p>
+
+<h4 id="section-4">安装</h4>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>yum install php
+</code></pre>
+</div>
+
+<p><strong>&gt;</strong> 需要重启一下Apache服务</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>service httpd restart
+</code></pre>
+</div>
+
+<p>测试一下是否安装好</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code># vi /var/www/html/info.php
+
+输入 i 进行插入
+
+# &lt;?php phpinfo(); ?&gt;
+
+ESC -&gt; 英文冒号 -&gt; wq 保存退出
+</code></pre>
+</div>
+
+<p>然后再浏览器地址中输入 <code class="highlighter-rouge">ip地址/info.php</code>，这时应该能看到到当前的 php信息。</p>
+
+<h4 id="php--mysql">关联 PHP 和 MySQL</h4>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>yum install php-mysql php-gd php-imap php-ldap php-odbc php-pear php-xml php-xmlrpc
+</code></pre>
+</div>
+
+<p>安装完后重启 Apache</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>systemctl restart httpd.service
+或者
+service httpd restart
+</code></pre>
+</div>
+
+<p>然后在 info.php 中就能看到mysql的模块。</p>
+
+<h4 id="phpmyadmin">安装 phpMyadmin</h4>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>yum install phpMyAdmin php-mcrypt
+</code></pre>
+</div>
+
+<p>安装完后会在 <code class="highlighter-rouge">/usr/share</code> 目录下有个 <strong>phpMydmin</strong>目录，将该目录拷贝的 html 目录下。</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code># cd /usr/share
+# cp -a phpMyAdmin/ /var/www/html/phpmyadmin
+</code></pre>
+</div>
+
+<h6 id="section-5">一些错误</h6>
+
+<p>The mbstring extension is missing. Please check your PHP configuration.</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code># vi /etc/php.ini
+	
+在 [PHP] 下面插入
+	
+# extension=php_mbstring.dll
+   
+* 重启 httpd.service
+</code></pre>
+</div>
+
+<p>You don’t have permission to access /phpmyadmin/ on this server.</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>vi /etc/httpd/conf.d/phpMyAdmin.conf
+</code></pre>
+</div>
+<p><img src="/img/centos-lnmp/phpmyadmin-permission.png" alt="" /></p>
+
+<h2 id="n---nginx">N - Nginx</h2>
+
+<h4 id="apache-nginx">有了Apache为什么要使用 Nginx</h4>
 
 <blockquote>
-  <p>需要使用开发者证书 ~~~~(&gt;_&lt;)~~~~</p>
+  <p><a href="http://willis.blog.51cto.com/11907152/1852083">Apache, Tomcat, Nginx的区别</a></p>
 </blockquote>
 
-<p><img src="/img/reverse_wechat/ios-app-signer.png" /></p>
+<p>Apache 和 Nginx 都叫做 [<em>HTTP Server</em>]，Tomcat这一类的则是 [<em>Application Server</em>]。</p>
 
-<p>点击 start 后，指定保存路径，iOS App Signer 就会帮你搞定所有事情。</p>
+<p>Nginx 相对于Apache而言，具有</p>
 
-<h2 id="section-3">6. 安装</h2>
-<p>使用 Xcode 菜单 - Window - Devices 中打开设置窗口 
-<img src="/img/reverse_wechat/xcode.png" /></p>
+<h4 id="section-6">安装</h4>
 
-<h2 id="end">End</h2>
+<div class="highlighter-rouge"><pre class="highlight"><code>yum install nginx
+</code></pre>
+</div>
+
+<p><strong>&gt;</strong> 启动 Nginx 。注意，Apache和Nginx默认都是监听的80端口，所以注意端口占用，要么修改默认的端口。</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code># nginx
+</code></pre>
+</div>
+<p><strong>&gt;</strong> 停止nginx</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>nginx -s stop
+</code></pre>
+</div>
+
+<p><strong>&gt;</strong> 重启nginx</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code># nginx -s reload
+</code></pre>
+</div>
+
+<p>nginx 相关配置文件路径 ：<code class="highlighter-rouge">/etc/nginx/nginx.conf</code></p>
+
+<h2 id="r---redis">R - Redis</h2>
+
+<p>Redis是一个开源的使用ANSI C语言编写、支持网络、可基于内存亦可持久化的日志型、Key-Value数据库，并提供多种语言的API。</p>
+
+<p><strong>&gt;</strong> 安装</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>yum install -y redis
+</code></pre>
+</div>
+
+<p><strong>&gt;</strong> 启动</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>systemctl start redis
+</code></pre>
+</div>
+
+<p><strong>&gt;</strong> 开机启动</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>systemctl enable redis
+</code></pre>
+</div>
+
+<p><strong>&gt;</strong> 停止</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>systemctl stop redis
+</code></pre>
+</div>
+
+<h2 id="f---ftp">F - FTP</h2>
+
+<p><strong>vsftpd</strong> 是Linux 下比较著名的FTP服务器。</p>
+
+<p><strong>&gt;</strong>安装</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>yum -y install vsftpd
+</code></pre>
+</div>
+
+<p><strong>&gt;</strong>相关操作</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code># systemctl start vsftpd     # 启动 vsftpd
+# systemctl enable vsftpd		# 设置开机启动
+# systemctl stop vsftpd		# 停止 vsftpd
+</code></pre>
+</div>
+
+<h4 id="section-7">修改配置文件</h4>
+
+<p>打开 <strong>/etc/vsftpd/vsftpd.conf</strong>，修改配置：</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>anonymous_enable=NO 	#设定不允许匿名访问
+local_enable=YES 			#设定本地用户可以访问。注：如使用虚拟宿主用户，在该项目设定为NO的情况下所有虚拟用户将无法访问
+ascii_upload_enable=YES
+ascii_download_enable=YES #设定支持ASCII模式的上传和下载功能
+chroot_list_enable=YES 	#使用户不能离开主目录
+pam_service_name=vsftpd   #PAM认证文件名。PAM将根据/etc/pam.d/vsftpd进行认证
+</code></pre>
+</div>
+
+<p>以下这些是关于vsftpd虚拟用户支持的重要配置项，默认vsftpd.conf中不包含这些设定项目，需要自己手动添加</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>guest_enable=YES			#设定启用虚拟用户功能
+guest_username=ftp		#指定虚拟用户的宿主用户，CentOS中已经有内置的ftp用户了
+user_config_dir=/etc/vsftpd/vuser_conf #设定虚拟用户个人vsftp的CentOS FTP服务文件存放路径。存放虚拟用户个性的CentOS FTP服务文件(配置文件名=虚拟用户名
+</code></pre>
+</div>
+
+<h4 id="section-8">添加用户</h4>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>useradd vicnent 	# 添加一个用户
+passwd vincent		# 给用户设置密码
+</code></pre>
+</div>
+
+<p>在 <code class="highlighter-rouge">/home</code> 路径下，就会多出一个 <strong>vincent</strong> 的文件夹。</p>
+
+<p>然后就可以在其他电脑上通过FileZilla这类的FTP软件进行上传下载文件了。但是要注意文件的权限。</p>
 
 
 
@@ -372,19 +622,12 @@ wechat/Payload/WeChat.app/WeChat
                 <ul class="pager">
                     
                     <li class="previous">
-                        <a href="/2017/02/05/blossom-age/" data-toggle="tooltip" data-placement="top" title="花样年华">
+                        <a href="/2017/03/28/web-pressure-test/" data-toggle="tooltip" data-placement="top" title="Web服务器压力测试工具 - webbench,Siege">
                         Previous<br>
-                        <span>花样年华</span>
+                        <span>Web服务器压力测试工具 - webbench,Siege</span>
                         </a>
                     </li>
                     
-                    
-                    <li class="next">
-                        <a href="/2017/03/09/ssh-login/" data-toggle="tooltip" data-placement="top" title="ssh登录服务器自动发邮件">
-                        Next<br>
-                        <span>ssh登录服务器自动发邮件</span>
-                        </a>
-                    </li>
                     
                 </ul>
 
