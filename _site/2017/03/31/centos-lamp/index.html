@@ -405,7 +405,7 @@ sh startup.sh
 <div class="highlighter-rouge"><pre class="highlight"><code>[root@VM_140_194_centos ~]# mysql
 </code></pre>
 </div>
-<p><img src="/img/centos-lnmp/mysql-login.png" alt="" /></p>
+<p><img src="/img/p-centos-lnmp/mysql-login.png" alt="" /></p>
 
 <p><strong>&gt;</strong> 修改MySQL密码</p>
 
@@ -415,7 +415,37 @@ sh startup.sh
 
 <p>根据提示进行设置。</p>
 
-<p>用户权限管理设置等：<a href="http://blog.csdn.net/xyang81/article/details/51822252">MySQL用户权限管理</a></p>
+<p><strong>&gt;</strong> 创建用户以及分配权限</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code># 创建用户
+CREATE USER 'vincent'@'localhost' IDENTIFIED BY 'password';
+# 分配权限
+grant create,alter,select,insert,update,delete on *.* to vincent@localhost IDENTIFIED BY 'password';
+
+# 收回权限
+revoke create,alter,select,insert,update,delete on mysql.* from 'vincent'@'localhost';
+# 刷新系统权限
+flush privileges;
+</code></pre>
+</div>
+
+<p><strong>&gt;</strong> 常见错误</p>
+
+<p><strong>Access denied for user ‘root@localhost’ (using password:NO)</strong></p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>&gt; systemctl stop mariadb.service
+&gt; mysqld_safe --skip-grant-tables &amp;
+# 可以不用密码进入MySQL
+&gt; mysql
+&gt; use mysql;
+&gt; truncate table user;
+&gt; flush privileges;
+
+&gt; grant all privileges on *.* to root@localhost identified by 'YourNewPassword' with grant option;
+
+
+</code></pre>
+</div>
 
 <h2 id="p---php">P - PHP</h2>
 
@@ -495,7 +525,7 @@ service httpd restart
 <div class="highlighter-rouge"><pre class="highlight"><code>vi /etc/httpd/conf.d/phpMyAdmin.conf
 </code></pre>
 </div>
-<p><img src="/img/centos-lnmp/phpmyadmin-permission.png" alt="" /></p>
+<p><img src="/img/p-centos-lnmp/phpmyadmin-permission.png" alt="" /></p>
 
 <h2 id="n---nginx">N - Nginx</h2>
 
@@ -712,9 +742,15 @@ passwd vincent		# 给用户设置密码
                 <h5>FRIENDS</h5>
                 <ul class="list-inline">
                     
+                        <li><a target="_blank" href="https://www.vincents.cn/saylove/">say - vincents.cn</a></li>
+                    
                         <li><a target="_blank" href="https://shop130631028.taobao.com/">在回忆中 - 卖点小东西</a></li>
                     
                         <li><a target="_blank" href="https://unsplash.com">unsplash - 好看的图片</a></li>
+                    
+                        <li><a target="_blank" href="https://wechat.vincents.cn">wechat.vincents.cn</a></li>
+                    
+                        <li><a target="_blank" href="https://api.vincents.cn">api.vincents.cn</a></li>
                     
                 </ul>
                 

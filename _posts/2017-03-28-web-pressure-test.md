@@ -74,7 +74,7 @@ webbench [option]... URL
 
 #### 使用结果
 
-![](/img/webbench/webbench-result.png)
+![](/img/p-web-test-tool/webbench-result.png)
 
 貌似只有 0 failed 访问才不会有太大影响。其他或多或少都会有影响。 神经病的马赛克。~
 
@@ -163,7 +163,7 @@ siege -c 100 -r 20 http://www.baidu.com/ POST p1=v1&p2=v2
 
 #### Siege 输出结果说明
 
-![](/img/web-test-tool/siege-result.png)
+![](/img/p-web-test-tool/siege-result.png)
 
 
 ------- | -------

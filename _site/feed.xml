@@ -5,8 +5,8 @@
     <description>// iOS Developer，也写Android和python。正在学习全栈。很高兴认识你。</description>
     <link>http://localhost:4000/</link>
     <atom:link href="http://localhost:4000/feed.xml" rel="self" type="application/rss+xml" />
-    <pubDate>Wed, 05 Apr 2017 16:55:03 +0800</pubDate>
-    <lastBuildDate>Wed, 05 Apr 2017 16:55:03 +0800</lastBuildDate>
+    <pubDate>Thu, 15 Jun 2017 13:58:04 +0800</pubDate>
+    <lastBuildDate>Thu, 15 Jun 2017 13:58:04 +0800</lastBuildDate>
     <generator>Jekyll v3.3.1</generator>
     
       <item>
@@ -220,7 +220,7 @@ sh startup.sh
 &lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;[root@VM_140_194_centos ~]# mysql
 &lt;/code&gt;&lt;/pre&gt;
 &lt;/div&gt;
-&lt;p&gt;&lt;img src=&quot;/img/centos-lnmp/mysql-login.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;/img/p-centos-lnmp/mysql-login.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
 
 &lt;p&gt;&lt;strong&gt;&amp;gt;&lt;/strong&gt; 修改MySQL密码&lt;/p&gt;
 
@@ -230,7 +230,37 @@ sh startup.sh
 
 &lt;p&gt;根据提示进行设置。&lt;/p&gt;
 
-&lt;p&gt;用户权限管理设置等：&lt;a href=&quot;http://blog.csdn.net/xyang81/article/details/51822252&quot;&gt;MySQL用户权限管理&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;&amp;gt;&lt;/strong&gt; 创建用户以及分配权限&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;# 创建用户
+CREATE USER 'vincent'@'localhost' IDENTIFIED BY 'password';
+# 分配权限
+grant create,alter,select,insert,update,delete on *.* to vincent@localhost IDENTIFIED BY 'password';
+
+# 收回权限
+revoke create,alter,select,insert,update,delete on mysql.* from 'vincent'@'localhost';
+# 刷新系统权限
+flush privileges;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;&lt;strong&gt;&amp;gt;&lt;/strong&gt; 常见错误&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;Access denied for user ‘root@localhost’ (using password:NO)&lt;/strong&gt;&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&amp;gt; systemctl stop mariadb.service
+&amp;gt; mysqld_safe --skip-grant-tables &amp;amp;
+# 可以不用密码进入MySQL
+&amp;gt; mysql
+&amp;gt; use mysql;
+&amp;gt; truncate table user;
+&amp;gt; flush privileges;
+
+&amp;gt; grant all privileges on *.* to root@localhost identified by 'YourNewPassword' with grant option;
+
+
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
 
 &lt;h2 id=&quot;p---php&quot;&gt;P - PHP&lt;/h2&gt;
 
@@ -310,7 +340,7 @@ service httpd restart
 &lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;vi /etc/httpd/conf.d/phpMyAdmin.conf
 &lt;/code&gt;&lt;/pre&gt;
 &lt;/div&gt;
-&lt;p&gt;&lt;img src=&quot;/img/centos-lnmp/phpmyadmin-permission.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;/img/p-centos-lnmp/phpmyadmin-permission.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
 
 &lt;h2 id=&quot;n---nginx&quot;&gt;N - Nginx&lt;/h2&gt;
 
@@ -505,7 +535,7 @@ webbench [option]... URL
 
 &lt;h4 id=&quot;section-2&quot;&gt;使用结果&lt;/h4&gt;
 
-&lt;p&gt;&lt;img src=&quot;/img/webbench/webbench-result.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;/img/p-web-test-tool/webbench-result.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
 
 &lt;p&gt;貌似只有 0 failed 访问才不会有太大影响。其他或多或少都会有影响。 神经病的马赛克。~&lt;/p&gt;
 
@@ -596,7 +626,7 @@ webbench [option]... URL
 
 &lt;h4 id=&quot;siege-&quot;&gt;Siege 输出结果说明&lt;/h4&gt;
 
-&lt;p&gt;&lt;img src=&quot;/img/web-test-tool/siege-result.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;/img/p-web-test-tool/siege-result.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
 
 &lt;table&gt;
   &lt;tbody&gt;
@@ -921,6 +951,13 @@ def update_dns(dns_rr, dns_type, dns_value, dns_record_id, dns_ttl, dns_format):
 &lt;/code&gt;&lt;/pre&gt;
 &lt;/div&gt;
 
+&lt;p&gt;查看系统重启记录&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;last reboot
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;p&gt;&lt;img src=&quot;/img/p-aliyun-ddns/reboot_reslut.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
+
 &lt;h2 id=&quot;section-4&quot;&gt;参考学习&lt;/h2&gt;
 &lt;ol&gt;
   &lt;li&gt;&lt;a href=&quot;https://enginx.cn/2016/08/22/%E9%80%9A%E8%BF%87python%E5%B0%86%E9%98%BF%E9%87%8C%E4%BA%91dns%E8%A7%A3%E6%9E%90%E4%BD%9C%E4%B8%BAddns%E4%BD%BF%E7%94%A8.html&quot;&gt;通过python将阿里云DNS解析作为DDNS使用&lt;/a&gt;&lt;/li&gt;
@@ -940,7 +977,7 @@ def update_dns(dns_rr, dns_type, dns_value, dns_record_id, dns_ttl, dns_format):
       <item>
         <title>iOS 多线程和线程锁</title>
         <description>&lt;p&gt;在 &lt;strong&gt;ibireme&lt;/strong&gt; 的 &lt;a href=&quot;https://bestswifter.com/ios-lock/&quot;&gt;不再安全的 OSSpinLock&lt;/a&gt; 一文中，有一张图简单比较了各种所的加锁性能
-&lt;img src=&quot;/img/ios-lock/lock_benchmark.png&quot; alt=&quot;&quot; /&gt;
+&lt;img src=&quot;/img/p-ios-lock/lock_benchmark.png&quot; alt=&quot;&quot; /&gt;
 下面根据顺序分析每个加锁的实现原理。注意：加解锁速度并不表示锁的效率，只表示加解锁的操作在执行时的复杂度。&lt;/p&gt;
 
 &lt;h2 id=&quot;section&quot;&gt;锁之间的关系&lt;/h2&gt;
@@ -1808,13 +1845,13 @@ wechat/Payload/WeChat.app/WeChat
   &lt;p&gt;需要使用开发者证书 ~~~~(&amp;gt;_&amp;lt;)~~~~&lt;/p&gt;
 &lt;/blockquote&gt;
 
-&lt;p&gt;&lt;img src=&quot;/img/reverse_wechat/ios-app-signer.png&quot; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;/img/p-reverse_wechat/ios-app-signer.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
 
 &lt;p&gt;点击 start 后，指定保存路径，iOS App Signer 就会帮你搞定所有事情。&lt;/p&gt;
 
 &lt;h2 id=&quot;section-3&quot;&gt;6. 安装&lt;/h2&gt;
 &lt;p&gt;使用 Xcode 菜单 - Window - Devices 中打开设置窗口 
-&lt;img src=&quot;/img/reverse_wechat/xcode.png&quot; /&gt;&lt;/p&gt;
+&lt;img src=&quot;/img/reverse_wechat/xcode.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
 
 &lt;h2 id=&quot;end&quot;&gt;End&lt;/h2&gt;
 
@@ -1836,7 +1873,7 @@ wechat/Payload/WeChat.app/WeChat
   &lt;p&gt;如果我有多一张票，你会不会同我走。&lt;/p&gt;
 &lt;/blockquote&gt;
 
-&lt;p&gt;&lt;img src=&quot;/img/blossom_age/ba-shufa.jpg&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;/img/p-blossom_age/ba-shufa.jpg&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
 
 </description>
         <pubDate>Sun, 05 Feb 2017 08:30:30 +0800</pubDate>

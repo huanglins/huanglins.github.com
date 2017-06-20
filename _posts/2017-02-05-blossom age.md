@@ -11,6 +11,6 @@ tags:
 
 >如果我有多一张票，你会不会同我走。
 
-![](/img/blossom_age/ba-shufa.jpg)
+![](/img/p-blossom_age/ba-shufa.jpg)
 
 

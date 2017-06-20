@@ -155,13 +155,13 @@ wechat/Payload/WeChat.app/WeChat
 
 > 需要使用开发者证书 ~~~~(>_<)~~~~
 
-<img src="/img/reverse_wechat/ios-app-signer.png">
+![](/img/p-reverse_wechat/ios-app-signer.png)
 
 点击 start 后，指定保存路径，iOS App Signer 就会帮你搞定所有事情。
 
 ## 6. 安装
 使用 Xcode 菜单 - Window - Devices 中打开设置窗口 
-<img src="/img/reverse_wechat/xcode.png">
+![](/img/reverse_wechat/xcode.png)
 
 ## End
 

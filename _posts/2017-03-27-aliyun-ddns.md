@@ -265,6 +265,14 @@ crontab -e
 0 5 * * * /sbin/reboot
 ```
 
+查看系统重启记录
+
+```
+last reboot
+```
+![](/img/p-aliyun-ddns/reboot_reslut.png)
+
+
 ## 参考学习
 1. [通过python将阿里云DNS解析作为DDNS使用](https://enginx.cn/2016/08/22/%E9%80%9A%E8%BF%87python%E5%B0%86%E9%98%BF%E9%87%8C%E4%BA%91dns%E8%A7%A3%E6%9E%90%E4%BD%9C%E4%B8%BAddns%E4%BD%BF%E7%94%A8.html)
 2. [通过阿里云域名动态解析 IP 地址](https://www.v2ex.com/t/249694)

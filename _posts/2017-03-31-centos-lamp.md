@@ -216,7 +216,7 @@ systemctl enable mariadb.service
 ```
 [root@VM_140_194_centos ~]# mysql
 ```
-![](/img/centos-lnmp/mysql-login.png)
+![](/img/p-centos-lnmp/mysql-login.png)
 
 **>** 修改MySQL密码
 
@@ -226,7 +226,38 @@ mysql_secure_installation
 
 根据提示进行设置。
 
-用户权限管理设置等：[MySQL用户权限管理](http://blog.csdn.net/xyang81/article/details/51822252)
+**>** 创建用户以及分配权限
+
+```
+# 创建用户
+CREATE USER 'vincent'@'localhost' IDENTIFIED BY 'password';
+# 分配权限
+grant create,alter,select,insert,update,delete on *.* to vincent@localhost IDENTIFIED BY 'password';
+
+# 收回权限
+revoke create,alter,select,insert,update,delete on mysql.* from 'vincent'@'localhost';
+# 刷新系统权限
+flush privileges;
+```
+
+**>** 常见错误
+
+**Access denied for user 'root@localhost' (using password:NO)**
+
+```
+> systemctl stop mariadb.service
+> mysqld_safe --skip-grant-tables &
+# 可以不用密码进入MySQL
+> mysql
+> use mysql;
+> truncate table user;
+> flush privileges;
+
+> grant all privileges on *.* to root@localhost identified by 'YourNewPassword' with grant option;
+
+
+```
+
 
 ## P - PHP
 
@@ -306,7 +337,7 @@ You don't have permission to access /phpmyadmin/ on this server.
 ```
 vi /etc/httpd/conf.d/phpMyAdmin.conf
 ```
-![](/img/centos-lnmp/phpmyadmin-permission.png)
+![](/img/p-centos-lnmp/phpmyadmin-permission.png)
 
 ## N - Nginx 
 
