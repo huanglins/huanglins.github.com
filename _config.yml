@@ -38,14 +38,12 @@ markdown: kramdown
 kramdown:
   input: GFM                            # use Github Flavored Markdown !important
 
-# 多说评论
+# 评论框
 # Disqus settings
-#disqus_username: _your_disqus_short_name_
+disqus_username: vincents-cn
 
-# Duoshuo settings
-#duoshuo_username: vincents
-# Share component is depend on Comment so we can NOT use share only.
-#duoshuo_share: true                     # set to false if you want to use Comment without Sharing
+# Netease setttings
+netease_comment: false
 
 # Analytics settings  百度统计
 # Baidu Analytics
@@ -86,7 +84,15 @@ friends: [
     	href: "https://wechat.vincents.cn"
     },
     {
+        title: "获取UDID",
+        href: "https://api.vincents.cn/udid"
+    },
+    {
     	title: "api.vincents.cn",
-    	href: "https://api.vincents.cn"
+    	href: "https://api.vincents.cn/manager"
+    },
+    {
+        title: "chat.vincents.cn",
+        href: "http://chat.vincents.cn"
     }
 ]

@@ -180,6 +180,41 @@
             ">
     			
 <div class="post-preview">
+    <a href="/2017/08/09/charles-https-proxy/">
+        <h2 class="post-title">
+            Charles 抓取HTTPS数据包
+        </h2>
+        
+        <h3 class="post-subtitle">
+            HTTP/HTTPS抓包
+        </h3>
+        
+        <div class="post-content-preview">
+            前言
+Charles 是一款在Mac下常用的网络封包截取工具。Charles 可以将自己设置为系统的网络代理服务器，使得所有的网络请求都通过它来完成。这样，方便自己开发的时候进行接口调试和已经调试别的APP网络接口。。。
+
+启用HTTP代理
+
+
+这里启用 Charles 的代理，设置代理IP 为 8888
+
+打开终端输入 ifconfig 查看当前的局域网IP
+
+ifconfig
+
+
+
+
+然...
+        </div>
+    </a>
+    <p class="post-meta">
+        Posted by vincent on August 9, 2017
+    </p>
+</div>
+<hr>
+
+<div class="post-preview">
     <a href="/2017/03/31/centos-lamp/">
         <h2 class="post-title">
             CentOS LAMP/LEMP 等各种服务环境搭建
@@ -444,32 +479,17 @@ PS：目前最新的 6.5....
 </div>
 <hr>
 
-<div class="post-preview">
-    <a href="/2016/03/31/write21/">
-        <h2 class="post-title">
-            写在21
-        </h2>
-        
-        <h3 class="post-subtitle">
-            
-        </h3>
-        
-        <div class="post-content-preview">
-            我妈打电话给我说，要去存钱。我说存银行才多少利息，不如拿给我去理财。然后我妈直接就打了X万给我。我一惊，也没想着对我来说这么大一笔钱，她也不考虑考虑就给我了。当然我不会去买股票。
-
-和朋友讲，我爸妈现在很多事都要征求我的意见了，你可知道我早几年有多不听话多伤脑筋。朋友喝了一口酒，悠悠的说，那是你现在大了，爸妈觉得你该担得起责任。我在想这到底是好事还是坏事的时候，惊觉自己已经21了。
-
-我喜欢...
-        </div>
-    </a>
-    <p class="post-meta">
-        Posted by  on March 31, 2016
-    </p>
-</div>
-<hr>
-
 
 <!-- Pager -->
+
+<ul class="pager">
+    
+    
+    <li class="next">
+        <a href="/page2">Older Posts &rarr;</a>
+    </li>
+    
+</ul>
 
 <!-- 百度统计 -->
 <script>
@@ -533,6 +553,8 @@ var _hmt = _hmt || [];
                                 <a href="/tags/#web服务器" title="web服务器" rel="2">
                                     web服务器
                                 </a>
+                            
+                        
                             
                         
                     </div>
@@ -622,7 +644,11 @@ var _hmt = _hmt || [];
                     
                         <li><a target="_blank" href="https://wechat.vincents.cn">wechat.vincents.cn</a></li>
                     
-                        <li><a target="_blank" href="https://api.vincents.cn">api.vincents.cn</a></li>
+                        <li><a target="_blank" href="https://api.vincents.cn/udid">获取UDID</a></li>
+                    
+                        <li><a target="_blank" href="https://api.vincents.cn/manager">api.vincents.cn</a></li>
+                    
+                        <li><a target="_blank" href="http://chat.vincents.cn">chat.vincents.cn</a></li>
                     
                 </ul>
                 
@@ -700,6 +726,8 @@ var _hmt = _hmt || [];
                 <p class="copyright text-muted">
                     渝ICP备17003502号 | Copyright &copy; tnecniV 2017
                     <br>
+                    <script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+                    <span id="busuanzi_container_site_pv"> 您是本站第<span id="busuanzi_value_site_pv"></span>位访问者 | </span>
                     Theme by <a target="_blank" href="http://huangxuan.me">Hux</a> |
                     <iframe
                         style="margin-left: 2px; margin-bottom:-5px;"
@@ -723,15 +751,8 @@ var _hmt = _hmt || [];
 
 <!-- Service Worker -->
 
-<script type="text/javascript">
-    if(navigator.serviceWorker){
-        // For security reasons, a service worker can only control the pages that are in the same directory level or below it. That's why we put sw.js at ROOT level.
-        navigator.serviceWorker
-            .register('/sw.js')
-            .then((registration) => {console.log('Service Worker Registered. ', registration)})
-            .catch((error) => {console.log('ServiceWorker registration failed: ', error)})
-    }
-</script>
+<script src="/js/snackbar.js "></script>
+<script src="/js/sw-registration.js "></script>
 
 
 
@@ -829,7 +850,6 @@ var _hmt = _hmt || [];
 
 
 <!-- Side Catalog -->
-
 
 
 

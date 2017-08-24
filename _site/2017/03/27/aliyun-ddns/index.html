@@ -458,7 +458,7 @@ def update_dns(dns_rr, dns_type, dns_value, dns_record_id, dns_ttl, dns_format):
 <div class="highlighter-rouge"><pre class="highlight"><code>last reboot
 </code></pre>
 </div>
-<p><img src="/img/p-aliyun-ddns/reboot_reslut.png" alt="" /></p>
+<p><img src="/img/p-aliyun-ddns/reboot_result.png" alt="" /></p>
 
 <h2 id="section-4">参考学习</h2>
 <ol>
@@ -467,11 +467,7 @@ def update_dns(dns_rr, dns_type, dns_value, dns_record_id, dns_ttl, dns_format):
 </ol>
 
 
-
                 <hr>
-
-                
-
 
                 <ul class="pager">
                     
@@ -492,11 +488,15 @@ def update_dns(dns_rr, dns_type, dns_value, dns_record_id, dns_ttl, dns_format):
                     
                 </ul>
 
-
+                
+                <!-- disqus 评论框 start -->
+                <div class="comment">
+                    <div id="disqus_thread" class="disqus-thread"></div>
+                </div>
+                <!-- disqus 评论框 end -->
                 
 
                 
-
             </div>  
 
     <!-- Side Catalog Container -->
@@ -563,6 +563,8 @@ def update_dns(dns_rr, dns_type, dns_value, dns_record_id, dns_ttl, dns_format):
                                 </a>
                             
         				
+                            
+        				
         			</div>
                 </section>
                 
@@ -581,7 +583,11 @@ def update_dns(dns_rr, dns_type, dns_value, dns_record_id, dns_ttl, dns_format):
                     
                         <li><a target="_blank" href="https://wechat.vincents.cn">wechat.vincents.cn</a></li>
                     
-                        <li><a target="_blank" href="https://api.vincents.cn">api.vincents.cn</a></li>
+                        <li><a target="_blank" href="https://api.vincents.cn/udid">获取UDID</a></li>
+                    
+                        <li><a target="_blank" href="https://api.vincents.cn/manager">api.vincents.cn</a></li>
+                    
+                        <li><a target="_blank" href="http://chat.vincents.cn">chat.vincents.cn</a></li>
                     
                 </ul>
                 
@@ -591,8 +597,20 @@ def update_dns(dns_rr, dns_type, dns_value, dns_record_id, dns_ttl, dns_format):
 </article>
 
 
+<!-- disqus 公共JS代码 start (一个网页只需插入一次) -->
+<script type="text/javascript">
+    /* * * CONFIGURATION VARIABLES * * */
+    var disqus_shortname = "vincents-cn";
+    var disqus_identifier = "/2017/03/27/aliyun-ddns";
+    var disqus_url = "http://localhost:4000/2017/03/27/aliyun-ddns/";
 
-
+    (function() {
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+</script>
+<!-- disqus 公共JS代码 end -->
 
 
 
@@ -690,6 +708,8 @@ def update_dns(dns_rr, dns_type, dns_value, dns_record_id, dns_ttl, dns_format):
                 <p class="copyright text-muted">
                     渝ICP备17003502号 | Copyright &copy; tnecniV 2017
                     <br>
+                    <script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+                    <span id="busuanzi_container_site_pv"> 您是本站第<span id="busuanzi_value_site_pv"></span>位访问者 | </span>
                     Theme by <a target="_blank" href="http://huangxuan.me">Hux</a> |
                     <iframe
                         style="margin-left: 2px; margin-bottom:-5px;"
@@ -713,15 +733,8 @@ def update_dns(dns_rr, dns_type, dns_value, dns_record_id, dns_ttl, dns_format):
 
 <!-- Service Worker -->
 
-<script type="text/javascript">
-    if(navigator.serviceWorker){
-        // For security reasons, a service worker can only control the pages that are in the same directory level or below it. That's why we put sw.js at ROOT level.
-        navigator.serviceWorker
-            .register('/sw.js')
-            .then((registration) => {console.log('Service Worker Registered. ', registration)})
-            .catch((error) => {console.log('ServiceWorker registration failed: ', error)})
-    }
-</script>
+<script src="/js/snackbar.js "></script>
+<script src="/js/sw-registration.js "></script>
 
 
 
@@ -863,7 +876,6 @@ def update_dns(dns_rr, dns_type, dns_value, dns_record_id, dns_ttl, dns_format):
         });
     });
 </script>
-
 
 
 

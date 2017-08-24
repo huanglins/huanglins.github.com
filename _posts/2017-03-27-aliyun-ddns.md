@@ -270,7 +270,7 @@ crontab -e
 ```
 last reboot
 ```
-![](/img/p-aliyun-ddns/reboot_reslut.png)
+![](/img/p-aliyun-ddns/reboot_result.png)
 
 
 ## 参考学习
