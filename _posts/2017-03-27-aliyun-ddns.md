@@ -7,7 +7,7 @@ author:     "vincent"
 header-img: "img/post-bg-8-aliyun-ddns.jpg"
 catalog: true
 tags:
-    - python
+    - Python
 ---
 
 想要通过域名直接访问路由器的公网IP，但是路由器的外网IP不是固定的，每次重启路由器都会改变。于是想要实现阿里云的DDNS(动态解析)。

@@ -7,7 +7,7 @@ author:     "vincent"
 header-img: "img/post-bg-9-webbench.jpg"
 catalog: true
 tags:
-    - web服务器
+    - Web服务器
 ---
 
 > Webbench是有名的网站压力测试工具，它是由 Lionbridge公司开发。
@@ -35,9 +35,9 @@ tar -zxvf webbench-1.5.tar.gz
 
 cd webbench-1.5
 
-mkdir -pv /usr/local/man/man1 # 关键
+sudo mkdir -pv /usr/local/man/man1 # 创建文件夹
 
-sodu make && sudo make install # sudo 权限因为需要创建文件夹
+sudo make && sudo make install # 安装
 
 ```
 

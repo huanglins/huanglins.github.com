@@ -7,7 +7,7 @@ author:     "vincent"
 header-img: "img/post-bg-10-centos-lamp.jpg"
 catalog: true
 tags:
-    - web服务器
+    - Web服务器
 ---
 
 

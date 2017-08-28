@@ -5,9 +5,399 @@
     <description>// iOS Developer，也写Android和python。正在学习全栈。很高兴认识你。</description>
     <link>http://localhost:4000/</link>
     <atom:link href="http://localhost:4000/feed.xml" rel="self" type="application/rss+xml" />
-    <pubDate>Thu, 24 Aug 2017 17:34:27 +0800</pubDate>
-    <lastBuildDate>Thu, 24 Aug 2017 17:34:27 +0800</lastBuildDate>
+    <pubDate>Mon, 28 Aug 2017 11:51:24 +0800</pubDate>
+    <lastBuildDate>Mon, 28 Aug 2017 11:51:24 +0800</lastBuildDate>
     <generator>Jekyll v3.3.1</generator>
+    
+      <item>
+        <title>CentOS 防火墙配置之 iptables和DDoS deflate</title>
+        <description>&lt;h2 id=&quot;iptables&quot;&gt;iptables&lt;/h2&gt;
+&lt;p&gt;netfilter/iptables IP 信息包过滤系统是一种功能强大的工具，可用于添加、编辑和除去规则，这些规则是在做信息包过滤决定时，防火墙所遵循和组成的规则。这些规则存储在专用的信息包过滤表中，而这些表集成在 Linux 内核中。在信息包过滤表中，规则被分组放在我们所谓的链（chain）中。&lt;/p&gt;
+
+&lt;p&gt;netfilter 组件也称为内核空间（kernelspace），是内核的一部分，由一些信息包过滤表组成，这些表包含内核用来控制信息包过滤处理的规则集。
+iptables 建立在 netfilter 架构基础上的一个包过滤管理工具，也称为用户空间（userspace），它使插入、修改和除去信息包过滤表中的规则变得容易。
+iptables包含4个表，5个链。其中表是按照对数据包的操作区分的，链是按照不同的Hook点来区分的，表和链实际上是netfilter的两个维度。&lt;/p&gt;
+
+&lt;h4 id=&quot;iptables-&quot;&gt;1.iptables 语法规则&lt;/h4&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;iptables [-t 表] 大写选项子命令(-A) [规则号] 链名 匹配标准(-s xx.xx.xx.xx) -j 目标（规则）
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;&lt;strong&gt;注意：所有表名必须小写，命令动作必须大写，链名必须大写，匹配标准必须小写，目标规则必须大写&lt;/strong&gt;&lt;/p&gt;
+
+&lt;h4 id=&quot;iptables--1&quot;&gt;2.iptables 表&lt;/h4&gt;
+
+&lt;table&gt;
+  &lt;tbody&gt;
+    &lt;tr&gt;
+      &lt;td&gt;filter&lt;/td&gt;
+      &lt;td&gt;一般的数据包过滤功能&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;nat&lt;/td&gt;
+      &lt;td&gt;用于nat(网络地址转换)功能（端口映射，地址映射等）&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;mangle&lt;/td&gt;
+      &lt;td&gt;用于对特定数据包进行修改&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;raw&lt;/td&gt;
+      &lt;td&gt;优先级最高，设置raw时一般是为了不再让iptables做数据包的链接跟踪处理，提高性能&lt;/td&gt;
+    &lt;/tr&gt;
+  &lt;/tbody&gt;
+&lt;/table&gt;
+
+&lt;p&gt;表的处理优先级：raw &amp;gt; mangle &amp;gt; nat &amp;gt; filter&lt;/p&gt;
+
+&lt;h4 id=&quot;iptables--2&quot;&gt;3.iptables 链&lt;/h4&gt;
+
+&lt;table&gt;
+  &lt;tbody&gt;
+    &lt;tr&gt;
+      &lt;td&gt;PREROUTING&lt;/td&gt;
+      &lt;td&gt;数据包进入路由表之前&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;INPUT&lt;/td&gt;
+      &lt;td&gt;通过路由表后目的地为本机&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;FORWARDING&lt;/td&gt;
+      &lt;td&gt;通过路由表后，目的地不为本机&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;OUTPUT&lt;/td&gt;
+      &lt;td&gt;由本机产生，向外转发&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;POSTROUTIONG&lt;/td&gt;
+      &lt;td&gt;发送到网卡之前。&lt;/td&gt;
+    &lt;/tr&gt;
+  &lt;/tbody&gt;
+&lt;/table&gt;
+
+&lt;p&gt;如图：
+&lt;img src=&quot;/img/p-iptables/iptables_chain.png&quot; alt=&quot;&quot; /&gt;
+iptables 中表和链的对应关系如下：
+&lt;img src=&quot;/img/p-iptables/iptables_chain1.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
+
+&lt;table&gt;
+  &lt;thead&gt;
+    &lt;tr&gt;
+      &lt;th&gt;表&lt;/th&gt;
+      &lt;th&gt;包含的规则链&lt;/th&gt;
+    &lt;/tr&gt;
+  &lt;/thead&gt;
+  &lt;tbody&gt;
+    &lt;tr&gt;
+      &lt;td&gt;filter&lt;/td&gt;
+      &lt;td&gt;INPUT , FORWARD , OUTPUT&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;nat&lt;/td&gt;
+      &lt;td&gt;PREROUTING , OUTPUT , POSTROUTING&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;mangle&lt;/td&gt;
+      &lt;td&gt;PREROUTING , OUTPUT , POSTROUTING&lt;/td&gt;
+    &lt;/tr&gt;
+  &lt;/tbody&gt;
+&lt;/table&gt;
+
+&lt;h4 id=&quot;iptables--3&quot;&gt;4.iptables 相关参数&lt;/h4&gt;
+
+&lt;h5 id=&quot;section&quot;&gt;4.1.命令参数&lt;/h5&gt;
+
+&lt;table&gt;
+  &lt;tbody&gt;
+    &lt;tr&gt;
+      &lt;td&gt;-A&lt;/td&gt;
+      &lt;td&gt;向规则链中添加一条规则，默认被添加到末尾&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;-I&lt;/td&gt;
+      &lt;td&gt;插入一条规则，默认会被插入到首部&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;-T&lt;/td&gt;
+      &lt;td&gt;指定要操作的表，默认是 &lt;em&gt;filter&lt;/em&gt;&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;-D&lt;/td&gt;
+      &lt;td&gt;从规则链中删除规则，可以指定序号或者匹配的规则来删除&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;-R&lt;/td&gt;
+      &lt;td&gt;进行规则替换&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;-F&lt;/td&gt;
+      &lt;td&gt;清空所选的链，重启后恢复&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;-N&lt;/td&gt;
+      &lt;td&gt;新建用户自定义规则链&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;-X&lt;/td&gt;
+      &lt;td&gt;删除用户自定义的规则链&lt;/td&gt;
+    &lt;/tr&gt;
+  &lt;/tbody&gt;
+&lt;/table&gt;
+
+&lt;h5 id=&quot;section-1&quot;&gt;4.2.匹配标准参数&lt;/h5&gt;
+
+&lt;table&gt;
+  &lt;tbody&gt;
+    &lt;tr&gt;
+      &lt;td&gt;-p&lt;/td&gt;
+      &lt;td&gt;用来指定协议。可以是 tcp，udp，icmp等，也可以是数字的协议号&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;-s&lt;/td&gt;
+      &lt;td&gt;指定源地址&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;-d&lt;/td&gt;
+      &lt;td&gt;指定目的地址&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;-i&lt;/td&gt;
+      &lt;td&gt;进入接口&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;-o&lt;/td&gt;
+      &lt;td&gt;流出接口&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;–sport&lt;/td&gt;
+      &lt;td&gt;源端口&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;–dport&lt;/td&gt;
+      &lt;td&gt;目的端口，端口必须和协议一起来配合使用&lt;/td&gt;
+    &lt;/tr&gt;
+  &lt;/tbody&gt;
+&lt;/table&gt;
+
+&lt;h5 id=&quot;section-2&quot;&gt;4.3.目标规则&lt;/h5&gt;
+
+&lt;table&gt;
+  &lt;tbody&gt;
+    &lt;tr&gt;
+      &lt;td&gt;-j&lt;/td&gt;
+      &lt;td&gt;采取的动作。ACCEPT(接收)，DROP(丢弃)，REJECT(拒绝)，&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt; &lt;/td&gt;
+      &lt;td&gt;RETURN(返回主键继续匹配)，REDIRECT(端口重定向)，&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt; &lt;/td&gt;
+      &lt;td&gt;MASQUERADE(地址伪装)，DNAT(目标地址转换)，SNAT(源地址转换)，MARK(打标签)&lt;/td&gt;
+    &lt;/tr&gt;
+  &lt;/tbody&gt;
+&lt;/table&gt;
+
+&lt;h4 id=&quot;iptables--4&quot;&gt;5.iptables 实际操作&lt;/h4&gt;
+
+&lt;p&gt;以上是 iptables 语法规则的相关参数和说明，现在让我们来实际操作使用一下。一般常用操作的是 &lt;code class=&quot;highlighter-rouge&quot;&gt;filter&lt;/code&gt;表， &lt;code class=&quot;highlighter-rouge&quot;&gt;mangle&lt;/code&gt; 和 &lt;code class=&quot;highlighter-rouge&quot;&gt;raw&lt;/code&gt; 请自行 google 高级用法。&lt;/p&gt;
+
+&lt;h5 id=&quot;section-3&quot;&gt;5.1.基本使用&lt;/h5&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;列出 iptables 规则
+# iptables -L		# 默认选择 filter 表
+# iptables -t nat -L
+
+清除 内置规则
+# iptables -F
+# iptables -t nat -F
+
+清除自定义规则
+# iptables -X
+# iptables -t nat -F 
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;h5 id=&quot;filter&quot;&gt;5.2.filter&lt;/h5&gt;
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;禁止某个IP访问
+# iptables -I INPUT -s xxx.xxx.xx.x -j DROP
+
+服务器禁止被 ping
+# iptables -A INPUT -p icmp -j DROP
+禁止某个 IP ping 服务器
+# iptables -A INPUT -p icmp -s xxx.xxx.xx.x -j DROP
+只允许某个 IP ping 服务器
+# iptables -I INPUT -p icmp -s xxx.xxx.xx.x -j ACCEPT
+
+开启端口服务
+# iptables -A OUTPUT -p udp -o eth0 --dport 53 -j ACCEPT
+# iptables -A INPUT -p udp -i eth0 --sport 53 -j ACCEPT
+
+开启转发功能
+- 普通转发，假设 eth0 连接内网，eth1 连接公网。(必须要有2块网卡)
+# iptables -A FORWARD -i eth0 -o eth1 -j ACCEPT
+- 只允许已建连接以及相关连接对内转发
+# iptables -A FORWARD -i eth0 -o eth1 -m state --state RELATED,ESTABLISHED -j ACCEPT
+- 允许对外转发
+# iptables -A FORWARD -i eth1 -o eth0 -j ACCEPT
+
+允许 loopback 回环通讯
+# iptables -A INPUT -i lo -p all -j ACCEPT
+# iptables -A OUTPUT -o lo -p all -j ACCEPT
+
+实例：当总连接数超过100时，启用 litmit/minute 限制
+# iptables -A INPUT -p tcp --dport 80 -m limit --limit 25/minute --limit-burst 100 -j ACCEPT
+- litmit 25/minute 每分钟限制最大连接数为25
+- litmit-burst 100 当总连接数超过100时，启动 limit/minute 限制
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;h5 id=&quot;nat&quot;&gt;5.3 nat&lt;/h5&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;目的地址转换，映射内部地址
+# iptables -t nat -A PREROUTING -i ppp0 -p tcp --dprot 81 -j DNAT --to 192.168.0.2:80
+# iptables -t nat -A PREROUTING -i ppp0 -p tcp --dprot 81 -j DNAT --to 192.168.0.1-192.168.0.10
+
+源地址转换，隐藏内部地址
+# iptables -t nat -A POSTROUTING -s 192.168.0.0/24 -j SNAT --to 1.1.1.1
+# iptables -t nat -A POSTROUTING -s 192.168.0.0/24 -j SNAT --to 1.1.1.1-1.1.1.10
+
+地址伪装，动态ip的NAT（地址转换）
+# iptables -t nat -A POSTROUTING -s 192.168.0.0/24 -j MASQUERADE
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;p&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;masquerade&lt;/code&gt; 和 &lt;code class=&quot;highlighter-rouge&quot;&gt;snat&lt;/code&gt; 的主要区别在于，snat 是把源地址转换为固定的 IP 地址或者是地址池，而 masquerade 在 adsl 等方式拨号上网时候非常有用，因为是拨号上网所以网卡的外网IP经常变化，这样在进行地址转换的时候就要在每次都要修改转换策略里面的 ip，使用 masquerade 就很好的解决了这个问题，他会自己去探测外网卡获得的ip地址然后自动进行地址转换，这样就算外网获得的 ip 经常变化也不用人工干预了。&lt;/p&gt;
+
+&lt;h5 id=&quot;section-4&quot;&gt;5.4 删除规则&lt;/h5&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;iptables -D chain rulenum [options]
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;p&gt;chain 是链的意思，就是 INPUT FORWARD 之类的定语，rulenum 是该条规则的编号，从1开始。可以使用&lt;code class=&quot;highlighter-rouge&quot;&gt;iptables -L INPUT --line&lt;/code&gt;列出指定的链的规则的编号来。然后通过编号删除
+&lt;code class=&quot;highlighter-rouge&quot;&gt;
+iptables -D INPUT 1
+&lt;/code&gt;&lt;/p&gt;
+
+&lt;p&gt;第二种办法是 &lt;code class=&quot;highlighter-rouge&quot;&gt;-A&lt;/code&gt; 命令的映射，不过用 &lt;code class=&quot;highlighter-rouge&quot;&gt;-D&lt;/code&gt; 替换 &lt;code class=&quot;highlighter-rouge&quot;&gt;-A&lt;/code&gt; 。当你的链中规则很复杂，而你不想计算它们的编号的时候这就十分有用了。
+也就是说，你如何一开始时用 &lt;code class=&quot;highlighter-rouge&quot;&gt;iptables -A.... &lt;/code&gt;语句定义了一个规则，那么删除此条规则时直接用 &lt;code class=&quot;highlighter-rouge&quot;&gt;-D&lt;/code&gt; 来代替 &lt;code class=&quot;highlighter-rouge&quot;&gt;-A&lt;/code&gt;， 其余的都不变即可，而不需要什么编号了。&lt;/p&gt;
+
+&lt;h2 id=&quot;ddos-deflate&quot;&gt;DDoS deflate&lt;/h2&gt;
+&lt;p&gt;DDos deflate 是一款免费的用来防御和减轻 DDos 攻击的脚本。它通过 &lt;code class=&quot;highlighter-rouge&quot;&gt;netstat&lt;/code&gt; 监测跟踪与服务器创建了大量网络连接的IP地址，在监测到某个节点超过预设的限制时，该程序会通过 APF 或者 iptables 对这些 IP 进行一段时间内的禁止访问。&lt;/p&gt;
+
+&lt;p&gt;DDoS deflate官方网站：&lt;a href=&quot;http://deflate.medialayer.com/&quot;&gt;http://deflate.medialayer.com/&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;如何确定是否受到DDoS攻击了呢?&lt;/strong&gt;&lt;/p&gt;
+
+&lt;p&gt;执行 &lt;em&gt;netstat&lt;/em&gt; 命令
+&lt;code class=&quot;highlighter-rouge&quot;&gt;
+netstat -ntu | awk '{print $5}' | cut -d: -f1 | sort | uniq -c | sort -n
+&lt;/code&gt;
+或者
+&lt;code class=&quot;highlighter-rouge&quot;&gt;
+netstat -ntu | awk '{print $5}' | cut -d: -f1 | sed -n '/[0-9]/p' | sort |
+ uniq -c | sort -nr
+&lt;/code&gt;
+下一段会过滤掉其中不是 IP 的一些记录，结果如下：
+&lt;img src=&quot;/img/p-iptables/netstat_result.png&quot; alt=&quot;&quot; /&gt;
+第一个表示每个IP当前的连接数，一般IP几十个以内都算比较正常。如果突然某个IP的连接数有成百上千个，那肯定就不正常了。&lt;/p&gt;
+
+&lt;h4 id=&quot;ddos-deflate-1&quot;&gt;1.安装 DDoS deflate&lt;/h4&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;# cd /tmp
+# wget http://www.inetbase.com/scripts/ddos/install.sh
+# chmod 0700 install.sh
+# ./install.sh
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;p&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;分别是：1.下载文件，2.给文件添加权限，3.执行安装 &lt;/code&gt;&lt;/p&gt;
+
+&lt;h4 id=&quot;ddos-deflate-2&quot;&gt;2.配置 DDoS deflate&lt;/h4&gt;
+
+&lt;p&gt;文件安装目录位于 &lt;code class=&quot;highlighter-rouge&quot;&gt;/usr/local/ddos&lt;/code&gt;，其中文件有：
+* &lt;strong&gt;ddos.conf&lt;/strong&gt;     	// 相关配置文件
+* &lt;strong&gt;ssos.sh&lt;/strong&gt;		  		// shell脚本
+* &lt;strong&gt;ignore.ip.list&lt;/strong&gt;	// ip白名单
+* &lt;strong&gt;LICENSE&lt;/strong&gt;				// 许可&lt;/p&gt;
+
+&lt;p&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;ddos.conf&lt;/code&gt; 配置如下&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;##### Paths of the script and other files
+PROGDIR=&quot;/usr/local/ddos&quot;
+PROG=&quot;/usr/local/ddos/ddos.sh&quot;
+IGNORE_IP_LIST=&quot;/usr/local/ddos/ignore.ip.list&quot; # ip 地址白名单
+CRON=&quot;/etc/cron.d/ddos.cron&quot;	# 定时任务位置
+APF=&quot;/etc/apf/apf&quot;		# APF
+IPT=&quot;/sbin/iptables&quot;		# iptables
+
+##### frequency in minutes for running the script
+##### Caution: Every time this setting is changed, run the script with --cron
+#####          option so that the new frequency takes effect
+FREQ=1		# 检测时间间隔，默认为1分钟
+
+##### How many connections define a bad IP? Indicate that below.
+NO_OF_CONNECTIONS=150		# 一个IP下的最大连接数,超过就会屏蔽
+
+##### APF_BAN=1 (Make sure your APF version is atleast 0.96)
+##### APF_BAN=0 (Uses iptables for banning ips instead of APF)
+APF_BAN=0	# 使用 APF还是iptables，推荐使用 iptables，将APF_BAN 改为0即可。
+# APF 是基于 iptables 的防火墙
+
+##### KILL=0 (Bad IPs are'nt banned, good for interactive execution of script)
+##### KILL=1 (Recommended setting)
+KILL=1		# 是否屏蔽禁止IP，默认。
+
+##### An email is sent to the following address when an IP is banned.
+##### Blank would suppress sending of mails
+EMAIL_TO=&quot;1@vincents.cn&quot;	# 当IP被屏蔽时给指定邮箱发送邮件。
+
+##### Number of seconds the banned ip should remain in blacklist.
+BAN_PERIOD=600			# 禁用IP时长,默认为600秒
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;ddos.sh&lt;/code&gt; 中，可以将第 117 行的内容修改为，就是上面那句 &lt;em&gt;netstat&lt;/em&gt; 命令：
+&lt;code class=&quot;highlighter-rouge&quot;&gt;
+netstat -ntu | awk '{print $5}' | cut -d: -f1 | sed -n '/[0-9]/p' | sort |
+ uniq -c | sort -nr
+&lt;/code&gt;&lt;/p&gt;
+
+&lt;p&gt;有文件内容更改后，执行：
+&lt;code class=&quot;highlighter-rouge&quot;&gt;
+# sh /usr/local/ddos/ddos.sh
+&lt;/code&gt;
+会在&lt;code class=&quot;highlighter-rouge&quot;&gt;/etc/cron.d/&lt;/code&gt;目录下生成一个定时任务&lt;code class=&quot;highlighter-rouge&quot;&gt;ddos.cron&lt;/code&gt;。内容为：
+&lt;code class=&quot;highlighter-rouge&quot;&gt;
+0-59/1 * * * * root /usr/local/ddos/ddos.sh &amp;gt;/dev/null 2&amp;gt;&amp;amp;1
+&lt;/code&gt;
+#### 3.测试&lt;/p&gt;
+
+&lt;p&gt;接下来你就可以使用压力测软件 &lt;a href=&quot;/2017/03/28/web-pressure-test/&quot;&gt;webbench,Siege&lt;/a&gt; 来进行测试实验了。我的测试结果如下， 通过 &lt;code class=&quot;highlighter-rouge&quot;&gt;webbench&lt;/code&gt; 开启压力测试后，IP就立即被封禁，且很快就收到邮件,效果还是非常明显的。
+&lt;img src=&quot;/img/p-iptables/ddos_result.png&quot; alt=&quot;&quot; /&gt;
+ps: 为了让图片少占点位置，只有这么拼接一下了。将就看。。。&lt;/p&gt;
+
+&lt;h2 id=&quot;section-5&quot;&gt;参考学习&lt;/h2&gt;
+&lt;ol&gt;
+  &lt;li&gt;&lt;a href=&quot;http://www.cnblogs.com/argb/p/3535179.html&quot;&gt;iptabls&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;http://www.liusuping.com/ubuntu-linux/iptables-firewall-setting.html&quot;&gt;iptabls配置详解&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;http://www.linuxidc.com/Linux/2012-08/67505.htm&quot;&gt;iptables四个表与五个链间的处理关系&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;https://yq.aliyun.com/ziliao/116528?spm=5176.8246799.0.0.JIvrMb&quot;&gt;Shell实现的iptables管理脚本&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;https://www.vpser.net/security/ddos-deflate.html&quot;&gt;DDoS deflate - Linux下防御/减轻DDOS攻击&lt;/a&gt;&lt;/li&gt;
+&lt;/ol&gt;
+
+</description>
+        <pubDate>Sat, 26 Aug 2017 00:00:00 +0800</pubDate>
+        <link>http://localhost:4000/2017/08/26/iptables_ddos-deflate/</link>
+        <guid isPermaLink="true">http://localhost:4000/2017/08/26/iptables_ddos-deflate/</guid>
+        
+        <category>CentOS</category>
+        
+        <category>Web服务器</category>
+        
+        
+      </item>
     
       <item>
         <title>Charles 抓取HTTPS数据包</title>
@@ -529,7 +919,7 @@ passwd vincent		# 给用户设置密码
         <link>http://localhost:4000/2017/03/31/centos-lamp/</link>
         <guid isPermaLink="true">http://localhost:4000/2017/03/31/centos-lamp/</guid>
         
-        <category>web服务器</category>
+        <category>Web服务器</category>
         
         
       </item>
@@ -562,9 +952,9 @@ tar -zxvf webbench-1.5.tar.gz
 
 cd webbench-1.5
 
-mkdir -pv /usr/local/man/man1 # 关键
+sudo mkdir -pv /usr/local/man/man1 # 创建文件夹
 
-sodu make &amp;amp;&amp;amp; sudo make install # sudo 权限因为需要创建文件夹
+sudo make &amp;amp;&amp;amp; sudo make install # 安装
 
 &lt;/code&gt;&lt;/pre&gt;
 &lt;/div&gt;
@@ -754,7 +1144,7 @@ webbench [option]... URL
         <link>http://localhost:4000/2017/03/28/web-pressure-test/</link>
         <guid isPermaLink="true">http://localhost:4000/2017/03/28/web-pressure-test/</guid>
         
-        <category>web服务器</category>
+        <category>Web服务器</category>
         
         
       </item>
@@ -1036,7 +1426,7 @@ def update_dns(dns_rr, dns_type, dns_value, dns_record_id, dns_ttl, dns_format):
         <link>http://localhost:4000/2017/03/27/aliyun-ddns/</link>
         <guid isPermaLink="true">http://localhost:4000/2017/03/27/aliyun-ddns/</guid>
         
-        <category>python</category>
+        <category>Python</category>
         
         
       </item>
@@ -1490,7 +1880,7 @@ do{
       </item>
     
       <item>
-        <title>ssh登录服务器自动发邮件</title>
+        <title>SSH登录服务器自动发邮件</title>
         <description>&lt;h2 id=&quot;python-&quot;&gt;python 读取登录信息，并发送邮件&lt;/h2&gt;
 &lt;p&gt;效果就是，每当有人通过 &lt;code class=&quot;highlighter-rouge&quot;&gt;ssh&lt;/code&gt; 登录到阿里云服务器的时候就会将登录者的ip和登录时间发送一封邮箱到指定的邮箱里面。&lt;/p&gt;
 
@@ -1749,9 +2139,9 @@ kshell 使用 kerberos 5 认证的远程 Shell 守护进程。
         <link>http://localhost:4000/2017/03/09/ssh-login/</link>
         <guid isPermaLink="true">http://localhost:4000/2017/03/09/ssh-login/</guid>
         
-        <category>python</category>
+        <category>Python</category>
         
-        <category>Linux</category>
+        <category>CentOS</category>
         
         
       </item>
@@ -2001,43 +2391,6 @@ wechat/Payload/WeChat.app/WeChat
         <guid isPermaLink="true">http://localhost:4000/2016/05/03/seda/</guid>
         
         <category>旅行</category>
-        
-        
-      </item>
-    
-      <item>
-        <title>善良姑娘</title>
-        <description>&lt;p&gt;今天刚好同事生日,约好下午去吃海鲜自助。南坪万达旁的一家店，周末都要排好长的队，平时去就还好人不算多。&lt;/p&gt;
-
-&lt;p&gt;服务我们桌的是一个看起来不算大的小姑娘，闲着的功夫和她聊。我说，平时你们店里都有放音乐的，今天怎么没有了。她说，也是有放的，我们坐得比较靠里面可能听不到。我本来也就开玩笑的说了一句，要不你给我们唱一首吧。没想到她稍微低了下头说，我会唱的不多。当时我脑子就炸了，也没想会这么答，不按套路出牌啊，不是一般就简单拒绝然后就走掉了吗。我一想，要是我笑着说句开玩笑的肯定不合适。就试探性的想着大概她会唱的类型，要不来首TFBoys的？我同事就赶紧接了一句，跟着我左手右手一个慢动作，右手左手慢动作重播….&lt;/p&gt;
-
-&lt;p&gt;然后小姑娘就很自然自顾自的就唱了起来，开始很小声，慢慢到大家都能听到的声音。坐我旁边的小伙伴开始露出尴尬的笑容，我赶紧拉住他，跟着打起节拍，随着唱了几句(后面真不会唱了)。唱毕后，头更低了一些。我撺掇大家使劲鼓掌喝彩，同事便和她聊了几句。问她说，看你挺小的阿，什么时候出来上班的阿？她微微仰起头说，18了，你猜我出来工作多久了。然后像是自问自答似的接着说，2年了。同事变很惊讶，阿,这么小。从她唱完歌我就楞了一段时间，他们后来聊了些什么我全然没在意。还沉浸在’啊，她为什么会唱歌阿？为什么会唱歌阿？没道理阿’。&lt;/p&gt;
-
-&lt;p&gt;小姑娘走后，同事转头对我们说，你看这些很早就出来工作了，balabala(一堆废话)…..当时我就很想对那个姑娘说句，我也是！可是我忍住了，我一想说也没理由对她说些什么阿。后来我对同事们说，我给你们讲个故事吧。&lt;/p&gt;
-
-&lt;p&gt;‘灯泡灭了，我仔细检查了下，钨丝并没有断。我重新按下开关， 灯泡闪了两下又灭了。我问，你怎么了，不开心么。灯泡回答，等会儿，有个蛾子在窗外看我好久了。我说，那不挺好，有人看得上你。灯泡说，我不是火，别让她看错了，误了人一辈子。’&lt;/p&gt;
-
-&lt;p&gt;我接着说，我可能拿一个爱情的故事举了一个不恰当的例子，但是我不想讲爱情。我是懂她的，就如同曾经我也像是这般走过来一样。我懂那些迷茫在社会入口，急于获取社会认同感的人的感受。我懂那些妄自菲薄，却期待别人赞许及鼓励的人的感受。但是此刻，我不想让她觉得这是普遍的例子。社会这么残酷，改变总是很难。我期望她对凡事多一点敬畏，少一点对自身的侥幸，以后总是好的。&lt;/p&gt;
-
-&lt;p&gt;小岳岳(岳云鹏)13岁到北京打工，干过工地保安修理工刷过厕所当过服务员。他说他15岁当服务员的时候，受到的一次屈辱，在央视采访的时候，忍不住哭了。他说，我至今忘不了那个人，我恨他，太欺负人了。有人说他小心眼不成熟。但是那时他才15岁阿，他将如何善意的看待这个社会，他将以怎样的姿态去接受这个社会？我虽不作恶，但是影响这东西就像蝴蝶效应。一个人对他人的影响在他自己看来或许微不足道，但是对于受影响的人可能就是一辈子。以至于当有人与我谈及人生建议的时候我总是很小心，我想说，我不是火，别让她信错了，误了人一辈子。&lt;/p&gt;
-
-&lt;p&gt;(我算是想象力丰富的人了，总是能在脑海里自编自导自演。上面这个事情或许我有些危言耸听。但是我有时也在想，对于同一件事好的坏的，是否同样有不同的故事曲线和结局呢？)&lt;/p&gt;
-
-&lt;p&gt;我啊，在我20岁明白一个道理，没有人那么在乎你的尴尬之前，我是一个多么害羞胆怯的人。我和陌生人交谈总是低着头，异性交流不自觉就脸红。我自小在农村长大，对于很多新鲜事物的认知总会比别人慢很多.。我胆怯，源自于对于未知的敬畏。以至于有段时间我在思考三观这个东西时候，我问自己如何定义世界观。我脑海里自然想到，这个世界是美好而令人向往的。于是我总愿意去接受新的事物，也愿意和周遭的人分享所见到的新的东西，愿意用一种积极的心态去感染周边的人。但是,我也曾受过欺负，受到过不公平对待，受到过蔑视嘲笑。我从不埋怨社会，毕竟每个人的人生际遇总会不同,不然何来你有酒，我有故事(自从我给一个同事讲过我14岁动阑尾炎手术出院第二天还没拆线一瘸一拐的偷偷跑出去上网打QQ堂这件事情后，他们都以一种卧槽牛逼的眼神看我,我觉得很自豪,2333…)。我感激那些曾在我孤立无援迷茫无助时挺身而出的人，当然我同样记恨那些毫无理由欺负他人的人。前者使我善良，后者使我坚强。&lt;/p&gt;
-
-&lt;p&gt;那些单纯而善良的人，都应该值得温柔对待。&lt;/p&gt;
-
-&lt;p&gt;以上&lt;/p&gt;
-
-&lt;p&gt;永远年轻，永远热泪盈眶。&lt;/p&gt;
-
-&lt;p&gt;vincent.&lt;/p&gt;
-</description>
-        <pubDate>Thu, 14 Apr 2016 08:30:30 +0800</pubDate>
-        <link>http://localhost:4000/2016/04/14/goodgirl/</link>
-        <guid isPermaLink="true">http://localhost:4000/2016/04/14/goodgirl/</guid>
-        
-        <category>把酒慰风尘</category>
         
         
       </item>
