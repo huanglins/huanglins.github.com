@@ -5,8 +5,8 @@
     <description>// iOS Developer，也写Android和python。正在学习全栈。很高兴认识你。</description>
     <link>http://localhost:4000/</link>
     <atom:link href="http://localhost:4000/feed.xml" rel="self" type="application/rss+xml" />
-    <pubDate>Mon, 28 Aug 2017 12:02:16 +0800</pubDate>
-    <lastBuildDate>Mon, 28 Aug 2017 12:02:16 +0800</lastBuildDate>
+    <pubDate>Tue, 05 Sep 2017 13:42:28 +0800</pubDate>
+    <lastBuildDate>Tue, 05 Sep 2017 13:42:28 +0800</lastBuildDate>
     <generator>Jekyll v3.3.1</generator>
     
       <item>
@@ -715,15 +715,29 @@ flush privileges;
 
 &amp;gt; grant all privileges on *.* to root@localhost identified by 'YourNewPassword' with grant option;
 
-
 &lt;/code&gt;&lt;/pre&gt;
 &lt;/div&gt;
+
+&lt;h4 id=&quot;section-4&quot;&gt;备份数据库&lt;/h4&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;mysqldump -u[用户名] -p[用户密码] --host=[localhost(可以不填)] [导出的数据库名] | gzip &amp;gt;  [导出地址]
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;例如：&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;mysqldump -uroot -proot --host=localhost database | gzip &amp;gt; /home/backup/database.sql.gz
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;推荐一个文件/数据库监控和数据库备份的脚本工具。
+&lt;a href=&quot;https://github.com/zsenliao/shellMonitor/blob/master/&quot;&gt;shellMonitor&lt;/a&gt;&lt;/p&gt;
 
 &lt;h2 id=&quot;p---php&quot;&gt;P - PHP&lt;/h2&gt;
 
 &lt;p&gt;我自己使用到PHP的地方一般也只是用它来使用 &lt;strong&gt;PHPMyAdmin&lt;/strong&gt;，而web服务也是用 Java或者Python开发的，所以PHP用得比较少。&lt;/p&gt;
 
-&lt;h4 id=&quot;section-4&quot;&gt;安装&lt;/h4&gt;
+&lt;h4 id=&quot;section-5&quot;&gt;安装&lt;/h4&gt;
 
 &lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;yum install php
 &lt;/code&gt;&lt;/pre&gt;
@@ -778,7 +792,7 @@ service httpd restart
 &lt;/code&gt;&lt;/pre&gt;
 &lt;/div&gt;
 
-&lt;h6 id=&quot;section-5&quot;&gt;一些错误&lt;/h6&gt;
+&lt;h6 id=&quot;section-6&quot;&gt;一些错误&lt;/h6&gt;
 
 &lt;p&gt;The mbstring extension is missing. Please check your PHP configuration.&lt;/p&gt;
 
@@ -811,7 +825,7 @@ service httpd restart
 
 &lt;p&gt;Nginx 相对于Apache而言，具有&lt;/p&gt;
 
-&lt;h4 id=&quot;section-6&quot;&gt;安装&lt;/h4&gt;
+&lt;h4 id=&quot;section-7&quot;&gt;安装&lt;/h4&gt;
 
 &lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;yum install nginx
 &lt;/code&gt;&lt;/pre&gt;
@@ -882,7 +896,7 @@ service httpd restart
 &lt;/code&gt;&lt;/pre&gt;
 &lt;/div&gt;
 
-&lt;h4 id=&quot;section-7&quot;&gt;修改配置文件&lt;/h4&gt;
+&lt;h4 id=&quot;section-8&quot;&gt;修改配置文件&lt;/h4&gt;
 
 &lt;p&gt;打开 &lt;strong&gt;/etc/vsftpd/vsftpd.conf&lt;/strong&gt;，修改配置：&lt;/p&gt;
 
@@ -903,7 +917,7 @@ user_config_dir=/etc/vsftpd/vuser_conf #设定虚拟用户个人vsftp的CentOS F
 &lt;/code&gt;&lt;/pre&gt;
 &lt;/div&gt;
 
-&lt;h4 id=&quot;section-8&quot;&gt;添加用户&lt;/h4&gt;
+&lt;h4 id=&quot;section-9&quot;&gt;添加用户&lt;/h4&gt;
 
 &lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;useradd vicnent 	# 添加一个用户
 passwd vincent		# 给用户设置密码

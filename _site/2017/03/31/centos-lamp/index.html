@@ -443,15 +443,29 @@ flush privileges;
 
 &gt; grant all privileges on *.* to root@localhost identified by 'YourNewPassword' with grant option;
 
-
 </code></pre>
 </div>
+
+<h4 id="section-4">备份数据库</h4>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>mysqldump -u[用户名] -p[用户密码] --host=[localhost(可以不填)] [导出的数据库名] | gzip &gt;  [导出地址]
+</code></pre>
+</div>
+
+<p>例如：</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>mysqldump -uroot -proot --host=localhost database | gzip &gt; /home/backup/database.sql.gz
+</code></pre>
+</div>
+
+<p>推荐一个文件/数据库监控和数据库备份的脚本工具。
+<a href="https://github.com/zsenliao/shellMonitor/blob/master/">shellMonitor</a></p>
 
 <h2 id="p---php">P - PHP</h2>
 
 <p>我自己使用到PHP的地方一般也只是用它来使用 <strong>PHPMyAdmin</strong>，而web服务也是用 Java或者Python开发的，所以PHP用得比较少。</p>
 
-<h4 id="section-4">安装</h4>
+<h4 id="section-5">安装</h4>
 
 <div class="highlighter-rouge"><pre class="highlight"><code>yum install php
 </code></pre>
@@ -506,7 +520,7 @@ service httpd restart
 </code></pre>
 </div>
 
-<h6 id="section-5">一些错误</h6>
+<h6 id="section-6">一些错误</h6>
 
 <p>The mbstring extension is missing. Please check your PHP configuration.</p>
 
@@ -539,7 +553,7 @@ service httpd restart
 
 <p>Nginx 相对于Apache而言，具有</p>
 
-<h4 id="section-6">安装</h4>
+<h4 id="section-7">安装</h4>
 
 <div class="highlighter-rouge"><pre class="highlight"><code>yum install nginx
 </code></pre>
@@ -610,7 +624,7 @@ service httpd restart
 </code></pre>
 </div>
 
-<h4 id="section-7">修改配置文件</h4>
+<h4 id="section-8">修改配置文件</h4>
 
 <p>打开 <strong>/etc/vsftpd/vsftpd.conf</strong>，修改配置：</p>
 
@@ -631,7 +645,7 @@ user_config_dir=/etc/vsftpd/vuser_conf #设定虚拟用户个人vsftp的CentOS F
 </code></pre>
 </div>
 
-<h4 id="section-8">添加用户</h4>
+<h4 id="section-9">添加用户</h4>
 
 <div class="highlighter-rouge"><pre class="highlight"><code>useradd vicnent 	# 添加一个用户
 passwd vincent		# 给用户设置密码

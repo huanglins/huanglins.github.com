@@ -255,9 +255,22 @@ flush privileges;
 
 > grant all privileges on *.* to root@localhost identified by 'YourNewPassword' with grant option;
 
-
 ```
 
+#### 备份数据库
+
+```
+mysqldump -u[用户名] -p[用户密码] --host=[localhost(可以不填)] [导出的数据库名] | gzip >  [导出地址]
+```
+
+例如：
+
+```
+mysqldump -uroot -proot --host=localhost database | gzip > /home/backup/database.sql.gz
+```
+
+推荐一个文件/数据库监控和数据库备份的脚本工具。
+[shellMonitor](https://github.com/zsenliao/shellMonitor/blob/master/)
 
 ## P - PHP
 
