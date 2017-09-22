@@ -10,7 +10,7 @@
     <meta name="keywords"  content="vincent，vincents，黄霖，黄金霖，darnel，个人网站，APP，微信公众号">
     <meta name="theme-color" content="#000000">
     
-    <title>花样年华 - Vincent Blog | 永远年轻，永远热泪盈眶</title>
+    <title>iOS11/iPhone X 适配(填坑)指南 - Vincent Blog | 永远年轻，永远热泪盈眶</title>
 
     <!-- Web App Manifest -->
     <link rel="manifest" href="/pwa/manifest.json">
@@ -19,7 +19,7 @@
     <link rel="shortcut icon" href="/img/favicon.ico">
     
     <!-- Canonical URL -->
-    <link rel="canonical" href="http://localhost:4000/2017/02/05/blossom-age/">
+    <link rel="canonical" href="http://localhost:4000/2017/09/19/ios11-iphonex-adapter/">
 
     <!-- Bootstrap Core CSS -->
     <link rel="stylesheet" href="/css/bootstrap.min.css">
@@ -151,13 +151,13 @@
 
     <!-- Image to hack wechat -->
 <!-- <img src="/img/icon_wechat.png" width="0" height="0"> -->
-<!-- <img src="/img/post-bg-4-blossion-age.jpg" width="0" height="0"> -->
+<!-- <img src="/img/post-bg-14-ios11-iphonex-adapter.jpg" width="0" height="0"> -->
 
 <!-- Post Header -->
 <style type="text/css">
     header.intro-header{
         position: relative;
-        background-image: url('/img/post-bg-4-blossion-age.jpg')
+        background-image: url('/img/post-bg-14-ios11-iphonex-adapter.jpg')
     }
 
     
@@ -170,15 +170,15 @@
                 <div class="post-heading">
                     <div class="tags">
                         
-                        <a class="tag" href="/tags/#旅行" title="旅行">旅行</a>
+                        <a class="tag" href="/tags/#iOS" title="iOS">iOS</a>
                         
                     </div>
-                    <h1>花样年华</h1>
+                    <h1>iOS11/iPhone X 适配(填坑)指南</h1>
                     
                     
-                    <h2 class="subheading">乌山画廊七人游</h2>
+                    <h2 class="subheading">适配遇到的各种问题</h2>
                     
-                    <span class="meta">Posted by  on February 5, 2017</span>
+                    <span class="meta">Posted by vincent on September 19, 2017</span>
                 </div>
             </div>
         </div>
@@ -196,11 +196,90 @@
                 col-md-10 col-md-offset-1
                 post-container">
 
-				<blockquote>
-  <p>如果我有多一张票，你会不会同我走。</p>
-</blockquote>
+				<h2 id="ios11">适配 iOS11</h2>
 
-<p><img src="/img/p-blossom_age/ba-shufa.jpg" alt="" /></p>
+<h4 id="uitableview-contentoffset--20">1. UITableView contentOffset 下移 20</h4>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>if (@available(iOS 11.0, *)) {
+	if ([self.tableView respondsToSelector:@selector(setContentInsetAdjustmentBehavior:)]) {
+		self.tableView.contentInsetAdjustmentBehavior = UIScrollViewContentInsetAdjustmentNever;
+	}
+}
+</code></pre>
+</div>
+
+<h2 id="iphone-x">适配 iPhone X</h2>
+
+<table>
+  <thead>
+    <tr>
+      <th>手机型号</th>
+      <th>屏幕尺寸</th>
+      <th>屏幕密度</th>
+      <th>开发尺寸</th>
+      <th>像素尺寸</th>
+      <th>倍图</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>4/4S</td>
+      <td>3.5英寸</td>
+      <td>326ppi</td>
+      <td>320x486 pt</td>
+      <td>640x969 pt</td>
+      <td>@2x</td>
+    </tr>
+    <tr>
+      <td>5/5S/5C</td>
+      <td>4英寸</td>
+      <td>326ppi</td>
+      <td>320x568 pt</td>
+      <td>640x1136 px</td>
+      <td>@2x</td>
+    </tr>
+    <tr>
+      <td>6/6S/7/8</td>
+      <td>4.7英寸</td>
+      <td>326ppi</td>
+      <td>375x667 pt</td>
+      <td>750x1334 px</td>
+      <td>@2x</td>
+    </tr>
+    <tr>
+      <td>6+/6S+/7+/8+</td>
+      <td>5.5英寸</td>
+      <td>401ppi</td>
+      <td>414x736 pt</td>
+      <td>1242*2208 px</td>
+      <td>@3x</td>
+    </tr>
+    <tr>
+      <td>X</td>
+      <td>5.8英寸</td>
+      <td>458英寸</td>
+      <td>375x812 pt</td>
+      <td>1125x2436 px</td>
+      <td>@3x</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>首先需要在 <code class="highlighter-rouge">Assets.xcassets</code> 中设置 iPhone X 的 <code class="highlighter-rouge">LaunchImage</code>。一张<code class="highlighter-rouge">1125*2436</code>的启动图。</p>
+
+<p><img src="/img/p-ios11-adapter/iphonex_launch.png" alt="iPhone X" /></p>
+
+<p><strong>iPhone X</strong> 宏定义</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>#define iPhoneX ([UIScreen instancesRespondToSelector:@selector(currentMode)] ? \
+        CGSizeEqualToSize(CGSizeMake(1125, 2436), [[UIScreen mainScreen] currentMode].size) : NO)
+</code></pre>
+</div>
+
+<h2 id="section">我的开源项目</h2>
+
+<p>各种导航栏
+<a href="https://github.com/huanglins/VHLNavigation">VHLNavigation</a></p>
 
 
                 <hr>
@@ -208,19 +287,12 @@
                 <ul class="pager">
                     
                     <li class="previous">
-                        <a href="/2016/05/03/seda/" data-toggle="tooltip" data-placement="top" title="色达">
+                        <a href="/2017/08/26/mysql-function/" data-toggle="tooltip" data-placement="top" title="MySQL 相关语法及函数">
                         Previous<br>
-                        <span>色达</span>
+                        <span>MySQL 相关语法及函数</span>
                         </a>
                     </li>
                     
-                    
-                    <li class="next">
-                        <a href="/2017/03/03/reverse-wechat/" data-toggle="tooltip" data-placement="top" title="非越狱iOS逆向微信">
-                        Next<br>
-                        <span>非越狱iOS逆向微信</span>
-                        </a>
-                    </li>
                     
                 </ul>
 
@@ -236,6 +308,20 @@
             </div>  
 
     <!-- Side Catalog Container -->
+        
+            <div class="
+                col-lg-2 col-lg-offset-0
+                visible-lg-block
+                sidebar-container
+                catalog-container">
+                <div class="side-catalog">
+                    <hr class="hidden-sm hidden-xs">
+                    <h5>
+                        <a class="catalog-toggle" href="#">CATALOG</a>
+                    </h5>
+                    <ul class="catalog-body"></ul>
+                </div>
+            </div>
         
 
     <!-- Sidebar Container -->
@@ -329,8 +415,8 @@
 <script type="text/javascript">
     /* * * CONFIGURATION VARIABLES * * */
     var disqus_shortname = "vincents-cn";
-    var disqus_identifier = "/2017/02/05/blossom age";
-    var disqus_url = "http://localhost:4000/2017/02/05/blossom-age/";
+    var disqus_identifier = "/2017/09/19/ios11-iphonex-adapter";
+    var disqus_url = "http://localhost:4000/2017/09/19/ios11-iphonex-adapter/";
 
     (function() {
         var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
@@ -562,6 +648,50 @@
 
 
 <!-- Side Catalog -->
+
+<script type="text/javascript">
+    function generateCatalog (selector) {
+        var P = $('div.post-container'),a,n,t,l,i,c;
+        a = P.find('h1,h2,h3,h4,h5,h6');
+        a.each(function () {
+            n = $(this).prop('tagName').toLowerCase();
+            i = "#"+$(this).prop('id');
+            t = $(this).text();
+            c = $('<a href="'+i+'" rel="nofollow">'+t+'</a>');
+            l = $('<li class="'+n+'_nav"></li>').append(c);
+            $(selector).append(l);
+        });
+        return true;    
+    }
+
+    generateCatalog(".catalog-body");
+
+    // toggle side catalog
+    $(".catalog-toggle").click((function(e){
+        e.preventDefault();
+        $('.side-catalog').toggleClass("fold")
+    }))
+
+    /*
+     * Doc: https://github.com/davist11/jQuery-One-Page-Nav
+     * Fork by Hux to support padding
+     */
+    async("/js/jquery.nav.js", function () {
+        $('.catalog-body').onePageNav({
+            currentClass: "active",
+            changeHash: !1,
+            easing: "swing",
+            filter: "",
+            scrollSpeed: 700,
+            scrollOffset: 0,
+            scrollThreshold: .2,
+            begin: null,
+            end: null,
+            scrollChange: null,
+            padding: 80
+        });
+    });
+</script>
 
 
 

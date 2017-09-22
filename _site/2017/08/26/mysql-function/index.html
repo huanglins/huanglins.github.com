@@ -10,7 +10,7 @@
     <meta name="keywords"  content="vincent，vincents，黄霖，黄金霖，darnel，个人网站，APP，微信公众号">
     <meta name="theme-color" content="#000000">
     
-    <title>花样年华 - Vincent Blog | 永远年轻，永远热泪盈眶</title>
+    <title>MySQL 相关语法及函数 - Vincent Blog | 永远年轻，永远热泪盈眶</title>
 
     <!-- Web App Manifest -->
     <link rel="manifest" href="/pwa/manifest.json">
@@ -19,7 +19,7 @@
     <link rel="shortcut icon" href="/img/favicon.ico">
     
     <!-- Canonical URL -->
-    <link rel="canonical" href="http://localhost:4000/2017/02/05/blossom-age/">
+    <link rel="canonical" href="http://localhost:4000/2017/08/26/mysql-function/">
 
     <!-- Bootstrap Core CSS -->
     <link rel="stylesheet" href="/css/bootstrap.min.css">
@@ -151,13 +151,13 @@
 
     <!-- Image to hack wechat -->
 <!-- <img src="/img/icon_wechat.png" width="0" height="0"> -->
-<!-- <img src="/img/post-bg-4-blossion-age.jpg" width="0" height="0"> -->
+<!-- <img src="/img/post-bg-13-mysql.jpg" width="0" height="0"> -->
 
 <!-- Post Header -->
 <style type="text/css">
     header.intro-header{
         position: relative;
-        background-image: url('/img/post-bg-4-blossion-age.jpg')
+        background-image: url('/img/post-bg-13-mysql.jpg')
     }
 
     
@@ -170,15 +170,15 @@
                 <div class="post-heading">
                     <div class="tags">
                         
-                        <a class="tag" href="/tags/#旅行" title="旅行">旅行</a>
+                        <a class="tag" href="/tags/#MySQL" title="MySQL">MySQL</a>
                         
                     </div>
-                    <h1>花样年华</h1>
+                    <h1>MySQL 相关语法及函数</h1>
                     
                     
-                    <h2 class="subheading">乌山画廊七人游</h2>
+                    <h2 class="subheading">x_x</h2>
                     
-                    <span class="meta">Posted by  on February 5, 2017</span>
+                    <span class="meta">Posted by vincent on August 26, 2017</span>
                 </div>
             </div>
         </div>
@@ -196,11 +196,429 @@
                 col-md-10 col-md-offset-1
                 post-container">
 
-				<blockquote>
-  <p>如果我有多一张票，你会不会同我走。</p>
+				<h2 id="section">函数</h2>
+
+<h4 id="section-1">合计函数</h4>
+
+<table>
+  <thead>
+    <tr>
+      <th>函数</th>
+      <th>说明</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>AVG(column)</td>
+      <td>返回某一列的平均值</td>
+    </tr>
+    <tr>
+      <td>COUNT(column)</td>
+      <td>返回某一列的行数（不包括 NULL 值）</td>
+    </tr>
+    <tr>
+      <td>COUNT(*)</td>
+      <td>返回被选中的行数</td>
+    </tr>
+    <tr>
+      <td>MAX(column)</td>
+      <td>返回某列的最高值</td>
+    </tr>
+    <tr>
+      <td>MIN(column)</td>
+      <td>返回某列的最低值</td>
+    </tr>
+    <tr>
+      <td>SUM(column)</td>
+      <td>返回某列的总和</td>
+    </tr>
+    <tr>
+      <td>GROUP_CONCAT(column)</td>
+      <td>返回某列值连接组合而成的结果（通过 <code class="highlighter-rouge">,</code> 连接）</td>
+    </tr>
+  </tbody>
+</table>
+
+<h4 id="section-2">数学函数</h4>
+
+<table>
+  <thead>
+    <tr>
+      <th>函数</th>
+      <th>说明</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>ABS(x)</td>
+      <td>返回 x 的绝对值。</td>
+    </tr>
+    <tr>
+      <td>CEIL(x) / CEILING(x)</td>
+      <td>返回大于或等于 x 的最小整数。 <code class="highlighter-rouge">SELECT CEIL(1.5)</code> 返回 2</td>
+    </tr>
+    <tr>
+      <td>FLOOL(x)</td>
+      <td>返回小于或等于 x 的最大整数。 <code class="highlighter-rouge">SELECT FLOOR(1.5)</code> 返回1</td>
+    </tr>
+    <tr>
+      <td>RAND()</td>
+      <td>返回 0-1 之间的随机数。</td>
+    </tr>
+    <tr>
+      <td>SIGN(x)</td>
+      <td>返回 x 的符号。负数返回-1，0返回0，正数返回1。</td>
+    </tr>
+    <tr>
+      <td>PI()</td>
+      <td>返回圆周率 (3.141593)</td>
+    </tr>
+    <tr>
+      <td>TRUNCATE(x, y)</td>
+      <td>返回保留数值 x 到小数点后 y 位的值</td>
+    </tr>
+    <tr>
+      <td>ROUND(x)</td>
+      <td>返回离 x 最近的整数。<code class="highlighter-rouge">SELECT ROUND(1.23456)</code> 返回 1</td>
+    </tr>
+    <tr>
+      <td>ROUND(x, y)</td>
+      <td>保留离 x 最近的整数，但截断的时候要进行四舍五入。<code class="highlighter-rouge">SELECT ROUND(1.23456,3)</code> 返回 1.235</td>
+    </tr>
+    <tr>
+      <td>POWER(x, y)</td>
+      <td>返回 x 的 y 次方。<code class="highlighter-rouge">SELECT POWER(2,3)</code> 返回 8</td>
+    </tr>
+    <tr>
+      <td>SQRT(x)</td>
+      <td>返回 x 的平方根。<code class="highlighter-rouge">SELECT SQRT(25)</code> 返回 5</td>
+    </tr>
+    <tr>
+      <td>EXP(x)</td>
+      <td>返回 e(自然对数的底 2.718281828459)的 x 次方。</td>
+    </tr>
+    <tr>
+      <td>MOD(x, y)</td>
+      <td>返回 x 除以 y 以后的余数。<code class="highlighter-rouge">SELECT MOD(5, 3)</code> 返回2</td>
+    </tr>
+  </tbody>
+</table>
+
+<h4 id="section-3">字符串函数</h4>
+
+<table>
+  <thead>
+    <tr>
+      <th>函数</th>
+      <th>说明</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>ASCII(s)</td>
+      <td>返回字符串 s 的 ASCII 码值。</td>
+    </tr>
+    <tr>
+      <td>CHAR_LENGTH(s)</td>
+      <td>返回字符串 s 的字符数。<code class="highlighter-rouge">SELECT CHAR_LENGTH('你好123')</code> 返回 5</td>
+    </tr>
+    <tr>
+      <td>LENGTH(s)</td>
+      <td>返回字符串 s 的长度。<code class="highlighter-rouge">SELECT LENGTH('你好123')</code> 返回 9</td>
+    </tr>
+    <tr>
+      <td>CONCAT(s1, s2, …)</td>
+      <td>将字符串 s1, s2 等多个字符串合并为一个字符串</td>
+    </tr>
+    <tr>
+      <td>CONCAT_WS(x, s1, s2, …)</td>
+      <td>同 CONCAT(s1, s2,…) 函数，不过两个字符串连接之间要加上 x。</td>
+    </tr>
+    <tr>
+      <td>UPPER(s)</td>
+      <td>将字符串 s 的所有字母变成大写字母</td>
+    </tr>
+    <tr>
+      <td>LOWER(s)</td>
+      <td>将字符串 s 的所有字母变成小写字母</td>
+    </tr>
+    <tr>
+      <td>LEFT(s, n)</td>
+      <td>返回字符串 s 的前 n 个字符</td>
+    </tr>
+    <tr>
+      <td>RIGHT(s, n)</td>
+      <td>返回字符串 s 的后 n 个字符</td>
+    </tr>
+    <tr>
+      <td>REPEAT(s, n)</td>
+      <td>将字符串重复 n 次</td>
+    </tr>
+    <tr>
+      <td>SPACE(n)</td>
+      <td>返回 n 个空格</td>
+    </tr>
+    <tr>
+      <td>REPLACE(s, s1, s2)</td>
+      <td>将字符串 s2 替代字符串 s 中的字符串 s1</td>
+    </tr>
+    <tr>
+      <td>STRCMP(s1, s2)</td>
+      <td>比较 s1和s2.返回 -1，0，1</td>
+    </tr>
+    <tr>
+      <td>SUBSTRING(s1, s2)</td>
+      <td>获取从字符串 s 中的第 n 个位置开始长度为 len 的字符串。</td>
+    </tr>
+    <tr>
+      <td>REVERSE(s)</td>
+      <td>将字符串 s 反转</td>
+    </tr>
+    <tr>
+      <td>LOAD_FILE(file_name)</td>
+      <td>读入文件并作为一个字符串返回文件内容</td>
+    </tr>
+  </tbody>
+</table>
+
+<h4 id="section-4">日期和时间函数</h4>
+
+<table>
+  <thead>
+    <tr>
+      <th>函数</th>
+      <th>说明</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>NOW()</td>
+      <td>返回当前的日期和时间</td>
+    </tr>
+    <tr>
+      <td>CURDATE()</td>
+      <td>返回当前的日期</td>
+    </tr>
+    <tr>
+      <td>CURTIME()</td>
+      <td>返回当前的时间</td>
+    </tr>
+    <tr>
+      <td>MONTH(d)</td>
+      <td>返回日期 d 中的月份值</td>
+    </tr>
+    <tr>
+      <td>MONTHNAME(d)</td>
+      <td>返回日期 d 中的月份名称。如：August</td>
+    </tr>
+    <tr>
+      <td>HOUR(d)</td>
+      <td>返回时间 d 的小时值</td>
+    </tr>
+    <tr>
+      <td>MINUTE(d)</td>
+      <td>返回时间 d 的分钟值</td>
+    </tr>
+    <tr>
+      <td>SECOND(d)</td>
+      <td>返回时间 d 的秒钟值</td>
+    </tr>
+    <tr>
+      <td>DAYNAME(d)</td>
+      <td>返回日期d 中是星期几。如：Monday,Tuesday</td>
+    </tr>
+    <tr>
+      <td>DAYOFWEEK(d)</td>
+      <td>返回日期d 是星期几。如：1星期日，2星期一..</td>
+    </tr>
+    <tr>
+      <td>WEEK(d)</td>
+      <td>返回时间d 是本年的第几个星期，范围:0-&gt;53</td>
+    </tr>
+    <tr>
+      <td>DAYOFMONTH(d)</td>
+      <td>计算时间d 是本月的第几天</td>
+    </tr>
+    <tr>
+      <td>DAYOFYEAR(d)</td>
+      <td>计算时间d 是本年的第几天</td>
+    </tr>
+    <tr>
+      <td>QUARTER(d)</td>
+      <td>计算时间d 是本年的第几个季节。返回 1-4</td>
+    </tr>
+    <tr>
+      <td>UNIX_TIMESTAMP()</td>
+      <td>以 unix 时间戳的形式返回当前时间</td>
+    </tr>
+    <tr>
+      <td>FROM_UNIXTIME(10位时间戳)</td>
+      <td>将 unix 时间戳转换为 YYYY-MM-dd HH:mm:ss 格式的时间</td>
+    </tr>
+    <tr>
+      <td>DATEDIFF(d1, d2)</td>
+      <td>计算日期 d1-d2 之间相隔的天数</td>
+    </tr>
+    <tr>
+      <td>ADDDATE(d, n)</td>
+      <td>计算日期 d 加上 n 天的日期</td>
+    </tr>
+    <tr>
+      <td>ADDDATE(d, INTERVAL expr type)</td>
+      <td>计算日期 d 加上一个日期值后的日期。例如: <code class="highlighter-rouge">ADDDATE(n, INTERVAL 1 DAY)</code> 表示加上一天，<code class="highlighter-rouge">ADDDATE(INTERVAL -1 MONTH)</code> 表示减去一个月。</td>
+    </tr>
+    <tr>
+      <td>SUBDATE(d, n)</td>
+      <td>计算日期 d 减去 n 天的日期</td>
+    </tr>
+    <tr>
+      <td>DATEDIFF(d1, d2)</td>
+      <td>计算日期 d1 与 d2 之间相隔的天数</td>
+    </tr>
+  </tbody>
+</table>
+
+<h4 id="section-5">条件判断</h4>
+
+<table>
+  <thead>
+    <tr>
+      <th>函数</th>
+      <th>说明</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>IF(expr, v1, v2)</td>
+      <td>例如：<code class="highlighter-rouge">SELECT IF(1 &gt; 0, '正确', '错误')</code></td>
+    </tr>
+    <tr>
+      <td>IFNULL(v1 , v2)</td>
+      <td>如果 v1 的值不为 NULL，则返回 v1，否则返回 v2。</td>
+    </tr>
+    <tr>
+      <td>CASE</td>
+      <td> </td>
+    </tr>
+  </tbody>
+</table>
+
+<p><strong>CASE 语法</strong></p>
+
+<blockquote>
+  <p>第一种</p>
 </blockquote>
 
-<p><img src="/img/p-blossom_age/ba-shufa.jpg" alt="" /></p>
+<div class="highlighter-rouge"><pre class="highlight"><code>CASE
+	WHEN e1
+	THEN v1
+	WHEN e2
+	THEN v2
+	...
+	ELSE vn
+END
+</code></pre>
+</div>
+
+<p>CASE 表示函数开始，END 表示函数结束。如果 e1，则返回 v1；如果 e2 成立，则返回 v2；当前全部不成立则返回 vn。而当一个成立，后面的就不执行。</p>
+
+<blockquote>
+  <p>第二种</p>
+</blockquote>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>CASE expr
+	WHEN e1 THEN v1
+	WHEN e2 THEN v2
+	...
+	ELSE vn
+END
+</code></pre>
+</div>
+<p>如果表达式 expr 的值等于 e1，则返回 v1；如果等于 e2，则返回 v2。否则返回 vn。</p>
+
+<h4 id="section-6">系统信息函数</h4>
+
+<table>
+  <thead>
+    <tr>
+      <th>函数</th>
+      <th>说明</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>VERSION()</td>
+      <td>返回数据库的版本号</td>
+    </tr>
+    <tr>
+      <td>CONNECTION_ID()</td>
+      <td>返回服务器的连接数</td>
+    </tr>
+    <tr>
+      <td>USER()</td>
+      <td>返回当前的用户</td>
+    </tr>
+    <tr>
+      <td>LAST_INSERT_ID()</td>
+      <td>返回最近生成的 AUTO_INCREMENT 值</td>
+    </tr>
+  </tbody>
+</table>
+
+<h4 id="section-7">加密函数</h4>
+
+<table>
+  <thead>
+    <tr>
+      <th>函数</th>
+      <th>说明</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>PASSWORD(str)</td>
+      <td>对 str 字符串进行加密</td>
+    </tr>
+    <tr>
+      <td>MD5(str)</td>
+      <td>对字符串 str 进行散列，用于一些普通的不需要解密的数据进行加密</td>
+    </tr>
+    <tr>
+      <td>SHA(str)</td>
+      <td>SHA 加密</td>
+    </tr>
+    <tr>
+      <td>SHA1(str)</td>
+      <td>SHA1 加密</td>
+    </tr>
+    <tr>
+      <td>ENCODE(str, key) , DECODE(str, key)</td>
+      <td>使用 key 作为秘钥加密解密字符串 str，这两个函数是一对的。加密和解密。<em>非要注意的是，对应字段用 blob 类型</em></td>
+    </tr>
+  </tbody>
+</table>
+
+<h4 id="section-8">其他函数</h4>
+
+<table>
+  <thead>
+    <tr>
+      <th>函数</th>
+      <th>说明</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>CONVERT(s USING utf8)</td>
+      <td>将字符串转换成 utf8</td>
+    </tr>
+  </tbody>
+</table>
+
+<h2 id="section-9">参考学习地址</h2>
+<p><a href="http://www.jianshu.com/p/32bc449a1bf6">MySql函数大全</a> <br />
+<a href="http://www.w3school.com.cn/sql/index.asp">SQL 教程</a> <br />
+<a href="http://www.jb51.net/article/40179.htm">MySql常用函数汇总</a></p>
 
 
                 <hr>
@@ -208,17 +626,17 @@
                 <ul class="pager">
                     
                     <li class="previous">
-                        <a href="/2016/05/03/seda/" data-toggle="tooltip" data-placement="top" title="色达">
+                        <a href="/2017/08/26/iptables_ddos-deflate/" data-toggle="tooltip" data-placement="top" title="CentOS 防火墙配置之 iptables和DDoS deflate">
                         Previous<br>
-                        <span>色达</span>
+                        <span>CentOS 防火墙配置之 iptables和DDoS deflate</span>
                         </a>
                     </li>
                     
                     
                     <li class="next">
-                        <a href="/2017/03/03/reverse-wechat/" data-toggle="tooltip" data-placement="top" title="非越狱iOS逆向微信">
+                        <a href="/2017/09/19/ios11-iphonex-adapter/" data-toggle="tooltip" data-placement="top" title="iOS11/iPhone X 适配(填坑)指南">
                         Next<br>
-                        <span>非越狱iOS逆向微信</span>
+                        <span>iOS11/iPhone X 适配(填坑)指南</span>
                         </a>
                     </li>
                     
@@ -236,6 +654,20 @@
             </div>  
 
     <!-- Side Catalog Container -->
+        
+            <div class="
+                col-lg-2 col-lg-offset-0
+                visible-lg-block
+                sidebar-container
+                catalog-container">
+                <div class="side-catalog">
+                    <hr class="hidden-sm hidden-xs">
+                    <h5>
+                        <a class="catalog-toggle" href="#">CATALOG</a>
+                    </h5>
+                    <ul class="catalog-body"></ul>
+                </div>
+            </div>
         
 
     <!-- Sidebar Container -->
@@ -329,8 +761,8 @@
 <script type="text/javascript">
     /* * * CONFIGURATION VARIABLES * * */
     var disqus_shortname = "vincents-cn";
-    var disqus_identifier = "/2017/02/05/blossom age";
-    var disqus_url = "http://localhost:4000/2017/02/05/blossom-age/";
+    var disqus_identifier = "/2017/08/26/mysql-function";
+    var disqus_url = "http://localhost:4000/2017/08/26/mysql-function/";
 
     (function() {
         var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
@@ -562,6 +994,50 @@
 
 
 <!-- Side Catalog -->
+
+<script type="text/javascript">
+    function generateCatalog (selector) {
+        var P = $('div.post-container'),a,n,t,l,i,c;
+        a = P.find('h1,h2,h3,h4,h5,h6');
+        a.each(function () {
+            n = $(this).prop('tagName').toLowerCase();
+            i = "#"+$(this).prop('id');
+            t = $(this).text();
+            c = $('<a href="'+i+'" rel="nofollow">'+t+'</a>');
+            l = $('<li class="'+n+'_nav"></li>').append(c);
+            $(selector).append(l);
+        });
+        return true;    
+    }
+
+    generateCatalog(".catalog-body");
+
+    // toggle side catalog
+    $(".catalog-toggle").click((function(e){
+        e.preventDefault();
+        $('.side-catalog').toggleClass("fold")
+    }))
+
+    /*
+     * Doc: https://github.com/davist11/jQuery-One-Page-Nav
+     * Fork by Hux to support padding
+     */
+    async("/js/jquery.nav.js", function () {
+        $('.catalog-body').onePageNav({
+            currentClass: "active",
+            changeHash: !1,
+            easing: "swing",
+            filter: "",
+            scrollSpeed: 700,
+            scrollOffset: 0,
+            scrollThreshold: .2,
+            begin: null,
+            end: null,
+            scrollChange: null,
+            padding: 80
+        });
+    });
+</script>
 
 
 

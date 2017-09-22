@@ -4,7 +4,7 @@ title:      "CentOS 防火墙配置之 iptables和DDoS deflate"
 subtitle:   "iptables详解和DDos deflate配置安装"
 date:       2017-08-26
 author:     "vincent"
-header-img: "img/psot-bg-12-iptables.jpg"
+header-img: "img/post-bg-12-iptables.jpg"
 catalog: true
 tags:
     - CentOS

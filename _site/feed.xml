@@ -5,9 +5,542 @@
     <description>// iOS Developer，也写Android和python。正在学习全栈。很高兴认识你。</description>
     <link>http://localhost:4000/</link>
     <atom:link href="http://localhost:4000/feed.xml" rel="self" type="application/rss+xml" />
-    <pubDate>Tue, 05 Sep 2017 13:42:28 +0800</pubDate>
-    <lastBuildDate>Tue, 05 Sep 2017 13:42:28 +0800</lastBuildDate>
+    <pubDate>Thu, 21 Sep 2017 15:01:48 +0800</pubDate>
+    <lastBuildDate>Thu, 21 Sep 2017 15:01:48 +0800</lastBuildDate>
     <generator>Jekyll v3.3.1</generator>
+    
+      <item>
+        <title>iOS11/iPhone X 适配(填坑)指南</title>
+        <description>&lt;h2 id=&quot;ios11&quot;&gt;适配 iOS11&lt;/h2&gt;
+
+&lt;h4 id=&quot;uitableview-contentoffset--20&quot;&gt;1. UITableView contentOffset 下移 20&lt;/h4&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;if (@available(iOS 11.0, *)) {
+	if ([self.tableView respondsToSelector:@selector(setContentInsetAdjustmentBehavior:)]) {
+		self.tableView.contentInsetAdjustmentBehavior = UIScrollViewContentInsetAdjustmentNever;
+	}
+}
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;h2 id=&quot;iphone-x&quot;&gt;适配 iPhone X&lt;/h2&gt;
+
+&lt;table&gt;
+  &lt;thead&gt;
+    &lt;tr&gt;
+      &lt;th&gt;手机型号&lt;/th&gt;
+      &lt;th&gt;屏幕尺寸&lt;/th&gt;
+      &lt;th&gt;屏幕密度&lt;/th&gt;
+      &lt;th&gt;开发尺寸&lt;/th&gt;
+      &lt;th&gt;像素尺寸&lt;/th&gt;
+      &lt;th&gt;倍图&lt;/th&gt;
+    &lt;/tr&gt;
+  &lt;/thead&gt;
+  &lt;tbody&gt;
+    &lt;tr&gt;
+      &lt;td&gt;4/4S&lt;/td&gt;
+      &lt;td&gt;3.5英寸&lt;/td&gt;
+      &lt;td&gt;326ppi&lt;/td&gt;
+      &lt;td&gt;320x486 pt&lt;/td&gt;
+      &lt;td&gt;640x969 pt&lt;/td&gt;
+      &lt;td&gt;@2x&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;5/5S/5C&lt;/td&gt;
+      &lt;td&gt;4英寸&lt;/td&gt;
+      &lt;td&gt;326ppi&lt;/td&gt;
+      &lt;td&gt;320x568 pt&lt;/td&gt;
+      &lt;td&gt;640x1136 px&lt;/td&gt;
+      &lt;td&gt;@2x&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;6/6S/7/8&lt;/td&gt;
+      &lt;td&gt;4.7英寸&lt;/td&gt;
+      &lt;td&gt;326ppi&lt;/td&gt;
+      &lt;td&gt;375x667 pt&lt;/td&gt;
+      &lt;td&gt;750x1334 px&lt;/td&gt;
+      &lt;td&gt;@2x&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;6+/6S+/7+/8+&lt;/td&gt;
+      &lt;td&gt;5.5英寸&lt;/td&gt;
+      &lt;td&gt;401ppi&lt;/td&gt;
+      &lt;td&gt;414x736 pt&lt;/td&gt;
+      &lt;td&gt;1242*2208 px&lt;/td&gt;
+      &lt;td&gt;@3x&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;X&lt;/td&gt;
+      &lt;td&gt;5.8英寸&lt;/td&gt;
+      &lt;td&gt;458英寸&lt;/td&gt;
+      &lt;td&gt;375x812 pt&lt;/td&gt;
+      &lt;td&gt;1125x2436 px&lt;/td&gt;
+      &lt;td&gt;@3x&lt;/td&gt;
+    &lt;/tr&gt;
+  &lt;/tbody&gt;
+&lt;/table&gt;
+
+&lt;p&gt;首先需要在 &lt;code class=&quot;highlighter-rouge&quot;&gt;Assets.xcassets&lt;/code&gt; 中设置 iPhone X 的 &lt;code class=&quot;highlighter-rouge&quot;&gt;LaunchImage&lt;/code&gt;。一张&lt;code class=&quot;highlighter-rouge&quot;&gt;1125*2436&lt;/code&gt;的启动图。&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/img/p-ios11-adapter/iphonex_launch.png&quot; alt=&quot;iPhone X&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;iPhone X&lt;/strong&gt; 宏定义&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;#define iPhoneX ([UIScreen instancesRespondToSelector:@selector(currentMode)] ? \
+        CGSizeEqualToSize(CGSizeMake(1125, 2436), [[UIScreen mainScreen] currentMode].size) : NO)
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;h2 id=&quot;section&quot;&gt;我的开源项目&lt;/h2&gt;
+
+&lt;p&gt;各种导航栏
+&lt;a href=&quot;https://github.com/huanglins/VHLNavigation&quot;&gt;VHLNavigation&lt;/a&gt;&lt;/p&gt;
+
+</description>
+        <pubDate>Tue, 19 Sep 2017 00:00:00 +0800</pubDate>
+        <link>http://localhost:4000/2017/09/19/ios11-iphonex-adapter/</link>
+        <guid isPermaLink="true">http://localhost:4000/2017/09/19/ios11-iphonex-adapter/</guid>
+        
+        <category>iOS</category>
+        
+        
+      </item>
+    
+      <item>
+        <title>MySQL 相关语法及函数</title>
+        <description>&lt;h2 id=&quot;section&quot;&gt;函数&lt;/h2&gt;
+
+&lt;h4 id=&quot;section-1&quot;&gt;合计函数&lt;/h4&gt;
+
+&lt;table&gt;
+  &lt;thead&gt;
+    &lt;tr&gt;
+      &lt;th&gt;函数&lt;/th&gt;
+      &lt;th&gt;说明&lt;/th&gt;
+    &lt;/tr&gt;
+  &lt;/thead&gt;
+  &lt;tbody&gt;
+    &lt;tr&gt;
+      &lt;td&gt;AVG(column)&lt;/td&gt;
+      &lt;td&gt;返回某一列的平均值&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;COUNT(column)&lt;/td&gt;
+      &lt;td&gt;返回某一列的行数（不包括 NULL 值）&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;COUNT(*)&lt;/td&gt;
+      &lt;td&gt;返回被选中的行数&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;MAX(column)&lt;/td&gt;
+      &lt;td&gt;返回某列的最高值&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;MIN(column)&lt;/td&gt;
+      &lt;td&gt;返回某列的最低值&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;SUM(column)&lt;/td&gt;
+      &lt;td&gt;返回某列的总和&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;GROUP_CONCAT(column)&lt;/td&gt;
+      &lt;td&gt;返回某列值连接组合而成的结果（通过 &lt;code class=&quot;highlighter-rouge&quot;&gt;,&lt;/code&gt; 连接）&lt;/td&gt;
+    &lt;/tr&gt;
+  &lt;/tbody&gt;
+&lt;/table&gt;
+
+&lt;h4 id=&quot;section-2&quot;&gt;数学函数&lt;/h4&gt;
+
+&lt;table&gt;
+  &lt;thead&gt;
+    &lt;tr&gt;
+      &lt;th&gt;函数&lt;/th&gt;
+      &lt;th&gt;说明&lt;/th&gt;
+    &lt;/tr&gt;
+  &lt;/thead&gt;
+  &lt;tbody&gt;
+    &lt;tr&gt;
+      &lt;td&gt;ABS(x)&lt;/td&gt;
+      &lt;td&gt;返回 x 的绝对值。&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;CEIL(x) / CEILING(x)&lt;/td&gt;
+      &lt;td&gt;返回大于或等于 x 的最小整数。 &lt;code class=&quot;highlighter-rouge&quot;&gt;SELECT CEIL(1.5)&lt;/code&gt; 返回 2&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;FLOOL(x)&lt;/td&gt;
+      &lt;td&gt;返回小于或等于 x 的最大整数。 &lt;code class=&quot;highlighter-rouge&quot;&gt;SELECT FLOOR(1.5)&lt;/code&gt; 返回1&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;RAND()&lt;/td&gt;
+      &lt;td&gt;返回 0-1 之间的随机数。&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;SIGN(x)&lt;/td&gt;
+      &lt;td&gt;返回 x 的符号。负数返回-1，0返回0，正数返回1。&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;PI()&lt;/td&gt;
+      &lt;td&gt;返回圆周率 (3.141593)&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;TRUNCATE(x, y)&lt;/td&gt;
+      &lt;td&gt;返回保留数值 x 到小数点后 y 位的值&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;ROUND(x)&lt;/td&gt;
+      &lt;td&gt;返回离 x 最近的整数。&lt;code class=&quot;highlighter-rouge&quot;&gt;SELECT ROUND(1.23456)&lt;/code&gt; 返回 1&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;ROUND(x, y)&lt;/td&gt;
+      &lt;td&gt;保留离 x 最近的整数，但截断的时候要进行四舍五入。&lt;code class=&quot;highlighter-rouge&quot;&gt;SELECT ROUND(1.23456,3)&lt;/code&gt; 返回 1.235&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;POWER(x, y)&lt;/td&gt;
+      &lt;td&gt;返回 x 的 y 次方。&lt;code class=&quot;highlighter-rouge&quot;&gt;SELECT POWER(2,3)&lt;/code&gt; 返回 8&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;SQRT(x)&lt;/td&gt;
+      &lt;td&gt;返回 x 的平方根。&lt;code class=&quot;highlighter-rouge&quot;&gt;SELECT SQRT(25)&lt;/code&gt; 返回 5&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;EXP(x)&lt;/td&gt;
+      &lt;td&gt;返回 e(自然对数的底 2.718281828459)的 x 次方。&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;MOD(x, y)&lt;/td&gt;
+      &lt;td&gt;返回 x 除以 y 以后的余数。&lt;code class=&quot;highlighter-rouge&quot;&gt;SELECT MOD(5, 3)&lt;/code&gt; 返回2&lt;/td&gt;
+    &lt;/tr&gt;
+  &lt;/tbody&gt;
+&lt;/table&gt;
+
+&lt;h4 id=&quot;section-3&quot;&gt;字符串函数&lt;/h4&gt;
+
+&lt;table&gt;
+  &lt;thead&gt;
+    &lt;tr&gt;
+      &lt;th&gt;函数&lt;/th&gt;
+      &lt;th&gt;说明&lt;/th&gt;
+    &lt;/tr&gt;
+  &lt;/thead&gt;
+  &lt;tbody&gt;
+    &lt;tr&gt;
+      &lt;td&gt;ASCII(s)&lt;/td&gt;
+      &lt;td&gt;返回字符串 s 的 ASCII 码值。&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;CHAR_LENGTH(s)&lt;/td&gt;
+      &lt;td&gt;返回字符串 s 的字符数。&lt;code class=&quot;highlighter-rouge&quot;&gt;SELECT CHAR_LENGTH('你好123')&lt;/code&gt; 返回 5&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;LENGTH(s)&lt;/td&gt;
+      &lt;td&gt;返回字符串 s 的长度。&lt;code class=&quot;highlighter-rouge&quot;&gt;SELECT LENGTH('你好123')&lt;/code&gt; 返回 9&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;CONCAT(s1, s2, …)&lt;/td&gt;
+      &lt;td&gt;将字符串 s1, s2 等多个字符串合并为一个字符串&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;CONCAT_WS(x, s1, s2, …)&lt;/td&gt;
+      &lt;td&gt;同 CONCAT(s1, s2,…) 函数，不过两个字符串连接之间要加上 x。&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;UPPER(s)&lt;/td&gt;
+      &lt;td&gt;将字符串 s 的所有字母变成大写字母&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;LOWER(s)&lt;/td&gt;
+      &lt;td&gt;将字符串 s 的所有字母变成小写字母&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;LEFT(s, n)&lt;/td&gt;
+      &lt;td&gt;返回字符串 s 的前 n 个字符&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;RIGHT(s, n)&lt;/td&gt;
+      &lt;td&gt;返回字符串 s 的后 n 个字符&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;REPEAT(s, n)&lt;/td&gt;
+      &lt;td&gt;将字符串重复 n 次&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;SPACE(n)&lt;/td&gt;
+      &lt;td&gt;返回 n 个空格&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;REPLACE(s, s1, s2)&lt;/td&gt;
+      &lt;td&gt;将字符串 s2 替代字符串 s 中的字符串 s1&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;STRCMP(s1, s2)&lt;/td&gt;
+      &lt;td&gt;比较 s1和s2.返回 -1，0，1&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;SUBSTRING(s1, s2)&lt;/td&gt;
+      &lt;td&gt;获取从字符串 s 中的第 n 个位置开始长度为 len 的字符串。&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;REVERSE(s)&lt;/td&gt;
+      &lt;td&gt;将字符串 s 反转&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;LOAD_FILE(file_name)&lt;/td&gt;
+      &lt;td&gt;读入文件并作为一个字符串返回文件内容&lt;/td&gt;
+    &lt;/tr&gt;
+  &lt;/tbody&gt;
+&lt;/table&gt;
+
+&lt;h4 id=&quot;section-4&quot;&gt;日期和时间函数&lt;/h4&gt;
+
+&lt;table&gt;
+  &lt;thead&gt;
+    &lt;tr&gt;
+      &lt;th&gt;函数&lt;/th&gt;
+      &lt;th&gt;说明&lt;/th&gt;
+    &lt;/tr&gt;
+  &lt;/thead&gt;
+  &lt;tbody&gt;
+    &lt;tr&gt;
+      &lt;td&gt;NOW()&lt;/td&gt;
+      &lt;td&gt;返回当前的日期和时间&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;CURDATE()&lt;/td&gt;
+      &lt;td&gt;返回当前的日期&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;CURTIME()&lt;/td&gt;
+      &lt;td&gt;返回当前的时间&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;MONTH(d)&lt;/td&gt;
+      &lt;td&gt;返回日期 d 中的月份值&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;MONTHNAME(d)&lt;/td&gt;
+      &lt;td&gt;返回日期 d 中的月份名称。如：August&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;HOUR(d)&lt;/td&gt;
+      &lt;td&gt;返回时间 d 的小时值&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;MINUTE(d)&lt;/td&gt;
+      &lt;td&gt;返回时间 d 的分钟值&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;SECOND(d)&lt;/td&gt;
+      &lt;td&gt;返回时间 d 的秒钟值&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;DAYNAME(d)&lt;/td&gt;
+      &lt;td&gt;返回日期d 中是星期几。如：Monday,Tuesday&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;DAYOFWEEK(d)&lt;/td&gt;
+      &lt;td&gt;返回日期d 是星期几。如：1星期日，2星期一..&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;WEEK(d)&lt;/td&gt;
+      &lt;td&gt;返回时间d 是本年的第几个星期，范围:0-&amp;gt;53&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;DAYOFMONTH(d)&lt;/td&gt;
+      &lt;td&gt;计算时间d 是本月的第几天&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;DAYOFYEAR(d)&lt;/td&gt;
+      &lt;td&gt;计算时间d 是本年的第几天&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;QUARTER(d)&lt;/td&gt;
+      &lt;td&gt;计算时间d 是本年的第几个季节。返回 1-4&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;UNIX_TIMESTAMP()&lt;/td&gt;
+      &lt;td&gt;以 unix 时间戳的形式返回当前时间&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;FROM_UNIXTIME(10位时间戳)&lt;/td&gt;
+      &lt;td&gt;将 unix 时间戳转换为 YYYY-MM-dd HH:mm:ss 格式的时间&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;DATEDIFF(d1, d2)&lt;/td&gt;
+      &lt;td&gt;计算日期 d1-d2 之间相隔的天数&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;ADDDATE(d, n)&lt;/td&gt;
+      &lt;td&gt;计算日期 d 加上 n 天的日期&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;ADDDATE(d, INTERVAL expr type)&lt;/td&gt;
+      &lt;td&gt;计算日期 d 加上一个日期值后的日期。例如: &lt;code class=&quot;highlighter-rouge&quot;&gt;ADDDATE(n, INTERVAL 1 DAY)&lt;/code&gt; 表示加上一天，&lt;code class=&quot;highlighter-rouge&quot;&gt;ADDDATE(INTERVAL -1 MONTH)&lt;/code&gt; 表示减去一个月。&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;SUBDATE(d, n)&lt;/td&gt;
+      &lt;td&gt;计算日期 d 减去 n 天的日期&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;DATEDIFF(d1, d2)&lt;/td&gt;
+      &lt;td&gt;计算日期 d1 与 d2 之间相隔的天数&lt;/td&gt;
+    &lt;/tr&gt;
+  &lt;/tbody&gt;
+&lt;/table&gt;
+
+&lt;h4 id=&quot;section-5&quot;&gt;条件判断&lt;/h4&gt;
+
+&lt;table&gt;
+  &lt;thead&gt;
+    &lt;tr&gt;
+      &lt;th&gt;函数&lt;/th&gt;
+      &lt;th&gt;说明&lt;/th&gt;
+    &lt;/tr&gt;
+  &lt;/thead&gt;
+  &lt;tbody&gt;
+    &lt;tr&gt;
+      &lt;td&gt;IF(expr, v1, v2)&lt;/td&gt;
+      &lt;td&gt;例如：&lt;code class=&quot;highlighter-rouge&quot;&gt;SELECT IF(1 &amp;gt; 0, '正确', '错误')&lt;/code&gt;&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;IFNULL(v1 , v2)&lt;/td&gt;
+      &lt;td&gt;如果 v1 的值不为 NULL，则返回 v1，否则返回 v2。&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;CASE&lt;/td&gt;
+      &lt;td&gt; &lt;/td&gt;
+    &lt;/tr&gt;
+  &lt;/tbody&gt;
+&lt;/table&gt;
+
+&lt;p&gt;&lt;strong&gt;CASE 语法&lt;/strong&gt;&lt;/p&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;第一种&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;CASE
+	WHEN e1
+	THEN v1
+	WHEN e2
+	THEN v2
+	...
+	ELSE vn
+END
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;CASE 表示函数开始，END 表示函数结束。如果 e1，则返回 v1；如果 e2 成立，则返回 v2；当前全部不成立则返回 vn。而当一个成立，后面的就不执行。&lt;/p&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;第二种&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;CASE expr
+	WHEN e1 THEN v1
+	WHEN e2 THEN v2
+	...
+	ELSE vn
+END
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;p&gt;如果表达式 expr 的值等于 e1，则返回 v1；如果等于 e2，则返回 v2。否则返回 vn。&lt;/p&gt;
+
+&lt;h4 id=&quot;section-6&quot;&gt;系统信息函数&lt;/h4&gt;
+
+&lt;table&gt;
+  &lt;thead&gt;
+    &lt;tr&gt;
+      &lt;th&gt;函数&lt;/th&gt;
+      &lt;th&gt;说明&lt;/th&gt;
+    &lt;/tr&gt;
+  &lt;/thead&gt;
+  &lt;tbody&gt;
+    &lt;tr&gt;
+      &lt;td&gt;VERSION()&lt;/td&gt;
+      &lt;td&gt;返回数据库的版本号&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;CONNECTION_ID()&lt;/td&gt;
+      &lt;td&gt;返回服务器的连接数&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;USER()&lt;/td&gt;
+      &lt;td&gt;返回当前的用户&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;LAST_INSERT_ID()&lt;/td&gt;
+      &lt;td&gt;返回最近生成的 AUTO_INCREMENT 值&lt;/td&gt;
+    &lt;/tr&gt;
+  &lt;/tbody&gt;
+&lt;/table&gt;
+
+&lt;h4 id=&quot;section-7&quot;&gt;加密函数&lt;/h4&gt;
+
+&lt;table&gt;
+  &lt;thead&gt;
+    &lt;tr&gt;
+      &lt;th&gt;函数&lt;/th&gt;
+      &lt;th&gt;说明&lt;/th&gt;
+    &lt;/tr&gt;
+  &lt;/thead&gt;
+  &lt;tbody&gt;
+    &lt;tr&gt;
+      &lt;td&gt;PASSWORD(str)&lt;/td&gt;
+      &lt;td&gt;对 str 字符串进行加密&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;MD5(str)&lt;/td&gt;
+      &lt;td&gt;对字符串 str 进行散列，用于一些普通的不需要解密的数据进行加密&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;SHA(str)&lt;/td&gt;
+      &lt;td&gt;SHA 加密&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;SHA1(str)&lt;/td&gt;
+      &lt;td&gt;SHA1 加密&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;ENCODE(str, key) , DECODE(str, key)&lt;/td&gt;
+      &lt;td&gt;使用 key 作为秘钥加密解密字符串 str，这两个函数是一对的。加密和解密。&lt;em&gt;非要注意的是，对应字段用 blob 类型&lt;/em&gt;&lt;/td&gt;
+    &lt;/tr&gt;
+  &lt;/tbody&gt;
+&lt;/table&gt;
+
+&lt;h4 id=&quot;section-8&quot;&gt;其他函数&lt;/h4&gt;
+
+&lt;table&gt;
+  &lt;thead&gt;
+    &lt;tr&gt;
+      &lt;th&gt;函数&lt;/th&gt;
+      &lt;th&gt;说明&lt;/th&gt;
+    &lt;/tr&gt;
+  &lt;/thead&gt;
+  &lt;tbody&gt;
+    &lt;tr&gt;
+      &lt;td&gt;CONVERT(s USING utf8)&lt;/td&gt;
+      &lt;td&gt;将字符串转换成 utf8&lt;/td&gt;
+    &lt;/tr&gt;
+  &lt;/tbody&gt;
+&lt;/table&gt;
+
+&lt;h2 id=&quot;section-9&quot;&gt;参考学习地址&lt;/h2&gt;
+&lt;p&gt;&lt;a href=&quot;http://www.jianshu.com/p/32bc449a1bf6&quot;&gt;MySql函数大全&lt;/a&gt; &lt;br /&gt;
+&lt;a href=&quot;http://www.w3school.com.cn/sql/index.asp&quot;&gt;SQL 教程&lt;/a&gt; &lt;br /&gt;
+&lt;a href=&quot;http://www.jb51.net/article/40179.htm&quot;&gt;MySql常用函数汇总&lt;/a&gt;&lt;/p&gt;
+
+</description>
+        <pubDate>Sat, 26 Aug 2017 00:00:00 +0800</pubDate>
+        <link>http://localhost:4000/2017/08/26/mysql-function/</link>
+        <guid isPermaLink="true">http://localhost:4000/2017/08/26/mysql-function/</guid>
+        
+        <category>MySQL</category>
+        
+        
+      </item>
     
       <item>
         <title>CentOS 防火墙配置之 iptables和DDoS deflate</title>
@@ -2334,77 +2867,6 @@ wechat/Payload/WeChat.app/WeChat
         <category>iOS</category>
         
         <category>逆向工程</category>
-        
-        
-      </item>
-    
-      <item>
-        <title>花样年华</title>
-        <description>&lt;blockquote&gt;
-  &lt;p&gt;如果我有多一张票，你会不会同我走。&lt;/p&gt;
-&lt;/blockquote&gt;
-
-&lt;p&gt;&lt;img src=&quot;/img/p-blossom_age/ba-shufa.jpg&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
-
-</description>
-        <pubDate>Sun, 05 Feb 2017 08:30:30 +0800</pubDate>
-        <link>http://localhost:4000/2017/02/05/blossom-age/</link>
-        <guid isPermaLink="true">http://localhost:4000/2017/02/05/blossom-age/</guid>
-        
-        <category>旅行</category>
-        
-        
-      </item>
-    
-      <item>
-        <title>色达</title>
-        <description>&lt;blockquote&gt;
-  &lt;p&gt;本次色达之行，由&lt;a href=&quot;http://www.sishuhw.com/&quot;&gt;私塾户外&lt;/a&gt;所组织&lt;/p&gt;
-
-  &lt;p&gt;本文由&lt;a href=&quot;http://www.sishuhw.com/&quot;&gt;私塾户外&lt;/a&gt;的 [ 中静 ] 所写，也是我们的设计师和摄影师。赞一个！&lt;/p&gt;
-&lt;/blockquote&gt;
-
-&lt;p&gt;&lt;img src=&quot;http://7xtctw.com2.z0.glb.clouddn.com/seda_002.jpg&quot; alt=&quot;色达-我&quot; /&gt;
-那时年华静美,望穿了一川秋水,奈何,彼岸花开叶已碎,修成了陌路轮回,  &lt;br /&gt;
-终是逃不过,逃不过那一眼初见里,彼此承诺,休说还说。    &lt;br /&gt;
-我没有宗教信仰，怀着一颗并不虔诚的心一路翻山越岭而来，      &lt;br /&gt;
-尘埃落定，洗尽铅华，初到色达便是如此感觉，也不知那些手持转经筒的僧侣在这蹉跎了多少个不食人间烟火的荏苒岁月？    &lt;br /&gt;
-听一曲梵音，嗅一味藏香，那些繁华哀伤终成过往，白驹过隙，匆匆的铸成一抹哀伤，与之邂逅，终难忘。    &lt;br /&gt;
-在这个位于四川西北最边远的角落，纵横的河曲蜿蜒之下，群山坑谷中叠起一片片起起落落的红辉，    &lt;br /&gt;
-一路走来，沿途风雪日暖，花开花败，狂野不堪的风吹散了相聚与相散，     &lt;br /&gt;
-立于山顶俯瞰，不仅自问，若今日离去，后会可有期？&lt;/p&gt;
-
-&lt;p&gt;前往坛城，转经三回，耳旁皆是尘嚣，看前方佝偻的僧侣虔诚唱诵，似淹没在尘埃里的浮生，随着清风飘扬到了更远的地方。     &lt;br /&gt;
-起伏延绵的山头上有墨色的秃鹫在上空盘旋，发出一声令人心悸的悲怆，   &lt;br /&gt;
-即使这里有高原上最鼎盛的灯火，人间最圣洁的星光，却因为天葬，使这里的变得令人心生恐惧和离殇。    &lt;br /&gt;
-一开始心里是抗拒的，我这种胆小如鼠的人是不应该去天葬这种地方观光，    &lt;br /&gt;
-到最后却敌不过好奇心的驱使，一路跟着人群爬到了对面的山坡上，     &lt;br /&gt;
-天葬开始时，烈日在一瞬间被乌云遮蔽，无数道刺骨的阴风肆掠而过，最后竟还伴随着雪花扬扬洒洒，   &lt;br /&gt;
-那些被称之为“神之使者”的秃鹫乌泱直下，在天葬师把帘布掀开的一瞬间，疯狂啃食死者的遗骸，   &lt;br /&gt;
-我们不约而同的掩面惊呼。    &lt;br /&gt;
-然而此时身边却有一名陌生的藏家妇女双手紧握，嘴里急促的念唱着藏经，眼里含着我读不懂的泪。    &lt;br /&gt;
-毫无征兆的，浓郁的尸臭突然随风散漫开来，我掩鼻仓惶而逃，这个在他们心目中被称之为最神圣的仪式，已足够让我铭记一生。&lt;/p&gt;
-
-&lt;p&gt;寒意未尽，云潮涌动，太阳从乌云中探出，一如既往的照耀着它所庇佑了一生的大地。    &lt;br /&gt;
-有多少人，被这俗世繁华迷醉了双眼，又有多少人，一袭素衣拂袖，怀揣丝丝执念，携款款深情扬言欲把红尘踏遍。     &lt;br /&gt;
-轻触光阴的棱角，有喇嘛告诉我，他们不过是在这里解前世疑惑，还今生夙愿。    &lt;br /&gt;
-这场旅行虽然路终没有走完，却未失落于那一处灯火阑珊。    &lt;br /&gt;
-那日藏家孩童纯真的浅笑在无形中，于我的心间绽放出一世安冉，无限清欢，隐退了我所有的俗念。     &lt;br /&gt;
-我依然是那个没有宗教信仰，特立独行的女子，    &lt;br /&gt;
-然而我却在幽梦中悄悄种下一颗菩提，待它发芽生长触及我的傍晚和黎明，予我一伞庇佑，许我一世无争。    &lt;br /&gt;
-夜慢慢深了，许是累了，许是倦了，合上双眼，隔一水轻柔，眸前煽动的仍是你淡然阔丽的容颜，    &lt;br /&gt;
-我想要靠近，而你却无端远了，远了，终消失不见⋯⋯终散作云烟⋯⋯&lt;/p&gt;
-
-&lt;p&gt;&lt;strong&gt;END&lt;/strong&gt;&lt;/p&gt;
-
-&lt;hr /&gt;
-
-</description>
-        <pubDate>Tue, 03 May 2016 08:30:30 +0800</pubDate>
-        <link>http://localhost:4000/2016/05/03/seda/</link>
-        <guid isPermaLink="true">http://localhost:4000/2016/05/03/seda/</guid>
-        
-        <category>旅行</category>
         
         
       </item>
