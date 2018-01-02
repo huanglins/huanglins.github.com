@@ -59,6 +59,12 @@ Charles弹出确认框，点击Allow按钮即就可以愉快的获取到数据�
 
 ![](/img/p-charles/charles-https-result-zhihu.png)
 
+## 问题解决
+#### iOS 10.3 以上 HTTPS 代理问题
+因为升级到 iOS11 后发现 HTTPS 不能使用了，需要在`关于本机`-`证书信任设置`中开启完全信任。
+![](/img/p-charles/charles-https-set-about.png)
+
+
 
 ## 参考学习
 1. [iOS开发工具——网络封包分析工具Charles](http://www.infoq.com/cn/articles/network-packet-analysis-tool-charles)

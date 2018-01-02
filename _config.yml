@@ -68,10 +68,6 @@ service-worker: true
 # Friends 友链
 friends: [
     {
-        title: "say - vincents.cn",
-        href: "https://www.vincents.cn/saylove/"
-    },
-    {
     	title: "在回忆中 - 卖点小东西",
     	href: "https://shop130631028.taobao.com/"
     },
@@ -80,12 +76,16 @@ friends: [
     	href: "https://unsplash.com"
     },
     {
-    	title: "wechat.vincents.cn",
-    	href: "https://wechat.vincents.cn"
-    },
-    {
         title: "获取UDID",
         href: "https://api.vincents.cn/udid"
+    },
+    {
+        title: "say - vincents.cn",
+        href: "https://www.vincents.cn/saylove/"
+    },
+    {
+        title: "wechat.vincents.cn",
+        href: "https://wechat.vincents.cn"
     },
     {
     	title: "api.vincents.cn",
@@ -93,6 +93,10 @@ friends: [
     },
     {
         title: "chat.vincents.cn",
+        href: "http://chat.vincents.cn"
+    },
+    {
+        title: "rap.vincents.cn",
         href: "http://chat.vincents.cn"
     }
 ]
