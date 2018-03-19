@@ -200,17 +200,17 @@
 <img src="/img/p-ios-lock/lock_benchmark.png" alt="" />
 下面根据顺序分析每个加锁的实现原理。注意：加解锁速度并不表示锁的效率，只表示加解锁的操作在执行时的复杂度。</p>
 
-<h2 id="section">锁之间的关系</h2>
+<h2 id="锁之间的关系">锁之间的关系</h2>
 
-<h4 id="section-1">忙等类</h4>
+<h4 id="忙等类">忙等类</h4>
 
 <p>test_and_set -&gt; OSSpinLock -&gt; os_unfair_lock</p>
 
-<h4 id="section-2">休眠类</h4>
+<h4 id="休眠类">休眠类</h4>
 
-<h5 id="lllfutexwait---gcd">lll_futex_wait -&gt; GCD信号量</h5>
+<h5 id="lll_futex_wait---gcd信号量">lll_futex_wait -&gt; GCD信号量</h5>
 
-<h5 id="lllfutexwait---pthreadmutex">lll_futex_wait -&gt; pthread_mutex</h5>
+<h5 id="lll_futex_wait---pthread_mutex">lll_futex_wait -&gt; pthread_mutex</h5>
 <p>1.加上错误处理 -&gt; NSLock</p>
 
 <p>2.加上条件判断 -&gt; NSCondition + Value -&gt; NSConditionLock</p>
@@ -219,13 +219,13 @@
 
 <p>4.加上递归特性、哈希特性 -&gt; @Synchronized(Obj)</p>
 
-<h2 id="osspinlock-">OSSpinLock 自旋锁</h2>
+<h2 id="osspinlock-自旋锁">OSSpinLock 自旋锁</h2>
 
-<h4 id="section-3">自旋锁原理</h4>
+<h4 id="自旋锁原理">自旋锁原理</h4>
 
 <p>自旋锁的实现思路很简单，理论上来说只要定义一个全局变量，用来表示锁的可用情况即可，伪代码如下:</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>bool lock = false; // 一开始没有锁上，任何线程都可以申请锁  
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>bool lock = false; // 一开始没有锁上，任何线程都可以申请锁  
 do {  
     while(lock); // 如果 lock 为 true 就一直死循环，相当于申请锁
     lock = true; // 挂上锁，这样别的线程就无法获得锁
@@ -233,8 +233,7 @@ do {
     lock = false; // 相当于释放锁，这样别的线程可以进入临界区
         Reminder section // 不需要锁保护的代码        
 }
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <h4 id="osspinlock">OSSpinLock</h4>
 
@@ -242,7 +241,7 @@ do {
 
 <p>示例代码</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>// OSSpinLock
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>// OSSpinLock
 #import &lt;libkern/OSAtomic.h&gt;
 
 // 自旋锁
@@ -267,8 +266,7 @@ do {
         NSLog(@"线程2 解锁完成");
     });
 }
-</code></pre>
-</div>
+</code></pre></div></div>
 <p>参考学习中的连接已经说明 OSSpinLock 其实已经不再安全。主要原因在于</p>
 
 <blockquote>
@@ -277,13 +275,13 @@ do {
 
 <p>而且，实际上苹果在<code class="highlighter-rouge">iOS10</code>中也不再推荐使用 OSSpinLock,转而使用 <code class="highlighter-rouge">os_unfair_lock()</code></p>
 
-<h2 id="osunfairlock">os_unfair_lock</h2>
+<h2 id="os_unfair_lock">os_unfair_lock</h2>
 
 <p>iOS 10.+ 之后添加的，也是属于忙等锁。</p>
 
 <p>示例代码</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>// os_unfair_lock
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>// os_unfair_lock
 #import &lt;os/lock.h&gt;
 
 os_unfair_lock_t unfairlock = &amp;(OS_UNFAIR_LOCK_INIT);
@@ -292,10 +290,9 @@ os_unfair_lock_lock(unfairlock);
 NSLog(@"os_unfair_lock 执行");
 os_unfair_lock_unlock(unfairlock);
 
-</code></pre>
-</div>
+</code></pre></div></div>
 
-<h2 id="dispatchsemaphore-gcd">dispatch_semaphore GCD信号量</h2>
+<h2 id="dispatch_semaphore-gcd信号量">dispatch_semaphore GCD信号量</h2>
 
 <p>加锁时会把信号量的值减一，并判断是否大于零。如果大于零，说明不用等待，立刻执行。在没有等待的情况下，性能比 pthread_mutex 高，但是一旦有等待的情况出现，性能就会急剧下降。其优势在于等待时不会消耗 CPU 资源，会进行线程休眠。</p>
 
@@ -303,7 +300,7 @@ os_unfair_lock_unlock(unfairlock);
 
 <p>示例代码</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>// 信号量
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>// 信号量
 - (void)testDispatch_semaphore {
     dispatch_semaphore_t signal = dispatch_semaphore_create(1);
     dispatch_time_t timeout = dispatch_time(DISPATCH_TIME_NOW, 3.0f * NSEC_PER_SEC);
@@ -330,16 +327,15 @@ os_unfair_lock_unlock(unfairlock);
         NSLog(@"线程2 发送信号");
     });
 }
-</code></pre>
-</div>
+</code></pre></div></div>
 
-<h2 id="pthreadmutex--">pthread_mutex  互斥锁</h2>
+<h2 id="pthread_mutex--互斥锁">pthread_mutex  互斥锁</h2>
 
 <p>pthread 表示 POSIX thread，定义了一组跨平台的线程相关的API，pthread_mutex 表示互斥锁。互斥锁的实现原理与信号量非常相似，不是使用忙等，而是阻塞线程并睡眠，需要进行上线文切换。</p>
 
 <p>示例代码</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>// pthread
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>// pthread
 #import &lt;pthread.h&gt;
 
 // pthread_mutex 互斥锁
@@ -366,18 +362,17 @@ os_unfair_lock_unlock(unfairlock);
         NSLog(@"线程2 释放锁");
     });
 }
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <p><strong>\/</strong> 一般情况下，一个线程只能申请一次锁，也只能在获得锁的情况下才能释放锁，多次申请锁或者释放未获得的锁都会导致崩溃。假设在已经获得锁的情况下再次申请锁，线程会因为等待锁的释放而进入睡眠状态，因此就不可能再释放锁，从而导致死锁。</p>
 
 <p>然而这种情况会经常发生，比如某个函数申请了锁，在临界区内又递归调用了自己。幸运的是 <code class="highlighter-rouge">pthread_mutex</code> 支持递归锁，也就是允许一个线程递归的申请锁。</p>
 
-<h4 id="pthreadmutex-">pthread_mutex 递归锁</h4>
+<h4 id="pthread_mutex-递归锁">pthread_mutex 递归锁</h4>
 
 <p>示例代码</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>// pthread_mutex 递归锁
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>// pthread_mutex 递归锁
 - (void)testPthread_mutex_recursive {
     static pthread_mutex_t pLock;
     // 定义锁的属性
@@ -416,12 +411,11 @@ os_unfair_lock_unlock(unfairlock);
         NSLog(@"线程2 解锁");
     });
 }
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <p>递归锁比较安全，可以认为同一线程加且仅加一次锁，重复加锁不会造成死锁。无论同一线程加锁多少次，解锁1次即可。</p>
 
-<h4 id="section-4">互斥锁的实现</h4>
+<h4 id="互斥锁的实现">互斥锁的实现</h4>
 
 <p>互斥锁在申请锁时，调用了<code class="highlighter-rouge">pthread_mutex_lock</code>方法，它在不同的系统上实现各有不同，有时候它的内部是使用信号量来实现，即使不用信号量，也会调用到<code class="highlighter-rouge">lll_futex_wait</code>函数，从而导致线程休眠。</p>
 
@@ -429,13 +423,13 @@ os_unfair_lock_unlock(unfairlock);
 
 <p>另外，由于 <code class="highlighter-rouge">pthread_mutex</code>有多种类型，可以支持递归锁等，因此在申请加锁时，需要对锁的类型加以判断，这也就是为什么它和信号量的实现类似，但效率略低的原因。</p>
 
-<h2 id="nslock--nsrecursivelock">NSLock 和 NSRecursiveLock</h2>
+<h2 id="nslock-和-nsrecursivelock">NSLock 和 NSRecursiveLock</h2>
 
 <p>NSLock /NSRecursiveLock  是 Objective-c 以对象的形式暴露给开发者的一种锁。</p>
 
 <p>示例代码</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>// NSLock
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>// NSLock
 - (void)testNSLock {
     NSLock *lock = [NSLock new];
     [lock lock];
@@ -447,8 +441,7 @@ os_unfair_lock_unlock(unfairlock);
     NSLog(@"加锁运行");
     [recursiveLock unlock];
 }
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <p>这里的 NSLock 和 NSRecursiveLock 都是封装的互斥锁 <code class="highlighter-rouge">pthread_mutex</code>。</p>
 
@@ -468,7 +461,7 @@ os_unfair_lock_unlock(unfairlock);
 
 <p>示例代码</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>// NSConditionLock
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>// NSConditionLock
 - (void)testNSConditionLock {
     NSConditionLock *cLock = [[NSConditionLock alloc] initWithCondition:0];
     
@@ -502,8 +495,7 @@ os_unfair_lock_unlock(unfairlock);
         NSLog(@"线程3 解锁");
     });
 }
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <p>上述代码会按照：线程2 &gt; 线程1 &gt; 线程3 的顺序执行。</p>
 
@@ -511,73 +503,70 @@ os_unfair_lock_unlock(unfairlock);
 
 <p>示例代码</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>@synchronized (self) {
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>@synchronized (self) {
    NSLog(@"加锁运行");
 }
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <p>只要关键字中的对象一致，则多个线程会互斥等待程序运行完成。</p>
 
 <p>@synchronized 实际上是把修饰对象当做锁来使用。这是通过一个哈希表来实现的，OC在底层使用了一个互斥锁的数组（可以理解为锁池），通过对对象去哈希值来得到对应的互斥锁。</p>
 
-<h2 id="section-5">一些多线程的基础知识</h2>
+<h2 id="一些多线程的基础知识">一些多线程的基础知识</h2>
 
-<h4 id="section-6">时间片轮转调度算法</h4>
+<h4 id="时间片轮转调度算法">时间片轮转调度算法</h4>
 
 <p>了解多线程加锁必须知道时间片轮转调度算法，才能深切理解其原理，性能瓶颈。</p>
 
 <p>现代操作系统在管理普通线程时，通常采用时间片轮转算法（Round Robin，简称RR）。每个线程会被分配一段时间片（quantum），通常在10-100毫秒左右。当线程用于属于自己的时间片以后，就会被系统挂起，放入等待队列中，知道下一次被分配时间片，如果线程在时间片结束前阻塞或者结束，则CPU当即进行切换。由于线程切换需要时间，如果时间片太短，会导致大量CPU时间浪费在切换上；而如果这个时间太长，会使得其他线程等待太久。</p>
 
-<h4 id="section-7">原子操作</h4>
+<h4 id="原子操作">原子操作</h4>
 
 <p>狭义上的原子操作表示一条不可打断的操作，也就是说线程在执行操作过程中，不会被操作系统挂起，而是一定会执行完（理论上拥有CPU时间片无限长）。在单处理器环境下，一条汇编指令显然是原子操作，因为中断也要通过指令来实现，但一句高级语言的代码却不是原子的，因为它最终是由多条汇编语言完成，CPU在进行时间片切换时，大多都会在某条代码的执行过程中。
 但在多核处理器下，则需要硬件支持，没了解过具体实现。</p>
 
-<h4 id="section-8">自旋锁和互斥锁</h4>
+<h4 id="自旋锁和互斥锁">自旋锁和互斥锁</h4>
 
 <p>都属于CPU时间片算法下的实现保护共享资源的一种机制。都实现互斥操作，加锁后仅允许一个访问者。</p>
 
 <p>区别在于自旋锁不会是线程进入wait状态，而是通过轮询不停查看是否该自旋锁的持有者已经释放的锁；对应的，互斥锁在出现锁已经被占用的情况下会进入wait状态，CPU会当即切换时间片。</p>
 
-<h4 id="section-9">自旋锁实现原理</h4>
+<h4 id="自旋锁实现原理">自旋锁实现原理</h4>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>lock = 0;
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>lock = 0;
 do{
     while(test_and_set(&amp;lock));
     临界区
     lock = 0;
     其余部分
 } while(1)
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <p>test_and_set用来保证条件判断的原子性操作，lock为旗标。
 自旋锁的一大缺陷是会使得线程处于忙等状态。因为如果临界区执行时间过长，其它线程就会在当前整个时间片一直处于忙等状态，浪费大量CPU时间。所以，如果临界区时间很短，可以使用自旋锁，否则建议使用互斥锁。</p>
 
-<h4 id="section-10">互斥锁的实现原理</h4>
+<h4 id="互斥锁的实现原理">互斥锁的实现原理</h4>
 
 <p>互斥锁在出现锁的争夺时，未获得锁的线程会主动让出时间片，阻塞线程并睡眠，需要进行上下文切换，CPU会切换其它线程继续操作。
 主动让出时间片并不总是代表效率高。让出时间片会导致操作系统切换到另一个线程，这种上下文切换通常需要 10 微秒左右，而且至少需要两次切换。如果等待时间很短，比如只有几个微秒，忙等就比线程睡眠更高效。</p>
 
-<h4 id="section-11">信号量的实现</h4>
+<h4 id="信号量的实现">信号量的实现</h4>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>int sem_wait (sem_t *sem) {  
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>int sem_wait (sem_t *sem) {  
   int *futex = (int *) sem;
   if (atomic_decrement_if_positive (futex) &gt; 0)
     return 0;
   int err = lll_futex_wait (futex, 0);
     return -1;
 )
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <p>信号量和互斥锁类似，都是在获取锁失败后线程进入wait状态，CPU会切换时间片。
 信号量在最终都是调用一个sem_wait方法，并原子性的判断信号量，如果对其-1后依然大于0，则直接返回，继续临界区操作，否则进入等待状态。</p>
 
-<h2 id="section-12">多线程中的常见术语名词</h2>
+<h2 id="多线程中的常见术语名词">多线程中的常见术语名词</h2>
 
-<h6 id="mutex">互斥锁(mutex)</h6>
+<h6 id="互斥锁mutex">互斥锁(mutex)</h6>
 
 <p>提供共享资源互斥访问的锁。一个互斥锁同一时间只能被一个线程拥有。视图获取一个已经被其他线程拥有的互斥锁，会把当前线程置于休眠状态，直到该锁被其他线程释放并让当前线程获取。</p>
 
@@ -585,43 +574,43 @@ do{
 
 <p>可以被同一线程多次锁住的锁。</p>
 
-<h6 id="semaphore">信号量(semaphore)</h6>
+<h6 id="信号量semaphore">信号量(semaphore)</h6>
 
 <p>一个受保护的变量，它限制共享资源的访问。互斥锁(mutexes)和条件(conditions)都是不同类型的信号量。</p>
 
-<h6 id="condition">条件(condition)</h6>
+<h6 id="条件condition">条件(condition)</h6>
 
 <p>一个用来同步资源访问的结构。线程等待某一个条件来决定是否被允许继续运行，知道其他线程显示的给该条件发送信号</p>
 
-<h6 id="critical-section">临界区(critical section)</h6>
+<h6 id="临界区critical-section">临界区(critical section)</h6>
 
 <p>同一时间只能不被一个线程执行的代码。</p>
 
-<h6 id="input-source">输入源(input source)</h6>
+<h6 id="输入源input-source">输入源(input source)</h6>
 
 <p>一个线程的异步事件源。输入源可以是基于端口的或者手工触发，并且必须被附加到某一个线程的run loop上面。</p>
 
-<h6 id="thread">线程(thread)</h6>
+<h6 id="线程thread">线程(thread)</h6>
 
 <p>进程里面的一个执行过程流。每个线程都有它自己的栈空间，但除此之外同一进程的其他线程共享内存。</p>
 
-<h6 id="main-thread">主线程(main thread)</h6>
+<h6 id="主线程main-thread">主线程(main thread)</h6>
 
 <p>当创建进程时一起创建的特定类型的线程。当程序的主线程退出，则程序即退出。</p>
 
-<h6 id="join-thread">可连接的线程(join thread)</h6>
+<h6 id="可连接的线程join-thread">可连接的线程(join thread)</h6>
 
 <p>退出时资源不会被立即回收的线程。可连接的线程在资源被回收之前必须被显示脱离或由其他线程连接。可连接线程提供了一个返回值给连接它的线程。</p>
 
-<h6 id="operation-object">操作对象(operation object)</h6>
+<h6 id="操作对象operation-object">操作对象(operation object)</h6>
 
 <p>NSOperation 类的示例。操作对象封装了和某一任务相关的代码到一个执行单元里面。</p>
 
-<h6 id="operation-queue">操作队列(operation queue)</h6>
+<h6 id="操作队列operation-queue">操作队列(operation queue)</h6>
 
 <p>NSOperationQueue 类的示例。操作队列管理操作对象的执行。</p>
 
-<h2 id="section-13">参考学习链接</h2>
+<h2 id="参考学习链接">参考学习链接</h2>
 
 <blockquote>
 
@@ -708,7 +697,7 @@ do{
                             
         				
                             
-                				<a href="/tags/#iOS" title="iOS" rel="3">
+                				<a href="/tags/#iOS" title="iOS" rel="4">
                                     iOS
                                 </a>
                             
@@ -737,6 +726,8 @@ do{
         				
                             
         				
+                            
+        				
         			</div>
                 </section>
                 
@@ -747,19 +738,21 @@ do{
                 <h5>FRIENDS</h5>
                 <ul class="list-inline">
                     
-                        <li><a target="_blank" href="https://www.vincents.cn/saylove/">say - vincents.cn</a></li>
-                    
                         <li><a target="_blank" href="https://shop130631028.taobao.com/">在回忆中 - 卖点小东西</a></li>
                     
                         <li><a target="_blank" href="https://unsplash.com">unsplash - 好看的图片</a></li>
                     
-                        <li><a target="_blank" href="https://wechat.vincents.cn">wechat.vincents.cn</a></li>
-                    
                         <li><a target="_blank" href="https://api.vincents.cn/udid">获取UDID</a></li>
+                    
+                        <li><a target="_blank" href="https://www.vincents.cn/saylove/">say - vincents.cn</a></li>
+                    
+                        <li><a target="_blank" href="https://wechat.vincents.cn">wechat.vincents.cn</a></li>
                     
                         <li><a target="_blank" href="https://api.vincents.cn/manager">api.vincents.cn</a></li>
                     
                         <li><a target="_blank" href="http://chat.vincents.cn">chat.vincents.cn</a></li>
+                    
+                        <li><a target="_blank" href="http://rap.vincents.cn">rap.vincents.cn</a></li>
                     
                 </ul>
                 
@@ -823,6 +816,7 @@ do{
 </style>
 
 
+
     <!-- Footer -->
 <footer>
     <div class="container">
@@ -878,12 +872,12 @@ do{
                     
                 </ul>
                 <p class="copyright text-muted">
-                    渝ICP备17003502号 | Copyright &copy; tnecniV 2017
+                    渝ICP备17003502号 | Copyright &copy; Vincent 2017
                     <br>
                     <script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
                     <span id="busuanzi_container_site_pv"> 您是本站第<span id="busuanzi_value_site_pv"></span>位访问者</span>  | 
                     <!-- umeng 站长统计 -->
-                    <script src="https://s22.cnzz.com/z_stat.php?id=1263843451&web_id=1263843451" language="JavaScript"></script> | 
+<!--                     <script src="https://s22.cnzz.com/z_stat.php?id=1263843451&web_id=1263843451" language="JavaScript"></script> |  -->
                     Theme by <a target="_blank" href="http://huangxuan.me">Hux</a> |
                     <iframe
                         style="margin-left: 2px; margin-bottom:-5px;"

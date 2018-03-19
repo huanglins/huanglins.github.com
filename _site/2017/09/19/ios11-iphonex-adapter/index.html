@@ -196,19 +196,18 @@
                 col-md-10 col-md-offset-1
                 post-container">
 
-				<h2 id="ios11">适配 iOS11</h2>
+				<h2 id="适配-ios11">适配 iOS11</h2>
 
-<h4 id="uitableview-contentoffset--20">1. UITableView contentOffset 下移 20</h4>
+<h4 id="1-uitableview-contentoffset-下移-20">1. UITableView contentOffset 下移 20</h4>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>if (@available(iOS 11.0, *)) {
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>if (@available(iOS 11.0, *)) {
 	if ([self.tableView respondsToSelector:@selector(setContentInsetAdjustmentBehavior:)]) {
 		self.tableView.contentInsetAdjustmentBehavior = UIScrollViewContentInsetAdjustmentNever;
 	}
 }
-</code></pre>
-</div>
+</code></pre></div></div>
 
-<h2 id="iphone-x">适配 iPhone X</h2>
+<h2 id="适配-iphone-x">适配 iPhone X</h2>
 
 <table>
   <thead>
@@ -271,15 +270,15 @@
 
 <p><strong>iPhone X</strong> 宏定义</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>#define iPhoneX ([UIScreen instancesRespondToSelector:@selector(currentMode)] ? \
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>#define iPhoneX ([UIScreen instancesRespondToSelector:@selector(currentMode)] ? \
         CGSizeEqualToSize(CGSizeMake(1125, 2436), [[UIScreen mainScreen] currentMode].size) : NO)
-</code></pre>
-</div>
+</code></pre></div></div>
 
-<h2 id="section">我的开源项目</h2>
+<h2 id="我的开源项目">我的开源项目</h2>
 
-<p>各种导航栏
-<a href="https://github.com/huanglins/VHLNavigation">VHLNavigation</a></p>
+<p><a href="https://github.com/huanglins/VHLNavigation">VHLNavigation</a></p>
+
+<p>实现各种导航栏间的无缝切换，微信红包样式导航栏样式切换，颜色过渡切换，导航栏背景图片切换，导航栏透明度切换，有无导航栏切换等。</p>
 
 
                 <hr>
@@ -293,6 +292,13 @@
                         </a>
                     </li>
                     
+                    
+                    <li class="next">
+                        <a href="/2018/03/08/reverse-xipeixuetang/" data-toggle="tooltip" data-placement="top" title="iOS 西培学堂 - 人脸识别绕过">
+                        Next<br>
+                        <span>iOS 西培学堂 - 人脸识别绕过</span>
+                        </a>
+                    </li>
                     
                 </ul>
 
@@ -350,7 +356,7 @@
                             
         				
                             
-                				<a href="/tags/#iOS" title="iOS" rel="3">
+                				<a href="/tags/#iOS" title="iOS" rel="4">
                                     iOS
                                 </a>
                             
@@ -379,6 +385,8 @@
         				
                             
         				
+                            
+        				
         			</div>
                 </section>
                 
@@ -389,19 +397,21 @@
                 <h5>FRIENDS</h5>
                 <ul class="list-inline">
                     
-                        <li><a target="_blank" href="https://www.vincents.cn/saylove/">say - vincents.cn</a></li>
-                    
                         <li><a target="_blank" href="https://shop130631028.taobao.com/">在回忆中 - 卖点小东西</a></li>
                     
                         <li><a target="_blank" href="https://unsplash.com">unsplash - 好看的图片</a></li>
                     
-                        <li><a target="_blank" href="https://wechat.vincents.cn">wechat.vincents.cn</a></li>
-                    
                         <li><a target="_blank" href="https://api.vincents.cn/udid">获取UDID</a></li>
+                    
+                        <li><a target="_blank" href="https://www.vincents.cn/saylove/">say - vincents.cn</a></li>
+                    
+                        <li><a target="_blank" href="https://wechat.vincents.cn">wechat.vincents.cn</a></li>
                     
                         <li><a target="_blank" href="https://api.vincents.cn/manager">api.vincents.cn</a></li>
                     
                         <li><a target="_blank" href="http://chat.vincents.cn">chat.vincents.cn</a></li>
+                    
+                        <li><a target="_blank" href="http://rap.vincents.cn">rap.vincents.cn</a></li>
                     
                 </ul>
                 
@@ -465,6 +475,7 @@
 </style>
 
 
+
     <!-- Footer -->
 <footer>
     <div class="container">
@@ -520,12 +531,12 @@
                     
                 </ul>
                 <p class="copyright text-muted">
-                    渝ICP备17003502号 | Copyright &copy; tnecniV 2017
+                    渝ICP备17003502号 | Copyright &copy; Vincent 2017
                     <br>
                     <script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
                     <span id="busuanzi_container_site_pv"> 您是本站第<span id="busuanzi_value_site_pv"></span>位访问者</span>  | 
                     <!-- umeng 站长统计 -->
-                    <script src="https://s22.cnzz.com/z_stat.php?id=1263843451&web_id=1263843451" language="JavaScript"></script> | 
+<!--                     <script src="https://s22.cnzz.com/z_stat.php?id=1263843451&web_id=1263843451" language="JavaScript"></script> |  -->
                     Theme by <a target="_blank" href="http://huangxuan.me">Hux</a> |
                     <iframe
                         style="margin-left: 2px; margin-bottom:-5px;"

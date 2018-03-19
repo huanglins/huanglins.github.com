@@ -201,18 +201,17 @@
 于是将折腾阿里云服务器整理出来，这篇会持续更新。(<em>^__^</em>)</p>
 </blockquote>
 
-<h2 id="l---linux--">L - Linux &gt; 一台云服务器</h2>
+<h2 id="l---linux--一台云服务器">L - Linux &gt; 一台云服务器</h2>
 
 <p>首先你得有一台云服务器。常用的云服务提供商有，<code class="highlighter-rouge">阿里云</code>，<code class="highlighter-rouge">腾讯云</code>，<code class="highlighter-rouge">亚马逊 AWS</code>，<code class="highlighter-rouge">微软 Azure</code>等。
 但是在国内的话，个人还是比较推荐阿里云。最低配一个月60块钱的样子。</p>
 
 <p>购买后阿里云会给你分配一个云服务器的公网IP地址。通过 SSH 连接云服务器：</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>ssh root@xxx.xxx.xxx.xxx
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>ssh root@xxx.xxx.xxx.xxx
 
 输入密码
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <h2 id="yum">yum</h2>
 
@@ -224,49 +223,43 @@
 
 <p>yum 命令格式为：</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>yum [options] [command] [package ...]
-</code></pre>
-</div>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>yum [options] [command] [package ...]
+</code></pre></div></div>
 
-<h4 id="section">更新源</h4>
+<h4 id="更新源">更新源</h4>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>yum update
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>yum update
 
 yum upgrade
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <h2 id="a---apache---httpd">A - Apache -&gt; httpd</h2>
 
 <p>Apache 在Linux系统中，叫 <strong>httpd</strong>。O__O “…</p>
 
-<h4 id="apache">安装 Apache</h4>
+<h4 id="安装-apache">安装 Apache</h4>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>yum install httpd
-</code></pre>
-</div>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>yum install httpd
+</code></pre></div></div>
 
 <p><strong>&gt;</strong> 启动Apache</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>systemctl start httpd.service 
-</code></pre>
-</div>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>systemctl start httpd.service 
+</code></pre></div></div>
 
 <p>这时在浏览器中输入IP地址，你可以看到Apache的Test页面。</p>
 
 <p><strong>&gt;</strong> 关闭Apache</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>systemctl stop httpd.service
-</code></pre>
-</div>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>systemctl stop httpd.service
+</code></pre></div></div>
 
 <p><strong>&gt;</strong> 设置Apache开启自动启动</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>systemctl enable httpd.service 
-</code></pre>
-</div>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>systemctl enable httpd.service 
+</code></pre></div></div>
 
-<h4 id="section-1">使用</h4>
+<h4 id="使用">使用</h4>
 
 <p>Apache 在CentOS中默认的根目录在 <code class="highlighter-rouge">/var/www/html</code></p>
 
@@ -278,63 +271,55 @@ yum upgrade
 
 <p>查看可用的 JDK软件包列表:</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>yum search java | grep -i --color JDK
-</code></pre>
-</div>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>yum search java | grep -i --color JDK
+</code></pre></div></div>
 
 <p>安装 java-jdk</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>yum install java-1.8.0-openjdk  java-1.8.0-openjdk-devel  #安装openjdk
-</code></pre>
-</div>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>yum install java-1.8.0-openjdk  java-1.8.0-openjdk-devel  #安装openjdk
+</code></pre></div></div>
 
 <p>查看当前 java 版本</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>java -version     #查看java版本
-</code></pre>
-</div>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>java -version     #查看java版本
+</code></pre></div></div>
 
 <p>java 存放的地址  <code class="highlighter-rouge">/usr/lib/jvm</code></p>
 
-<h4 id="java-">配置 Java 环境变量</h4>
+<h4 id="配置-java-环境变量">配置 Java 环境变量</h4>
 
 <p>将 jdk 拷贝到 /usr/local/java 目录下。没有的话 <code class="highlighter-rouge">mkdir</code>创建，统一放到 /usr/local 目录下便于管理。</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>cd /usr/lib/jvm
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>cd /usr/lib/jvm
 
 cp -R java-1.8.0-openjdk /usr/local/java/jdk1.8
-</code></pre>
-</div>
+</code></pre></div></div>
 
-<h6 id="section-2">配置环境变量</h6>
+<h6 id="配置环境变量">配置环境变量</h6>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>vi /etc/profile
-</code></pre>
-</div>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>vi /etc/profile
+</code></pre></div></div>
 
 <p>将下面内容添加到文件末尾，for循环后面。这里直接引用 /usr/lib/jvm 目录下的 JDK也是可以的。</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>export JAVA_HOME=/usr/local/java/jdk1.8
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>export JAVA_HOME=/usr/local/java/jdk1.8
 export PATH=$JAVA_HOME/bin:$PATH:
 export JAVA_BIN=$JAVA_HOME/bin
 export CLASSPATH=.:$JAVA_HOME/lib/tools.jar:$JAVA_HOME/lib/dt.jar
 export JAVA_HOME JAVA_BIN PATH CLASSPAT
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <p>让配置立即生效</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>source /etc/profile
-</code></pre>
-</div>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>source /etc/profile
+</code></pre></div></div>
 
 <p>检查环境变量</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code># echo $JAVA_HOME
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code># echo $JAVA_HOME
 
 -&gt; /usr/local/java/jdk1.8
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <h2 id="t---tomcat">T - Tomcat</h2>
 
@@ -342,31 +327,28 @@ export JAVA_HOME JAVA_BIN PATH CLASSPAT
 
 <p>选择一个版本的 tar.gz 文件进行下载</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code># wget http://ftp.cuhk.edu.hk/pub/packages/apache.org/tomcat/tomcat-6/v6.0.51/bin/apache-tomcat-6.0.51.tar.gz
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code># wget http://ftp.cuhk.edu.hk/pub/packages/apache.org/tomcat/tomcat-6/v6.0.51/bin/apache-tomcat-6.0.51.tar.gz
 
 # tar -zxvf apache-tomcat-6.0.51.tar.gz   # 解压
 
 拷贝 tomcat 到 /usr/local 目录下
 
 # cp -R apache-tomcat-6.0.51 /usr/local/tomcat7
-</code></pre>
-</div>
+</code></pre></div></div>
 
-<h4 id="section-3">使用</h4>
+<h4 id="使用-1">使用</h4>
 
 <p>启动Tomcat</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>cd /usr/local/tomcat7/bin
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>cd /usr/local/tomcat7/bin
 
 sh startup.sh
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <p>停止Tomcat</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>sh shutdown.sh
-</code></pre>
-</div>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>sh shutdown.sh
+</code></pre></div></div>
 
 <h2 id="m---mysql---mariadb">M - MySQL -&gt; MariaDB</h2>
 
@@ -378,46 +360,40 @@ sh startup.sh
 
 <p><strong>&gt;</strong> 安装 MariaDB</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>yum install mariadb-server -y
-</code></pre>
-</div>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>yum install mariadb-server -y
+</code></pre></div></div>
 
 <p><strong>&gt;</strong> 启动 MariaDB</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>systemctl start mariadb.service
-</code></pre>
-</div>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>systemctl start mariadb.service
+</code></pre></div></div>
 
 <p><strong>&gt;</strong> 停止 MariaDB</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>systemctl stop mariadb.service
-</code></pre>
-</div>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>systemctl stop mariadb.service
+</code></pre></div></div>
 
 <p><strong>&gt;</strong> 设置开启自动启动</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>systemctl enable mariadb.service
-</code></pre>
-</div>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>systemctl enable mariadb.service
+</code></pre></div></div>
 
 <p>进入MySQL，第一次进入不用密码需要自己修改</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>[root@VM_140_194_centos ~]# mysql
-</code></pre>
-</div>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>[root@VM_140_194_centos ~]# mysql
+</code></pre></div></div>
 <p><img src="/img/p-centos-lnmp/mysql-login.png" alt="" /></p>
 
 <p><strong>&gt;</strong> 修改MySQL密码</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>mysql_secure_installation
-</code></pre>
-</div>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>mysql_secure_installation
+</code></pre></div></div>
 
 <p>根据提示进行设置。</p>
 
 <p><strong>&gt;</strong> 创建用户以及分配权限</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code># 创建用户
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code># 创建用户
 CREATE USER 'vincent'@'localhost' IDENTIFIED BY 'password';
 # 分配权限
 grant create,alter,select,insert,update,delete on *.* to vincent@localhost IDENTIFIED BY 'password';
@@ -426,14 +402,13 @@ grant create,alter,select,insert,update,delete on *.* to vincent@localhost IDENT
 revoke create,alter,select,insert,update,delete on mysql.* from 'vincent'@'localhost';
 # 刷新系统权限
 flush privileges;
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <p><strong>&gt;</strong> 常见错误</p>
 
 <p><strong>Access denied for user ‘root@localhost’ (using password:NO)</strong></p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>&gt; systemctl stop mariadb.service
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>&gt; systemctl stop mariadb.service
 &gt; mysqld_safe --skip-grant-tables &amp;
 # 可以不用密码进入MySQL
 &gt; mysql
@@ -443,20 +418,17 @@ flush privileges;
 
 &gt; grant all privileges on *.* to root@localhost identified by 'YourNewPassword' with grant option;
 
-</code></pre>
-</div>
+</code></pre></div></div>
 
-<h4 id="section-4">备份数据库</h4>
+<h4 id="备份数据库">备份数据库</h4>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>mysqldump -u[用户名] -p[用户密码] --host=[localhost(可以不填)] [导出的数据库名] | gzip &gt;  [导出地址]
-</code></pre>
-</div>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>mysqldump -u[用户名] -p[用户密码] --host=[localhost(可以不填)] [导出的数据库名] | gzip &gt;  [导出地址]
+</code></pre></div></div>
 
 <p>例如：</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>mysqldump -uroot -proot --host=localhost database | gzip &gt; /home/backup/database.sql.gz
-</code></pre>
-</div>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>mysqldump -uroot -proot --host=localhost database | gzip &gt; /home/backup/database.sql.gz
+</code></pre></div></div>
 
 <p>推荐一个文件/数据库监控和数据库备份的脚本工具。
 <a href="https://github.com/zsenliao/shellMonitor/blob/master/">shellMonitor</a></p>
@@ -465,85 +437,76 @@ flush privileges;
 
 <p>我自己使用到PHP的地方一般也只是用它来使用 <strong>PHPMyAdmin</strong>，而web服务也是用 Java或者Python开发的，所以PHP用得比较少。</p>
 
-<h4 id="section-5">安装</h4>
+<h4 id="安装">安装</h4>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>yum install php
-</code></pre>
-</div>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>yum install php
+</code></pre></div></div>
 
 <p><strong>&gt;</strong> 需要重启一下Apache服务</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>service httpd restart
-</code></pre>
-</div>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>service httpd restart
+</code></pre></div></div>
 
 <p>测试一下是否安装好</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code># vi /var/www/html/info.php
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code># vi /var/www/html/info.php
 
 输入 i 进行插入
 
 # &lt;?php phpinfo(); ?&gt;
 
 ESC -&gt; 英文冒号 -&gt; wq 保存退出
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <p>然后再浏览器地址中输入 <code class="highlighter-rouge">ip地址/info.php</code>，这时应该能看到到当前的 php信息。</p>
 
-<h4 id="php--mysql">关联 PHP 和 MySQL</h4>
+<h4 id="关联-php-和-mysql">关联 PHP 和 MySQL</h4>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>yum install php-mysql php-gd php-imap php-ldap php-odbc php-pear php-xml php-xmlrpc
-</code></pre>
-</div>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>yum install php-mysql php-gd php-imap php-ldap php-odbc php-pear php-xml php-xmlrpc
+</code></pre></div></div>
 
 <p>安装完后重启 Apache</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>systemctl restart httpd.service
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>systemctl restart httpd.service
 或者
 service httpd restart
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <p>然后在 info.php 中就能看到mysql的模块。</p>
 
-<h4 id="phpmyadmin">安装 phpMyadmin</h4>
+<h4 id="安装-phpmyadmin">安装 phpMyadmin</h4>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>yum install phpMyAdmin php-mcrypt
-</code></pre>
-</div>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>yum install phpMyAdmin php-mcrypt
+</code></pre></div></div>
 
 <p>安装完后会在 <code class="highlighter-rouge">/usr/share</code> 目录下有个 <strong>phpMydmin</strong>目录，将该目录拷贝的 html 目录下。</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code># cd /usr/share
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code># cd /usr/share
 # cp -a phpMyAdmin/ /var/www/html/phpmyadmin
-</code></pre>
-</div>
+</code></pre></div></div>
 
-<h6 id="section-6">一些错误</h6>
+<h6 id="一些错误">一些错误</h6>
 
 <p>The mbstring extension is missing. Please check your PHP configuration.</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code># vi /etc/php.ini
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code># vi /etc/php.ini
 	
 在 [PHP] 下面插入
 	
 # extension=php_mbstring.dll
    
 * 重启 httpd.service
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <p>You don’t have permission to access /phpmyadmin/ on this server.</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>vi /etc/httpd/conf.d/phpMyAdmin.conf
-</code></pre>
-</div>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>vi /etc/httpd/conf.d/phpMyAdmin.conf
+</code></pre></div></div>
 <p><img src="/img/p-centos-lnmp/phpmyadmin-permission.png" alt="" /></p>
 
 <h2 id="n---nginx">N - Nginx</h2>
 
-<h4 id="apache-nginx">有了Apache为什么要使用 Nginx</h4>
+<h4 id="有了apache为什么要使用-nginx">有了Apache为什么要使用 Nginx</h4>
 
 <blockquote>
   <p><a href="http://willis.blog.51cto.com/11907152/1852083">Apache, Tomcat, Nginx的区别</a></p>
@@ -553,28 +516,24 @@ service httpd restart
 
 <p>Nginx 相对于Apache而言，具有</p>
 
-<h4 id="section-7">安装</h4>
+<h4 id="安装-1">安装</h4>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>yum install nginx
-</code></pre>
-</div>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>yum install nginx
+</code></pre></div></div>
 
 <p><strong>&gt;</strong> 启动 Nginx 。注意，Apache和Nginx默认都是监听的80端口，所以注意端口占用，要么修改默认的端口。</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code># nginx
-</code></pre>
-</div>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code># nginx
+</code></pre></div></div>
 <p><strong>&gt;</strong> 停止nginx</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>nginx -s stop
-</code></pre>
-</div>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>nginx -s stop
+</code></pre></div></div>
 
 <p><strong>&gt;</strong> 重启nginx</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code># nginx -s reload
-</code></pre>
-</div>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code># nginx -s reload
+</code></pre></div></div>
 
 <p>nginx 相关配置文件路径 ：<code class="highlighter-rouge">/etc/nginx/nginx.conf</code></p>
 
@@ -584,27 +543,23 @@ service httpd restart
 
 <p><strong>&gt;</strong> 安装</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>yum install -y redis
-</code></pre>
-</div>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>yum install -y redis
+</code></pre></div></div>
 
 <p><strong>&gt;</strong> 启动</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>systemctl start redis
-</code></pre>
-</div>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>systemctl start redis
+</code></pre></div></div>
 
 <p><strong>&gt;</strong> 开机启动</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>systemctl enable redis
-</code></pre>
-</div>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>systemctl enable redis
+</code></pre></div></div>
 
 <p><strong>&gt;</strong> 停止</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>systemctl stop redis
-</code></pre>
-</div>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>systemctl stop redis
+</code></pre></div></div>
 
 <h2 id="f---ftp">F - FTP</h2>
 
@@ -612,45 +567,40 @@ service httpd restart
 
 <p><strong>&gt;</strong>安装</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>yum -y install vsftpd
-</code></pre>
-</div>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>yum -y install vsftpd
+</code></pre></div></div>
 
 <p><strong>&gt;</strong>相关操作</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code># systemctl start vsftpd     # 启动 vsftpd
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code># systemctl start vsftpd     # 启动 vsftpd
 # systemctl enable vsftpd		# 设置开机启动
 # systemctl stop vsftpd		# 停止 vsftpd
-</code></pre>
-</div>
+</code></pre></div></div>
 
-<h4 id="section-8">修改配置文件</h4>
+<h4 id="修改配置文件">修改配置文件</h4>
 
 <p>打开 <strong>/etc/vsftpd/vsftpd.conf</strong>，修改配置：</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>anonymous_enable=NO 	#设定不允许匿名访问
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>anonymous_enable=NO 	#设定不允许匿名访问
 local_enable=YES 			#设定本地用户可以访问。注：如使用虚拟宿主用户，在该项目设定为NO的情况下所有虚拟用户将无法访问
 ascii_upload_enable=YES
 ascii_download_enable=YES #设定支持ASCII模式的上传和下载功能
 chroot_list_enable=YES 	#使用户不能离开主目录
 pam_service_name=vsftpd   #PAM认证文件名。PAM将根据/etc/pam.d/vsftpd进行认证
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <p>以下这些是关于vsftpd虚拟用户支持的重要配置项，默认vsftpd.conf中不包含这些设定项目，需要自己手动添加</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>guest_enable=YES			#设定启用虚拟用户功能
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>guest_enable=YES			#设定启用虚拟用户功能
 guest_username=ftp		#指定虚拟用户的宿主用户，CentOS中已经有内置的ftp用户了
 user_config_dir=/etc/vsftpd/vuser_conf #设定虚拟用户个人vsftp的CentOS FTP服务文件存放路径。存放虚拟用户个性的CentOS FTP服务文件(配置文件名=虚拟用户名
-</code></pre>
-</div>
+</code></pre></div></div>
 
-<h4 id="section-9">添加用户</h4>
+<h4 id="添加用户">添加用户</h4>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>useradd vicnent 	# 添加一个用户
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>useradd vicnent 	# 添加一个用户
 passwd vincent		# 给用户设置密码
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <p>在 <code class="highlighter-rouge">/home</code> 路径下，就会多出一个 <strong>vincent</strong> 的文件夹。</p>
 
@@ -732,7 +682,7 @@ passwd vincent		# 给用户设置密码
                             
         				
                             
-                				<a href="/tags/#iOS" title="iOS" rel="3">
+                				<a href="/tags/#iOS" title="iOS" rel="4">
                                     iOS
                                 </a>
                             
@@ -761,6 +711,8 @@ passwd vincent		# 给用户设置密码
         				
                             
         				
+                            
+        				
         			</div>
                 </section>
                 
@@ -771,19 +723,21 @@ passwd vincent		# 给用户设置密码
                 <h5>FRIENDS</h5>
                 <ul class="list-inline">
                     
-                        <li><a target="_blank" href="https://www.vincents.cn/saylove/">say - vincents.cn</a></li>
-                    
                         <li><a target="_blank" href="https://shop130631028.taobao.com/">在回忆中 - 卖点小东西</a></li>
                     
                         <li><a target="_blank" href="https://unsplash.com">unsplash - 好看的图片</a></li>
                     
-                        <li><a target="_blank" href="https://wechat.vincents.cn">wechat.vincents.cn</a></li>
-                    
                         <li><a target="_blank" href="https://api.vincents.cn/udid">获取UDID</a></li>
+                    
+                        <li><a target="_blank" href="https://www.vincents.cn/saylove/">say - vincents.cn</a></li>
+                    
+                        <li><a target="_blank" href="https://wechat.vincents.cn">wechat.vincents.cn</a></li>
                     
                         <li><a target="_blank" href="https://api.vincents.cn/manager">api.vincents.cn</a></li>
                     
                         <li><a target="_blank" href="http://chat.vincents.cn">chat.vincents.cn</a></li>
+                    
+                        <li><a target="_blank" href="http://rap.vincents.cn">rap.vincents.cn</a></li>
                     
                 </ul>
                 
@@ -847,6 +801,7 @@ passwd vincent		# 给用户设置密码
 </style>
 
 
+
     <!-- Footer -->
 <footer>
     <div class="container">
@@ -902,12 +857,12 @@ passwd vincent		# 给用户设置密码
                     
                 </ul>
                 <p class="copyright text-muted">
-                    渝ICP备17003502号 | Copyright &copy; tnecniV 2017
+                    渝ICP备17003502号 | Copyright &copy; Vincent 2017
                     <br>
                     <script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
                     <span id="busuanzi_container_site_pv"> 您是本站第<span id="busuanzi_value_site_pv"></span>位访问者</span>  | 
                     <!-- umeng 站长统计 -->
-                    <script src="https://s22.cnzz.com/z_stat.php?id=1263843451&web_id=1263843451" language="JavaScript"></script> | 
+<!--                     <script src="https://s22.cnzz.com/z_stat.php?id=1263843451&web_id=1263843451" language="JavaScript"></script> |  -->
                     Theme by <a target="_blank" href="http://huangxuan.me">Hux</a> |
                     <iframe
                         style="margin-left: 2px; margin-bottom:-5px;"

@@ -10,9 +10,9 @@ baseurl: ""
 
 # SNS setting 社交网络ID
 zhihu_username: huang-lin-70-49
-weibo_username:     linxiaomu1995
+weibo_username: linxiaomu1995
 twitter_username: vincent_darnel
-github_username:    huanglins
+github_username: huanglins
 
 #facebook_username:  vincent
 
@@ -28,6 +28,11 @@ anchorjs: true                          # if you want to customize anchor. check
 # Gems
 # from PR#40, to support local preview for Jekyll 3.0
 gems: [jekyll-paginate]
+
+# plugins  - 使用 gems 的地方需要替换为 plugins
+#plugins: [jekyll-paginate]
+
+
 
 # Markdown 配置
 # Markdown settings
@@ -97,6 +102,6 @@ friends: [
     },
     {
         title: "rap.vincents.cn",
-        href: "http://chat.vincents.cn"
+        href: "http://rap.vincents.cn"
     }
 ]

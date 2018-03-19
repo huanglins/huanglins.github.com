@@ -210,11 +210,11 @@
 
 <p>webbench的标准测试可以向我们展示服务器的两项内容：每秒钟相应请求数和每秒钟传输数据量。</p>
 
-<h4 id="mac">MAC安装</h4>
+<h4 id="mac安装">MAC安装</h4>
 
 <p>在Mac环境下，通过<code class="highlighter-rouge">brew</code>进行安装</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>brew install ctags # 依赖安装
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>brew install ctags # 依赖安装
 
 wget http://blog.zyan.cc/soft/linux/webbench/webbench-1.5.tar.gz
 
@@ -226,20 +226,18 @@ sudo mkdir -pv /usr/local/man/man1 # 创建文件夹
 
 sudo make &amp;&amp; sudo make install # 安装
 
-</code></pre>
-</div>
+</code></pre></div></div>
 
-<h4 id="section">使用</h4>
+<h4 id="使用">使用</h4>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>webbench -c 100 -t 30 [URL]
-</code></pre>
-</div>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>webbench -c 100 -t 30 [URL]
+</code></pre></div></div>
 
 <p>参数说明：<code class="highlighter-rouge">-c</code>表示并发数，<code class="highlighter-rouge">-t</code>表示时间(秒)</p>
 
-<h4 id="section-1">相关命令</h4>
+<h4 id="相关命令">相关命令</h4>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>
 webbench [option]... URL
 
   -f|--force               压测时不等待服务端返回
@@ -257,10 +255,9 @@ webbench [option]... URL
   -?|-h|--help             This information.
   -V|--version             显示当前版本
 
-</code></pre>
-</div>
+</code></pre></div></div>
 
-<h4 id="section-2">使用结果</h4>
+<h4 id="使用结果">使用结果</h4>
 
 <p><img src="/img/p-web-test-tool/webbench-result.png" alt="" /></p>
 
@@ -275,19 +272,18 @@ webbench [option]... URL
   <li>源代码：<a href="https://github.com/JoeDog/siege.git">https://github.com/JoeDog/siege.git</a></li>
 </ul>
 
-<h4 id="mac-">mac 安装</h4>
+<h4 id="mac-安装">mac 安装</h4>
 
-<div class="highlighter-rouge"><pre class="highlight"><code># wget http://download.joedog.org/siege/siege-latest.tar.gz
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code># wget http://download.joedog.org/siege/siege-latest.tar.gz
 # tar -zxvf siege-latest.tar.gz
 # cd siege-latest/
 # ./configure
 # make &amp;&amp; make install
-</code></pre>
-</div>
+</code></pre></div></div>
 
-<h4 id="section-3">相关命令</h4>
+<h4 id="相关命令-1">相关命令</h4>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>-V, --version             VERSION, prints the version number.
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>-V, --version             VERSION, prints the version number.
   -h, --help                HELP, prints this section.
   -C, --config              CONFIGURATION, show the current config.
   -v, --verbose             VERBOSE, prints notification to screen.
@@ -310,48 +306,41 @@ webbench [option]... URL
   -H, --header="text"       Add a header to request (can be many)
   -A, --user-agent="text"   Sets User-Agent in request
   -T, --content-type="text" Sets Content-Type in request
-</code></pre>
-</div>
+</code></pre></div></div>
 
-<h4 id="section-4">使用</h4>
+<h4 id="使用-1">使用</h4>
 
 <p>100个并发访问 <code class="highlighter-rouge">http://www.baidu.com</code>，并重复20次</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>siege -c 100 -r 20 http://www.baidu.com
-</code></pre>
-</div>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>siege -c 100 -r 20 http://www.baidu.com
+</code></pre></div></div>
 
 <p>在 urls.txt 中列出所有网址</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>siege -c 100 -r 20 -f urls.txt  
-</code></pre>
-</div>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>siege -c 100 -r 20 -f urls.txt  
+</code></pre></div></div>
 
 <p>随机选取 urls.txt 中列出的网址</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>siege -c 100 -r 20 -f urls.txt -i
-</code></pre>
-</div>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>siege -c 100 -r 20 -f urls.txt -i
+</code></pre></div></div>
 
 <p>不等待返回结果,100个并发随机选取urls.txt重复请求20个</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>siege -c 2000 -r 100 -f urls.txt -i -b  
-</code></pre>
-</div>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>siege -c 2000 -r 100 -f urls.txt -i -b  
+</code></pre></div></div>
 
 <p><strong>»</strong> 指定 http 请求头请求</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>siege -H "Content-Type:application/json" -c 100 -r 20 -f urls.txt -i -b  
-</code></pre>
-</div>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>siege -H "Content-Type:application/json" -c 100 -r 20 -f urls.txt -i -b  
+</code></pre></div></div>
 
 <p><strong>»</strong> POST 请求</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>siege -c 100 -r 20 http://www.baidu.com/ POST p1=v1&amp;p2=v2  
-</code></pre>
-</div>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>siege -c 100 -r 20 http://www.baidu.com/ POST p1=v1&amp;p2=v2  
+</code></pre></div></div>
 
-<h4 id="siege-">Siege 输出结果说明</h4>
+<h4 id="siege-输出结果说明">Siege 输出结果说明</h4>
 
 <p><img src="/img/p-web-test-tool/siege-result.png" alt="" /></p>
 
@@ -485,7 +474,7 @@ webbench [option]... URL
                             
         				
                             
-                				<a href="/tags/#iOS" title="iOS" rel="3">
+                				<a href="/tags/#iOS" title="iOS" rel="4">
                                     iOS
                                 </a>
                             
@@ -514,6 +503,8 @@ webbench [option]... URL
         				
                             
         				
+                            
+        				
         			</div>
                 </section>
                 
@@ -524,19 +515,21 @@ webbench [option]... URL
                 <h5>FRIENDS</h5>
                 <ul class="list-inline">
                     
-                        <li><a target="_blank" href="https://www.vincents.cn/saylove/">say - vincents.cn</a></li>
-                    
                         <li><a target="_blank" href="https://shop130631028.taobao.com/">在回忆中 - 卖点小东西</a></li>
                     
                         <li><a target="_blank" href="https://unsplash.com">unsplash - 好看的图片</a></li>
                     
-                        <li><a target="_blank" href="https://wechat.vincents.cn">wechat.vincents.cn</a></li>
-                    
                         <li><a target="_blank" href="https://api.vincents.cn/udid">获取UDID</a></li>
+                    
+                        <li><a target="_blank" href="https://www.vincents.cn/saylove/">say - vincents.cn</a></li>
+                    
+                        <li><a target="_blank" href="https://wechat.vincents.cn">wechat.vincents.cn</a></li>
                     
                         <li><a target="_blank" href="https://api.vincents.cn/manager">api.vincents.cn</a></li>
                     
                         <li><a target="_blank" href="http://chat.vincents.cn">chat.vincents.cn</a></li>
+                    
+                        <li><a target="_blank" href="http://rap.vincents.cn">rap.vincents.cn</a></li>
                     
                 </ul>
                 
@@ -600,6 +593,7 @@ webbench [option]... URL
 </style>
 
 
+
     <!-- Footer -->
 <footer>
     <div class="container">
@@ -655,12 +649,12 @@ webbench [option]... URL
                     
                 </ul>
                 <p class="copyright text-muted">
-                    渝ICP备17003502号 | Copyright &copy; tnecniV 2017
+                    渝ICP备17003502号 | Copyright &copy; Vincent 2017
                     <br>
                     <script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
                     <span id="busuanzi_container_site_pv"> 您是本站第<span id="busuanzi_value_site_pv"></span>位访问者</span>  | 
                     <!-- umeng 站长统计 -->
-                    <script src="https://s22.cnzz.com/z_stat.php?id=1263843451&web_id=1263843451" language="JavaScript"></script> | 
+<!--                     <script src="https://s22.cnzz.com/z_stat.php?id=1263843451&web_id=1263843451" language="JavaScript"></script> |  -->
                     Theme by <a target="_blank" href="http://huangxuan.me">Hux</a> |
                     <iframe
                         style="margin-left: 2px; margin-bottom:-5px;"

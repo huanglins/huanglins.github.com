@@ -198,21 +198,21 @@
                 col-md-10 col-md-offset-1
                 post-container">
 
-				<h2 id="python-">python 读取登录信息，并发送邮件</h2>
+				<h2 id="python-读取登录信息并发送邮件">python 读取登录信息，并发送邮件</h2>
 <p>效果就是，每当有人通过 <code class="highlighter-rouge">ssh</code> 登录到阿里云服务器的时候就会将登录者的ip和登录时间发送一封邮箱到指定的邮箱里面。</p>
 
-<h4 id="section">获取登录信息</h4>
+<h4 id="获取登录信息">获取登录信息</h4>
 
-<p><code class="highlighter-rouge">CentOS</code> 中 <code class="highlighter-rouge">/var/log/wtmp</code> 记录每个用户的登录IP，登录次数，持续时间等信息。
-#### 使用 smtplib 发送邮件</p>
+<p><code class="highlighter-rouge">CentOS</code> 中 <code class="highlighter-rouge">/var/log/wtmp</code> 记录每个用户的登录IP，登录次数，持续时间等信息。</p>
+<h4 id="使用-smtplib-发送邮件">使用 smtplib 发送邮件</h4>
 
 <ol>
   <li>注意 发送方邮箱的密码，不是账号的密码。而是开启 <code class="highlighter-rouge">SMTP</code> 后获取的授权码</li>
 </ol>
 
-<h4 id="section-1">代码如下</h4>
+<h4 id="代码如下">代码如下</h4>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>#-*- coding:utf-8 -*-
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>#-*- coding:utf-8 -*-
 
 
 import poplib,email
@@ -276,46 +276,43 @@ if __name__ == '__main__':
                 print "add users"
                 sendmail(val)
                 old_count = val[0]
-</code></pre>
-</div>
+</code></pre></div></div>
 
-<h2 id="nohup-">使用 nohup 后台执行</h2>
+<h2 id="使用-nohup-后台执行">使用 nohup 后台执行</h2>
 <p>Linux 后台进程运行的方法有好几种，比如<code class="highlighter-rouge">nohup</code>，<code class="highlighter-rouge">supervisor</code>，<code class="highlighter-rouge">screen</code>等。这里使用<code class="highlighter-rouge">nohup</code>来简单使用</p>
 
-<h4 id="nohup--1">使用 nohup 命令</h4>
+<h4 id="使用-nohup-命令">使用 nohup 命令</h4>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>[root@iZ949j21i58Z ssh]# nohup python ssh_monitor.py &amp;
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>[root@iZ949j21i58Z ssh]# nohup python ssh_monitor.py &amp;
 [1] 19852
 [root@iZ949j21i58Z ssh]# nohup: 忽略输入并把输出追加到"nohup.out"
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <ol>
   <li><code class="highlighter-rouge">&amp;</code> 表示将程序放到后台执行，但是如果启动该程序的logout，则该进程随记终止</li>
   <li><code class="highlighter-rouge">nohup</code> 使用 nohup命令后，原程序的标准输出被自动改向到当前目录的nohup.out文件，起到了log的作用，实现完整的守护进程功能。</li>
 </ol>
 
-<h4 id="nohup--2">终止 nohup 执行</h4>
+<h4 id="终止-nohup-执行">终止 nohup 执行</h4>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>[root@iZ949j21i58Z ssh]# ps -ef | grep ssh_monitor
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>[root@iZ949j21i58Z ssh]# ps -ef | grep ssh_monitor
 root     19852 19781  0 11:03 pts/2    00:00:00 python ssh_monitor.py
 root     19856 19781  0 11:03 pts/2    00:00:00 grep --color=auto ssh_monitor
 [root@iZ949j21i58Z ssh]# kill 19852
-</code></pre>
-</div>
+</code></pre></div></div>
 
-<h2 id="linux-python">关于Linux Python执行的进程</h2>
+<h2 id="关于linux-python执行的进程">关于Linux Python执行的进程</h2>
 <p>当用户启动一个进程的时候，这个进程是运行在前台，使用与相应控制终端相联系的标准输入输如，输出进行输入和输出。即时将进程的输入输出重定向，并将进程放在后台执行，进程仍然和当前前端设备有关系。正因为如此，在当前的登录会话结束时，控制终端设备将和登录进程相脱，那么系统就像所有与这个终端联系的进程发送<code class="highlighter-rouge">SIGHUP</code>的信号，通知进程线路已经挂起了，如果程序没有接管这个信号的处理，那么缺省的反应是进程结束。</p>
 
 <p>因此普通的程序并不能真正脱离登录会话而运行进程，为了使得在系统登录后还可以正常执行，只有使用<code class="highlighter-rouge">nohup</code>这一类的来启动相应程序。</p>
 
-<h4 id="section-2">守护进程</h4>
+<h4 id="守护进程">守护进程</h4>
 <p><code class="highlighter-rouge">nohup</code>启动的程序在进程执行完毕就退出了，比如<code class="highlighter-rouge">kill</code> 掉相关进程。而一些常见的服务进程通常永久的运行在后台，不想屏幕输出结果。
 在 Linux/Unix 中这些永久的后台进程称为<code class="highlighter-rouge">守护进程（daemon）</code>。守护进程通常从系统启动时自动开始执行，系统关闭时才停止。如果偶然某个守护进程消失了，那么它提供的服务将不再能被使用。</p>
 
-<h4 id="centos-">CentOS 常见的守护进程</h4>
+<h4 id="centos-常见的守护进程">CentOS 常见的守护进程</h4>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>硬件管理守护进程
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>硬件管理守护进程
 apmd
 apmd （Advanced Power Management）是高级电源管理。传统的电源管理标准，对于笔记本电脑比较有用，可以了解系统的电池电量信
 息。并将相关信息通过 syslogd  写入日志。也可以用来在电源不足时关机。
@@ -448,8 +445,7 @@ gssftp 使用 kerberos 5 认证的 ftp 守护进程
 krb5-telnet 使用 kerberos 5 认证的 telnet  守护进程。
 klogin 使用 kerberos 5 认证远程登录守护进程。
 kshell 使用 kerberos 5 认证的远程 Shell 守护进程。
-</code></pre>
-</div>
+</code></pre></div></div>
 
 
                 <hr>
@@ -527,7 +523,7 @@ kshell 使用 kerberos 5 认证的远程 Shell 守护进程。
                             
         				
                             
-                				<a href="/tags/#iOS" title="iOS" rel="3">
+                				<a href="/tags/#iOS" title="iOS" rel="4">
                                     iOS
                                 </a>
                             
@@ -556,6 +552,8 @@ kshell 使用 kerberos 5 认证的远程 Shell 守护进程。
         				
                             
         				
+                            
+        				
         			</div>
                 </section>
                 
@@ -566,19 +564,21 @@ kshell 使用 kerberos 5 认证的远程 Shell 守护进程。
                 <h5>FRIENDS</h5>
                 <ul class="list-inline">
                     
-                        <li><a target="_blank" href="https://www.vincents.cn/saylove/">say - vincents.cn</a></li>
-                    
                         <li><a target="_blank" href="https://shop130631028.taobao.com/">在回忆中 - 卖点小东西</a></li>
                     
                         <li><a target="_blank" href="https://unsplash.com">unsplash - 好看的图片</a></li>
                     
-                        <li><a target="_blank" href="https://wechat.vincents.cn">wechat.vincents.cn</a></li>
-                    
                         <li><a target="_blank" href="https://api.vincents.cn/udid">获取UDID</a></li>
+                    
+                        <li><a target="_blank" href="https://www.vincents.cn/saylove/">say - vincents.cn</a></li>
+                    
+                        <li><a target="_blank" href="https://wechat.vincents.cn">wechat.vincents.cn</a></li>
                     
                         <li><a target="_blank" href="https://api.vincents.cn/manager">api.vincents.cn</a></li>
                     
                         <li><a target="_blank" href="http://chat.vincents.cn">chat.vincents.cn</a></li>
+                    
+                        <li><a target="_blank" href="http://rap.vincents.cn">rap.vincents.cn</a></li>
                     
                 </ul>
                 
@@ -642,6 +642,7 @@ kshell 使用 kerberos 5 认证的远程 Shell 守护进程。
 </style>
 
 
+
     <!-- Footer -->
 <footer>
     <div class="container">
@@ -697,12 +698,12 @@ kshell 使用 kerberos 5 认证的远程 Shell 守护进程。
                     
                 </ul>
                 <p class="copyright text-muted">
-                    渝ICP备17003502号 | Copyright &copy; tnecniV 2017
+                    渝ICP备17003502号 | Copyright &copy; Vincent 2017
                     <br>
                     <script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
                     <span id="busuanzi_container_site_pv"> 您是本站第<span id="busuanzi_value_site_pv"></span>位访问者</span>  | 
                     <!-- umeng 站长统计 -->
-                    <script src="https://s22.cnzz.com/z_stat.php?id=1263843451&web_id=1263843451" language="JavaScript"></script> | 
+<!--                     <script src="https://s22.cnzz.com/z_stat.php?id=1263843451&web_id=1263843451" language="JavaScript"></script> |  -->
                     Theme by <a target="_blank" href="http://huangxuan.me">Hux</a> |
                     <iframe
                         style="margin-left: 2px; margin-bottom:-5px;"

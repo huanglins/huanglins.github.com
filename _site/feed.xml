@@ -5,25 +5,79 @@
     <description>// iOS Developer，也写Android和python。正在学习全栈。很高兴认识你。</description>
     <link>http://localhost:4000/</link>
     <atom:link href="http://localhost:4000/feed.xml" rel="self" type="application/rss+xml" />
-    <pubDate>Fri, 22 Sep 2017 17:13:14 +0800</pubDate>
-    <lastBuildDate>Fri, 22 Sep 2017 17:13:14 +0800</lastBuildDate>
-    <generator>Jekyll v3.3.1</generator>
+    <pubDate>Fri, 09 Mar 2018 10:33:02 +0800</pubDate>
+    <lastBuildDate>Fri, 09 Mar 2018 10:33:02 +0800</lastBuildDate>
+    <generator>Jekyll v3.7.3</generator>
+    
+      <item>
+        <title>iOS 西培学堂 - 人脸识别绕过</title>
+        <description>&lt;p&gt;最近在学习驾照，考科目一的时候需要在 &lt;strong&gt;西培学堂&lt;/strong&gt; 上面学习视频 1320 分钟。最主要的是每隔25分钟就要进行一次人脸识别验证，没有立即验证的话单次学习的时间就会失效。本着好好学习的态度，于是想看下能不能友好的进行人脸识别。..&lt;/p&gt;
+
+&lt;h4 id=&quot;抓包测试&quot;&gt;抓包测试&lt;/h4&gt;
+
+&lt;p&gt;&lt;img src=&quot;/img/p-xipeixuetang/uploadimage.png&quot; alt=&quot;&quot; /&gt;
+抓包测试发现，人脸识别是在本地进行校验的，识别成功后再将识别的结果图片上传到服务器进行保存，并记录时间。那么这样的话，我们就可以在本地将人脸识别绕过，并传一张假图片给服务器就行了(手动滑稽..)&lt;/p&gt;
+
+&lt;h4 id=&quot;导出头文件&quot;&gt;导出头文件&lt;/h4&gt;
+
+&lt;p&gt;首先我们在 PP助手上下载已经脱壳的 IPA，然后导出所有头文件。&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;class-dump -H /xx/xx/tbtimingCount.app/tbtimingCount -o /Users/xx/Desktop/header
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h4 id=&quot;分析测试&quot;&gt;分析测试&lt;/h4&gt;
+
+&lt;p&gt;搜索 &lt;code class=&quot;highlighter-rouge&quot;&gt;face&lt;/code&gt; 相关的文件
+&lt;img src=&quot;/img/p-xipeixuetang/search_face.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;打开 Xcode 新建一个 &lt;a href=&quot;https://github.com/AloneMonkey/MonkeyDev&quot;&gt;MonkeyDev&lt;/a&gt; 工程，将 ipa 导入工程。&lt;/p&gt;
+
+&lt;p&gt;经测试，&lt;strong&gt;TbCameraWalk&lt;/strong&gt; 这个文件用来处理学习计时和调用摄像头进行人脸识别的相关操作。
+&lt;img src=&quot;/img/p-xipeixuetang/file_source.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;其中检测到需要人脸识别摄像头被调用时，会响应以下方法:&lt;/p&gt;
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;- (void)cwFaceInfoCallBack:(id)arg1;                                // 人脸识别结果
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+&lt;p&gt;该文件中有一个人脸识别结果回调，返回一个图片信息，界面收到回调时将会调用接口上传人脸识别图片并计时。&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/img/p-xipeixuetang/delegate_source.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;检测完成，关闭人脸识别界面方法为：&lt;/p&gt;
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;- (void)liveDetectSucess;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h4 id=&quot;编码&quot;&gt;编码&lt;/h4&gt;
+
+&lt;p&gt;&lt;img src=&quot;/img/p-xipeixuetang/reverse_code.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;在摄像头回调中直接将上面抓包的 Image Base64的数据，手动调用给 Delegate，测试发现后台服务器并没有再次进行图像比较。然后手动调用检测成功，关闭页面。&lt;/p&gt;
+
+</description>
+        <pubDate>Thu, 08 Mar 2018 00:00:00 +0800</pubDate>
+        <link>http://localhost:4000/2018/03/08/reverse-xipeixuetang/</link>
+        <guid isPermaLink="true">http://localhost:4000/2018/03/08/reverse-xipeixuetang/</guid>
+        
+        <category>iOS</category>
+        
+        <category>iOS 逆向</category>
+        
+        
+      </item>
     
       <item>
         <title>iOS11/iPhone X 适配(填坑)指南</title>
-        <description>&lt;h2 id=&quot;ios11&quot;&gt;适配 iOS11&lt;/h2&gt;
+        <description>&lt;h2 id=&quot;适配-ios11&quot;&gt;适配 iOS11&lt;/h2&gt;
 
-&lt;h4 id=&quot;uitableview-contentoffset--20&quot;&gt;1. UITableView contentOffset 下移 20&lt;/h4&gt;
+&lt;h4 id=&quot;1-uitableview-contentoffset-下移-20&quot;&gt;1. UITableView contentOffset 下移 20&lt;/h4&gt;
 
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;if (@available(iOS 11.0, *)) {
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;if (@available(iOS 11.0, *)) {
 	if ([self.tableView respondsToSelector:@selector(setContentInsetAdjustmentBehavior:)]) {
 		self.tableView.contentInsetAdjustmentBehavior = UIScrollViewContentInsetAdjustmentNever;
 	}
 }
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
 
-&lt;h2 id=&quot;iphone-x&quot;&gt;适配 iPhone X&lt;/h2&gt;
+&lt;h2 id=&quot;适配-iphone-x&quot;&gt;适配 iPhone X&lt;/h2&gt;
 
 &lt;table&gt;
   &lt;thead&gt;
@@ -86,15 +140,15 @@
 
 &lt;p&gt;&lt;strong&gt;iPhone X&lt;/strong&gt; 宏定义&lt;/p&gt;
 
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;#define iPhoneX ([UIScreen instancesRespondToSelector:@selector(currentMode)] ? \
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;#define iPhoneX ([UIScreen instancesRespondToSelector:@selector(currentMode)] ? \
         CGSizeEqualToSize(CGSizeMake(1125, 2436), [[UIScreen mainScreen] currentMode].size) : NO)
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
 
-&lt;h2 id=&quot;section&quot;&gt;我的开源项目&lt;/h2&gt;
+&lt;h2 id=&quot;我的开源项目&quot;&gt;我的开源项目&lt;/h2&gt;
 
-&lt;p&gt;各种导航栏
-&lt;a href=&quot;https://github.com/huanglins/VHLNavigation&quot;&gt;VHLNavigation&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;&lt;a href=&quot;https://github.com/huanglins/VHLNavigation&quot;&gt;VHLNavigation&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;实现各种导航栏间的无缝切换，微信红包样式导航栏样式切换，颜色过渡切换，导航栏背景图片切换，导航栏透明度切换，有无导航栏切换等。&lt;/p&gt;
 
 </description>
         <pubDate>Tue, 19 Sep 2017 00:00:00 +0800</pubDate>
@@ -108,9 +162,9 @@
     
       <item>
         <title>MySQL 相关语法及函数</title>
-        <description>&lt;h2 id=&quot;section&quot;&gt;函数&lt;/h2&gt;
+        <description>&lt;h2 id=&quot;函数&quot;&gt;函数&lt;/h2&gt;
 
-&lt;h4 id=&quot;section-1&quot;&gt;合计函数&lt;/h4&gt;
+&lt;h4 id=&quot;合计函数&quot;&gt;合计函数&lt;/h4&gt;
 
 &lt;table&gt;
   &lt;thead&gt;
@@ -151,7 +205,7 @@
   &lt;/tbody&gt;
 &lt;/table&gt;
 
-&lt;h4 id=&quot;section-2&quot;&gt;数学函数&lt;/h4&gt;
+&lt;h4 id=&quot;数学函数&quot;&gt;数学函数&lt;/h4&gt;
 
 &lt;table&gt;
   &lt;thead&gt;
@@ -216,7 +270,7 @@
   &lt;/tbody&gt;
 &lt;/table&gt;
 
-&lt;h4 id=&quot;section-3&quot;&gt;字符串函数&lt;/h4&gt;
+&lt;h4 id=&quot;字符串函数&quot;&gt;字符串函数&lt;/h4&gt;
 
 &lt;table&gt;
   &lt;thead&gt;
@@ -293,7 +347,7 @@
   &lt;/tbody&gt;
 &lt;/table&gt;
 
-&lt;h4 id=&quot;section-4&quot;&gt;日期和时间函数&lt;/h4&gt;
+&lt;h4 id=&quot;日期和时间函数&quot;&gt;日期和时间函数&lt;/h4&gt;
 
 &lt;table&gt;
   &lt;thead&gt;
@@ -390,7 +444,7 @@
   &lt;/tbody&gt;
 &lt;/table&gt;
 
-&lt;h4 id=&quot;section-5&quot;&gt;条件判断&lt;/h4&gt;
+&lt;h4 id=&quot;条件判断&quot;&gt;条件判断&lt;/h4&gt;
 
 &lt;table&gt;
   &lt;thead&gt;
@@ -421,7 +475,7 @@
   &lt;p&gt;第一种&lt;/p&gt;
 &lt;/blockquote&gt;
 
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;CASE
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;CASE
 	WHEN e1
 	THEN v1
 	WHEN e2
@@ -429,8 +483,7 @@
 	...
 	ELSE vn
 END
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
 
 &lt;p&gt;CASE 表示函数开始，END 表示函数结束。如果 e1，则返回 v1；如果 e2 成立，则返回 v2；当前全部不成立则返回 vn。而当一个成立，后面的就不执行。&lt;/p&gt;
 
@@ -438,17 +491,16 @@ END
   &lt;p&gt;第二种&lt;/p&gt;
 &lt;/blockquote&gt;
 
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;CASE expr
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;CASE expr
 	WHEN e1 THEN v1
 	WHEN e2 THEN v2
 	...
 	ELSE vn
 END
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
 &lt;p&gt;如果表达式 expr 的值等于 e1，则返回 v1；如果等于 e2，则返回 v2。否则返回 vn。&lt;/p&gt;
 
-&lt;h4 id=&quot;section-6&quot;&gt;系统信息函数&lt;/h4&gt;
+&lt;h4 id=&quot;系统信息函数&quot;&gt;系统信息函数&lt;/h4&gt;
 
 &lt;table&gt;
   &lt;thead&gt;
@@ -477,7 +529,7 @@ END
   &lt;/tbody&gt;
 &lt;/table&gt;
 
-&lt;h4 id=&quot;section-7&quot;&gt;加密函数&lt;/h4&gt;
+&lt;h4 id=&quot;加密函数&quot;&gt;加密函数&lt;/h4&gt;
 
 &lt;table&gt;
   &lt;thead&gt;
@@ -510,7 +562,7 @@ END
   &lt;/tbody&gt;
 &lt;/table&gt;
 
-&lt;h4 id=&quot;section-8&quot;&gt;其他函数&lt;/h4&gt;
+&lt;h4 id=&quot;其他函数&quot;&gt;其他函数&lt;/h4&gt;
 
 &lt;table&gt;
   &lt;thead&gt;
@@ -527,7 +579,7 @@ END
   &lt;/tbody&gt;
 &lt;/table&gt;
 
-&lt;h2 id=&quot;section-9&quot;&gt;参考学习地址&lt;/h2&gt;
+&lt;h2 id=&quot;参考学习地址&quot;&gt;参考学习地址&lt;/h2&gt;
 &lt;p&gt;&lt;a href=&quot;http://www.jianshu.com/p/32bc449a1bf6&quot;&gt;MySql函数大全&lt;/a&gt; &lt;br /&gt;
 &lt;a href=&quot;http://www.w3school.com.cn/sql/index.asp&quot;&gt;SQL 教程&lt;/a&gt; &lt;br /&gt;
 &lt;a href=&quot;http://www.jb51.net/article/40179.htm&quot;&gt;MySql常用函数汇总&lt;/a&gt;&lt;/p&gt;
@@ -551,15 +603,14 @@ END
 iptables 建立在 netfilter 架构基础上的一个包过滤管理工具，也称为用户空间（userspace），它使插入、修改和除去信息包过滤表中的规则变得容易。
 iptables包含4个表，5个链。其中表是按照对数据包的操作区分的，链是按照不同的Hook点来区分的，表和链实际上是netfilter的两个维度。&lt;/p&gt;
 
-&lt;h4 id=&quot;iptables-&quot;&gt;1.iptables 语法规则&lt;/h4&gt;
+&lt;h4 id=&quot;1iptables-语法规则&quot;&gt;1.iptables 语法规则&lt;/h4&gt;
 
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;iptables [-t 表] 大写选项子命令(-A) [规则号] 链名 匹配标准(-s xx.xx.xx.xx) -j 目标（规则）
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;iptables [-t 表] 大写选项子命令(-A) [规则号] 链名 匹配标准(-s xx.xx.xx.xx) -j 目标（规则）
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
 
 &lt;p&gt;&lt;strong&gt;注意：所有表名必须小写，命令动作必须大写，链名必须大写，匹配标准必须小写，目标规则必须大写&lt;/strong&gt;&lt;/p&gt;
 
-&lt;h4 id=&quot;iptables--1&quot;&gt;2.iptables 表&lt;/h4&gt;
+&lt;h4 id=&quot;2iptables-表&quot;&gt;2.iptables 表&lt;/h4&gt;
 
 &lt;table&gt;
   &lt;tbody&gt;
@@ -584,7 +635,7 @@ iptables包含4个表，5个链。其中表是按照对数据包的操作区分�
 
 &lt;p&gt;表的处理优先级：raw &amp;gt; mangle &amp;gt; nat &amp;gt; filter&lt;/p&gt;
 
-&lt;h4 id=&quot;iptables--2&quot;&gt;3.iptables 链&lt;/h4&gt;
+&lt;h4 id=&quot;3iptables-链&quot;&gt;3.iptables 链&lt;/h4&gt;
 
 &lt;table&gt;
   &lt;tbody&gt;
@@ -639,9 +690,9 @@ iptables 中表和链的对应关系如下：
   &lt;/tbody&gt;
 &lt;/table&gt;
 
-&lt;h4 id=&quot;iptables--3&quot;&gt;4.iptables 相关参数&lt;/h4&gt;
+&lt;h4 id=&quot;4iptables-相关参数&quot;&gt;4.iptables 相关参数&lt;/h4&gt;
 
-&lt;h5 id=&quot;section&quot;&gt;4.1.命令参数&lt;/h5&gt;
+&lt;h5 id=&quot;41命令参数&quot;&gt;4.1.命令参数&lt;/h5&gt;
 
 &lt;table&gt;
   &lt;tbody&gt;
@@ -680,7 +731,7 @@ iptables 中表和链的对应关系如下：
   &lt;/tbody&gt;
 &lt;/table&gt;
 
-&lt;h5 id=&quot;section-1&quot;&gt;4.2.匹配标准参数&lt;/h5&gt;
+&lt;h5 id=&quot;42匹配标准参数&quot;&gt;4.2.匹配标准参数&lt;/h5&gt;
 
 &lt;table&gt;
   &lt;tbody&gt;
@@ -715,7 +766,7 @@ iptables 中表和链的对应关系如下：
   &lt;/tbody&gt;
 &lt;/table&gt;
 
-&lt;h5 id=&quot;section-2&quot;&gt;4.3.目标规则&lt;/h5&gt;
+&lt;h5 id=&quot;43目标规则&quot;&gt;4.3.目标规则&lt;/h5&gt;
 
 &lt;table&gt;
   &lt;tbody&gt;
@@ -734,13 +785,13 @@ iptables 中表和链的对应关系如下：
   &lt;/tbody&gt;
 &lt;/table&gt;
 
-&lt;h4 id=&quot;iptables--4&quot;&gt;5.iptables 实际操作&lt;/h4&gt;
+&lt;h4 id=&quot;5iptables-实际操作&quot;&gt;5.iptables 实际操作&lt;/h4&gt;
 
 &lt;p&gt;以上是 iptables 语法规则的相关参数和说明，现在让我们来实际操作使用一下。一般常用操作的是 &lt;code class=&quot;highlighter-rouge&quot;&gt;filter&lt;/code&gt;表， &lt;code class=&quot;highlighter-rouge&quot;&gt;mangle&lt;/code&gt; 和 &lt;code class=&quot;highlighter-rouge&quot;&gt;raw&lt;/code&gt; 请自行 google 高级用法。&lt;/p&gt;
 
-&lt;h5 id=&quot;section-3&quot;&gt;5.1.基本使用&lt;/h5&gt;
+&lt;h5 id=&quot;51基本使用&quot;&gt;5.1.基本使用&lt;/h5&gt;
 
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;列出 iptables 规则
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;列出 iptables 规则
 # iptables -L		# 默认选择 filter 表
 # iptables -t nat -L
 
@@ -751,11 +802,10 @@ iptables 中表和链的对应关系如下：
 清除自定义规则
 # iptables -X
 # iptables -t nat -F 
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
 
-&lt;h5 id=&quot;filter&quot;&gt;5.2.filter&lt;/h5&gt;
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;禁止某个IP访问
+&lt;h5 id=&quot;52filter&quot;&gt;5.2.filter&lt;/h5&gt;
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;禁止某个IP访问
 # iptables -I INPUT -s xxx.xxx.xx.x -j DROP
 
 服务器禁止被 ping
@@ -785,12 +835,11 @@ iptables 中表和链的对应关系如下：
 # iptables -A INPUT -p tcp --dport 80 -m limit --limit 25/minute --limit-burst 100 -j ACCEPT
 - litmit 25/minute 每分钟限制最大连接数为25
 - litmit-burst 100 当总连接数超过100时，启动 limit/minute 限制
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
 
-&lt;h5 id=&quot;nat&quot;&gt;5.3 nat&lt;/h5&gt;
+&lt;h5 id=&quot;53-nat&quot;&gt;5.3 nat&lt;/h5&gt;
 
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;目的地址转换，映射内部地址
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;目的地址转换，映射内部地址
 # iptables -t nat -A PREROUTING -i ppp0 -p tcp --dprot 81 -j DNAT --to 192.168.0.2:80
 # iptables -t nat -A PREROUTING -i ppp0 -p tcp --dprot 81 -j DNAT --to 192.168.0.1-192.168.0.10
 
@@ -800,19 +849,16 @@ iptables 中表和链的对应关系如下：
 
 地址伪装，动态ip的NAT（地址转换）
 # iptables -t nat -A POSTROUTING -s 192.168.0.0/24 -j MASQUERADE
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
 &lt;p&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;masquerade&lt;/code&gt; 和 &lt;code class=&quot;highlighter-rouge&quot;&gt;snat&lt;/code&gt; 的主要区别在于，snat 是把源地址转换为固定的 IP 地址或者是地址池，而 masquerade 在 adsl 等方式拨号上网时候非常有用，因为是拨号上网所以网卡的外网IP经常变化，这样在进行地址转换的时候就要在每次都要修改转换策略里面的 ip，使用 masquerade 就很好的解决了这个问题，他会自己去探测外网卡获得的ip地址然后自动进行地址转换，这样就算外网获得的 ip 经常变化也不用人工干预了。&lt;/p&gt;
 
-&lt;h5 id=&quot;section-4&quot;&gt;5.4 删除规则&lt;/h5&gt;
+&lt;h5 id=&quot;54-删除规则&quot;&gt;5.4 删除规则&lt;/h5&gt;
 
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;iptables -D chain rulenum [options]
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-&lt;p&gt;chain 是链的意思，就是 INPUT FORWARD 之类的定语，rulenum 是该条规则的编号，从1开始。可以使用&lt;code class=&quot;highlighter-rouge&quot;&gt;iptables -L INPUT --line&lt;/code&gt;列出指定的链的规则的编号来。然后通过编号删除
-&lt;code class=&quot;highlighter-rouge&quot;&gt;
-iptables -D INPUT 1
-&lt;/code&gt;&lt;/p&gt;
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;iptables -D chain rulenum [options]
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+&lt;p&gt;chain 是链的意思，就是 INPUT FORWARD 之类的定语，rulenum 是该条规则的编号，从1开始。可以使用&lt;code class=&quot;highlighter-rouge&quot;&gt;iptables -L INPUT --line&lt;/code&gt;列出指定的链的规则的编号来。然后通过编号删除&lt;/p&gt;
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;iptables -D INPUT 1
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
 
 &lt;p&gt;第二种办法是 &lt;code class=&quot;highlighter-rouge&quot;&gt;-A&lt;/code&gt; 命令的映射，不过用 &lt;code class=&quot;highlighter-rouge&quot;&gt;-D&lt;/code&gt; 替换 &lt;code class=&quot;highlighter-rouge&quot;&gt;-A&lt;/code&gt; 。当你的链中规则很复杂，而你不想计算它们的编号的时候这就十分有用了。
 也就是说，你如何一开始时用 &lt;code class=&quot;highlighter-rouge&quot;&gt;iptables -A.... &lt;/code&gt;语句定义了一个规则，那么删除此条规则时直接用 &lt;code class=&quot;highlighter-rouge&quot;&gt;-D&lt;/code&gt; 来代替 &lt;code class=&quot;highlighter-rouge&quot;&gt;-A&lt;/code&gt;， 其余的都不变即可，而不需要什么编号了。&lt;/p&gt;
@@ -824,40 +870,39 @@ iptables -D INPUT 1
 
 &lt;p&gt;&lt;strong&gt;如何确定是否受到DDoS攻击了呢?&lt;/strong&gt;&lt;/p&gt;
 
-&lt;p&gt;执行 &lt;em&gt;netstat&lt;/em&gt; 命令
-&lt;code class=&quot;highlighter-rouge&quot;&gt;
-netstat -ntu | awk '{print $5}' | cut -d: -f1 | sort | uniq -c | sort -n
-&lt;/code&gt;
-或者
-&lt;code class=&quot;highlighter-rouge&quot;&gt;
-netstat -ntu | awk '{print $5}' | cut -d: -f1 | sed -n '/[0-9]/p' | sort |
+&lt;p&gt;执行 &lt;em&gt;netstat&lt;/em&gt; 命令&lt;/p&gt;
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;netstat -ntu | awk '{print $5}' | cut -d: -f1 | sort | uniq -c | sort -n
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+&lt;p&gt;或者&lt;/p&gt;
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;netstat -ntu | awk '{print $5}' | cut -d: -f1 | sed -n '/[0-9]/p' | sort |
  uniq -c | sort -nr
-&lt;/code&gt;
-下一段会过滤掉其中不是 IP 的一些记录，结果如下：
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+&lt;p&gt;下一段会过滤掉其中不是 IP 的一些记录，结果如下：
 &lt;img src=&quot;/img/p-iptables/netstat_result.png&quot; alt=&quot;&quot; /&gt;
 第一个表示每个IP当前的连接数，一般IP几十个以内都算比较正常。如果突然某个IP的连接数有成百上千个，那肯定就不正常了。&lt;/p&gt;
 
-&lt;h4 id=&quot;ddos-deflate-1&quot;&gt;1.安装 DDoS deflate&lt;/h4&gt;
+&lt;h4 id=&quot;1安装-ddos-deflate&quot;&gt;1.安装 DDoS deflate&lt;/h4&gt;
 
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;# cd /tmp
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;# cd /tmp
 # wget http://www.inetbase.com/scripts/ddos/install.sh
 # chmod 0700 install.sh
 # ./install.sh
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
 &lt;p&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;分别是：1.下载文件，2.给文件添加权限，3.执行安装 &lt;/code&gt;&lt;/p&gt;
 
-&lt;h4 id=&quot;ddos-deflate-2&quot;&gt;2.配置 DDoS deflate&lt;/h4&gt;
+&lt;h4 id=&quot;2配置-ddos-deflate&quot;&gt;2.配置 DDoS deflate&lt;/h4&gt;
 
-&lt;p&gt;文件安装目录位于 &lt;code class=&quot;highlighter-rouge&quot;&gt;/usr/local/ddos&lt;/code&gt;，其中文件有：
-* &lt;strong&gt;ddos.conf&lt;/strong&gt;     	// 相关配置文件
-* &lt;strong&gt;ssos.sh&lt;/strong&gt;		  		// shell脚本
-* &lt;strong&gt;ignore.ip.list&lt;/strong&gt;	// ip白名单
-* &lt;strong&gt;LICENSE&lt;/strong&gt;				// 许可&lt;/p&gt;
+&lt;p&gt;文件安装目录位于 &lt;code class=&quot;highlighter-rouge&quot;&gt;/usr/local/ddos&lt;/code&gt;，其中文件有：&lt;/p&gt;
+&lt;ul&gt;
+  &lt;li&gt;&lt;strong&gt;ddos.conf&lt;/strong&gt;     	// 相关配置文件&lt;/li&gt;
+  &lt;li&gt;&lt;strong&gt;ssos.sh&lt;/strong&gt;		  		// shell脚本&lt;/li&gt;
+  &lt;li&gt;&lt;strong&gt;ignore.ip.list&lt;/strong&gt;	// ip白名单&lt;/li&gt;
+  &lt;li&gt;&lt;strong&gt;LICENSE&lt;/strong&gt;				// 许可&lt;/li&gt;
+&lt;/ul&gt;
 
 &lt;p&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;ddos.conf&lt;/code&gt; 配置如下&lt;/p&gt;
 
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;##### Paths of the script and other files
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;##### Paths of the script and other files
 PROGDIR=&quot;/usr/local/ddos&quot;
 PROG=&quot;/usr/local/ddos/ddos.sh&quot;
 IGNORE_IP_LIST=&quot;/usr/local/ddos/ignore.ip.list&quot; # ip 地址白名单
@@ -888,30 +933,26 @@ EMAIL_TO=&quot;1@vincents.cn&quot;	# 当IP被屏蔽时给指定邮箱发送邮�
 
 ##### Number of seconds the banned ip should remain in blacklist.
 BAN_PERIOD=600			# 禁用IP时长,默认为600秒
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
 
-&lt;p&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;ddos.sh&lt;/code&gt; 中，可以将第 117 行的内容修改为，就是上面那句 &lt;em&gt;netstat&lt;/em&gt; 命令：
-&lt;code class=&quot;highlighter-rouge&quot;&gt;
-netstat -ntu | awk '{print $5}' | cut -d: -f1 | sed -n '/[0-9]/p' | sort |
+&lt;p&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;ddos.sh&lt;/code&gt; 中，可以将第 117 行的内容修改为，就是上面那句 &lt;em&gt;netstat&lt;/em&gt; 命令：&lt;/p&gt;
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;netstat -ntu | awk '{print $5}' | cut -d: -f1 | sed -n '/[0-9]/p' | sort |
  uniq -c | sort -nr
-&lt;/code&gt;&lt;/p&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
 
-&lt;p&gt;有文件内容更改后，执行：
-&lt;code class=&quot;highlighter-rouge&quot;&gt;
-# sh /usr/local/ddos/ddos.sh
-&lt;/code&gt;
-会在&lt;code class=&quot;highlighter-rouge&quot;&gt;/etc/cron.d/&lt;/code&gt;目录下生成一个定时任务&lt;code class=&quot;highlighter-rouge&quot;&gt;ddos.cron&lt;/code&gt;。内容为：
-&lt;code class=&quot;highlighter-rouge&quot;&gt;
-0-59/1 * * * * root /usr/local/ddos/ddos.sh &amp;gt;/dev/null 2&amp;gt;&amp;amp;1
-&lt;/code&gt;
-#### 3.测试&lt;/p&gt;
+&lt;p&gt;有文件内容更改后，执行：&lt;/p&gt;
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;# sh /usr/local/ddos/ddos.sh
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+&lt;p&gt;会在&lt;code class=&quot;highlighter-rouge&quot;&gt;/etc/cron.d/&lt;/code&gt;目录下生成一个定时任务&lt;code class=&quot;highlighter-rouge&quot;&gt;ddos.cron&lt;/code&gt;。内容为：&lt;/p&gt;
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;0-59/1 * * * * root /usr/local/ddos/ddos.sh &amp;gt;/dev/null 2&amp;gt;&amp;amp;1
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+&lt;h4 id=&quot;3测试&quot;&gt;3.测试&lt;/h4&gt;
 
 &lt;p&gt;接下来你就可以使用压力测软件 &lt;a href=&quot;/2017/03/28/web-pressure-test/&quot;&gt;webbench,Siege&lt;/a&gt; 来进行测试实验了。我的测试结果如下， 通过 &lt;code class=&quot;highlighter-rouge&quot;&gt;webbench&lt;/code&gt; 开启压力测试后，IP就立即被封禁，且很快就收到邮件,效果还是非常明显的。
 &lt;img src=&quot;/img/p-iptables/ddos_result.png&quot; alt=&quot;&quot; /&gt;
 ps: 为了让图片少占点位置，只有这么拼接一下了。将就看。。。&lt;/p&gt;
 
-&lt;h2 id=&quot;section-5&quot;&gt;参考学习&lt;/h2&gt;
+&lt;h2 id=&quot;参考学习&quot;&gt;参考学习&lt;/h2&gt;
 &lt;ol&gt;
   &lt;li&gt;&lt;a href=&quot;http://www.cnblogs.com/argb/p/3535179.html&quot;&gt;iptabls&lt;/a&gt;&lt;/li&gt;
   &lt;li&gt;&lt;a href=&quot;http://www.liusuping.com/ubuntu-linux/iptables-firewall-setting.html&quot;&gt;iptabls配置详解&lt;/a&gt;&lt;/li&gt;
@@ -934,35 +975,34 @@ ps: 为了让图片少占点位置，只有这么拼接一下了。将就看。�
     
       <item>
         <title>Charles 抓取HTTPS数据包</title>
-        <description>&lt;h2 id=&quot;section&quot;&gt;前言&lt;/h2&gt;
+        <description>&lt;h2 id=&quot;前言&quot;&gt;前言&lt;/h2&gt;
 &lt;p&gt;&lt;a href=&quot;https://www.charlesproxy.com/&quot;&gt;Charles&lt;/a&gt; 是一款在Mac下常用的网络封包截取工具。Charles 可以将自己设置为系统的网络代理服务器，使得所有的网络请求都通过它来完成。这样，方便自己开发的时候进行接口调试和已经调试别的APP网络接口。。。&lt;/p&gt;
 
-&lt;h2 id=&quot;http&quot;&gt;启用HTTP代理&lt;/h2&gt;
+&lt;h2 id=&quot;启用http代理&quot;&gt;启用HTTP代理&lt;/h2&gt;
 
 &lt;p&gt;&lt;img src=&quot;/img/p-charles/charles-set.png&quot; alt=&quot;&quot; /&gt;
 这里启用 Charles 的代理，设置代理IP 为 &lt;code class=&quot;highlighter-rouge&quot;&gt;8888&lt;/code&gt;&lt;/p&gt;
 
 &lt;p&gt;打开终端输入 ifconfig 查看当前的局域网IP&lt;/p&gt;
 
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;ifconfig
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;ifconfig
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
 &lt;p&gt;&lt;img src=&quot;/img/p-charles/ifconfig.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
 
 &lt;p&gt;然后将手机连入同一个Wi-Fi, 在Wi-Fi的 HTTP代理中设置为电脑的IP地址和端口。&lt;/p&gt;
 
 &lt;p&gt;Charles弹出确认框，点击Allow按钮即就可以愉快的获取到数据包信息啦。&lt;/p&gt;
 
-&lt;h2 id=&quot;https&quot;&gt;如何使用HTTPS代理&lt;/h2&gt;
+&lt;h2 id=&quot;如何使用https代理&quot;&gt;如何使用HTTPS代理&lt;/h2&gt;
 
-&lt;h4 id=&quot;section-1&quot;&gt;电脑端设置&lt;/h4&gt;
+&lt;h4 id=&quot;电脑端设置&quot;&gt;电脑端设置&lt;/h4&gt;
 
 &lt;p&gt;想要抓取https的包的话，需要使用Charles自己的CA证书并进行
 &lt;img src=&quot;/img/p-charles/charles-https-set.png&quot; alt=&quot;&quot; /&gt;
 打开钥匙串，点击证书详情，设置为始终信任
 &lt;img src=&quot;/img/p-charles/chain-set.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
 
-&lt;h4 id=&quot;section-2&quot;&gt;手机端设置&lt;/h4&gt;
+&lt;h4 id=&quot;手机端设置&quot;&gt;手机端设置&lt;/h4&gt;
 
 &lt;p&gt;&lt;img src=&quot;/img/p-charles/charles-https-set-ios.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
 
@@ -983,7 +1023,12 @@ ps: 为了让图片少占点位置，只有这么拼接一下了。将就看。�
 
 &lt;p&gt;&lt;img src=&quot;/img/p-charles/charles-https-result-zhihu.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
 
-&lt;h2 id=&quot;section-3&quot;&gt;参考学习&lt;/h2&gt;
+&lt;h2 id=&quot;问题解决&quot;&gt;问题解决&lt;/h2&gt;
+&lt;h4 id=&quot;ios-103-以上-https-代理问题&quot;&gt;iOS 10.3 以上 HTTPS 代理问题&lt;/h4&gt;
+&lt;p&gt;因为升级到 iOS11 后发现 HTTPS 不能使用了，需要在&lt;code class=&quot;highlighter-rouge&quot;&gt;关于本机&lt;/code&gt;-&lt;code class=&quot;highlighter-rouge&quot;&gt;证书信任设置&lt;/code&gt;中开启完全信任。
+&lt;img src=&quot;/img/p-charles/charles-https-set-about.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
+
+&lt;h2 id=&quot;参考学习&quot;&gt;参考学习&lt;/h2&gt;
 &lt;ol&gt;
   &lt;li&gt;&lt;a href=&quot;http://www.infoq.com/cn/articles/network-packet-analysis-tool-charles&quot;&gt;iOS开发工具——网络封包分析工具Charles&lt;/a&gt;&lt;/li&gt;
   &lt;li&gt;&lt;a href=&quot;http://www.cnblogs.com/chenlogin/p/5849471.html&quot;&gt;charles https抓包&lt;/a&gt;&lt;/li&gt;
@@ -1006,18 +1051,17 @@ ps: 为了让图片少占点位置，只有这么拼接一下了。将就看。�
 于是将折腾阿里云服务器整理出来，这篇会持续更新。(&lt;em&gt;^__^&lt;/em&gt;)&lt;/p&gt;
 &lt;/blockquote&gt;
 
-&lt;h2 id=&quot;l---linux--&quot;&gt;L - Linux &amp;gt; 一台云服务器&lt;/h2&gt;
+&lt;h2 id=&quot;l---linux--一台云服务器&quot;&gt;L - Linux &amp;gt; 一台云服务器&lt;/h2&gt;
 
 &lt;p&gt;首先你得有一台云服务器。常用的云服务提供商有，&lt;code class=&quot;highlighter-rouge&quot;&gt;阿里云&lt;/code&gt;，&lt;code class=&quot;highlighter-rouge&quot;&gt;腾讯云&lt;/code&gt;，&lt;code class=&quot;highlighter-rouge&quot;&gt;亚马逊 AWS&lt;/code&gt;，&lt;code class=&quot;highlighter-rouge&quot;&gt;微软 Azure&lt;/code&gt;等。
 但是在国内的话，个人还是比较推荐阿里云。最低配一个月60块钱的样子。&lt;/p&gt;
 
 &lt;p&gt;购买后阿里云会给你分配一个云服务器的公网IP地址。通过 SSH 连接云服务器：&lt;/p&gt;
 
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;ssh root@xxx.xxx.xxx.xxx
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;ssh root@xxx.xxx.xxx.xxx
 
 输入密码
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
 
 &lt;h2 id=&quot;yum&quot;&gt;yum&lt;/h2&gt;
 
@@ -1029,49 +1073,43 @@ ps: 为了让图片少占点位置，只有这么拼接一下了。将就看。�
 
 &lt;p&gt;yum 命令格式为：&lt;/p&gt;
 
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;yum [options] [command] [package ...]
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;yum [options] [command] [package ...]
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
 
-&lt;h4 id=&quot;section&quot;&gt;更新源&lt;/h4&gt;
+&lt;h4 id=&quot;更新源&quot;&gt;更新源&lt;/h4&gt;
 
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;yum update
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;yum update
 
 yum upgrade
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
 
 &lt;h2 id=&quot;a---apache---httpd&quot;&gt;A - Apache -&amp;gt; httpd&lt;/h2&gt;
 
 &lt;p&gt;Apache 在Linux系统中，叫 &lt;strong&gt;httpd&lt;/strong&gt;。O__O “…&lt;/p&gt;
 
-&lt;h4 id=&quot;apache&quot;&gt;安装 Apache&lt;/h4&gt;
+&lt;h4 id=&quot;安装-apache&quot;&gt;安装 Apache&lt;/h4&gt;
 
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;yum install httpd
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;yum install httpd
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
 
 &lt;p&gt;&lt;strong&gt;&amp;gt;&lt;/strong&gt; 启动Apache&lt;/p&gt;
 
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;systemctl start httpd.service 
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;systemctl start httpd.service 
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
 
 &lt;p&gt;这时在浏览器中输入IP地址，你可以看到Apache的Test页面。&lt;/p&gt;
 
 &lt;p&gt;&lt;strong&gt;&amp;gt;&lt;/strong&gt; 关闭Apache&lt;/p&gt;
 
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;systemctl stop httpd.service
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;systemctl stop httpd.service
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
 
 &lt;p&gt;&lt;strong&gt;&amp;gt;&lt;/strong&gt; 设置Apache开启自动启动&lt;/p&gt;
 
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;systemctl enable httpd.service 
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;systemctl enable httpd.service 
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
 
-&lt;h4 id=&quot;section-1&quot;&gt;使用&lt;/h4&gt;
+&lt;h4 id=&quot;使用&quot;&gt;使用&lt;/h4&gt;
 
 &lt;p&gt;Apache 在CentOS中默认的根目录在 &lt;code class=&quot;highlighter-rouge&quot;&gt;/var/www/html&lt;/code&gt;&lt;/p&gt;
 
@@ -1083,63 +1121,55 @@ yum upgrade
 
 &lt;p&gt;查看可用的 JDK软件包列表:&lt;/p&gt;
 
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;yum search java | grep -i --color JDK
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;yum search java | grep -i --color JDK
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
 
 &lt;p&gt;安装 java-jdk&lt;/p&gt;
 
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;yum install java-1.8.0-openjdk  java-1.8.0-openjdk-devel  #安装openjdk
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;yum install java-1.8.0-openjdk  java-1.8.0-openjdk-devel  #安装openjdk
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
 
 &lt;p&gt;查看当前 java 版本&lt;/p&gt;
 
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;java -version     #查看java版本
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;java -version     #查看java版本
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
 
 &lt;p&gt;java 存放的地址  &lt;code class=&quot;highlighter-rouge&quot;&gt;/usr/lib/jvm&lt;/code&gt;&lt;/p&gt;
 
-&lt;h4 id=&quot;java-&quot;&gt;配置 Java 环境变量&lt;/h4&gt;
+&lt;h4 id=&quot;配置-java-环境变量&quot;&gt;配置 Java 环境变量&lt;/h4&gt;
 
 &lt;p&gt;将 jdk 拷贝到 /usr/local/java 目录下。没有的话 &lt;code class=&quot;highlighter-rouge&quot;&gt;mkdir&lt;/code&gt;创建，统一放到 /usr/local 目录下便于管理。&lt;/p&gt;
 
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;cd /usr/lib/jvm
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;cd /usr/lib/jvm
 
 cp -R java-1.8.0-openjdk /usr/local/java/jdk1.8
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
 
-&lt;h6 id=&quot;section-2&quot;&gt;配置环境变量&lt;/h6&gt;
+&lt;h6 id=&quot;配置环境变量&quot;&gt;配置环境变量&lt;/h6&gt;
 
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;vi /etc/profile
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;vi /etc/profile
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
 
 &lt;p&gt;将下面内容添加到文件末尾，for循环后面。这里直接引用 /usr/lib/jvm 目录下的 JDK也是可以的。&lt;/p&gt;
 
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;export JAVA_HOME=/usr/local/java/jdk1.8
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;export JAVA_HOME=/usr/local/java/jdk1.8
 export PATH=$JAVA_HOME/bin:$PATH:
 export JAVA_BIN=$JAVA_HOME/bin
 export CLASSPATH=.:$JAVA_HOME/lib/tools.jar:$JAVA_HOME/lib/dt.jar
 export JAVA_HOME JAVA_BIN PATH CLASSPAT
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
 
 &lt;p&gt;让配置立即生效&lt;/p&gt;
 
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;source /etc/profile
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;source /etc/profile
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
 
 &lt;p&gt;检查环境变量&lt;/p&gt;
 
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;# echo $JAVA_HOME
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;# echo $JAVA_HOME
 
 -&amp;gt; /usr/local/java/jdk1.8
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
 
 &lt;h2 id=&quot;t---tomcat&quot;&gt;T - Tomcat&lt;/h2&gt;
 
@@ -1147,31 +1177,28 @@ export JAVA_HOME JAVA_BIN PATH CLASSPAT
 
 &lt;p&gt;选择一个版本的 tar.gz 文件进行下载&lt;/p&gt;
 
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;# wget http://ftp.cuhk.edu.hk/pub/packages/apache.org/tomcat/tomcat-6/v6.0.51/bin/apache-tomcat-6.0.51.tar.gz
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;# wget http://ftp.cuhk.edu.hk/pub/packages/apache.org/tomcat/tomcat-6/v6.0.51/bin/apache-tomcat-6.0.51.tar.gz
 
 # tar -zxvf apache-tomcat-6.0.51.tar.gz   # 解压
 
 拷贝 tomcat 到 /usr/local 目录下
 
 # cp -R apache-tomcat-6.0.51 /usr/local/tomcat7
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
 
-&lt;h4 id=&quot;section-3&quot;&gt;使用&lt;/h4&gt;
+&lt;h4 id=&quot;使用-1&quot;&gt;使用&lt;/h4&gt;
 
 &lt;p&gt;启动Tomcat&lt;/p&gt;
 
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;cd /usr/local/tomcat7/bin
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;cd /usr/local/tomcat7/bin
 
 sh startup.sh
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
 
 &lt;p&gt;停止Tomcat&lt;/p&gt;
 
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;sh shutdown.sh
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;sh shutdown.sh
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
 
 &lt;h2 id=&quot;m---mysql---mariadb&quot;&gt;M - MySQL -&amp;gt; MariaDB&lt;/h2&gt;
 
@@ -1183,46 +1210,40 @@ sh startup.sh
 
 &lt;p&gt;&lt;strong&gt;&amp;gt;&lt;/strong&gt; 安装 MariaDB&lt;/p&gt;
 
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;yum install mariadb-server -y
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;yum install mariadb-server -y
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
 
 &lt;p&gt;&lt;strong&gt;&amp;gt;&lt;/strong&gt; 启动 MariaDB&lt;/p&gt;
 
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;systemctl start mariadb.service
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;systemctl start mariadb.service
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
 
 &lt;p&gt;&lt;strong&gt;&amp;gt;&lt;/strong&gt; 停止 MariaDB&lt;/p&gt;
 
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;systemctl stop mariadb.service
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;systemctl stop mariadb.service
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
 
 &lt;p&gt;&lt;strong&gt;&amp;gt;&lt;/strong&gt; 设置开启自动启动&lt;/p&gt;
 
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;systemctl enable mariadb.service
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;systemctl enable mariadb.service
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
 
 &lt;p&gt;进入MySQL，第一次进入不用密码需要自己修改&lt;/p&gt;
 
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;[root@VM_140_194_centos ~]# mysql
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;[root@VM_140_194_centos ~]# mysql
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
 &lt;p&gt;&lt;img src=&quot;/img/p-centos-lnmp/mysql-login.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
 
 &lt;p&gt;&lt;strong&gt;&amp;gt;&lt;/strong&gt; 修改MySQL密码&lt;/p&gt;
 
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;mysql_secure_installation
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;mysql_secure_installation
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
 
 &lt;p&gt;根据提示进行设置。&lt;/p&gt;
 
 &lt;p&gt;&lt;strong&gt;&amp;gt;&lt;/strong&gt; 创建用户以及分配权限&lt;/p&gt;
 
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;# 创建用户
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;# 创建用户
 CREATE USER 'vincent'@'localhost' IDENTIFIED BY 'password';
 # 分配权限
 grant create,alter,select,insert,update,delete on *.* to vincent@localhost IDENTIFIED BY 'password';
@@ -1231,14 +1252,13 @@ grant create,alter,select,insert,update,delete on *.* to vincent@localhost IDENT
 revoke create,alter,select,insert,update,delete on mysql.* from 'vincent'@'localhost';
 # 刷新系统权限
 flush privileges;
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
 
 &lt;p&gt;&lt;strong&gt;&amp;gt;&lt;/strong&gt; 常见错误&lt;/p&gt;
 
 &lt;p&gt;&lt;strong&gt;Access denied for user ‘root@localhost’ (using password:NO)&lt;/strong&gt;&lt;/p&gt;
 
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&amp;gt; systemctl stop mariadb.service
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&amp;gt; systemctl stop mariadb.service
 &amp;gt; mysqld_safe --skip-grant-tables &amp;amp;
 # 可以不用密码进入MySQL
 &amp;gt; mysql
@@ -1248,20 +1268,17 @@ flush privileges;
 
 &amp;gt; grant all privileges on *.* to root@localhost identified by 'YourNewPassword' with grant option;
 
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
 
-&lt;h4 id=&quot;section-4&quot;&gt;备份数据库&lt;/h4&gt;
+&lt;h4 id=&quot;备份数据库&quot;&gt;备份数据库&lt;/h4&gt;
 
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;mysqldump -u[用户名] -p[用户密码] --host=[localhost(可以不填)] [导出的数据库名] | gzip &amp;gt;  [导出地址]
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;mysqldump -u[用户名] -p[用户密码] --host=[localhost(可以不填)] [导出的数据库名] | gzip &amp;gt;  [导出地址]
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
 
 &lt;p&gt;例如：&lt;/p&gt;
 
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;mysqldump -uroot -proot --host=localhost database | gzip &amp;gt; /home/backup/database.sql.gz
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;mysqldump -uroot -proot --host=localhost database | gzip &amp;gt; /home/backup/database.sql.gz
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
 
 &lt;p&gt;推荐一个文件/数据库监控和数据库备份的脚本工具。
 &lt;a href=&quot;https://github.com/zsenliao/shellMonitor/blob/master/&quot;&gt;shellMonitor&lt;/a&gt;&lt;/p&gt;
@@ -1270,85 +1287,76 @@ flush privileges;
 
 &lt;p&gt;我自己使用到PHP的地方一般也只是用它来使用 &lt;strong&gt;PHPMyAdmin&lt;/strong&gt;，而web服务也是用 Java或者Python开发的，所以PHP用得比较少。&lt;/p&gt;
 
-&lt;h4 id=&quot;section-5&quot;&gt;安装&lt;/h4&gt;
+&lt;h4 id=&quot;安装&quot;&gt;安装&lt;/h4&gt;
 
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;yum install php
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;yum install php
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
 
 &lt;p&gt;&lt;strong&gt;&amp;gt;&lt;/strong&gt; 需要重启一下Apache服务&lt;/p&gt;
 
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;service httpd restart
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;service httpd restart
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
 
 &lt;p&gt;测试一下是否安装好&lt;/p&gt;
 
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;# vi /var/www/html/info.php
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;# vi /var/www/html/info.php
 
 输入 i 进行插入
 
 # &amp;lt;?php phpinfo(); ?&amp;gt;
 
 ESC -&amp;gt; 英文冒号 -&amp;gt; wq 保存退出
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
 
 &lt;p&gt;然后再浏览器地址中输入 &lt;code class=&quot;highlighter-rouge&quot;&gt;ip地址/info.php&lt;/code&gt;，这时应该能看到到当前的 php信息。&lt;/p&gt;
 
-&lt;h4 id=&quot;php--mysql&quot;&gt;关联 PHP 和 MySQL&lt;/h4&gt;
+&lt;h4 id=&quot;关联-php-和-mysql&quot;&gt;关联 PHP 和 MySQL&lt;/h4&gt;
 
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;yum install php-mysql php-gd php-imap php-ldap php-odbc php-pear php-xml php-xmlrpc
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;yum install php-mysql php-gd php-imap php-ldap php-odbc php-pear php-xml php-xmlrpc
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
 
 &lt;p&gt;安装完后重启 Apache&lt;/p&gt;
 
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;systemctl restart httpd.service
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;systemctl restart httpd.service
 或者
 service httpd restart
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
 
 &lt;p&gt;然后在 info.php 中就能看到mysql的模块。&lt;/p&gt;
 
-&lt;h4 id=&quot;phpmyadmin&quot;&gt;安装 phpMyadmin&lt;/h4&gt;
+&lt;h4 id=&quot;安装-phpmyadmin&quot;&gt;安装 phpMyadmin&lt;/h4&gt;
 
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;yum install phpMyAdmin php-mcrypt
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;yum install phpMyAdmin php-mcrypt
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
 
 &lt;p&gt;安装完后会在 &lt;code class=&quot;highlighter-rouge&quot;&gt;/usr/share&lt;/code&gt; 目录下有个 &lt;strong&gt;phpMydmin&lt;/strong&gt;目录，将该目录拷贝的 html 目录下。&lt;/p&gt;
 
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;# cd /usr/share
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;# cd /usr/share
 # cp -a phpMyAdmin/ /var/www/html/phpmyadmin
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
 
-&lt;h6 id=&quot;section-6&quot;&gt;一些错误&lt;/h6&gt;
+&lt;h6 id=&quot;一些错误&quot;&gt;一些错误&lt;/h6&gt;
 
 &lt;p&gt;The mbstring extension is missing. Please check your PHP configuration.&lt;/p&gt;
 
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;# vi /etc/php.ini
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;# vi /etc/php.ini
 	
 在 [PHP] 下面插入
 	
 # extension=php_mbstring.dll
    
 * 重启 httpd.service
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
 
 &lt;p&gt;You don’t have permission to access /phpmyadmin/ on this server.&lt;/p&gt;
 
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;vi /etc/httpd/conf.d/phpMyAdmin.conf
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;vi /etc/httpd/conf.d/phpMyAdmin.conf
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
 &lt;p&gt;&lt;img src=&quot;/img/p-centos-lnmp/phpmyadmin-permission.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
 
 &lt;h2 id=&quot;n---nginx&quot;&gt;N - Nginx&lt;/h2&gt;
 
-&lt;h4 id=&quot;apache-nginx&quot;&gt;有了Apache为什么要使用 Nginx&lt;/h4&gt;
+&lt;h4 id=&quot;有了apache为什么要使用-nginx&quot;&gt;有了Apache为什么要使用 Nginx&lt;/h4&gt;
 
 &lt;blockquote&gt;
   &lt;p&gt;&lt;a href=&quot;http://willis.blog.51cto.com/11907152/1852083&quot;&gt;Apache, Tomcat, Nginx的区别&lt;/a&gt;&lt;/p&gt;
@@ -1358,28 +1366,24 @@ service httpd restart
 
 &lt;p&gt;Nginx 相对于Apache而言，具有&lt;/p&gt;
 
-&lt;h4 id=&quot;section-7&quot;&gt;安装&lt;/h4&gt;
+&lt;h4 id=&quot;安装-1&quot;&gt;安装&lt;/h4&gt;
 
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;yum install nginx
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;yum install nginx
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
 
 &lt;p&gt;&lt;strong&gt;&amp;gt;&lt;/strong&gt; 启动 Nginx 。注意，Apache和Nginx默认都是监听的80端口，所以注意端口占用，要么修改默认的端口。&lt;/p&gt;
 
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;# nginx
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;# nginx
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
 &lt;p&gt;&lt;strong&gt;&amp;gt;&lt;/strong&gt; 停止nginx&lt;/p&gt;
 
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;nginx -s stop
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;nginx -s stop
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
 
 &lt;p&gt;&lt;strong&gt;&amp;gt;&lt;/strong&gt; 重启nginx&lt;/p&gt;
 
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;# nginx -s reload
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;# nginx -s reload
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
 
 &lt;p&gt;nginx 相关配置文件路径 ：&lt;code class=&quot;highlighter-rouge&quot;&gt;/etc/nginx/nginx.conf&lt;/code&gt;&lt;/p&gt;
 
@@ -1389,27 +1393,23 @@ service httpd restart
 
 &lt;p&gt;&lt;strong&gt;&amp;gt;&lt;/strong&gt; 安装&lt;/p&gt;
 
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;yum install -y redis
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;yum install -y redis
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
 
 &lt;p&gt;&lt;strong&gt;&amp;gt;&lt;/strong&gt; 启动&lt;/p&gt;
 
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;systemctl start redis
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;systemctl start redis
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
 
 &lt;p&gt;&lt;strong&gt;&amp;gt;&lt;/strong&gt; 开机启动&lt;/p&gt;
 
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;systemctl enable redis
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;systemctl enable redis
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
 
 &lt;p&gt;&lt;strong&gt;&amp;gt;&lt;/strong&gt; 停止&lt;/p&gt;
 
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;systemctl stop redis
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;systemctl stop redis
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
 
 &lt;h2 id=&quot;f---ftp&quot;&gt;F - FTP&lt;/h2&gt;
 
@@ -1417,45 +1417,40 @@ service httpd restart
 
 &lt;p&gt;&lt;strong&gt;&amp;gt;&lt;/strong&gt;安装&lt;/p&gt;
 
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;yum -y install vsftpd
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;yum -y install vsftpd
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
 
 &lt;p&gt;&lt;strong&gt;&amp;gt;&lt;/strong&gt;相关操作&lt;/p&gt;
 
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;# systemctl start vsftpd     # 启动 vsftpd
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;# systemctl start vsftpd     # 启动 vsftpd
 # systemctl enable vsftpd		# 设置开机启动
 # systemctl stop vsftpd		# 停止 vsftpd
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
 
-&lt;h4 id=&quot;section-8&quot;&gt;修改配置文件&lt;/h4&gt;
+&lt;h4 id=&quot;修改配置文件&quot;&gt;修改配置文件&lt;/h4&gt;
 
 &lt;p&gt;打开 &lt;strong&gt;/etc/vsftpd/vsftpd.conf&lt;/strong&gt;，修改配置：&lt;/p&gt;
 
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;anonymous_enable=NO 	#设定不允许匿名访问
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;anonymous_enable=NO 	#设定不允许匿名访问
 local_enable=YES 			#设定本地用户可以访问。注：如使用虚拟宿主用户，在该项目设定为NO的情况下所有虚拟用户将无法访问
 ascii_upload_enable=YES
 ascii_download_enable=YES #设定支持ASCII模式的上传和下载功能
 chroot_list_enable=YES 	#使用户不能离开主目录
 pam_service_name=vsftpd   #PAM认证文件名。PAM将根据/etc/pam.d/vsftpd进行认证
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
 
 &lt;p&gt;以下这些是关于vsftpd虚拟用户支持的重要配置项，默认vsftpd.conf中不包含这些设定项目，需要自己手动添加&lt;/p&gt;
 
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;guest_enable=YES			#设定启用虚拟用户功能
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;guest_enable=YES			#设定启用虚拟用户功能
 guest_username=ftp		#指定虚拟用户的宿主用户，CentOS中已经有内置的ftp用户了
 user_config_dir=/etc/vsftpd/vuser_conf #设定虚拟用户个人vsftp的CentOS FTP服务文件存放路径。存放虚拟用户个性的CentOS FTP服务文件(配置文件名=虚拟用户名
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
 
-&lt;h4 id=&quot;section-9&quot;&gt;添加用户&lt;/h4&gt;
+&lt;h4 id=&quot;添加用户&quot;&gt;添加用户&lt;/h4&gt;
 
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;useradd vicnent 	# 添加一个用户
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;useradd vicnent 	# 添加一个用户
 passwd vincent		# 给用户设置密码
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
 
 &lt;p&gt;在 &lt;code class=&quot;highlighter-rouge&quot;&gt;/home&lt;/code&gt; 路径下，就会多出一个 &lt;strong&gt;vincent&lt;/strong&gt; 的文件夹。&lt;/p&gt;
 
@@ -1487,11 +1482,11 @@ passwd vincent		# 给用户设置密码
 
 &lt;p&gt;webbench的标准测试可以向我们展示服务器的两项内容：每秒钟相应请求数和每秒钟传输数据量。&lt;/p&gt;
 
-&lt;h4 id=&quot;mac&quot;&gt;MAC安装&lt;/h4&gt;
+&lt;h4 id=&quot;mac安装&quot;&gt;MAC安装&lt;/h4&gt;
 
 &lt;p&gt;在Mac环境下，通过&lt;code class=&quot;highlighter-rouge&quot;&gt;brew&lt;/code&gt;进行安装&lt;/p&gt;
 
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;brew install ctags # 依赖安装
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;brew install ctags # 依赖安装
 
 wget http://blog.zyan.cc/soft/linux/webbench/webbench-1.5.tar.gz
 
@@ -1503,20 +1498,18 @@ sudo mkdir -pv /usr/local/man/man1 # 创建文件夹
 
 sudo make &amp;amp;&amp;amp; sudo make install # 安装
 
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
 
-&lt;h4 id=&quot;section&quot;&gt;使用&lt;/h4&gt;
+&lt;h4 id=&quot;使用&quot;&gt;使用&lt;/h4&gt;
 
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;webbench -c 100 -t 30 [URL]
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;webbench -c 100 -t 30 [URL]
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
 
 &lt;p&gt;参数说明：&lt;code class=&quot;highlighter-rouge&quot;&gt;-c&lt;/code&gt;表示并发数，&lt;code class=&quot;highlighter-rouge&quot;&gt;-t&lt;/code&gt;表示时间(秒)&lt;/p&gt;
 
-&lt;h4 id=&quot;section-1&quot;&gt;相关命令&lt;/h4&gt;
+&lt;h4 id=&quot;相关命令&quot;&gt;相关命令&lt;/h4&gt;
 
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;
 webbench [option]... URL
 
   -f|--force               压测时不等待服务端返回
@@ -1534,10 +1527,9 @@ webbench [option]... URL
   -?|-h|--help             This information.
   -V|--version             显示当前版本
 
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
 
-&lt;h4 id=&quot;section-2&quot;&gt;使用结果&lt;/h4&gt;
+&lt;h4 id=&quot;使用结果&quot;&gt;使用结果&lt;/h4&gt;
 
 &lt;p&gt;&lt;img src=&quot;/img/p-web-test-tool/webbench-result.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
 
@@ -1552,19 +1544,18 @@ webbench [option]... URL
   &lt;li&gt;源代码：&lt;a href=&quot;https://github.com/JoeDog/siege.git&quot;&gt;https://github.com/JoeDog/siege.git&lt;/a&gt;&lt;/li&gt;
 &lt;/ul&gt;
 
-&lt;h4 id=&quot;mac-&quot;&gt;mac 安装&lt;/h4&gt;
+&lt;h4 id=&quot;mac-安装&quot;&gt;mac 安装&lt;/h4&gt;
 
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;# wget http://download.joedog.org/siege/siege-latest.tar.gz
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;# wget http://download.joedog.org/siege/siege-latest.tar.gz
 # tar -zxvf siege-latest.tar.gz
 # cd siege-latest/
 # ./configure
 # make &amp;amp;&amp;amp; make install
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
 
-&lt;h4 id=&quot;section-3&quot;&gt;相关命令&lt;/h4&gt;
+&lt;h4 id=&quot;相关命令-1&quot;&gt;相关命令&lt;/h4&gt;
 
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;-V, --version             VERSION, prints the version number.
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;-V, --version             VERSION, prints the version number.
   -h, --help                HELP, prints this section.
   -C, --config              CONFIGURATION, show the current config.
   -v, --verbose             VERBOSE, prints notification to screen.
@@ -1587,48 +1578,41 @@ webbench [option]... URL
   -H, --header=&quot;text&quot;       Add a header to request (can be many)
   -A, --user-agent=&quot;text&quot;   Sets User-Agent in request
   -T, --content-type=&quot;text&quot; Sets Content-Type in request
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
 
-&lt;h4 id=&quot;section-4&quot;&gt;使用&lt;/h4&gt;
+&lt;h4 id=&quot;使用-1&quot;&gt;使用&lt;/h4&gt;
 
 &lt;p&gt;100个并发访问 &lt;code class=&quot;highlighter-rouge&quot;&gt;http://www.baidu.com&lt;/code&gt;，并重复20次&lt;/p&gt;
 
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;siege -c 100 -r 20 http://www.baidu.com
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;siege -c 100 -r 20 http://www.baidu.com
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
 
 &lt;p&gt;在 urls.txt 中列出所有网址&lt;/p&gt;
 
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;siege -c 100 -r 20 -f urls.txt  
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;siege -c 100 -r 20 -f urls.txt  
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
 
 &lt;p&gt;随机选取 urls.txt 中列出的网址&lt;/p&gt;
 
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;siege -c 100 -r 20 -f urls.txt -i
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;siege -c 100 -r 20 -f urls.txt -i
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
 
 &lt;p&gt;不等待返回结果,100个并发随机选取urls.txt重复请求20个&lt;/p&gt;
 
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;siege -c 2000 -r 100 -f urls.txt -i -b  
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;siege -c 2000 -r 100 -f urls.txt -i -b  
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
 
 &lt;p&gt;&lt;strong&gt;»&lt;/strong&gt; 指定 http 请求头请求&lt;/p&gt;
 
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;siege -H &quot;Content-Type:application/json&quot; -c 100 -r 20 -f urls.txt -i -b  
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;siege -H &quot;Content-Type:application/json&quot; -c 100 -r 20 -f urls.txt -i -b  
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
 
 &lt;p&gt;&lt;strong&gt;»&lt;/strong&gt; POST 请求&lt;/p&gt;
 
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;siege -c 100 -r 20 http://www.baidu.com/ POST p1=v1&amp;amp;p2=v2  
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;siege -c 100 -r 20 http://www.baidu.com/ POST p1=v1&amp;amp;p2=v2  
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
 
-&lt;h4 id=&quot;siege-&quot;&gt;Siege 输出结果说明&lt;/h4&gt;
+&lt;h4 id=&quot;siege-输出结果说明&quot;&gt;Siege 输出结果说明&lt;/h4&gt;
 
 &lt;p&gt;&lt;img src=&quot;/img/p-web-test-tool/siege-result.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
 
@@ -1702,14 +1686,13 @@ webbench [option]... URL
 
 &lt;p&gt;好在阿里云提供了 SDK 可供我们使用，这里使用python来操作。&lt;a href=&quot;https://develop.aliyun.com/sdk/python?spm=5176.7926450.210367.2.Xov5Bp&quot;&gt;python-sdk&lt;/a&gt;&lt;/p&gt;
 
-&lt;h2 id=&quot;section&quot;&gt;准备&lt;/h2&gt;
+&lt;h2 id=&quot;准备&quot;&gt;准备&lt;/h2&gt;
 
-&lt;h4 id=&quot;python-sdk&quot;&gt;安装 python sdk&lt;/h4&gt;
+&lt;h4 id=&quot;安装-python-sdk&quot;&gt;安装 python sdk&lt;/h4&gt;
 &lt;p&gt;首先需要在当前机器上安装阿里云的 python SDK&lt;/p&gt;
 
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;pip install aliyun-python-sdk-alidns
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;pip install aliyun-python-sdk-alidns
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
 
 &lt;p&gt;因为这里只需要使用它的 dns 功能，需要其他的功能可以查看 &lt;a href=&quot;https://help.aliyun.com/document_detail/30003.html&quot;&gt;阿里云 python-sdk 列表&lt;/a&gt;&lt;/p&gt;
 
@@ -1722,11 +1705,11 @@ webbench [option]... URL
   &lt;li&gt;Access Key Secret&lt;/li&gt;
 &lt;/ol&gt;
 
-&lt;h4 id=&quot;section-1&quot;&gt;添加一条域名解析&lt;/h4&gt;
+&lt;h4 id=&quot;添加一条域名解析&quot;&gt;添加一条域名解析&lt;/h4&gt;
 
 &lt;p&gt;添加一条A记录，主机记录可以为你的二级域名，例如： &lt;code class=&quot;highlighter-rouge&quot;&gt;xx.vincents.cn&lt;/code&gt;。记录值随便写 &lt;code class=&quot;highlighter-rouge&quot;&gt;8.8.8.8&lt;/code&gt;，因为后面会根据实际的IP进行动态更改。&lt;/p&gt;
 
-&lt;h2 id=&quot;python-sdk-1&quot;&gt;使用阿里云的 python SDK&lt;/h2&gt;
+&lt;h2 id=&quot;使用阿里云的-python-sdk&quot;&gt;使用阿里云的 python SDK&lt;/h2&gt;
 
 &lt;p&gt;通过脚本更新DNS记录需要几个关键的信息，&lt;/p&gt;
 
@@ -1738,25 +1721,23 @@ webbench [option]... URL
   &lt;li&gt;记录TTL （这条解析记录的生存时间）&lt;/li&gt;
 &lt;/ol&gt;
 
-&lt;h4 id=&quot;ip&quot;&gt;获取当前机器的IP&lt;/h4&gt;
+&lt;h4 id=&quot;获取当前机器的ip&quot;&gt;获取当前机器的IP&lt;/h4&gt;
 
 &lt;p&gt;可以通过访问 &lt;a href=&quot;ip.cn&quot;&gt;ip.cn&lt;/a&gt;这个网站，获取本机的IP。
 在终端中输入&lt;/p&gt;
 
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;curl -s ip.cn
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;curl -s ip.cn
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
 
 &lt;p&gt;结果为：&lt;/p&gt;
 
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;Vincents-iMac:~ vincent$ curl -s ip.cn
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;Vincents-iMac:~ vincent$ curl -s ip.cn
 当前 IP：xx.xx.xxx.xxx 来自：重庆市 联通
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
 
 &lt;p&gt;python code:&lt;/p&gt;
 
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&quot;&quot;&quot;
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&quot;&quot;&quot;
 通过 ip.cn 获取当前主机的外网IP
 &quot;&quot;&quot;
 def get_my_publick_ip():
@@ -1765,12 +1746,11 @@ def get_my_publick_ip():
     get_ip_pattern = re.compile(r'\d+\.\d+\.\d+\.\d+')
     get_ip_value = get_ip_pattern.findall(get_ip_responses)
     return get_ip_value
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
 
-&lt;h4 id=&quot;id&quot;&gt;获取解析记录ID&lt;/h4&gt;
+&lt;h4 id=&quot;获取解析记录id&quot;&gt;获取解析记录ID&lt;/h4&gt;
 
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&quot;&quot;&quot;
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&quot;&quot;&quot;
 获取域名的解析信息
 &quot;&quot;&quot;
 def check_records(dns_domain):
@@ -1781,11 +1761,10 @@ def check_records(dns_domain):
     result = clt.do_action(request)
     result = json.JSONDecoder().decode(result)
     return result
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
 
-&lt;h4 id=&quot;id-1&quot;&gt;根据解析记录ID查询上一次的记录值&lt;/h4&gt;
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&quot;&quot;&quot;
+&lt;h4 id=&quot;根据解析记录id查询上一次的记录值&quot;&gt;根据解析记录ID查询上一次的记录值&lt;/h4&gt;
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&quot;&quot;&quot;
 根据域名解析记录ID查询上一次的IP记录
 &quot;&quot;&quot;
 def get_old_ip(record_id):
@@ -1797,11 +1776,10 @@ def get_old_ip(record_id):
     result = json.JSONDecoder().decode(result)
     result = result['Value']
     return result
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
 
-&lt;h4 id=&quot;section-2&quot;&gt;更新解析记录&lt;/h4&gt;
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&quot;&quot;&quot;
+&lt;h4 id=&quot;更新解析记录&quot;&gt;更新解析记录&lt;/h4&gt;
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&quot;&quot;&quot;
 更新阿里云域名解析记录信息
 &quot;&quot;&quot;
 def update_dns(dns_rr, dns_type, dns_value, dns_record_id, dns_ttl, dns_format):
@@ -1815,11 +1793,10 @@ def update_dns(dns_rr, dns_type, dns_value, dns_record_id, dns_ttl, dns_format):
     request.set_accept_format(dns_format)
     result = clt.do_action(request)
     return result
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
 
-&lt;h2 id=&quot;section-3&quot;&gt;完整脚本&lt;/h2&gt;
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;c&quot;&gt;#!/usr/bin/env python&lt;/span&gt;
+&lt;h2 id=&quot;完整脚本&quot;&gt;完整脚本&lt;/h2&gt;
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;c&quot;&gt;#!/usr/bin/env python&lt;/span&gt;
 &lt;span class=&quot;c&quot;&gt;# -*- coding: utf-8 -*-&lt;/span&gt;
 
 &lt;span class=&quot;kn&quot;&gt;import&lt;/span&gt; &lt;span class=&quot;nn&quot;&gt;json&lt;/span&gt;
@@ -1887,7 +1864,7 @@ def update_dns(dns_rr, dns_type, dns_value, dns_record_id, dns_ttl, dns_format):
 &lt;span class=&quot;k&quot;&gt;def&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;get_my_publick_ip&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;():&lt;/span&gt;
     &lt;span class=&quot;n&quot;&gt;get_ip_method&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;os&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;popen&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;'curl -s ip.cn'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
     &lt;span class=&quot;n&quot;&gt;get_ip_responses&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;get_ip_method&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;readlines&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()[&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt;
-    &lt;span class=&quot;n&quot;&gt;get_ip_pattern&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;re&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;compile&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;r'&lt;/span&gt;&lt;span class=&quot;err&quot;&gt;\&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;d+&lt;/span&gt;&lt;span class=&quot;err&quot;&gt;\&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;err&quot;&gt;\&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;d+&lt;/span&gt;&lt;span class=&quot;err&quot;&gt;\&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;err&quot;&gt;\&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;d+&lt;/span&gt;&lt;span class=&quot;err&quot;&gt;\&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;err&quot;&gt;\&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;d+'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;get_ip_pattern&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;re&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;compile&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;r'\d+\.\d+\.\d+\.\d+'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
     &lt;span class=&quot;n&quot;&gt;get_ip_value&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;get_ip_pattern&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;findall&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;get_ip_responses&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
     &lt;span class=&quot;k&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;get_ip_value&lt;/span&gt;
 
@@ -1927,42 +1904,36 @@ def update_dns(dns_rr, dns_type, dns_value, dns_record_id, dns_ttl, dns_format):
 
         &lt;span class=&quot;n&quot;&gt;write_to_file&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;now_ip&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
 
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
 
-&lt;h2 id=&quot;crontab-&quot;&gt;crontab 定时运行&lt;/h2&gt;
+&lt;h2 id=&quot;crontab-定时运行&quot;&gt;crontab 定时运行&lt;/h2&gt;
 
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;crontab -e
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;crontab -e
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
 
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;*/10 * * * * /usr/bin/python aliyun_ddns.py /dev/null 1&amp;gt;/dev/null
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;*/10 * * * * /usr/bin/python aliyun_ddns.py /dev/null 1&amp;gt;/dev/null
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
 
 &lt;p&gt;其中脚本存放路径替换为自己的实际路径&lt;/p&gt;
 
-&lt;h4 id=&quot;crontab--1&quot;&gt;** crontab 定时重启服务器&lt;/h4&gt;
+&lt;h4 id=&quot;-crontab-定时重启服务器&quot;&gt;** crontab 定时重启服务器&lt;/h4&gt;
 
 &lt;p&gt;由于个人使用的服务器配置一般都不高，重启服务器又能释放一些占用的内存。所以在凌晨定时重启服务器还是很有必要的。亲测，自己1G的内存，使用一段时间省了100M左右的内存可以使用，重启后，又变成600M多了。2333…&lt;/p&gt;
 
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;crontab -e
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;crontab -e
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
 
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;# 凌晨5点重启一次服务器
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;# 凌晨5点重启一次服务器
 0 5 * * * /sbin/reboot
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
 
 &lt;p&gt;查看系统重启记录&lt;/p&gt;
 
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;last reboot
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;last reboot
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
 &lt;p&gt;&lt;img src=&quot;/img/p-aliyun-ddns/reboot_result.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
 
-&lt;h2 id=&quot;section-4&quot;&gt;参考学习&lt;/h2&gt;
+&lt;h2 id=&quot;参考学习&quot;&gt;参考学习&lt;/h2&gt;
 &lt;ol&gt;
   &lt;li&gt;&lt;a href=&quot;https://enginx.cn/2016/08/22/%E9%80%9A%E8%BF%87python%E5%B0%86%E9%98%BF%E9%87%8C%E4%BA%91dns%E8%A7%A3%E6%9E%90%E4%BD%9C%E4%B8%BAddns%E4%BD%BF%E7%94%A8.html&quot;&gt;通过python将阿里云DNS解析作为DDNS使用&lt;/a&gt;&lt;/li&gt;
   &lt;li&gt;&lt;a href=&quot;https://www.v2ex.com/t/249694&quot;&gt;通过阿里云域名动态解析 IP 地址&lt;/a&gt;&lt;/li&gt;
@@ -1984,17 +1955,17 @@ def update_dns(dns_rr, dns_type, dns_value, dns_record_id, dns_ttl, dns_format):
 &lt;img src=&quot;/img/p-ios-lock/lock_benchmark.png&quot; alt=&quot;&quot; /&gt;
 下面根据顺序分析每个加锁的实现原理。注意：加解锁速度并不表示锁的效率，只表示加解锁的操作在执行时的复杂度。&lt;/p&gt;
 
-&lt;h2 id=&quot;section&quot;&gt;锁之间的关系&lt;/h2&gt;
+&lt;h2 id=&quot;锁之间的关系&quot;&gt;锁之间的关系&lt;/h2&gt;
 
-&lt;h4 id=&quot;section-1&quot;&gt;忙等类&lt;/h4&gt;
+&lt;h4 id=&quot;忙等类&quot;&gt;忙等类&lt;/h4&gt;
 
 &lt;p&gt;test_and_set -&amp;gt; OSSpinLock -&amp;gt; os_unfair_lock&lt;/p&gt;
 
-&lt;h4 id=&quot;section-2&quot;&gt;休眠类&lt;/h4&gt;
+&lt;h4 id=&quot;休眠类&quot;&gt;休眠类&lt;/h4&gt;
 
-&lt;h5 id=&quot;lllfutexwait---gcd&quot;&gt;lll_futex_wait -&amp;gt; GCD信号量&lt;/h5&gt;
+&lt;h5 id=&quot;lll_futex_wait---gcd信号量&quot;&gt;lll_futex_wait -&amp;gt; GCD信号量&lt;/h5&gt;
 
-&lt;h5 id=&quot;lllfutexwait---pthreadmutex&quot;&gt;lll_futex_wait -&amp;gt; pthread_mutex&lt;/h5&gt;
+&lt;h5 id=&quot;lll_futex_wait---pthread_mutex&quot;&gt;lll_futex_wait -&amp;gt; pthread_mutex&lt;/h5&gt;
 &lt;p&gt;1.加上错误处理 -&amp;gt; NSLock&lt;/p&gt;
 
 &lt;p&gt;2.加上条件判断 -&amp;gt; NSCondition + Value -&amp;gt; NSConditionLock&lt;/p&gt;
@@ -2003,13 +1974,13 @@ def update_dns(dns_rr, dns_type, dns_value, dns_record_id, dns_ttl, dns_format):
 
 &lt;p&gt;4.加上递归特性、哈希特性 -&amp;gt; @Synchronized(Obj)&lt;/p&gt;
 
-&lt;h2 id=&quot;osspinlock-&quot;&gt;OSSpinLock 自旋锁&lt;/h2&gt;
+&lt;h2 id=&quot;osspinlock-自旋锁&quot;&gt;OSSpinLock 自旋锁&lt;/h2&gt;
 
-&lt;h4 id=&quot;section-3&quot;&gt;自旋锁原理&lt;/h4&gt;
+&lt;h4 id=&quot;自旋锁原理&quot;&gt;自旋锁原理&lt;/h4&gt;
 
 &lt;p&gt;自旋锁的实现思路很简单，理论上来说只要定义一个全局变量，用来表示锁的可用情况即可，伪代码如下:&lt;/p&gt;
 
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;bool lock = false; // 一开始没有锁上，任何线程都可以申请锁  
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;bool lock = false; // 一开始没有锁上，任何线程都可以申请锁  
 do {  
     while(lock); // 如果 lock 为 true 就一直死循环，相当于申请锁
     lock = true; // 挂上锁，这样别的线程就无法获得锁
@@ -2017,8 +1988,7 @@ do {
     lock = false; // 相当于释放锁，这样别的线程可以进入临界区
         Reminder section // 不需要锁保护的代码        
 }
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
 
 &lt;h4 id=&quot;osspinlock&quot;&gt;OSSpinLock&lt;/h4&gt;
 
@@ -2026,7 +1996,7 @@ do {
 
 &lt;p&gt;示例代码&lt;/p&gt;
 
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;// OSSpinLock
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;// OSSpinLock
 #import &amp;lt;libkern/OSAtomic.h&amp;gt;
 
 // 自旋锁
@@ -2051,8 +2021,7 @@ do {
         NSLog(@&quot;线程2 解锁完成&quot;);
     });
 }
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
 &lt;p&gt;参考学习中的连接已经说明 OSSpinLock 其实已经不再安全。主要原因在于&lt;/p&gt;
 
 &lt;blockquote&gt;
@@ -2061,13 +2030,13 @@ do {
 
 &lt;p&gt;而且，实际上苹果在&lt;code class=&quot;highlighter-rouge&quot;&gt;iOS10&lt;/code&gt;中也不再推荐使用 OSSpinLock,转而使用 &lt;code class=&quot;highlighter-rouge&quot;&gt;os_unfair_lock()&lt;/code&gt;&lt;/p&gt;
 
-&lt;h2 id=&quot;osunfairlock&quot;&gt;os_unfair_lock&lt;/h2&gt;
+&lt;h2 id=&quot;os_unfair_lock&quot;&gt;os_unfair_lock&lt;/h2&gt;
 
 &lt;p&gt;iOS 10.+ 之后添加的，也是属于忙等锁。&lt;/p&gt;
 
 &lt;p&gt;示例代码&lt;/p&gt;
 
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;// os_unfair_lock
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;// os_unfair_lock
 #import &amp;lt;os/lock.h&amp;gt;
 
 os_unfair_lock_t unfairlock = &amp;amp;(OS_UNFAIR_LOCK_INIT);
@@ -2076,10 +2045,9 @@ os_unfair_lock_lock(unfairlock);
 NSLog(@&quot;os_unfair_lock 执行&quot;);
 os_unfair_lock_unlock(unfairlock);
 
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
 
-&lt;h2 id=&quot;dispatchsemaphore-gcd&quot;&gt;dispatch_semaphore GCD信号量&lt;/h2&gt;
+&lt;h2 id=&quot;dispatch_semaphore-gcd信号量&quot;&gt;dispatch_semaphore GCD信号量&lt;/h2&gt;
 
 &lt;p&gt;加锁时会把信号量的值减一，并判断是否大于零。如果大于零，说明不用等待，立刻执行。在没有等待的情况下，性能比 pthread_mutex 高，但是一旦有等待的情况出现，性能就会急剧下降。其优势在于等待时不会消耗 CPU 资源，会进行线程休眠。&lt;/p&gt;
 
@@ -2087,7 +2055,7 @@ os_unfair_lock_unlock(unfairlock);
 
 &lt;p&gt;示例代码&lt;/p&gt;
 
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;// 信号量
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;// 信号量
 - (void)testDispatch_semaphore {
     dispatch_semaphore_t signal = dispatch_semaphore_create(1);
     dispatch_time_t timeout = dispatch_time(DISPATCH_TIME_NOW, 3.0f * NSEC_PER_SEC);
@@ -2114,16 +2082,15 @@ os_unfair_lock_unlock(unfairlock);
         NSLog(@&quot;线程2 发送信号&quot;);
     });
 }
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
 
-&lt;h2 id=&quot;pthreadmutex--&quot;&gt;pthread_mutex  互斥锁&lt;/h2&gt;
+&lt;h2 id=&quot;pthread_mutex--互斥锁&quot;&gt;pthread_mutex  互斥锁&lt;/h2&gt;
 
 &lt;p&gt;pthread 表示 POSIX thread，定义了一组跨平台的线程相关的API，pthread_mutex 表示互斥锁。互斥锁的实现原理与信号量非常相似，不是使用忙等，而是阻塞线程并睡眠，需要进行上线文切换。&lt;/p&gt;
 
 &lt;p&gt;示例代码&lt;/p&gt;
 
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;// pthread
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;// pthread
 #import &amp;lt;pthread.h&amp;gt;
 
 // pthread_mutex 互斥锁
@@ -2150,18 +2117,17 @@ os_unfair_lock_unlock(unfairlock);
         NSLog(@&quot;线程2 释放锁&quot;);
     });
 }
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
 
 &lt;p&gt;&lt;strong&gt;\/&lt;/strong&gt; 一般情况下，一个线程只能申请一次锁，也只能在获得锁的情况下才能释放锁，多次申请锁或者释放未获得的锁都会导致崩溃。假设在已经获得锁的情况下再次申请锁，线程会因为等待锁的释放而进入睡眠状态，因此就不可能再释放锁，从而导致死锁。&lt;/p&gt;
 
 &lt;p&gt;然而这种情况会经常发生，比如某个函数申请了锁，在临界区内又递归调用了自己。幸运的是 &lt;code class=&quot;highlighter-rouge&quot;&gt;pthread_mutex&lt;/code&gt; 支持递归锁，也就是允许一个线程递归的申请锁。&lt;/p&gt;
 
-&lt;h4 id=&quot;pthreadmutex-&quot;&gt;pthread_mutex 递归锁&lt;/h4&gt;
+&lt;h4 id=&quot;pthread_mutex-递归锁&quot;&gt;pthread_mutex 递归锁&lt;/h4&gt;
 
 &lt;p&gt;示例代码&lt;/p&gt;
 
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;// pthread_mutex 递归锁
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;// pthread_mutex 递归锁
 - (void)testPthread_mutex_recursive {
     static pthread_mutex_t pLock;
     // 定义锁的属性
@@ -2200,12 +2166,11 @@ os_unfair_lock_unlock(unfairlock);
         NSLog(@&quot;线程2 解锁&quot;);
     });
 }
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
 
 &lt;p&gt;递归锁比较安全，可以认为同一线程加且仅加一次锁，重复加锁不会造成死锁。无论同一线程加锁多少次，解锁1次即可。&lt;/p&gt;
 
-&lt;h4 id=&quot;section-4&quot;&gt;互斥锁的实现&lt;/h4&gt;
+&lt;h4 id=&quot;互斥锁的实现&quot;&gt;互斥锁的实现&lt;/h4&gt;
 
 &lt;p&gt;互斥锁在申请锁时，调用了&lt;code class=&quot;highlighter-rouge&quot;&gt;pthread_mutex_lock&lt;/code&gt;方法，它在不同的系统上实现各有不同，有时候它的内部是使用信号量来实现，即使不用信号量，也会调用到&lt;code class=&quot;highlighter-rouge&quot;&gt;lll_futex_wait&lt;/code&gt;函数，从而导致线程休眠。&lt;/p&gt;
 
@@ -2213,13 +2178,13 @@ os_unfair_lock_unlock(unfairlock);
 
 &lt;p&gt;另外，由于 &lt;code class=&quot;highlighter-rouge&quot;&gt;pthread_mutex&lt;/code&gt;有多种类型，可以支持递归锁等，因此在申请加锁时，需要对锁的类型加以判断，这也就是为什么它和信号量的实现类似，但效率略低的原因。&lt;/p&gt;
 
-&lt;h2 id=&quot;nslock--nsrecursivelock&quot;&gt;NSLock 和 NSRecursiveLock&lt;/h2&gt;
+&lt;h2 id=&quot;nslock-和-nsrecursivelock&quot;&gt;NSLock 和 NSRecursiveLock&lt;/h2&gt;
 
 &lt;p&gt;NSLock /NSRecursiveLock  是 Objective-c 以对象的形式暴露给开发者的一种锁。&lt;/p&gt;
 
 &lt;p&gt;示例代码&lt;/p&gt;
 
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;// NSLock
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;// NSLock
 - (void)testNSLock {
     NSLock *lock = [NSLock new];
     [lock lock];
@@ -2231,8 +2196,7 @@ os_unfair_lock_unlock(unfairlock);
     NSLog(@&quot;加锁运行&quot;);
     [recursiveLock unlock];
 }
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
 
 &lt;p&gt;这里的 NSLock 和 NSRecursiveLock 都是封装的互斥锁 &lt;code class=&quot;highlighter-rouge&quot;&gt;pthread_mutex&lt;/code&gt;。&lt;/p&gt;
 
@@ -2252,7 +2216,7 @@ os_unfair_lock_unlock(unfairlock);
 
 &lt;p&gt;示例代码&lt;/p&gt;
 
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;// NSConditionLock
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;// NSConditionLock
 - (void)testNSConditionLock {
     NSConditionLock *cLock = [[NSConditionLock alloc] initWithCondition:0];
     
@@ -2286,8 +2250,7 @@ os_unfair_lock_unlock(unfairlock);
         NSLog(@&quot;线程3 解锁&quot;);
     });
 }
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
 
 &lt;p&gt;上述代码会按照：线程2 &amp;gt; 线程1 &amp;gt; 线程3 的顺序执行。&lt;/p&gt;
 
@@ -2295,73 +2258,70 @@ os_unfair_lock_unlock(unfairlock);
 
 &lt;p&gt;示例代码&lt;/p&gt;
 
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;@synchronized (self) {
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;@synchronized (self) {
    NSLog(@&quot;加锁运行&quot;);
 }
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
 
 &lt;p&gt;只要关键字中的对象一致，则多个线程会互斥等待程序运行完成。&lt;/p&gt;
 
 &lt;p&gt;@synchronized 实际上是把修饰对象当做锁来使用。这是通过一个哈希表来实现的，OC在底层使用了一个互斥锁的数组（可以理解为锁池），通过对对象去哈希值来得到对应的互斥锁。&lt;/p&gt;
 
-&lt;h2 id=&quot;section-5&quot;&gt;一些多线程的基础知识&lt;/h2&gt;
+&lt;h2 id=&quot;一些多线程的基础知识&quot;&gt;一些多线程的基础知识&lt;/h2&gt;
 
-&lt;h4 id=&quot;section-6&quot;&gt;时间片轮转调度算法&lt;/h4&gt;
+&lt;h4 id=&quot;时间片轮转调度算法&quot;&gt;时间片轮转调度算法&lt;/h4&gt;
 
 &lt;p&gt;了解多线程加锁必须知道时间片轮转调度算法，才能深切理解其原理，性能瓶颈。&lt;/p&gt;
 
 &lt;p&gt;现代操作系统在管理普通线程时，通常采用时间片轮转算法（Round Robin，简称RR）。每个线程会被分配一段时间片（quantum），通常在10-100毫秒左右。当线程用于属于自己的时间片以后，就会被系统挂起，放入等待队列中，知道下一次被分配时间片，如果线程在时间片结束前阻塞或者结束，则CPU当即进行切换。由于线程切换需要时间，如果时间片太短，会导致大量CPU时间浪费在切换上；而如果这个时间太长，会使得其他线程等待太久。&lt;/p&gt;
 
-&lt;h4 id=&quot;section-7&quot;&gt;原子操作&lt;/h4&gt;
+&lt;h4 id=&quot;原子操作&quot;&gt;原子操作&lt;/h4&gt;
 
 &lt;p&gt;狭义上的原子操作表示一条不可打断的操作，也就是说线程在执行操作过程中，不会被操作系统挂起，而是一定会执行完（理论上拥有CPU时间片无限长）。在单处理器环境下，一条汇编指令显然是原子操作，因为中断也要通过指令来实现，但一句高级语言的代码却不是原子的，因为它最终是由多条汇编语言完成，CPU在进行时间片切换时，大多都会在某条代码的执行过程中。
 但在多核处理器下，则需要硬件支持，没了解过具体实现。&lt;/p&gt;
 
-&lt;h4 id=&quot;section-8&quot;&gt;自旋锁和互斥锁&lt;/h4&gt;
+&lt;h4 id=&quot;自旋锁和互斥锁&quot;&gt;自旋锁和互斥锁&lt;/h4&gt;
 
 &lt;p&gt;都属于CPU时间片算法下的实现保护共享资源的一种机制。都实现互斥操作，加锁后仅允许一个访问者。&lt;/p&gt;
 
 &lt;p&gt;区别在于自旋锁不会是线程进入wait状态，而是通过轮询不停查看是否该自旋锁的持有者已经释放的锁；对应的，互斥锁在出现锁已经被占用的情况下会进入wait状态，CPU会当即切换时间片。&lt;/p&gt;
 
-&lt;h4 id=&quot;section-9&quot;&gt;自旋锁实现原理&lt;/h4&gt;
+&lt;h4 id=&quot;自旋锁实现原理&quot;&gt;自旋锁实现原理&lt;/h4&gt;
 
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;lock = 0;
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;lock = 0;
 do{
     while(test_and_set(&amp;amp;lock));
     临界区
     lock = 0;
     其余部分
 } while(1)
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
 
 &lt;p&gt;test_and_set用来保证条件判断的原子性操作，lock为旗标。
 自旋锁的一大缺陷是会使得线程处于忙等状态。因为如果临界区执行时间过长，其它线程就会在当前整个时间片一直处于忙等状态，浪费大量CPU时间。所以，如果临界区时间很短，可以使用自旋锁，否则建议使用互斥锁。&lt;/p&gt;
 
-&lt;h4 id=&quot;section-10&quot;&gt;互斥锁的实现原理&lt;/h4&gt;
+&lt;h4 id=&quot;互斥锁的实现原理&quot;&gt;互斥锁的实现原理&lt;/h4&gt;
 
 &lt;p&gt;互斥锁在出现锁的争夺时，未获得锁的线程会主动让出时间片，阻塞线程并睡眠，需要进行上下文切换，CPU会切换其它线程继续操作。
 主动让出时间片并不总是代表效率高。让出时间片会导致操作系统切换到另一个线程，这种上下文切换通常需要 10 微秒左右，而且至少需要两次切换。如果等待时间很短，比如只有几个微秒，忙等就比线程睡眠更高效。&lt;/p&gt;
 
-&lt;h4 id=&quot;section-11&quot;&gt;信号量的实现&lt;/h4&gt;
+&lt;h4 id=&quot;信号量的实现&quot;&gt;信号量的实现&lt;/h4&gt;
 
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;int sem_wait (sem_t *sem) {  
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;int sem_wait (sem_t *sem) {  
   int *futex = (int *) sem;
   if (atomic_decrement_if_positive (futex) &amp;gt; 0)
     return 0;
   int err = lll_futex_wait (futex, 0);
     return -1;
 )
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
 
 &lt;p&gt;信号量和互斥锁类似，都是在获取锁失败后线程进入wait状态，CPU会切换时间片。
 信号量在最终都是调用一个sem_wait方法，并原子性的判断信号量，如果对其-1后依然大于0，则直接返回，继续临界区操作，否则进入等待状态。&lt;/p&gt;
 
-&lt;h2 id=&quot;section-12&quot;&gt;多线程中的常见术语名词&lt;/h2&gt;
+&lt;h2 id=&quot;多线程中的常见术语名词&quot;&gt;多线程中的常见术语名词&lt;/h2&gt;
 
-&lt;h6 id=&quot;mutex&quot;&gt;互斥锁(mutex)&lt;/h6&gt;
+&lt;h6 id=&quot;互斥锁mutex&quot;&gt;互斥锁(mutex)&lt;/h6&gt;
 
 &lt;p&gt;提供共享资源互斥访问的锁。一个互斥锁同一时间只能被一个线程拥有。视图获取一个已经被其他线程拥有的互斥锁，会把当前线程置于休眠状态，直到该锁被其他线程释放并让当前线程获取。&lt;/p&gt;
 
@@ -2369,43 +2329,43 @@ do{
 
 &lt;p&gt;可以被同一线程多次锁住的锁。&lt;/p&gt;
 
-&lt;h6 id=&quot;semaphore&quot;&gt;信号量(semaphore)&lt;/h6&gt;
+&lt;h6 id=&quot;信号量semaphore&quot;&gt;信号量(semaphore)&lt;/h6&gt;
 
 &lt;p&gt;一个受保护的变量，它限制共享资源的访问。互斥锁(mutexes)和条件(conditions)都是不同类型的信号量。&lt;/p&gt;
 
-&lt;h6 id=&quot;condition&quot;&gt;条件(condition)&lt;/h6&gt;
+&lt;h6 id=&quot;条件condition&quot;&gt;条件(condition)&lt;/h6&gt;
 
 &lt;p&gt;一个用来同步资源访问的结构。线程等待某一个条件来决定是否被允许继续运行，知道其他线程显示的给该条件发送信号&lt;/p&gt;
 
-&lt;h6 id=&quot;critical-section&quot;&gt;临界区(critical section)&lt;/h6&gt;
+&lt;h6 id=&quot;临界区critical-section&quot;&gt;临界区(critical section)&lt;/h6&gt;
 
 &lt;p&gt;同一时间只能不被一个线程执行的代码。&lt;/p&gt;
 
-&lt;h6 id=&quot;input-source&quot;&gt;输入源(input source)&lt;/h6&gt;
+&lt;h6 id=&quot;输入源input-source&quot;&gt;输入源(input source)&lt;/h6&gt;
 
 &lt;p&gt;一个线程的异步事件源。输入源可以是基于端口的或者手工触发，并且必须被附加到某一个线程的run loop上面。&lt;/p&gt;
 
-&lt;h6 id=&quot;thread&quot;&gt;线程(thread)&lt;/h6&gt;
+&lt;h6 id=&quot;线程thread&quot;&gt;线程(thread)&lt;/h6&gt;
 
 &lt;p&gt;进程里面的一个执行过程流。每个线程都有它自己的栈空间，但除此之外同一进程的其他线程共享内存。&lt;/p&gt;
 
-&lt;h6 id=&quot;main-thread&quot;&gt;主线程(main thread)&lt;/h6&gt;
+&lt;h6 id=&quot;主线程main-thread&quot;&gt;主线程(main thread)&lt;/h6&gt;
 
 &lt;p&gt;当创建进程时一起创建的特定类型的线程。当程序的主线程退出，则程序即退出。&lt;/p&gt;
 
-&lt;h6 id=&quot;join-thread&quot;&gt;可连接的线程(join thread)&lt;/h6&gt;
+&lt;h6 id=&quot;可连接的线程join-thread&quot;&gt;可连接的线程(join thread)&lt;/h6&gt;
 
 &lt;p&gt;退出时资源不会被立即回收的线程。可连接的线程在资源被回收之前必须被显示脱离或由其他线程连接。可连接线程提供了一个返回值给连接它的线程。&lt;/p&gt;
 
-&lt;h6 id=&quot;operation-object&quot;&gt;操作对象(operation object)&lt;/h6&gt;
+&lt;h6 id=&quot;操作对象operation-object&quot;&gt;操作对象(operation object)&lt;/h6&gt;
 
 &lt;p&gt;NSOperation 类的示例。操作对象封装了和某一任务相关的代码到一个执行单元里面。&lt;/p&gt;
 
-&lt;h6 id=&quot;operation-queue&quot;&gt;操作队列(operation queue)&lt;/h6&gt;
+&lt;h6 id=&quot;操作队列operation-queue&quot;&gt;操作队列(operation queue)&lt;/h6&gt;
 
 &lt;p&gt;NSOperationQueue 类的示例。操作队列管理操作对象的执行。&lt;/p&gt;
 
-&lt;h2 id=&quot;section-13&quot;&gt;参考学习链接&lt;/h2&gt;
+&lt;h2 id=&quot;参考学习链接&quot;&gt;参考学习链接&lt;/h2&gt;
 
 &lt;blockquote&gt;
 
@@ -2428,21 +2388,21 @@ do{
     
       <item>
         <title>SSH登录服务器自动发邮件</title>
-        <description>&lt;h2 id=&quot;python-&quot;&gt;python 读取登录信息，并发送邮件&lt;/h2&gt;
+        <description>&lt;h2 id=&quot;python-读取登录信息并发送邮件&quot;&gt;python 读取登录信息，并发送邮件&lt;/h2&gt;
 &lt;p&gt;效果就是，每当有人通过 &lt;code class=&quot;highlighter-rouge&quot;&gt;ssh&lt;/code&gt; 登录到阿里云服务器的时候就会将登录者的ip和登录时间发送一封邮箱到指定的邮箱里面。&lt;/p&gt;
 
-&lt;h4 id=&quot;section&quot;&gt;获取登录信息&lt;/h4&gt;
+&lt;h4 id=&quot;获取登录信息&quot;&gt;获取登录信息&lt;/h4&gt;
 
-&lt;p&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;CentOS&lt;/code&gt; 中 &lt;code class=&quot;highlighter-rouge&quot;&gt;/var/log/wtmp&lt;/code&gt; 记录每个用户的登录IP，登录次数，持续时间等信息。
-#### 使用 smtplib 发送邮件&lt;/p&gt;
+&lt;p&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;CentOS&lt;/code&gt; 中 &lt;code class=&quot;highlighter-rouge&quot;&gt;/var/log/wtmp&lt;/code&gt; 记录每个用户的登录IP，登录次数，持续时间等信息。&lt;/p&gt;
+&lt;h4 id=&quot;使用-smtplib-发送邮件&quot;&gt;使用 smtplib 发送邮件&lt;/h4&gt;
 
 &lt;ol&gt;
   &lt;li&gt;注意 发送方邮箱的密码，不是账号的密码。而是开启 &lt;code class=&quot;highlighter-rouge&quot;&gt;SMTP&lt;/code&gt; 后获取的授权码&lt;/li&gt;
 &lt;/ol&gt;
 
-&lt;h4 id=&quot;section-1&quot;&gt;代码如下&lt;/h4&gt;
+&lt;h4 id=&quot;代码如下&quot;&gt;代码如下&lt;/h4&gt;
 
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;#-*- coding:utf-8 -*-
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;#-*- coding:utf-8 -*-
 
 
 import poplib,email
@@ -2506,46 +2466,43 @@ if __name__ == '__main__':
                 print &quot;add users&quot;
                 sendmail(val)
                 old_count = val[0]
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
 
-&lt;h2 id=&quot;nohup-&quot;&gt;使用 nohup 后台执行&lt;/h2&gt;
+&lt;h2 id=&quot;使用-nohup-后台执行&quot;&gt;使用 nohup 后台执行&lt;/h2&gt;
 &lt;p&gt;Linux 后台进程运行的方法有好几种，比如&lt;code class=&quot;highlighter-rouge&quot;&gt;nohup&lt;/code&gt;，&lt;code class=&quot;highlighter-rouge&quot;&gt;supervisor&lt;/code&gt;，&lt;code class=&quot;highlighter-rouge&quot;&gt;screen&lt;/code&gt;等。这里使用&lt;code class=&quot;highlighter-rouge&quot;&gt;nohup&lt;/code&gt;来简单使用&lt;/p&gt;
 
-&lt;h4 id=&quot;nohup--1&quot;&gt;使用 nohup 命令&lt;/h4&gt;
+&lt;h4 id=&quot;使用-nohup-命令&quot;&gt;使用 nohup 命令&lt;/h4&gt;
 
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;[root@iZ949j21i58Z ssh]# nohup python ssh_monitor.py &amp;amp;
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;[root@iZ949j21i58Z ssh]# nohup python ssh_monitor.py &amp;amp;
 [1] 19852
 [root@iZ949j21i58Z ssh]# nohup: 忽略输入并把输出追加到&quot;nohup.out&quot;
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
 
 &lt;ol&gt;
   &lt;li&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;&amp;amp;&lt;/code&gt; 表示将程序放到后台执行，但是如果启动该程序的logout，则该进程随记终止&lt;/li&gt;
   &lt;li&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;nohup&lt;/code&gt; 使用 nohup命令后，原程序的标准输出被自动改向到当前目录的nohup.out文件，起到了log的作用，实现完整的守护进程功能。&lt;/li&gt;
 &lt;/ol&gt;
 
-&lt;h4 id=&quot;nohup--2&quot;&gt;终止 nohup 执行&lt;/h4&gt;
+&lt;h4 id=&quot;终止-nohup-执行&quot;&gt;终止 nohup 执行&lt;/h4&gt;
 
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;[root@iZ949j21i58Z ssh]# ps -ef | grep ssh_monitor
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;[root@iZ949j21i58Z ssh]# ps -ef | grep ssh_monitor
 root     19852 19781  0 11:03 pts/2    00:00:00 python ssh_monitor.py
 root     19856 19781  0 11:03 pts/2    00:00:00 grep --color=auto ssh_monitor
 [root@iZ949j21i58Z ssh]# kill 19852
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
 
-&lt;h2 id=&quot;linux-python&quot;&gt;关于Linux Python执行的进程&lt;/h2&gt;
+&lt;h2 id=&quot;关于linux-python执行的进程&quot;&gt;关于Linux Python执行的进程&lt;/h2&gt;
 &lt;p&gt;当用户启动一个进程的时候，这个进程是运行在前台，使用与相应控制终端相联系的标准输入输如，输出进行输入和输出。即时将进程的输入输出重定向，并将进程放在后台执行，进程仍然和当前前端设备有关系。正因为如此，在当前的登录会话结束时，控制终端设备将和登录进程相脱，那么系统就像所有与这个终端联系的进程发送&lt;code class=&quot;highlighter-rouge&quot;&gt;SIGHUP&lt;/code&gt;的信号，通知进程线路已经挂起了，如果程序没有接管这个信号的处理，那么缺省的反应是进程结束。&lt;/p&gt;
 
 &lt;p&gt;因此普通的程序并不能真正脱离登录会话而运行进程，为了使得在系统登录后还可以正常执行，只有使用&lt;code class=&quot;highlighter-rouge&quot;&gt;nohup&lt;/code&gt;这一类的来启动相应程序。&lt;/p&gt;
 
-&lt;h4 id=&quot;section-2&quot;&gt;守护进程&lt;/h4&gt;
+&lt;h4 id=&quot;守护进程&quot;&gt;守护进程&lt;/h4&gt;
 &lt;p&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;nohup&lt;/code&gt;启动的程序在进程执行完毕就退出了，比如&lt;code class=&quot;highlighter-rouge&quot;&gt;kill&lt;/code&gt; 掉相关进程。而一些常见的服务进程通常永久的运行在后台，不想屏幕输出结果。
 在 Linux/Unix 中这些永久的后台进程称为&lt;code class=&quot;highlighter-rouge&quot;&gt;守护进程（daemon）&lt;/code&gt;。守护进程通常从系统启动时自动开始执行，系统关闭时才停止。如果偶然某个守护进程消失了，那么它提供的服务将不再能被使用。&lt;/p&gt;
 
-&lt;h4 id=&quot;centos-&quot;&gt;CentOS 常见的守护进程&lt;/h4&gt;
+&lt;h4 id=&quot;centos-常见的守护进程&quot;&gt;CentOS 常见的守护进程&lt;/h4&gt;
 
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;硬件管理守护进程
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;硬件管理守护进程
 apmd
 apmd （Advanced Power Management）是高级电源管理。传统的电源管理标准，对于笔记本电脑比较有用，可以了解系统的电池电量信
 息。并将相关信息通过 syslogd  写入日志。也可以用来在电源不足时关机。
@@ -2678,8 +2635,7 @@ gssftp 使用 kerberos 5 认证的 ftp 守护进程
 krb5-telnet 使用 kerberos 5 认证的 telnet  守护进程。
 klogin 使用 kerberos 5 认证远程登录守护进程。
 kshell 使用 kerberos 5 认证的远程 Shell 守护进程。
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
 
 </description>
         <pubDate>Thu, 09 Mar 2017 00:00:00 +0800</pubDate>
@@ -2689,184 +2645,6 @@ kshell 使用 kerberos 5 认证的远程 Shell 守护进程。
         <category>Python</category>
         
         <category>CentOS</category>
-        
-        
-      </item>
-    
-      <item>
-        <title>非越狱iOS逆向微信</title>
-        <description>&lt;blockquote&gt;
-  &lt;ul&gt;
-    &lt;li&gt;
-      &lt;p&gt;本文参考学习链接为： 
-&lt;a href=&quot;https://github.com/buginux/WeChatRedEnvelop&quot;&gt;buginux&lt;/a&gt;&lt;/p&gt;
-    &lt;/li&gt;
-    &lt;li&gt;
-      &lt;p&gt;《 iOS 应用逆向工程》第二版&lt;/p&gt;
-    &lt;/li&gt;
-  &lt;/ul&gt;
-&lt;/blockquote&gt;
-
-&lt;p&gt;鉴于&lt;code class=&quot;highlighter-rouge&quot;&gt;《iOS逆向工程》&lt;/code&gt;这本书其实买了很久，但是又断断续续的荒废了。看到 &lt;a href=&quot;https://github.com/buginux/WeChatRedEnvelop&quot;&gt;buginux&lt;/a&gt; 写的这篇文章后，果断又尝试起来。
-由于目前手上没有能越狱越狱的手机，打包尝试起来特别麻烦。好在最后还是完成了。上图。&lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&quot;/img/reverse_wechat/result.jpg&quot; /&gt;&lt;/p&gt;
-
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;PS：目前最新的 6.5.5 版本红包并不能使用。
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-
-&lt;h2 id=&quot;ipa&quot;&gt;1.获取砸壳后的微信ipa&lt;/h2&gt;
-&lt;p&gt;有两种方法
-1. 通过 &lt;a href=&quot;https://github.com/KJCracks/Clutch&quot;&gt;Clutch&lt;/a&gt; 对越狱手机上的应用砸壳
-2. 直接在 PP助手上下载&lt;/p&gt;
-
-&lt;p&gt;由于手里没有越狱的手机，所以就直接在 PP助手上下载了。
-将下载后的 &lt;code class=&quot;highlighter-rouge&quot;&gt;wechat.ipa&lt;/code&gt; 解压
-&lt;code class=&quot;highlighter-rouge&quot;&gt;
-$ unzip wechat.ipa -d wechat
-&lt;/code&gt;&lt;/p&gt;
-
-&lt;h2 id=&quot;class-dump-&quot;&gt;2.使用 class-dump 导出微信头文件&lt;/h2&gt;
-
-&lt;h4 id=&quot;class-dump&quot;&gt;2.1 下载 class-dump&lt;/h4&gt;
-
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;$ https://code.google.com/archive/p/networkpx/downloads
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-&lt;p&gt;1.1 解压并拷入到 /usr/bin/&lt;/p&gt;
-
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;$ tar -zxvf class-dump-z_0.2a.tar.gz
-$ sudo cp mac_x86/class-dump-z /usr/bin/
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-
-&lt;h4 id=&quot;opendev-&quot;&gt;2.1.1 或者下载安装 &lt;code class=&quot;highlighter-rouge&quot;&gt;OpenDev&lt;/code&gt; 环境。&lt;/h4&gt;
-
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;class-dump已经包含在openDev中,openDev 存放文件夹opt/IOSOpenDev/bin 中,
-
-并在/Users/vincent/bash_profile 注册了系统变量 路径
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-
-&lt;h4 id=&quot;h-&quot;&gt;2.2 导出 &lt;code class=&quot;highlighter-rouge&quot;&gt;.h&lt;/code&gt; 头文件&lt;/h4&gt;
-
-&lt;p&gt;可执行文件位置在
-&lt;code class=&quot;highlighter-rouge&quot;&gt;
-~/wechat/Payload/WeChat.app/WeChat
-&lt;/code&gt;
-拷贝出来执行&lt;/p&gt;
-
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;$ class-dump
--H
-WeChat
--o
-heads
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-&lt;ol&gt;
-  &lt;li&gt;WeChat 是应用的可执行文件的路径&lt;/li&gt;
-  &lt;li&gt;headers 是存放dump出来头文件的文件夹路径&lt;/li&gt;
-&lt;/ol&gt;
-
-&lt;h2 id=&quot;dylib-&quot;&gt;3. 准备 dylib 动态链接库&lt;/h2&gt;
-&lt;p&gt;将 &lt;a href=&quot;https://github.com/huanglins/WeChatRedEnvelop&quot;&gt;WeChatRedEnvelop&lt;/a&gt; clone 下来。执行 &lt;code class=&quot;highlighter-rouge&quot;&gt;make&lt;/code&gt; , dylib 文件在 &lt;code class=&quot;highlighter-rouge&quot;&gt;WeChatRedEnvelop/.theos/obj/debug/WeChatRedEnvelop.dylib&lt;/code&gt;&lt;/p&gt;
-
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;$ git https://github.com/huanglins/WeChatRedEnvelop
-$ cd WeChatRedEnvelop
-make
-
-$ cp .theos/obj/debug/WeChatRedEnvelop.dylib ~/Desktop # 注意是 .theos 目录，这是个隐藏目录
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-
-&lt;h4 id=&quot;section&quot;&gt;3.1 修改动态链接库依赖项&lt;/h4&gt;
-&lt;p&gt;使用 macOS 自带的 &lt;code class=&quot;highlighter-rouge&quot;&gt;otool&lt;/code&gt; 工具检查 dylib 的依赖项&lt;/p&gt;
-
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;$ otool -L WeChatRedEnvelop.dylib
-
-WeChatRedEnvelop2.dylib (architecture armv7):
-	/Library/MobileSubstrate/DynamicLibraries/WeChatRedEnvelop.dylib (compatibility version 0.0.0, current version 0.0.0)
-	/usr/lib/libobjc.A.dylib (compatibility version 1.0.0, current version 228.0.0)
-	/System/Library/Frameworks/Foundation.framework/Foundation (compatibility version 300.0.0, current version 1349.13.0)
-	/System/Library/Frameworks/CoreFoundation.framework/CoreFoundation (compatibility version 150.0.0, current version 1348.22.0)
-	/System/Library/Frameworks/UIKit.framework/UIKit (compatibility version 1.0.0, current version 3600.6.21)
-	/Library/Frameworks/CydiaSubstrate.framework/CydiaSubstrate (compatibility version 0.0.0, current version 0.0.0)
-	/usr/lib/libc++.1.dylib (compatibility version 1.0.0, current version 307.4.0)
-	/usr/lib/libSystem.B.dylib (compatibility version 1.0.0, current version 1238.0.0)
-WeChatRedEnvelop2.dylib (architecture arm64):
-	/Library/MobileSubstrate/DynamicLibraries/WeChatRedEnvelop.dylib (compatibility version 0.0.0, current version 0.0.0)
-	/usr/lib/libobjc.A.dylib (compatibility version 1.0.0, current version 228.0.0)
-	/System/Library/Frameworks/Foundation.framework/Foundation (compatibility version 300.0.0, current version 1349.13.0)
-	/System/Library/Frameworks/CoreFoundation.framework/CoreFoundation (compatibility version 150.0.0, current version 1348.22.0)
-	/System/Library/Frameworks/UIKit.framework/UIKit (compatibility version 1.0.0, current version 3600.6.21)
-	/Library/Frameworks/CydiaSubstrate.framework/CydiaSubstrate (compatibility version 0.0.0, current version 0.0.0)
-	/usr/lib/libc++.1.dylib (compatibility version 1.0.0, current version 307.4.0)
-	/usr/lib/libSystem.B.dylib (compatibility version 1.0.0, current version 1238.0.0)
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-&lt;p&gt;修改 &lt;code class=&quot;highlighter-rouge&quot;&gt;/Library/Frameworks/CydiaSubstrate.framework/CydiaSubstrate&lt;/code&gt; 链接地址到 &lt;code class=&quot;highlighter-rouge&quot;&gt;libsubstrate.dylib&lt;/code&gt;&lt;/p&gt;
-
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;$ install_name_tool -change /Library/Frameworks/CydiaSubstrate.framework/CydiaSubstrate 
-@loader_path/libsubstrate.dylib WeChatRedEnvelop.dylib
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-
-&lt;blockquote&gt;
-  &lt;p&gt;PS：libsubstrate.dylib 是越狱环境 MobileSubstrate 提供动态注入的一个链接库&lt;/p&gt;
-&lt;/blockquote&gt;
-
-&lt;h2 id=&quot;section-1&quot;&gt;4 将动态链接库注入到二进制文件中&lt;/h2&gt;
-
-&lt;h4 id=&quot;libsubstratedylib--wechatredenvelopdylib-wechatapp&quot;&gt;4.1 将 &lt;code class=&quot;highlighter-rouge&quot;&gt;libsubstrate.dylib&lt;/code&gt; 和 &lt;code class=&quot;highlighter-rouge&quot;&gt;WeChatRedEnvelop.dylib&lt;/code&gt; 拷贝到WeChat.app中&lt;/h4&gt;
-
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;$ cp libsubstrate.dylib WeChatRedEnvelop.dylib wechat/Payload/WeChat.app
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-
-&lt;h4 id=&quot;optoolhttpsgithubcomalexzielenskioptool-&quot;&gt;4.2 使用开源的 &lt;a href=&quot;https://github.com/alexzielenski/optool&quot;&gt;optool&lt;/a&gt; 工具&lt;/h4&gt;
-&lt;p&gt;编译安装 &lt;code class=&quot;highlighter-rouge&quot;&gt;optool&lt;/code&gt; 工具&lt;/p&gt;
-
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;# 因为 optool 添加了 submodule，因为需要使用 --recuresive 选项，将子模块全部 clone 下来
-$ git clone --recursive https://github.com/alexzielenski/optool.git
-$ cd optool
-$ xcodebuild -project optool.xcodeproj -configuration Release ARCHS=&quot;x86_64&quot; build
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-
-&lt;h4 id=&quot;optool-&quot;&gt;4.3 optool 注入&lt;/h4&gt;
-
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;$ /path/to/optool install -c load -p &quot;@executable_path/WeChatRedEnvelop.dylib&quot; 
--t 
-wechat/Payload/WeChat.app/WeChat
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-
-&lt;h2 id=&quot;section-2&quot;&gt;5. 打包，重新签名&lt;/h2&gt;
-&lt;p&gt;打包和重新签名可以直接使用图形化操作工具 &lt;a href=&quot;https://github.com/DanTheMan827/ios-app-signer&quot;&gt;ios-app-signer&lt;/a&gt; 来完成。&lt;/p&gt;
-
-&lt;blockquote&gt;
-  &lt;p&gt;需要使用开发者证书 ~~~~(&amp;gt;_&amp;lt;)~~~~&lt;/p&gt;
-&lt;/blockquote&gt;
-
-&lt;p&gt;&lt;img src=&quot;/img/p-reverse_wechat/ios-app-signer.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
-
-&lt;p&gt;点击 start 后，指定保存路径，iOS App Signer 就会帮你搞定所有事情。&lt;/p&gt;
-
-&lt;h2 id=&quot;section-3&quot;&gt;6. 安装&lt;/h2&gt;
-&lt;p&gt;使用 Xcode 菜单 - Window - Devices 中打开设置窗口 
-&lt;img src=&quot;/img/reverse_wechat/xcode.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
-
-&lt;h2 id=&quot;end&quot;&gt;End&lt;/h2&gt;
-
-</description>
-        <pubDate>Fri, 03 Mar 2017 00:00:00 +0800</pubDate>
-        <link>http://localhost:4000/2017/03/03/reverse-wechat/</link>
-        <guid isPermaLink="true">http://localhost:4000/2017/03/03/reverse-wechat/</guid>
-        
-        <category>iOS</category>
-        
-        <category>逆向工程</category>
         
         
       </item>

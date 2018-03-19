@@ -180,6 +180,31 @@
             ">
     			
 <div class="post-preview">
+    <a href="/2018/03/08/reverse-xipeixuetang/">
+        <h2 class="post-title">
+            iOS 西培学堂 - 人脸识别绕过
+        </h2>
+        
+        <h3 class="post-subtitle">
+            iOS逆向
+        </h3>
+        
+        <div class="post-content-preview">
+            最近在学习驾照，考科目一的时候需要在 西培学堂 上面学习视频 1320 分钟。最主要的是每隔25分钟就要进行一次人脸识别验证，没有立即验证的话单次学习的时间就会失效。本着好好学习的态度，于是想看下能不能友好的进行人脸识别。..
+
+抓包测试
+
+
+抓包测试发现，人脸识别是在本地进行校验的，识别成功后再将识别的结果图片上传到服务器进行保存，并记录时间。那么这样的话，我们就可以在本地将人脸识别绕过，...
+        </div>
+    </a>
+    <p class="post-meta">
+        Posted by vincent on March 8, 2018
+    </p>
+</div>
+<hr>
+
+<div class="post-preview">
     <a href="/2017/09/19/ios11-iphonex-adapter/">
         <h2 class="post-title">
             iOS11/iPhone X 适配(填坑)指南
@@ -298,8 +323,7 @@ ifconfig
 
 
 
-
-然...
+然后...
         </div>
     </a>
     <p class="post-meta">
@@ -446,51 +470,17 @@ lll_futex_wait -&gt;...
 获取登录信息
 
 CentOS 中 /var/log/wtmp 记录每个用户的登录IP，登录次数，持续时间等信息。
-#### 使用 smtplib 发送邮件
+使用 smtplib 发送邮件
 
 
-  注意 发送方邮箱的密码，不是账号的密码。而是开启 SMTP 后获取的授权...
+  注意 发送方邮箱的密码，不是账号的密码。而是开启 SMTP 后获取的授权码
+
+
+代...
         </div>
     </a>
     <p class="post-meta">
         Posted by  on March 9, 2017
-    </p>
-</div>
-<hr>
-
-<div class="post-preview">
-    <a href="/2017/03/03/reverse-wechat/">
-        <h2 class="post-title">
-            非越狱iOS逆向微信
-        </h2>
-        
-        <h3 class="post-subtitle">
-            自动抢红包，消息防撤回，修改微信运动步数
-        </h3>
-        
-        <div class="post-content-preview">
-            
-  
-    
-      本文参考学习链接为： 
-buginux
-    
-    
-      《 iOS 应用逆向工程》第二版
-    
-  
-
-
-鉴于《iOS逆向工程》这本书其实买了很久，但是又断断续续的荒废了。看到 buginux 写的这篇文章后，果断又尝试起来。
-由于目前手上没有能越狱越狱的手机，打包尝试起来特别麻烦。好在最后还是完成了。上图。
-
-
-
-PS：目前最新的 6.5....
-        </div>
-    </a>
-    <p class="post-meta">
-        Posted by  on March 3, 2017
     </p>
 </div>
 <hr>
@@ -550,7 +540,7 @@ var _hmt = _hmt || [];
                             
                         
                             
-                                <a href="/tags/#iOS" title="iOS" rel="3">
+                                <a href="/tags/#iOS" title="iOS" rel="4">
                                     iOS
                                 </a>
                             
@@ -573,6 +563,8 @@ var _hmt = _hmt || [];
                                 <a href="/tags/#Web服务器" title="Web服务器" rel="3">
                                     Web服务器
                                 </a>
+                            
+                        
                             
                         
                             
@@ -658,19 +650,21 @@ var _hmt = _hmt || [];
                 <h5>FRIENDS</h5>
                 <ul class="list-inline">
                     
-                        <li><a target="_blank" href="https://www.vincents.cn/saylove/">say - vincents.cn</a></li>
-                    
                         <li><a target="_blank" href="https://shop130631028.taobao.com/">在回忆中 - 卖点小东西</a></li>
                     
                         <li><a target="_blank" href="https://unsplash.com">unsplash - 好看的图片</a></li>
                     
-                        <li><a target="_blank" href="https://wechat.vincents.cn">wechat.vincents.cn</a></li>
-                    
                         <li><a target="_blank" href="https://api.vincents.cn/udid">获取UDID</a></li>
+                    
+                        <li><a target="_blank" href="https://www.vincents.cn/saylove/">say - vincents.cn</a></li>
+                    
+                        <li><a target="_blank" href="https://wechat.vincents.cn">wechat.vincents.cn</a></li>
                     
                         <li><a target="_blank" href="https://api.vincents.cn/manager">api.vincents.cn</a></li>
                     
                         <li><a target="_blank" href="http://chat.vincents.cn">chat.vincents.cn</a></li>
+                    
+                        <li><a target="_blank" href="http://rap.vincents.cn">rap.vincents.cn</a></li>
                     
                 </ul>
                 
@@ -746,12 +740,12 @@ var _hmt = _hmt || [];
                     
                 </ul>
                 <p class="copyright text-muted">
-                    渝ICP备17003502号 | Copyright &copy; tnecniV 2017
+                    渝ICP备17003502号 | Copyright &copy; Vincent 2017
                     <br>
                     <script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
                     <span id="busuanzi_container_site_pv"> 您是本站第<span id="busuanzi_value_site_pv"></span>位访问者</span>  | 
                     <!-- umeng 站长统计 -->
-                    <script src="https://s22.cnzz.com/z_stat.php?id=1263843451&web_id=1263843451" language="JavaScript"></script> | 
+<!--                     <script src="https://s22.cnzz.com/z_stat.php?id=1263843451&web_id=1263843451" language="JavaScript"></script> |  -->
                     Theme by <a target="_blank" href="http://huangxuan.me">Hux</a> |
                     <iframe
                         style="margin-left: 2px; margin-bottom:-5px;"
