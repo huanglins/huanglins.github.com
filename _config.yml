@@ -3,8 +3,8 @@ title: "tnecniV"
 SEOTitle: Vincent's Blog | 永远年轻，永远热泪盈眶
 header-img: img/home-bg.jpg
 email: 1@vincents.cn
-description: "// iOS Developer，也写Android和python。正在学习全栈。很高兴认识你。"
-keyword: "vincent，vincents，黄霖，黄金霖，darnel，个人网站，APP，微信公众号"
+description: "// iOS Developer，也写Android和Python。正在学习全栈。很高兴认识你。"
+keyword: "vincent，vincents，黄霖，黄金霖，darnel，darnel studio，个人网站，APP，微信公众号"
 url: "https://www.vincents.cn"
 baseurl: ""
 
@@ -27,6 +27,8 @@ anchorjs: true                          # if you want to customize anchor. check
 
 # Gems
 # from PR#40, to support local preview for Jekyll 3.0
+# jekyll 3.0 以上以后不再支持相对路径，统一用绝对路径。
+# gem install jekyll-paginate  安装插件
 gems: [jekyll-paginate]
 
 # plugins  - 使用 gems 的地方需要替换为 plugins
@@ -73,12 +75,12 @@ service-worker: true
 # Friends 友链
 friends: [
     {
-    	title: "在回忆中 - 卖点小东西",
-    	href: "https://shop130631028.taobao.com/"
+        title: "在回忆中 - 卖点小东西",
+        href: "https://shop130631028.taobao.com/"
     },
     {
-    	title: "unsplash - 好看的图片",
-    	href: "https://unsplash.com"
+        title: "unsplash - 好看的图片",
+        href: "https://unsplash.com"
     },
     {
         title: "获取UDID",
@@ -93,12 +95,16 @@ friends: [
         href: "https://wechat.vincents.cn"
     },
     {
-    	title: "api.vincents.cn",
-    	href: "https://api.vincents.cn/manager"
+        title: "api.vincents.cn",
+        href: "https://api.vincents.cn/manager"
     },
     {
-        title: "chat.vincents.cn",
-        href: "http://chat.vincents.cn"
+        title: "git.vincents.cn",
+        href: "http://git.vincents.cn"
+    },
+    {
+        title: "idea.vincents.cn",
+        href: "http://idea.vincents.cn"
     },
     {
         title: "rap.vincents.cn",

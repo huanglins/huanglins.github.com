@@ -2,15 +2,15 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>tnecniV</title>
-    <description>// iOS Developer，也写Android和python。正在学习全栈。很高兴认识你。</description>
+    <description>// iOS Developer，也写Android和Python。正在学习全栈。很高兴认识你。</description>
     <link>http://localhost:4000/</link>
     <atom:link href="http://localhost:4000/feed.xml" rel="self" type="application/rss+xml" />
-    <pubDate>Fri, 09 Mar 2018 10:33:02 +0800</pubDate>
-    <lastBuildDate>Fri, 09 Mar 2018 10:33:02 +0800</lastBuildDate>
-    <generator>Jekyll v3.7.3</generator>
+    <pubDate>Fri, 24 Aug 2018 22:59:04 +0800</pubDate>
+    <lastBuildDate>Fri, 24 Aug 2018 22:59:04 +0800</lastBuildDate>
+    <generator>Jekyll v3.8.3</generator>
     
       <item>
-        <title>iOS 西培学堂 - 人脸识别绕过</title>
+        <title>iOS 西培学堂 - 绕过人脸识别</title>
         <description>&lt;p&gt;最近在学习驾照，考科目一的时候需要在 &lt;strong&gt;西培学堂&lt;/strong&gt; 上面学习视频 1320 分钟。最主要的是每隔25分钟就要进行一次人脸识别验证，没有立即验证的话单次学习的时间就会失效。本着好好学习的态度，于是想看下能不能友好的进行人脸识别。..&lt;/p&gt;
 
 &lt;h4 id=&quot;抓包测试&quot;&gt;抓包测试&lt;/h4&gt;
