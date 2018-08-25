@@ -10,7 +10,7 @@
     <meta name="keywords"  content="vincent，vincents，黄霖，黄金霖，darnel，darnel studio，个人网站，APP，微信公众号">
     <meta name="theme-color" content="#000000">
     
-    <title>iOS 西培学堂 - 绕过人脸识别 - Vincent's Blog | 永远年轻，永远热泪盈眶</title>
+    <title>正义和自由 - Vincent's Blog | 永远年轻，永远热泪盈眶</title>
 
     <!-- Web App Manifest -->
     <link rel="manifest" href="/pwa/manifest.json">
@@ -19,7 +19,7 @@
     <link rel="shortcut icon" href="/img/favicon.ico">
     
     <!-- Canonical URL -->
-    <link rel="canonical" href="http://localhost:4000/2018/03/08/reverse-xipeixuetang/">
+    <link rel="canonical" href="http://localhost:4000/2018/08/25/justice-and-freedom/">
 
     <!-- Bootstrap Core CSS -->
     <link rel="stylesheet" href="/css/bootstrap.min.css">
@@ -151,13 +151,13 @@
 
     <!-- Image to hack wechat -->
 <!-- <img src="/img/icon_wechat.png" width="0" height="0"> -->
-<!-- <img src="/img/post-bg-15-reverse-xipeixuetang.jpg" width="0" height="0"> -->
+<!-- <img src="/img/post-bg-16-freedom.jpg" width="0" height="0"> -->
 
 <!-- Post Header -->
 <style type="text/css">
     header.intro-header{
         position: relative;
-        background-image: url('/img/post-bg-15-reverse-xipeixuetang.jpg')
+        background-image: url('/img/post-bg-16-freedom.jpg')
     }
 
     
@@ -170,17 +170,15 @@
                 <div class="post-heading">
                     <div class="tags">
                         
-                        <a class="tag" href="/tags/#iOS" title="iOS">iOS</a>
-                        
-                        <a class="tag" href="/tags/#iOS 逆向" title="iOS 逆向">iOS 逆向</a>
+                        <a class="tag" href="/tags/#freedom" title="freedom">freedom</a>
                         
                     </div>
-                    <h1>iOS 西培学堂 - 绕过人脸识别</h1>
+                    <h1>正义和自由</h1>
                     
                     
-                    <h2 class="subheading">iOS逆向</h2>
+                    <h2 class="subheading"></h2>
                     
-                    <span class="meta">Posted by vincent on March 8, 2018</span>
+                    <span class="meta">Posted by vincent on August 25, 2018</span>
                 </div>
             </div>
         </div>
@@ -198,46 +196,62 @@
                 col-md-10 col-md-offset-1
                 post-container">
 
-				<p>最近在学习驾照，考科目一的时候需要在 <strong>西培学堂</strong> 上面学习视频 1320 分钟。最主要的是每隔25分钟就要进行一次人脸识别验证，没有立即验证的话单次学习的时间就会失效。本着好好学习的态度，于是想看下能不能友好的进行人脸识别。..</p>
+				<blockquote>
+  <p>纳粹抓了共产党人的时候，</p>
 
-<h4 id="抓包测试">抓包测试</h4>
+  <p>我沉默了；</p>
 
-<p><img src="/img/p-xipeixuetang/uploadimage.png" alt="" />
-抓包测试发现，人脸识别是在本地进行校验的，识别成功后再将识别的结果图片上传到服务器进行保存，并记录时间。那么这样的话，我们就可以在本地将人脸识别绕过，并传一张假图片给服务器就行了(手动滑稽..)</p>
+  <p>我又不是共产党人。</p>
 
-<h4 id="导出头文件">导出头文件</h4>
+  <p>.</p>
 
-<p>首先我们在 PP助手上下载已经脱壳的 IPA，然后导出所有头文件。</p>
+  <p>当他们关了社民党人的时候，</p>
 
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>class-dump -H /xx/xx/tbtimingCount.app/tbtimingCount -o /Users/xx/Desktop/header
-</code></pre></div></div>
+  <p>我沉默了；</p>
 
-<h4 id="分析测试">分析测试</h4>
+  <p>我又不是社民党人。</p>
 
-<p>搜索 <code class="highlighter-rouge">face</code> 相关的文件
-<img src="/img/p-xipeixuetang/search_face.png" alt="" /></p>
+  <p>.</p>
 
-<p>打开 Xcode 新建一个 <a href="https://github.com/AloneMonkey/MonkeyDev">MonkeyDev</a> 工程，将 ipa 导入工程。</p>
+  <p>当他们抓工会成员的时候，</p>
 
-<p>经测试，<strong>TbCameraWalk</strong> 这个文件用来处理学习计时和调用摄像头进行人脸识别的相关操作。
-<img src="/img/p-xipeixuetang/file_source.png" alt="" /></p>
+  <p>我没有抗议；</p>
 
-<p>其中检测到需要人脸识别摄像头被调用时，会响应以下方法:</p>
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>- (void)cwFaceInfoCallBack:(id)arg1;                                // 人脸识别结果
-</code></pre></div></div>
-<p>该文件中有一个人脸识别结果回调，返回一个图片信息，界面收到回调时将会调用接口上传人脸识别图片并计时。</p>
+  <p>我又不是工会成员。</p>
 
-<p><img src="/img/p-xipeixuetang/delegate_source.png" alt="" /></p>
+  <p>.</p>
 
-<p>检测完成，关闭人脸识别界面方法为：</p>
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>- (void)liveDetectSucess;
-</code></pre></div></div>
+  <p>当他们抓犹太人的时候，</p>
 
-<h4 id="编码">编码</h4>
+  <p>我沉默了；</p>
 
-<p><img src="/img/p-xipeixuetang/reverse_code.png" alt="" /></p>
+  <p>我又不是犹太人。</p>
 
-<p>在摄像头回调中直接将上面抓包的 Image Base64的数据，手动调用给 Delegate，测试发现后台服务器并没有再次进行图像比较。然后手动调用检测成功，关闭页面。</p>
+  <p>.</p>
+
+  <p>当他们抓我的时候，</p>
+
+  <p>不再有什么人，能够为我抗议。</p>
+</blockquote>
+
+<p>今天，滴滴再一次成为舆论中心，又有一位女生打顺风车被奸杀，距离上一次郑州空乘打滴滴顺风车被奸杀才三个月。哪怕被害人不停的联系滴滴客服和警方，哪怕这个司机头一天才被投诉有骚扰乘客。可是，滴滴什么也没做，这三个月时间内滴滴毫无反思和改进，完全没有建立一套应急安全机制来保障乘客的安全，照常让该司机接单，导致悲剧再次发生。</p>
+
+<p>不过，我不想叨叨念地讲女性要注意安全什么之类的，这些被大家讲得反倒快当成儿戏了。我想讲的是另一个，是在我前几天看到的深/圳佳 士工人维权事件之后，内心久久不能平静，却发现国内媒体，微博一点消息都没有。才发现这一段时间内发生太多影响面巨大，和人民息息相关的事件，寿光洪灾，工人维权，疫苗事件，幼儿园虐童，滴滴事件。。。</p>
+
+<p>这些都是最近发生的事情，却发现很多人只当做饭后无聊的谈资，他们并没有意识到这些其实都是和他们息息相关的事情，只是这次恰巧幸运地没发生在他们自己身上而已。前几天我在医院投诉医生抽烟那会儿，我问引导台的工作人员投诉通道在哪里，他们第一想到的竟然是拉住我叫我别投诉，多大点事不是嘛。我反问他们，你们难道没意识到这是不对的吗？他们也就笑笑的走开了。</p>
+
+<p>我很早以前意识到我应该是一个公民而不是人民或老百姓的时候，看到社会不公会义愤填膺，会呼吁和抗争，我觉得这是作为一个公民而言基本的权利和义务。这在一些人看来反倒成了异类，他们说，何必呢，你又做得了什么呢？这就是为什么说国人对于压迫总是逆来顺受，那些印刻在民族骨子里的劣根性是去不掉的。国人总会对强权和不公选择性失忆，健忘，然后用厉害了我的国来安慰自己。有一天我在想，为什么国人总是健忘，我想到历史上讲，“3,5个日本兵就能押着成百上千的中国人”，他们难道不会反抗吗？他们估计从来就没想过反抗这事儿，因为中国人最缺乏”思想”，最缺乏拥有”思想”的历史，最缺乏思想的充分自由交流。这是因为自古以来，中国人的“思想”交流、言论“信息”交流，早就已经，甚至永远都处于统治者所极力维护的封闭的、禁锢的、点滴不漏的“一滩死水”，乃至“酱缸”之中。</p>
+
+<p>不过这几年来，随着80,90后成为这个社会的活跃思想核心，会看到越来越多不盲从，有独立思考的人。会看到舆论的作用越来越有效，微博一曝光比报警还有用。因为有更多的人在强调个人意志和自由，在行使一个公民应有的权力和义务，共同推动我们所处的这个社会进步。</p>
+
+<p>我想讲的是，我们永远避免不了天灾人祸，强权和不公的发生。但是看到不公的时候，如果我们什么也不做保持中立，那其实是选择在压迫者一边的。所以我们要去抨击和抗争，哪怕一个人的力量很小，但是思想影响的力量是无穷无尽的，只有这样才能唤醒更多失忆和健忘的国人。</p>
+
+<p>愿我们都有一颗勇敢的心，高喊正义与自由。</p>
+
+<h4 id="x">X</h4>
+<p><a href="http://blog.sina.com.cn/s/blog_4757606d0100el7j.html">中国人为什么最“健忘”</a></p>
+
+<p><a href="http://huangxuan.me/2017/06/24/you-are-slaves/">他是狗，你们便是苟奴隶</a></p>
 
 
                 <hr>
@@ -245,19 +259,12 @@
                 <ul class="pager">
                     
                     <li class="previous">
-                        <a href="/2017/09/19/ios11-iphonex-adapter/" data-toggle="tooltip" data-placement="top" title="iOS11/iPhone X 适配(填坑)指南">
+                        <a href="/2018/03/08/reverse-xipeixuetang/" data-toggle="tooltip" data-placement="top" title="iOS 西培学堂 - 绕过人脸识别">
                         Previous<br>
-                        <span>iOS11/iPhone X 适配(填坑)指南</span>
+                        <span>iOS 西培学堂 - 绕过人脸识别</span>
                         </a>
                     </li>
                     
-                    
-                    <li class="next">
-                        <a href="/2018/08/25/justice-and-freedom/" data-toggle="tooltip" data-placement="top" title="正义和自由">
-                        Next<br>
-                        <span>正义和自由</span>
-                        </a>
-                    </li>
                     
                 </ul>
 
@@ -388,8 +395,8 @@
 <script type="text/javascript">
     /* * * CONFIGURATION VARIABLES * * */
     var disqus_shortname = "vincents-cn";
-    var disqus_identifier = "/2018/03/08/reverse-xipeixuetang";
-    var disqus_url = "http://localhost:4000/2018/03/08/reverse-xipeixuetang/";
+    var disqus_identifier = "/2018/08/25/justice-and-freedom";
+    var disqus_url = "http://localhost:4000/2018/08/25/justice-and-freedom/";
 
     (function() {
         var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
