@@ -4,7 +4,7 @@ title:      "iOS 马甲包、代码混淆、编译混淆实践"
 subtitle:   ""
 date:       2018-10-24
 author:     "vincent"
-header-img: "img/post-bg-16-freedom.jpg"
+header-img: "img/post-bg-17-hikari.jpg"
 catalog: true
 tags:
     - iOS
