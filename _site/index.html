@@ -180,6 +180,35 @@
             ">
     			
 <div class="post-preview">
+    <a href="/2018/10/24/ios-hikari/">
+        <h2 class="post-title">
+            iOS 马甲包、代码混淆、编译混淆实践
+        </h2>
+        
+        <h3 class="post-subtitle">
+            
+        </h3>
+        
+        <div class="post-content-preview">
+            1. 马甲包
+1.1 什么是马甲包?
+马甲包是利用 App store 的规则漏洞，通过技术手段，多次上架同一款产品的方法。马甲包和主产品包拥有基本一致的内容和功能，项目代码基本都是完全复用的，除了图标，应用名称，包名等不一致，其他基本一致。
+
+1.2 为什么做马甲包，以及马甲包的好处
+
+
+  
+    AB 测试
+  可以测试跨度大的新功能，好的功能就在主包上迭代，不好的也无所谓，不影响主...
+        </div>
+    </a>
+    <p class="post-meta">
+        Posted by vincent on October 24, 2018
+    </p>
+</div>
+<hr>
+
+<div class="post-preview">
     <a href="/2018/08/25/justice-and-freedom/">
         <h2 class="post-title">
             正义和自由
@@ -476,38 +505,6 @@ pip install aliyun-python-sdk-alid...
 </div>
 <hr>
 
-<div class="post-preview">
-    <a href="/2017/03/14/ios-lock/">
-        <h2 class="post-title">
-            iOS 多线程和线程锁
-        </h2>
-        
-        <h3 class="post-subtitle">
-            自旋锁，互斥锁，信号量等
-        </h3>
-        
-        <div class="post-content-preview">
-            在 ibireme 的 不再安全的 OSSpinLock 一文中，有一张图简单比较了各种所的加锁性能
-
-下面根据顺序分析每个加锁的实现原理。注意：加解锁速度并不表示锁的效率，只表示加解锁的操作在执行时的复杂度。
-
-锁之间的关系
-
-忙等类
-
-test_and_set -&gt; OSSpinLock -&gt; os_unfair_lock
-
-休眠类
-
-lll_futex_wait -&gt;...
-        </div>
-    </a>
-    <p class="post-meta">
-        Posted by vincent on March 14, 2017
-    </p>
-</div>
-<hr>
-
 
 <!-- Pager -->
 
@@ -563,11 +560,15 @@ var _hmt = _hmt || [];
                             
                         
                             
-                                <a href="/tags/#iOS" title="iOS" rel="4">
+                                <a href="/tags/#iOS" title="iOS" rel="5">
                                     iOS
                                 </a>
                             
                         
+                            
+                                <a href="/tags/#逆向工程" title="逆向工程" rel="2">
+                                    逆向工程
+                                </a>
                             
                         
                             
