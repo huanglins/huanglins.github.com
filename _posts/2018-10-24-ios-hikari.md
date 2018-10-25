@@ -378,7 +378,9 @@ https://github.com/HikariObfuscator/Hikari/releases
 
 ## 总结
 
-以上是对 iOS 下马甲包，代码混淆，编译混淆的一些学习实践，实际使用中需要根据自己的实际需求进行调整尝试。
+以上是对 iOS 下马甲包，代码混淆，编译混淆的一些学习实践，实际使用中需要根据自己的实际需求进行调整尝试。 
+
+demo 地址：[iOSObfuscator](https://github.com/huanglins/iOSObfuscator)
 
 加密与破解，编译与反编译永远都是在不停攻防的。没有一堵绝对安全的墙，也没有绝对完美的银弹。只有在开发成本与安全成本中找个一个平衡，才是可持续发展的选择。
 
