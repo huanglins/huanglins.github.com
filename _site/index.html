@@ -5,10 +5,20 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="google-site-verification" content="xBT4GhYoi5qRD5tr338pgPM5OWHHIDR6mNg1a3euekI" />
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
     <meta name="description" content="// iOS Developer，也写Android和Python。正在学习全栈。很高兴认识你。">
     <meta name="keywords"  content="vincent，vincents，黄霖，黄金霖，darnel，darnel studio，个人网站，APP，微信公众号">
     <meta name="theme-color" content="#000000">
+    
+    <!-- Open Graph -->
+    <meta property="og:title" content="Vincent's Blog | 永远年轻，永远热泪盈眶">
+    
+    <meta property="og:type" content="website">
+    <meta property="og:description" content="一个乐观的悲观主义者">
+    
+    <meta property="og:image" content="http://localhost:4000/img/avatar-sea-vincent.jpg">
+    <meta property="og:url" content="http://localhost:4000/">
+    <meta property="og:site_name" content="Vincent's Blog | 永远年轻，永远热泪盈眶">
     
     <title>Vincent's Blog | 永远年轻，永远热泪盈眶</title>
 
@@ -27,20 +37,10 @@
     <!-- Custom CSS -->
     <link rel="stylesheet" href="/css/hux-blog.min.css">
 
-    <!-- Pygments Github CSS -->
-    <link rel="stylesheet" href="/css/syntax.css">
-
     <!-- Custom Fonts -->
     <!-- <link href="http://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet" type="text/css"> -->
     <!-- Hux change font-awesome CDN to qiniu -->
     <link href="//cdnjs.cloudflare.com/ajax/libs/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet" type="text/css">
-
-
-    <!-- Hux Delete, sad but pending in China
-    <link href='http://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic' rel='stylesheet' type='text/css'>
-    <link href='http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800' rel='stylesheet' type='text/
-    css'>
-    -->
 
 
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
@@ -59,7 +59,9 @@
 <body ontouchstart="">
 
     <!-- Navigation -->
+
 <nav class="navbar navbar-default navbar-custom navbar-fixed-top">
+
     <div class="container-fluid">
         <!-- Brand and toggle get grouped for better mobile display -->
         <div class="navbar-header page-scroll">
@@ -80,13 +82,27 @@
                         <a href="/">Home</a>
                     </li>
                     
+                    
+                    
+                    
                     <li>
                         <a href="/about/">关于</a>
                     </li>
                     
+                    
+                    
                     <li>
-                        <a href="/tags/">标签</a>
+                        <a href="/archive/">标签</a>
                     </li>
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                    
                     
                 </ul>
             </div>
@@ -150,19 +166,28 @@
 
 
     <!-- Page Header -->
-<header class="intro-header" style="background-image: url('img/home-bg.jpg')">
-    <div class="container">
-        <div class="row">
-            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1 ">
-                <div class="site-heading">
-                    <h1>tnecniV</h1>
-                    <!--<hr class="small">-->
-                    <span class="subheading">一个乐观的悲观主义者</span>
-                </div>
-            </div>
+
+
+
+
+
+
+
+<header class="intro-header" style="background-image: url('/img/home-bg.jpg')">
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+        
+        <div class="site-heading">
+        
+          <h1>tnecniV</h1>
+          <span class="subheading">一个乐观的悲观主义者</span>
         </div>
+      </div>
     </div>
+  </div>
 </header>
+
 
 <!-- Main Content -->
 <div class="container">
@@ -191,8 +216,9 @@
         
         <div class="post-content-preview">
             1. 主从备份
+
 1.1 原理
-mysql支持单向、异步复制，复制过程中一个服务器充当主服务器，而一个或多个其它服务器充当从服务器。mysql复制基于主服务器在二进制日志中跟踪所有对数据库的更改(更新、删除等等)。因此，要进行复制，必须在主服务器上启用二进制日志。每个从服务器从主服务器接收主服务器已经记录到其二进制日志的保存的更新。当一个从服务器连接主服务器时，它通知主服务器从服务器在日志中读...
+mysql支持单向、异步复制，复制过程中一个服务器充当主服务器，而一个或多个其它服务器充当从服务器。mysql复制基于主服务器在二进制日志中跟踪所有对数据库的更改(更新、删除等等)。因此，要进行复制，必须在主服务器上启用二进制日志。每个从服务器从主服务器接收主服务器已经记录到其二进制日志的保存的更新。当一个从服务器连接主服务器时，它通知主服务器从服务器在日志中...
         </div>
     </a>
     <p class="post-meta">
@@ -535,168 +561,161 @@ var _hmt = _hmt || [];
             ">
                 <!-- Featured Tags -->
                 
-                <section>
-                    <hr class="hidden-sm hidden-xs">
-                    <h5><a href="/tags/">FEATURED TAGS</a></h5>
-                    <div class="tags">
-                        
-                            
-                                <a href="/tags/#把酒慰风尘" title="把酒慰风尘" rel="2">
-                                    把酒慰风尘
-                                </a>
-                            
-                        
-                            
-                                <a href="/tags/#旅行" title="旅行" rel="2">
-                                    旅行
-                                </a>
-                            
-                        
-                            
-                                <a href="/tags/#iOS" title="iOS" rel="5">
-                                    iOS
-                                </a>
-                            
-                        
-                            
-                                <a href="/tags/#逆向工程" title="逆向工程" rel="2">
-                                    逆向工程
-                                </a>
-                            
-                        
-                            
-                                <a href="/tags/#Python" title="Python" rel="2">
-                                    Python
-                                </a>
-                            
-                        
-                            
-                                <a href="/tags/#CentOS" title="CentOS" rel="2">
-                                    CentOS
-                                </a>
-                            
-                        
-                            
-                                <a href="/tags/#Web服务器" title="Web服务器" rel="3">
-                                    Web服务器
-                                </a>
-                            
-                        
-                            
-                        
-                            
-                                <a href="/tags/#MySQL" title="MySQL" rel="2">
-                                    MySQL
-                                </a>
-                            
-                        
-                            
-                        
-                            
-                        
-                    </div>
-                </section>
-                
+
+
+<section>
+    
+    <h5><a href="/archive/">FEATURED TAGS</a></h5>
+    <div class="tags">
+        
+        
+        
+        </a>
+        
+        
+                <a data-sort="0016" 
+                    href="/archive/?tag=%E6%8A%8A%E9%85%92%E6%85%B0%E9%A3%8E%E5%B0%98"
+                    title="把酒慰风尘"
+                    rel="2">把酒慰风尘</a>
+        
+                <a data-sort="0013" 
+                    href="/archive/?tag=iOS"
+                    title="iOS"
+                    rel="5">iOS</a>
+        
+                <a data-sort="0015" 
+                    href="/archive/?tag=Web%E6%9C%8D%E5%8A%A1%E5%99%A8"
+                    title="Web服务器"
+                    rel="3">Web服务器</a>
+        
+                <a data-sort="0016" 
+                    href="/archive/?tag=%E6%97%85%E8%A1%8C"
+                    title="旅行"
+                    rel="2">旅行</a>
+        
+                <a data-sort="0016" 
+                    href="/archive/?tag=%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B"
+                    title="逆向工程"
+                    rel="2">逆向工程</a>
+        
+                <a data-sort="0016" 
+                    href="/archive/?tag=CentOS"
+                    title="CentOS"
+                    rel="2">CentOS</a>
+        
+                <a data-sort="0016" 
+                    href="/archive/?tag=MySQL"
+                    title="MySQL"
+                    rel="2">MySQL</a>
+        
+                <a data-sort="0016" 
+                    href="/archive/?tag=Python"
+                    title="Python"
+                    rel="2">Python
+    </div>
+</section>
+
 
                 <!-- Short About -->
                 <section class="visible-md visible-lg">
-                    <hr><h5><a href="/about/">ABOUT ME</a></h5>
-                    <div class="short-about">
-                        
-                            <img src="/img/avatar-sea-vincent.jpg" />
-                        
-                        
-                            <p>逗逼程序猿，白羊座，拖延症。</p>
-                        
-                        <!-- SNS Link -->
-                        <ul class="list-inline">
-                            
-                            
-                            
-                            <li>
-                                <a target="_blank" href="https://www.zhihu.com/people/huang-lin-70-49">
-                                    <span class="fa-stack fa-lg">
-                                        <i class="fa fa-circle fa-stack-2x"></i>
-                                        <i class="fa  fa-stack-1x fa-inverse">知</i>
-                                    </span>
-                                </a>
-                            </li>
-                            
-                            
-                            
-                            <li>
-                                <a target="_blank" href="http://weibo.com/linxiaomu1995">
-                                    <span class="fa-stack fa-lg">
-                                        <i class="fa fa-circle fa-stack-2x"></i>
-                                        <i class="fa fa-weibo fa-stack-1x fa-inverse"></i>
-                                    </span>
-                                </a>
-                            </li>
-                            
+  <hr>
+  <h5><a href="/about/">ABOUT ME</a></h5>
+  <div class="short-about">
+    
+    <img src="/img/avatar-sea-vincent.jpg" />
+    
+    
+    <p>逗逼程序猿，白羊座，拖延症。</p>
+    
+    <!-- SNS Link -->
+    
 
-                            
-                            <li>
-                                <a target="_blank" href="https://github.com/huanglins">
-                                    <span class="fa-stack fa-lg">
-                                        <i class="fa fa-circle fa-stack-2x"></i>
-                                        <i class="fa fa-github fa-stack-1x fa-inverse"></i>
-                                    </span>
-                                </a>
-                            </li>
-                            
 
-                            
-                            <li>
-                                <a href="https://twitter.com/vincent_darnel">
-                                    <span class="fa-stack fa-lg">
-                                        <i class="fa fa-circle fa-stack-2x"></i>
-                                        <i class="fa fa-twitter fa-stack-1x fa-inverse"></i>
-                                    </span>
-                                </a>
-                            </li>
-                            
+<ul class="list-inline">
 
-                            
 
-                        </ul>
-                    </div>
-                </section>
+  
+  
+  <li>
+    <a href="https://twitter.com/vincent_darnel">
+      <span class="fa-stack fa-lg">
+        <i class="fa fa-circle fa-stack-2x"></i>
+        <i class="fa fa-twitter fa-stack-1x fa-inverse"></i>
+      </span>
+    </a>
+  </li>
+  
+  
+  <li>
+    <a target="_blank" href="https://www.zhihu.com/people/huang-lin-70-49">
+      <span class="fa-stack fa-lg">
+        <i class="fa fa-circle fa-stack-2x"></i>
+        <i class="fa  fa-stack-1x fa-inverse">知</i>
+      </span>
+    </a>
+  </li>
+  
+  
+  <li>
+    <a target="_blank" href="http://weibo.com/linxiaomu1995">
+      <span class="fa-stack fa-lg">
+        <i class="fa fa-circle fa-stack-2x"></i>
+        <i class="fa fa-weibo fa-stack-1x fa-inverse"></i>
+      </span>
+    </a>
+  </li>
+  
+  
+  
+  <li>
+    <a target="_blank" href="https://github.com/huanglins">
+      <span class="fa-stack fa-lg">
+        <i class="fa fa-circle fa-stack-2x"></i>
+        <i class="fa fa-github fa-stack-1x fa-inverse"></i>
+      </span>
+    </a>
+  </li>
+  
+  
+</ul>
+  </div>
+</section>
                 <!-- 微信公众号 -->
                 <hr>
                 <h5>微信公众号</h5>
                 <div class="short-about">
                     <img src="/img/wechat-pub-qrcode.jpg">
                 </div>
+
                 <!-- Friends Blog -->
                 
-                <hr>
-                <h5>FRIENDS</h5>
-                <ul class="list-inline">
-                    
-                        <li><a target="_blank" href="https://shop130631028.taobao.com/">在回忆中 - 卖点小东西</a></li>
-                    
-                        <li><a target="_blank" href="https://unsplash.com">unsplash - 好看的图片</a></li>
-                    
-                        <li><a target="_blank" href="https://api.vincents.cn/udid">获取UDID</a></li>
-                    
-                        <li><a target="_blank" href="https://www.vincents.cn/saylove/">say - vincents.cn</a></li>
-                    
-                        <li><a target="_blank" href="https://wechat.vincents.cn">wechat.vincents.cn</a></li>
-                    
-                        <li><a target="_blank" href="https://api.vincents.cn/manager">api.vincents.cn</a></li>
-                    
-                        <li><a target="_blank" href="http://git.vincents.cn">git.vincents.cn</a></li>
-                    
-                        <li><a target="_blank" href="http://idea.vincents.cn">idea.vincents.cn</a></li>
-                    
-                        <li><a target="_blank" href="http://rap.vincents.cn">rap.vincents.cn</a></li>
-                    
-                </ul>
-                
+<hr>
+<h5>FRIENDS</h5>
+<ul class="list-inline">
+  
+  <li><a href="https://shop130631028.taobao.com/">在回忆中 - 卖点小东西</a></li>
+  
+  <li><a href="https://unsplash.com">unsplash - 好看的图片</a></li>
+  
+  <li><a href="https://api.vincents.cn/udid">获取UDID</a></li>
+  
+  <li><a href="https://www.vincents.cn/saylove/">say - vincents.cn</a></li>
+  
+  <li><a href="https://wechat.vincents.cn">wechat.vincents.cn</a></li>
+  
+  <li><a href="https://api.vincents.cn/manager">api.vincents.cn</a></li>
+  
+  <li><a href="http://git.vincents.cn">git.vincents.cn</a></li>
+  
+  <li><a href="http://idea.vincents.cn">idea.vincents.cn</a></li>
+  
+  <li><a href="http://rap.vincents.cn">rap.vincents.cn</a></li>
+  
+</ul>
+
                 <!-- 一言 -->
                 <hr>
                 <h5>一言</h5>
-                
                 <p id="hitokoto">:D 获取中...</p>
                 <!-- 新 API 方法， 十分简洁 -->
                 <script src="https://v1.hitokoto.cn/?encode=js&select=%23hitokoto" defer></script>
@@ -718,55 +737,58 @@ var _hmt = _hmt || [];
     <div class="container">
         <div class="row">
             <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
-                <ul class="list-inline text-center">
-                    
-                    
-                    <li>
-                        <a href="https://twitter.com/vincent_darnel">
-                            <span class="fa-stack fa-lg">
-                                <i class="fa fa-circle fa-stack-2x"></i>
-                                <i class="fa fa-twitter fa-stack-1x fa-inverse"></i>
-                            </span>
-                        </a>
-                    </li>
-                    
-
-                    <!-- add Weibo, Zhihu by Hux, add target = "_blank" to <a> by Hux -->
-                    
-                    <li>
-                        <a target="_blank" href="https://www.zhihu.com/people/huang-lin-70-49">
-                            <span class="fa-stack fa-lg">
-                                <i class="fa fa-circle fa-stack-2x"></i>
-                                <i class="fa  fa-stack-1x fa-inverse">知</i>
-                            </span>
-                        </a>
-                    </li>
-                    
-                    
-                    <li>
-                        <a target="_blank" href="http://weibo.com/linxiaomu1995">
-                            <span class="fa-stack fa-lg">
-                                <i class="fa fa-circle fa-stack-2x"></i>
-                                <i class="fa fa-weibo fa-stack-1x fa-inverse"></i>
-                            </span>
-                        </a>
-                    </li>
-                    
+                <!-- SNS Link -->
+                
 
 
-                    
-                    
-                    <li>
-                        <a target="_blank" href="https://github.com/huanglins">
-                            <span class="fa-stack fa-lg">
-                                <i class="fa fa-circle fa-stack-2x"></i>
-                                <i class="fa fa-github fa-stack-1x fa-inverse"></i>
-                            </span>
-                        </a>
-                    </li>
-                    
-                    
-                </ul>
+<ul class="list-inline text-center">
+
+
+  
+  
+  <li>
+    <a href="https://twitter.com/vincent_darnel">
+      <span class="fa-stack fa-lg">
+        <i class="fa fa-circle fa-stack-2x"></i>
+        <i class="fa fa-twitter fa-stack-1x fa-inverse"></i>
+      </span>
+    </a>
+  </li>
+  
+  
+  <li>
+    <a target="_blank" href="https://www.zhihu.com/people/huang-lin-70-49">
+      <span class="fa-stack fa-lg">
+        <i class="fa fa-circle fa-stack-2x"></i>
+        <i class="fa  fa-stack-1x fa-inverse">知</i>
+      </span>
+    </a>
+  </li>
+  
+  
+  <li>
+    <a target="_blank" href="http://weibo.com/linxiaomu1995">
+      <span class="fa-stack fa-lg">
+        <i class="fa fa-circle fa-stack-2x"></i>
+        <i class="fa fa-weibo fa-stack-1x fa-inverse"></i>
+      </span>
+    </a>
+  </li>
+  
+  
+  
+  <li>
+    <a target="_blank" href="https://github.com/huanglins">
+      <span class="fa-stack fa-lg">
+        <i class="fa fa-circle fa-stack-2x"></i>
+        <i class="fa fa-github fa-stack-1x fa-inverse"></i>
+      </span>
+    </a>
+  </li>
+  
+  
+</ul>
+
                 <p class="copyright text-muted">
                     渝ICP备17003502号 | Copyright &copy; Vincent 2018
                     <br>
@@ -790,6 +812,7 @@ var _hmt = _hmt || [];
 <script src="/js/jquery.min.js "></script>
 
 <!-- Bootstrap Core JavaScript -->
+<!-- Currently, only navbar scroll-down effect at desktop still depends on this -->
 <script src="/js/bootstrap.min.js "></script>
 
 <!-- Custom Theme JavaScript -->
@@ -814,6 +837,7 @@ var _hmt = _hmt || [];
     }
 </script>
 
+
 <!-- 
      Because of the native support for backtick-style fenced code blocks 
      right within the Markdown is landed in Github Pages, 
@@ -834,18 +858,14 @@ var _hmt = _hmt || [];
 -->
 
 
-<!-- jquery.tagcloud.js -->
+
+
+<!--fastClick.js -->
 <script>
-    // only load tagcloud.js in tag.html
-    if($('#tag_cloud').length !== 0){
-        async('/js/jquery.tagcloud.js',function(){
-            $.fn.tagcloud.defaults = {
-                //size: {start: 1, end: 1, unit: 'em'},
-                color: {start: '#bbbbee', end: '#0085a1'},
-            };
-            $('#tag_cloud a').tagcloud();
-        })
-    }
+    async("//cdnjs.cloudflare.com/ajax/libs/fastclick/1.0.6/fastclick.min.js", function(){
+        var $nav = document.querySelector("nav");
+        if($nav) FastClick.attach($nav);
+    })
 </script>
 
 <!--fastClick.js -->
@@ -894,14 +914,13 @@ var _hmt = _hmt || [];
 
 
 
-
 <!-- Side Catalog -->
 
 
 
 
 <!-- Image to hack wechat -->
-<!-- <img src="/img/icon_wechat.png" width="0" height="0" /> -->
+<img src="/img/icon_wechat.png" width="0" height="0" />
 <!-- Migrate from head to bottom, no longer block render and still work -->
 
 </body>

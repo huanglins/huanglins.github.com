@@ -5,13 +5,14 @@
     <description>// iOS Developer，也写Android和Python。正在学习全栈。很高兴认识你。</description>
     <link>http://localhost:4000/</link>
     <atom:link href="http://localhost:4000/feed.xml" rel="self" type="application/rss+xml" />
-    <pubDate>Tue, 30 Oct 2018 17:49:47 +0800</pubDate>
-    <lastBuildDate>Tue, 30 Oct 2018 17:49:47 +0800</lastBuildDate>
+    <pubDate>Wed, 31 Oct 2018 09:39:16 +0800</pubDate>
+    <lastBuildDate>Wed, 31 Oct 2018 09:39:16 +0800</lastBuildDate>
     <generator>Jekyll v3.8.3</generator>
     
       <item>
         <title>Mysql 主从备份和读写分离实践</title>
         <description>&lt;h2 id=&quot;1-主从备份&quot;&gt;1. 主从备份&lt;/h2&gt;
+
 &lt;h4 id=&quot;11-原理&quot;&gt;1.1 原理&lt;/h4&gt;
 &lt;p&gt;mysql支持单向、异步复制，复制过程中一个服务器充当主服务器，而一个或多个其它服务器充当从服务器。mysql复制基于主服务器在二进制日志中跟踪所有对数据库的更改(更新、删除等等)。因此，要进行复制，必须在主服务器上启用二进制日志。每个从服务器从主服务器接收主服务器已经记录到其二进制日志的保存的更新。当一个从服务器连接主服务器时，它通知主服务器从服务器在日志中读取的最后一次成功更新的位置。从服务器接收从那时起发生的任何更新，并在本机上执行相同的更新。然后封锁并等待主服务器通知新的更新。从服务器执行备份不会干扰主服务器，在备份过程中主服务器可以继续处理更新。&lt;/p&gt;
 

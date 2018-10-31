@@ -5,7 +5,6 @@ subtitle:   ""
 date:       2018-08-25
 author:     "vincent"
 header-img: "img/post-bg-16-freedom.jpg"
-catalog: true
 tags:
     - freedom
 ---
