@@ -176,8 +176,7 @@
 </script>
 
 
-    <!-- Image to hack wechat -->
-<!-- <img src="/img/post-bg-8-aliyun-ddns.jpg" width="0" height="0"> -->
+    <!-- <img src="/img/post-bg-8-aliyun-ddns.jpg" width="0" height="0"> -->
 
 <!-- Post Header -->
 
@@ -241,8 +240,9 @@
 <h4 id="安装-python-sdk">安装 python sdk</h4>
 <p>首先需要在当前机器上安装阿里云的 python SDK</p>
 
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>pip install aliyun-python-sdk-alidns
-</code></pre></div></div>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+</pre></td><td class="rouge-code"><pre>pip install aliyun-python-sdk-alidns
+</pre></td></tr></tbody></table></code></pre></div></div>
 
 <p>因为这里只需要使用它的 dns 功能，需要其他的功能可以查看 <a href="https://help.aliyun.com/document_detail/30003.html">阿里云 python-sdk 列表</a></p>
 
@@ -276,18 +276,30 @@
 <p>可以通过访问 <a href="ip.cn">ip.cn</a>这个网站，获取本机的IP。
 在终端中输入</p>
 
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>curl -s ip.cn
-</code></pre></div></div>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+</pre></td><td class="rouge-code"><pre>curl -s ip.cn
+</pre></td></tr></tbody></table></code></pre></div></div>
 
 <p>结果为：</p>
 
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Vincents-iMac:~ vincent$ curl -s ip.cn
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+</pre></td><td class="rouge-code"><pre>Vincents-iMac:~ vincent$ curl -s ip.cn
 当前 IP：xx.xx.xxx.xxx 来自：重庆市 联通
-</code></pre></div></div>
+</pre></td></tr></tbody></table></code></pre></div></div>
 
 <p>python code:</p>
 
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>"""
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+</pre></td><td class="rouge-code"><pre>"""
 通过 ip.cn 获取当前主机的外网IP
 """
 def get_my_publick_ip():
@@ -296,11 +308,22 @@ def get_my_publick_ip():
     get_ip_pattern = re.compile(r'\d+\.\d+\.\d+\.\d+')
     get_ip_value = get_ip_pattern.findall(get_ip_responses)
     return get_ip_value
-</code></pre></div></div>
+</pre></td></tr></tbody></table></code></pre></div></div>
 
 <h4 id="获取解析记录id">获取解析记录ID</h4>
 
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>"""
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+</pre></td><td class="rouge-code"><pre>"""
 获取域名的解析信息
 """
 def check_records(dns_domain):
@@ -311,10 +334,22 @@ def check_records(dns_domain):
     result = clt.do_action(request)
     result = json.JSONDecoder().decode(result)
     return result
-</code></pre></div></div>
+</pre></td></tr></tbody></table></code></pre></div></div>
 
 <h4 id="根据解析记录id查询上一次的记录值">根据解析记录ID查询上一次的记录值</h4>
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>"""
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+</pre></td><td class="rouge-code"><pre>"""
 根据域名解析记录ID查询上一次的IP记录
 """
 def get_old_ip(record_id):
@@ -326,10 +361,24 @@ def get_old_ip(record_id):
     result = json.JSONDecoder().decode(result)
     result = result['Value']
     return result
-</code></pre></div></div>
+</pre></td></tr></tbody></table></code></pre></div></div>
 
 <h4 id="更新解析记录">更新解析记录</h4>
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>"""
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+</pre></td><td class="rouge-code"><pre>"""
 更新阿里云域名解析记录信息
 """
 def update_dns(dns_rr, dns_type, dns_value, dns_record_id, dns_ttl, dns_format):
@@ -343,10 +392,118 @@ def update_dns(dns_rr, dns_type, dns_value, dns_record_id, dns_ttl, dns_format):
     request.set_accept_format(dns_format)
     result = clt.do_action(request)
     return result
-</code></pre></div></div>
+</pre></td></tr></tbody></table></code></pre></div></div>
 
 <h2 id="完整脚本">完整脚本</h2>
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c">#!/usr/bin/env python</span>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43
+44
+45
+46
+47
+48
+49
+50
+51
+52
+53
+54
+55
+56
+57
+58
+59
+60
+61
+62
+63
+64
+65
+66
+67
+68
+69
+70
+71
+72
+73
+74
+75
+76
+77
+78
+79
+80
+81
+82
+83
+84
+85
+86
+87
+88
+89
+90
+91
+92
+93
+94
+95
+96
+97
+98
+99
+100
+101
+102
+103
+104
+105
+106
+107
+108
+</pre></td><td class="rouge-code"><pre><span class="c">#!/usr/bin/env python</span>
 <span class="c"># -*- coding: utf-8 -*-</span>
 
 <span class="kn">import</span> <span class="nn">json</span>
@@ -454,15 +611,17 @@ def update_dns(dns_rr, dns_type, dns_value, dns_record_id, dns_ttl, dns_format):
 
         <span class="n">write_to_file</span><span class="p">(</span><span class="n">now_ip</span><span class="p">)</span>
 
-</code></pre></div></div>
+</pre></td></tr></tbody></table></code></pre></div></div>
 
 <h2 id="crontab-定时运行">crontab 定时运行</h2>
 
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>crontab -e
-</code></pre></div></div>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+</pre></td><td class="rouge-code"><pre>crontab -e
+</pre></td></tr></tbody></table></code></pre></div></div>
 
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>*/10 * * * * /usr/bin/python aliyun_ddns.py /dev/null 1&gt;/dev/null
-</code></pre></div></div>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+</pre></td><td class="rouge-code"><pre>*/10 * * * * /usr/bin/python aliyun_ddns.py /dev/null 1&gt;/dev/null
+</pre></td></tr></tbody></table></code></pre></div></div>
 
 <p>其中脚本存放路径替换为自己的实际路径</p>
 
@@ -470,17 +629,21 @@ def update_dns(dns_rr, dns_type, dns_value, dns_record_id, dns_ttl, dns_format):
 
 <p>由于个人使用的服务器配置一般都不高，重启服务器又能释放一些占用的内存。所以在凌晨定时重启服务器还是很有必要的。亲测，自己1G的内存，使用一段时间省了100M左右的内存可以使用，重启后，又变成600M多了。2333…</p>
 
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>crontab -e
-</code></pre></div></div>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+</pre></td><td class="rouge-code"><pre>crontab -e
+</pre></td></tr></tbody></table></code></pre></div></div>
 
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code># 凌晨5点重启一次服务器
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+</pre></td><td class="rouge-code"><pre># 凌晨5点重启一次服务器
 0 5 * * * /sbin/reboot
-</code></pre></div></div>
+</pre></td></tr></tbody></table></code></pre></div></div>
 
 <p>查看系统重启记录</p>
 
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>last reboot
-</code></pre></div></div>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+</pre></td><td class="rouge-code"><pre>last reboot
+</pre></td></tr></tbody></table></code></pre></div></div>
 <p><img src="/img/p-aliyun-ddns/reboot_result.png" alt="" /></p>
 
 <h2 id="参考学习">参考学习</h2>
@@ -635,6 +798,9 @@ def update_dns(dns_rr, dns_type, dns_value, dns_record_id, dns_ttl, dns_format):
     </div>
 </article>
 
+<!-- 动态几何线条背景 -->
+<!-- <script type="text/javascript" src="//cdn.bootcss.com/canvas-nest.js/1.0.0/canvas-nest.min.js"></script> -->
+
 
 <!-- disqus 公共JS代码 start (一个网页只需插入一次) -->
 <script type="text/javascript">
@@ -752,10 +918,16 @@ def update_dns(dns_rr, dns_type, dns_value, dns_record_id, dns_ttl, dns_format):
                     渝ICP备17003502号 | Copyright &copy; Vincent 2018
                     <br>
                     <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
-                    <span id="busuanzi_container_site_pv"> 您是本站第<span id="busuanzi_value_site_pv"></span>位访问者</span>  | 
+                    <span id="busuanzi_container_site_pv">
+                        总访问量<span id="busuanzi_value_site_pv"></span>次
+                    </span>
+                    <span id="busuanzi_container_site_uv">
+                        访客数<span id="busuanzi_value_site_uv"></span>人次
+                      </span>
+                    <!-- <span id="busuanzi_container_site_pv"> 您是本站第<span id="busuanzi_value_site_pv"></span>位访问者</span>  |  -->
                     <!-- umeng 站长统计 -->
 <!--                     <script src="https://s22.cnzz.com/z_stat.php?id=1263843451&web_id=1263843451" language="JavaScript"></script> |  -->
-                    Theme by <a target="_blank" href="http://huangxuan.me">Hux</a> |
+                    | Theme by <a target="_blank" href="http://huangxuan.me">Hux</a> |
                     <iframe
                         style="margin-left: 2px; margin-bottom:-5px;"
                         frameborder="0" scrolling="0" width="100px" height="20px"
@@ -920,11 +1092,6 @@ def update_dns(dns_rr, dns_type, dns_value, dns_record_id, dns_ttl, dns_format):
 </script>
 
 
-
-
-<!-- Image to hack wechat -->
-<img src="/img/icon_wechat.png" width="0" height="0" />
-<!-- Migrate from head to bottom, no longer block render and still work -->
 
 </body>
 

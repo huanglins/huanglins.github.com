@@ -178,8 +178,7 @@
 </script>
 
 
-    <!-- Image to hack wechat -->
-<!-- <img src="/img/post-bg-7-ios-lock.jpg" width="0" height="0"> -->
+    <!-- <img src="/img/post-bg-7-ios-lock.jpg" width="0" height="0"> -->
 
 <!-- Post Header -->
 
@@ -263,7 +262,15 @@
 
 <p>自旋锁的实现思路很简单，理论上来说只要定义一个全局变量，用来表示锁的可用情况即可，伪代码如下:</p>
 
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>bool lock = false; // 一开始没有锁上，任何线程都可以申请锁  
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+</pre></td><td class="rouge-code"><pre>bool lock = false; // 一开始没有锁上，任何线程都可以申请锁  
 do {  
     while(lock); // 如果 lock 为 true 就一直死循环，相当于申请锁
     lock = true; // 挂上锁，这样别的线程就无法获得锁
@@ -271,7 +278,7 @@ do {
     lock = false; // 相当于释放锁，这样别的线程可以进入临界区
         Reminder section // 不需要锁保护的代码        
 }
-</code></pre></div></div>
+</pre></td></tr></tbody></table></code></pre></div></div>
 
 <h4 id="osspinlock">OSSpinLock</h4>
 
@@ -279,7 +286,32 @@ do {
 
 <p>示例代码</p>
 
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>// OSSpinLock
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+</pre></td><td class="rouge-code"><pre>// OSSpinLock
 #import &lt;libkern/OSAtomic.h&gt;
 
 // 自旋锁
@@ -304,7 +336,7 @@ do {
         NSLog(@"线程2 解锁完成");
     });
 }
-</code></pre></div></div>
+</pre></td></tr></tbody></table></code></pre></div></div>
 <p>参考学习中的连接已经说明 OSSpinLock 其实已经不再安全。主要原因在于</p>
 
 <blockquote>
@@ -319,7 +351,16 @@ do {
 
 <p>示例代码</p>
 
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>// os_unfair_lock
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+</pre></td><td class="rouge-code"><pre>// os_unfair_lock
 #import &lt;os/lock.h&gt;
 
 os_unfair_lock_t unfairlock = &amp;(OS_UNFAIR_LOCK_INIT);
@@ -328,7 +369,7 @@ os_unfair_lock_lock(unfairlock);
 NSLog(@"os_unfair_lock 执行");
 os_unfair_lock_unlock(unfairlock);
 
-</code></pre></div></div>
+</pre></td></tr></tbody></table></code></pre></div></div>
 
 <h2 id="dispatch_semaphore-gcd信号量">dispatch_semaphore GCD信号量</h2>
 
@@ -338,7 +379,34 @@ os_unfair_lock_unlock(unfairlock);
 
 <p>示例代码</p>
 
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>// 信号量
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+</pre></td><td class="rouge-code"><pre>// 信号量
 - (void)testDispatch_semaphore {
     dispatch_semaphore_t signal = dispatch_semaphore_create(1);
     dispatch_time_t timeout = dispatch_time(DISPATCH_TIME_NOW, 3.0f * NSEC_PER_SEC);
@@ -365,7 +433,7 @@ os_unfair_lock_unlock(unfairlock);
         NSLog(@"线程2 发送信号");
     });
 }
-</code></pre></div></div>
+</pre></td></tr></tbody></table></code></pre></div></div>
 
 <h2 id="pthread_mutex--互斥锁">pthread_mutex  互斥锁</h2>
 
@@ -373,7 +441,34 @@ os_unfair_lock_unlock(unfairlock);
 
 <p>示例代码</p>
 
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>// pthread
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+</pre></td><td class="rouge-code"><pre>// pthread
 #import &lt;pthread.h&gt;
 
 // pthread_mutex 互斥锁
@@ -400,7 +495,7 @@ os_unfair_lock_unlock(unfairlock);
         NSLog(@"线程2 释放锁");
     });
 }
-</code></pre></div></div>
+</pre></td></tr></tbody></table></code></pre></div></div>
 
 <p><strong>\/</strong> 一般情况下，一个线程只能申请一次锁，也只能在获得锁的情况下才能释放锁，多次申请锁或者释放未获得的锁都会导致崩溃。假设在已经获得锁的情况下再次申请锁，线程会因为等待锁的释放而进入睡眠状态，因此就不可能再释放锁，从而导致死锁。</p>
 
@@ -410,7 +505,46 @@ os_unfair_lock_unlock(unfairlock);
 
 <p>示例代码</p>
 
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>// pthread_mutex 递归锁
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+</pre></td><td class="rouge-code"><pre>// pthread_mutex 递归锁
 - (void)testPthread_mutex_recursive {
     static pthread_mutex_t pLock;
     // 定义锁的属性
@@ -449,7 +583,7 @@ os_unfair_lock_unlock(unfairlock);
         NSLog(@"线程2 解锁");
     });
 }
-</code></pre></div></div>
+</pre></td></tr></tbody></table></code></pre></div></div>
 
 <p>递归锁比较安全，可以认为同一线程加且仅加一次锁，重复加锁不会造成死锁。无论同一线程加锁多少次，解锁1次即可。</p>
 
@@ -467,7 +601,19 @@ os_unfair_lock_unlock(unfairlock);
 
 <p>示例代码</p>
 
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>// NSLock
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+</pre></td><td class="rouge-code"><pre>// NSLock
 - (void)testNSLock {
     NSLock *lock = [NSLock new];
     [lock lock];
@@ -479,7 +625,7 @@ os_unfair_lock_unlock(unfairlock);
     NSLog(@"加锁运行");
     [recursiveLock unlock];
 }
-</code></pre></div></div>
+</pre></td></tr></tbody></table></code></pre></div></div>
 
 <p>这里的 NSLock 和 NSRecursiveLock 都是封装的互斥锁 <code class="highlighter-rouge">pthread_mutex</code>。</p>
 
@@ -499,7 +645,41 @@ os_unfair_lock_unlock(unfairlock);
 
 <p>示例代码</p>
 
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>// NSConditionLock
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+</pre></td><td class="rouge-code"><pre>// NSConditionLock
 - (void)testNSConditionLock {
     NSConditionLock *cLock = [[NSConditionLock alloc] initWithCondition:0];
     
@@ -533,7 +713,7 @@ os_unfair_lock_unlock(unfairlock);
         NSLog(@"线程3 解锁");
     });
 }
-</code></pre></div></div>
+</pre></td></tr></tbody></table></code></pre></div></div>
 
 <p>上述代码会按照：线程2 &gt; 线程1 &gt; 线程3 的顺序执行。</p>
 
@@ -541,10 +721,13 @@ os_unfair_lock_unlock(unfairlock);
 
 <p>示例代码</p>
 
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>@synchronized (self) {
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+</pre></td><td class="rouge-code"><pre>@synchronized (self) {
    NSLog(@"加锁运行");
 }
-</code></pre></div></div>
+</pre></td></tr></tbody></table></code></pre></div></div>
 
 <p>只要关键字中的对象一致，则多个线程会互斥等待程序运行完成。</p>
 
@@ -571,14 +754,21 @@ os_unfair_lock_unlock(unfairlock);
 
 <h4 id="自旋锁实现原理">自旋锁实现原理</h4>
 
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>lock = 0;
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+</pre></td><td class="rouge-code"><pre>lock = 0;
 do{
     while(test_and_set(&amp;lock));
     临界区
     lock = 0;
     其余部分
 } while(1)
-</code></pre></div></div>
+</pre></td></tr></tbody></table></code></pre></div></div>
 
 <p>test_and_set用来保证条件判断的原子性操作，lock为旗标。
 自旋锁的一大缺陷是会使得线程处于忙等状态。因为如果临界区执行时间过长，其它线程就会在当前整个时间片一直处于忙等状态，浪费大量CPU时间。所以，如果临界区时间很短，可以使用自旋锁，否则建议使用互斥锁。</p>
@@ -590,14 +780,21 @@ do{
 
 <h4 id="信号量的实现">信号量的实现</h4>
 
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>int sem_wait (sem_t *sem) {  
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+</pre></td><td class="rouge-code"><pre>int sem_wait (sem_t *sem) {  
   int *futex = (int *) sem;
   if (atomic_decrement_if_positive (futex) &gt; 0)
     return 0;
   int err = lll_futex_wait (futex, 0);
     return -1;
 )
-</code></pre></div></div>
+</pre></td></tr></tbody></table></code></pre></div></div>
 
 <p>信号量和互斥锁类似，都是在获取锁失败后线程进入wait状态，CPU会切换时间片。
 信号量在最终都是调用一个sem_wait方法，并原子性的判断信号量，如果对其-1后依然大于0，则直接返回，继续临界区操作，否则进入等待状态。</p>
@@ -805,6 +1002,9 @@ do{
     </div>
 </article>
 
+<!-- 动态几何线条背景 -->
+<!-- <script type="text/javascript" src="//cdn.bootcss.com/canvas-nest.js/1.0.0/canvas-nest.min.js"></script> -->
+
 
 <!-- disqus 公共JS代码 start (一个网页只需插入一次) -->
 <script type="text/javascript">
@@ -922,10 +1122,16 @@ do{
                     渝ICP备17003502号 | Copyright &copy; Vincent 2018
                     <br>
                     <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
-                    <span id="busuanzi_container_site_pv"> 您是本站第<span id="busuanzi_value_site_pv"></span>位访问者</span>  | 
+                    <span id="busuanzi_container_site_pv">
+                        总访问量<span id="busuanzi_value_site_pv"></span>次
+                    </span>
+                    <span id="busuanzi_container_site_uv">
+                        访客数<span id="busuanzi_value_site_uv"></span>人次
+                      </span>
+                    <!-- <span id="busuanzi_container_site_pv"> 您是本站第<span id="busuanzi_value_site_pv"></span>位访问者</span>  |  -->
                     <!-- umeng 站长统计 -->
 <!--                     <script src="https://s22.cnzz.com/z_stat.php?id=1263843451&web_id=1263843451" language="JavaScript"></script> |  -->
-                    Theme by <a target="_blank" href="http://huangxuan.me">Hux</a> |
+                    | Theme by <a target="_blank" href="http://huangxuan.me">Hux</a> |
                     <iframe
                         style="margin-left: 2px; margin-bottom:-5px;"
                         frameborder="0" scrolling="0" width="100px" height="20px"
@@ -1090,11 +1296,6 @@ do{
 </script>
 
 
-
-
-<!-- Image to hack wechat -->
-<img src="/img/icon_wechat.png" width="0" height="0" />
-<!-- Migrate from head to bottom, no longer block render and still work -->
 
 </body>
 

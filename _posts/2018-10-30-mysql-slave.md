@@ -7,7 +7,6 @@ author:     "vincent"
 header-img: "img/post-bg-18-mysql-slave.jpg"
 header-style: text
 catalog: true
-nav-style: invert
 tags:
     - MySQL
 ---

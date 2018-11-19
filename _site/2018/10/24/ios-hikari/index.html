@@ -180,8 +180,7 @@
 </script>
 
 
-    <!-- Image to hack wechat -->
-<!-- <img src="/img/post-bg-17-hikari.jpg" width="0" height="0"> -->
+    <!-- <img src="/img/post-bg-17-hikari.jpg" width="0" height="0"> -->
 
 <!-- Post Header -->
 
@@ -292,7 +291,21 @@
 <p><img src="/img/p-ios-hikari/15402030163246.jpg" alt="-w910" /></p>
 
 <p>示例：</p>
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code># 1. 项目名地址，注意不是项目文件夹地址
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+</pre></td><td class="rouge-code"><pre># 1. 项目名地址，注意不是项目文件夹地址
 /Users/vincent/Desktop/code/spamCode/VHLSpamCodeDemo/VHLSpamCodeDemo   
 # 2. 修改项目名称
 -modifyProjectName VHLSpamCodeDemo&gt;VHLSpamCodeDemo1
@@ -306,7 +319,7 @@
 -handleXcassets
 # 7. 删除空行和注释 
 -deleteComments
-</code></pre></div></div>
+</pre></td></tr></tbody></table></code></pre></div></div>
 
 <p><img src="/img/p-ios-hikari/15402873574819.jpg" alt="-w1075" /></p>
 
@@ -326,11 +339,13 @@
     <p>ImageMagick: 是一款创建、编辑、合成，转换图像的命令行工具。</p>
 
     <p>通过 <code class="highlighter-rouge">brew</code> 安装 <code class="highlighter-rouge">imagemagick</code></p>
-    <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>  brew install imagemagick
-</code></pre></div>    </div>
+    <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+</pre></td><td class="rouge-code"><pre>  brew install imagemagick
+</pre></td></tr></tbody></table></code></pre></div>    </div>
     <p>压缩文件夹下所有 png 文件，会修改 hash 值</p>
-    <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>  find . -iname "*.png" -exec echo {} \; -exec convert {} {} \;
-</code></pre></div>    </div>
+    <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+</pre></td><td class="rouge-code"><pre>  find . -iname "*.png" -exec echo {} \; -exec convert {} {} \;
+</pre></td></tr></tbody></table></code></pre></div>    </div>
 
     <p>更多 <code class="highlighter-rouge">imagemagick</code> 命令以及使用方法 
   <a href="https://aotu.io/notes/2018/06/06/ImageMagick_intro/index.html">图像处理 - ImageMagick 简单介绍与案例</a></p>
@@ -361,10 +376,13 @@
 
 <p>在这个目录中，里面体积最大的文件通常就是和 ipa 包同名的一个二进制文件。通过 <code class="highlighter-rouge">file</code> 命令可以查看该文件的类型</p>
 
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>xx: Mach-O universal binary with 2 architectures: [arm_v7:Mach-O executable arm_v7] [arm64]
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+</pre></td><td class="rouge-code"><pre>xx: Mach-O universal binary with 2 architectures: [arm_v7:Mach-O executable arm_v7] [arm64]
 xx (for architecture armv7):	Mach-O executable arm_v7
 xx (for architecture arm64):	Mach-O 64-bit executable arm64
-</code></pre></div></div>
+</pre></td></tr></tbody></table></code></pre></div></div>
 <p>这里可以看出，这是一个支持 armv7 和 armv7s 两种处理器架构的通用程序包，里面包含的两部分都是 Mach-O 格式。</p>
 
 <blockquote>
@@ -390,8 +408,9 @@ xx (for architecture arm64):	Mach-O 64-bit executable arm64
 <p>在 <a href="http://stevenygard.com/projects/class-dump/">class-dump</a> 官网下载 dmg，将 dmg 里面的 <code class="highlighter-rouge">class-dump</code> 拷贝到 <code class="highlighter-rouge">/usr/local/bin</code> 文件夹下，然后就可以在终端中使用 <code class="highlighter-rouge">class-dump</code> 命令了。</p>
 
 <p>简单使用：</p>
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>class-dump -H [需要被导出的 Mach-O 文件路径] -o [头文件输出目录地址]
-</code></pre></div></div>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+</pre></td><td class="rouge-code"><pre>class-dump -H [需要被导出的 Mach-O 文件路径] -o [头文件输出目录地址]
+</pre></td></tr></tbody></table></code></pre></div></div>
 
 <p>也可以可以查看导出后的头文件目录：</p>
 
@@ -423,12 +442,71 @@ xx (for architecture arm64):	Mach-O 64-bit executable arm64
 <p>但是我们又不想替换成不想关的字符串后给自己调试带来麻烦，这里我们可以使用 <a href="https://github.com/housenkui/HSKConfuse">HSKConfuse</a> 的 shell 脚本，通过在Build Phrase 中设定在编译之前进行方法名的字符串替换，从而在不影响自己编写代码的基础上，对编译后的二进制包进行混淆。</p>
 
 <p>首先在项目中新建文件：</p>
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>confuse.sh： 存放混淆的脚本
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+</pre></td><td class="rouge-code"><pre>confuse.sh： 存放混淆的脚本
 func.list： 需要混淆的方法、变量名
-</code></pre></div></div>
+</pre></td></tr></tbody></table></code></pre></div></div>
 
 <p><strong>confuse.sh</strong></p>
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c">#!/usr/bin/env bash</span>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43
+44
+45
+46
+47
+48
+49
+50
+51
+52
+53
+54
+55
+56
+57
+</pre></td><td class="rouge-code"><pre><span class="c">#!/usr/bin/env bash</span>
 
 <span class="nv">TABLENAME</span><span class="o">=</span>symbols
 <span class="nv">SYMBOL_DB_FILE</span><span class="o">=</span><span class="s2">"symbols"</span>
@@ -485,13 +563,16 @@ done
 
 sqlite3 <span class="nv">$SYMBOL_DB_FILE</span> .dump
 
-</code></pre></div></div>
+</pre></td></tr></tbody></table></code></pre></div></div>
 
 <p>以上的 shell 脚本运行后会自动获取 <code class="highlighter-rouge">.h</code>, <code class="highlighter-rouge">m</code> 文件中以 <code class="highlighter-rouge">vhl_</code> 开头的方法写到到该文件。如果需要自定义的话，可以不执行以上那句命令，然后换成自己的规则写入 <strong>func.list</strong> 中。例如：</p>
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>vhl_isVIP
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+</pre></td><td class="rouge-code"><pre>vhl_isVIP
 xx_showAD
 yy_isAllow
-</code></pre></div></div>
+</pre></td></tr></tbody></table></code></pre></div></div>
 
 <p>然后在 <code class="highlighter-rouge">Build Phases</code> 中，左上角加号添加 <code class="highlighter-rouge">run script</code> 填入地址</p>
 
@@ -522,11 +603,15 @@ yy_isAllow
 <p>Objective C采用 <strong>Clang</strong> 作为前端，而 Swift 则采用 <strong>swift()</strong> 作为前端，二者都是用 <strong>LLVM(Low level vritual machine)</strong> 作为编译器后端。</p>
 
 <p>编译命令地址</p>
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code># Objective-C
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+</pre></td><td class="rouge-code"><pre># Objective-C
 /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/clang
 # Swift
 /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/swift
-</code></pre></div></div>
+</pre></td></tr></tbody></table></code></pre></div></div>
 
 <p>Xcode 编译过程：</p>
 
@@ -589,8 +674,9 @@ yy_isAllow
 <h4 id="431-安装">4.3.1 安装</h4>
 
 <p>下载 github 提供的 pkg 安装文件并双击安装</p>
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>https://github.com/HikariObfuscator/Hikari/releases
-</code></pre></div></div>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+</pre></td><td class="rouge-code"><pre>https://github.com/HikariObfuscator/Hikari/releases
+</pre></td></tr></tbody></table></code></pre></div></div>
 
 <p>然后重启 Xcode 就能看到已经有 Kikari 编译工具</p>
 
@@ -605,7 +691,16 @@ yy_isAllow
   <li>在 <code class="highlighter-rouge">Build Settings</code> -&gt; <code class="highlighter-rouge">Other C Flags</code> 中加入混淆标记</li>
 </ol>
 
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>-mllvm -enable-bcfobf 		启用伪控制流  
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+</pre></td><td class="rouge-code"><pre>-mllvm -enable-bcfobf 		启用伪控制流  
 -mllvm -enable-cffobf 		启用控制流平坦化
 -mllvm -enable-splitobf 	启用基本块分割  
 -mllvm -enable-subobf 		启用指令替换  
@@ -614,7 +709,7 @@ yy_isAllow
 -mllvm -enable-strcry 		启用字符串加密  
 -mllvm -enable-funcwra 		启用函数封装
 -mllvm -enable-allob        依次性启用上述所有标记
-</code></pre></div></div>
+</pre></td></tr></tbody></table></code></pre></div></div>
 
 <p>重新编译就会使用 Hikari 在编译器后端对项目进行编译了。</p>
 
@@ -819,6 +914,9 @@ yy_isAllow
     </div>
 </article>
 
+<!-- 动态几何线条背景 -->
+<!-- <script type="text/javascript" src="//cdn.bootcss.com/canvas-nest.js/1.0.0/canvas-nest.min.js"></script> -->
+
 
 <!-- disqus 公共JS代码 start (一个网页只需插入一次) -->
 <script type="text/javascript">
@@ -936,10 +1034,16 @@ yy_isAllow
                     渝ICP备17003502号 | Copyright &copy; Vincent 2018
                     <br>
                     <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
-                    <span id="busuanzi_container_site_pv"> 您是本站第<span id="busuanzi_value_site_pv"></span>位访问者</span>  | 
+                    <span id="busuanzi_container_site_pv">
+                        总访问量<span id="busuanzi_value_site_pv"></span>次
+                    </span>
+                    <span id="busuanzi_container_site_uv">
+                        访客数<span id="busuanzi_value_site_uv"></span>人次
+                      </span>
+                    <!-- <span id="busuanzi_container_site_pv"> 您是本站第<span id="busuanzi_value_site_pv"></span>位访问者</span>  |  -->
                     <!-- umeng 站长统计 -->
 <!--                     <script src="https://s22.cnzz.com/z_stat.php?id=1263843451&web_id=1263843451" language="JavaScript"></script> |  -->
-                    Theme by <a target="_blank" href="http://huangxuan.me">Hux</a> |
+                    | Theme by <a target="_blank" href="http://huangxuan.me">Hux</a> |
                     <iframe
                         style="margin-left: 2px; margin-bottom:-5px;"
                         frameborder="0" scrolling="0" width="100px" height="20px"
@@ -1104,11 +1208,6 @@ yy_isAllow
 </script>
 
 
-
-
-<!-- Image to hack wechat -->
-<img src="/img/icon_wechat.png" width="0" height="0" />
-<!-- Migrate from head to bottom, no longer block render and still work -->
 
 </body>
 

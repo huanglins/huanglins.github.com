@@ -178,8 +178,7 @@
 </script>
 
 
-    <!-- Image to hack wechat -->
-<!-- <img src="/img/post-bg-15-reverse-xipeixuetang.jpg" width="0" height="0"> -->
+    <!-- <img src="/img/post-bg-15-reverse-xipeixuetang.jpg" width="0" height="0"> -->
 
 <!-- Post Header -->
 
@@ -247,8 +246,9 @@
 
 <p>首先我们在 PP助手上下载已经脱壳的 IPA，然后导出所有头文件。</p>
 
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>class-dump -H /xx/xx/tbtimingCount.app/tbtimingCount -o /Users/xx/Desktop/header
-</code></pre></div></div>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+</pre></td><td class="rouge-code"><pre>class-dump -H /xx/xx/tbtimingCount.app/tbtimingCount -o /Users/xx/Desktop/header
+</pre></td></tr></tbody></table></code></pre></div></div>
 
 <h4 id="分析测试">分析测试</h4>
 
@@ -261,15 +261,17 @@
 <img src="/img/p-xipeixuetang/file_source.png" alt="" /></p>
 
 <p>其中检测到需要人脸识别摄像头被调用时，会响应以下方法:</p>
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>- (void)cwFaceInfoCallBack:(id)arg1;                                // 人脸识别结果
-</code></pre></div></div>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+</pre></td><td class="rouge-code"><pre>- (void)cwFaceInfoCallBack:(id)arg1;                                // 人脸识别结果
+</pre></td></tr></tbody></table></code></pre></div></div>
 <p>该文件中有一个人脸识别结果回调，返回一个图片信息，界面收到回调时将会调用接口上传人脸识别图片并计时。</p>
 
 <p><img src="/img/p-xipeixuetang/delegate_source.png" alt="" /></p>
 
 <p>检测完成，关闭人脸识别界面方法为：</p>
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>- (void)liveDetectSucess;
-</code></pre></div></div>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+</pre></td><td class="rouge-code"><pre>- (void)liveDetectSucess;
+</pre></td></tr></tbody></table></code></pre></div></div>
 
 <h4 id="编码">编码</h4>
 
@@ -423,6 +425,9 @@
     </div>
 </article>
 
+<!-- 动态几何线条背景 -->
+<!-- <script type="text/javascript" src="//cdn.bootcss.com/canvas-nest.js/1.0.0/canvas-nest.min.js"></script> -->
+
 
 <!-- disqus 公共JS代码 start (一个网页只需插入一次) -->
 <script type="text/javascript">
@@ -540,10 +545,16 @@
                     渝ICP备17003502号 | Copyright &copy; Vincent 2018
                     <br>
                     <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
-                    <span id="busuanzi_container_site_pv"> 您是本站第<span id="busuanzi_value_site_pv"></span>位访问者</span>  | 
+                    <span id="busuanzi_container_site_pv">
+                        总访问量<span id="busuanzi_value_site_pv"></span>次
+                    </span>
+                    <span id="busuanzi_container_site_uv">
+                        访客数<span id="busuanzi_value_site_uv"></span>人次
+                      </span>
+                    <!-- <span id="busuanzi_container_site_pv"> 您是本站第<span id="busuanzi_value_site_pv"></span>位访问者</span>  |  -->
                     <!-- umeng 站长统计 -->
 <!--                     <script src="https://s22.cnzz.com/z_stat.php?id=1263843451&web_id=1263843451" language="JavaScript"></script> |  -->
-                    Theme by <a target="_blank" href="http://huangxuan.me">Hux</a> |
+                    | Theme by <a target="_blank" href="http://huangxuan.me">Hux</a> |
                     <iframe
                         style="margin-left: 2px; margin-bottom:-5px;"
                         frameborder="0" scrolling="0" width="100px" height="20px"
@@ -708,11 +719,6 @@
 </script>
 
 
-
-
-<!-- Image to hack wechat -->
-<img src="/img/icon_wechat.png" width="0" height="0" />
-<!-- Migrate from head to bottom, no longer block render and still work -->
 
 </body>
 

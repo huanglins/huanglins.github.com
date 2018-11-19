@@ -179,8 +179,7 @@
 </script>
 
 
-    <!-- Image to hack wechat -->
-<!-- <img src="/img/post-bg-6-ssh-login.jpg" width="0" height="0"> -->
+    <!-- <img src="/img/post-bg-6-ssh-login.jpg" width="0" height="0"> -->
 
 <!-- Post Header -->
 
@@ -251,7 +250,71 @@
 
 <h4 id="代码如下">代码如下</h4>
 
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>#-*- coding:utf-8 -*-
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43
+44
+45
+46
+47
+48
+49
+50
+51
+52
+53
+54
+55
+56
+57
+58
+59
+60
+61
+62
+63
+64
+</pre></td><td class="rouge-code"><pre>#-*- coding:utf-8 -*-
 
 
 import poplib,email
@@ -315,17 +378,20 @@ if __name__ == '__main__':
                 print "add users"
                 sendmail(val)
                 old_count = val[0]
-</code></pre></div></div>
+</pre></td></tr></tbody></table></code></pre></div></div>
 
 <h2 id="使用-nohup-后台执行">使用 nohup 后台执行</h2>
 <p>Linux 后台进程运行的方法有好几种，比如<code class="highlighter-rouge">nohup</code>，<code class="highlighter-rouge">supervisor</code>，<code class="highlighter-rouge">screen</code>等。这里使用<code class="highlighter-rouge">nohup</code>来简单使用</p>
 
 <h4 id="使用-nohup-命令">使用 nohup 命令</h4>
 
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>[root@iZ949j21i58Z ssh]# nohup python ssh_monitor.py &amp;
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+</pre></td><td class="rouge-code"><pre>[root@iZ949j21i58Z ssh]# nohup python ssh_monitor.py &amp;
 [1] 19852
 [root@iZ949j21i58Z ssh]# nohup: 忽略输入并把输出追加到"nohup.out"
-</code></pre></div></div>
+</pre></td></tr></tbody></table></code></pre></div></div>
 
 <ol>
   <li><code class="highlighter-rouge">&amp;</code> 表示将程序放到后台执行，但是如果启动该程序的logout，则该进程随记终止</li>
@@ -334,11 +400,15 @@ if __name__ == '__main__':
 
 <h4 id="终止-nohup-执行">终止 nohup 执行</h4>
 
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>[root@iZ949j21i58Z ssh]# ps -ef | grep ssh_monitor
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+</pre></td><td class="rouge-code"><pre>[root@iZ949j21i58Z ssh]# ps -ef | grep ssh_monitor
 root     19852 19781  0 11:03 pts/2    00:00:00 python ssh_monitor.py
 root     19856 19781  0 11:03 pts/2    00:00:00 grep --color=auto ssh_monitor
 [root@iZ949j21i58Z ssh]# kill 19852
-</code></pre></div></div>
+</pre></td></tr></tbody></table></code></pre></div></div>
 
 <h2 id="关于linux-python执行的进程">关于Linux Python执行的进程</h2>
 <p>当用户启动一个进程的时候，这个进程是运行在前台，使用与相应控制终端相联系的标准输入输如，输出进行输入和输出。即时将进程的输入输出重定向，并将进程放在后台执行，进程仍然和当前前端设备有关系。正因为如此，在当前的登录会话结束时，控制终端设备将和登录进程相脱，那么系统就像所有与这个终端联系的进程发送<code class="highlighter-rouge">SIGHUP</code>的信号，通知进程线路已经挂起了，如果程序没有接管这个信号的处理，那么缺省的反应是进程结束。</p>
@@ -351,7 +421,140 @@ root     19856 19781  0 11:03 pts/2    00:00:00 grep --color=auto ssh_monitor
 
 <h4 id="centos-常见的守护进程">CentOS 常见的守护进程</h4>
 
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>硬件管理守护进程
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43
+44
+45
+46
+47
+48
+49
+50
+51
+52
+53
+54
+55
+56
+57
+58
+59
+60
+61
+62
+63
+64
+65
+66
+67
+68
+69
+70
+71
+72
+73
+74
+75
+76
+77
+78
+79
+80
+81
+82
+83
+84
+85
+86
+87
+88
+89
+90
+91
+92
+93
+94
+95
+96
+97
+98
+99
+100
+101
+102
+103
+104
+105
+106
+107
+108
+109
+110
+111
+112
+113
+114
+115
+116
+117
+118
+119
+120
+121
+122
+123
+124
+125
+126
+127
+128
+129
+130
+131
+132
+133
+</pre></td><td class="rouge-code"><pre>硬件管理守护进程
 apmd
 apmd （Advanced Power Management）是高级电源管理。传统的电源管理标准，对于笔记本电脑比较有用，可以了解系统的电池电量信
 息。并将相关信息通过 syslogd  写入日志。也可以用来在电源不足时关机。
@@ -484,7 +687,7 @@ gssftp 使用 kerberos 5 认证的 ftp 守护进程
 krb5-telnet 使用 kerberos 5 认证的 telnet  守护进程。
 klogin 使用 kerberos 5 认证远程登录守护进程。
 kshell 使用 kerberos 5 认证的远程 Shell 守护进程。
-</code></pre></div></div>
+</pre></td></tr></tbody></table></code></pre></div></div>
 
 
                 <hr>
@@ -632,6 +835,9 @@ kshell 使用 kerberos 5 认证的远程 Shell 守护进程。
     </div>
 </article>
 
+<!-- 动态几何线条背景 -->
+<!-- <script type="text/javascript" src="//cdn.bootcss.com/canvas-nest.js/1.0.0/canvas-nest.min.js"></script> -->
+
 
 <!-- disqus 公共JS代码 start (一个网页只需插入一次) -->
 <script type="text/javascript">
@@ -749,10 +955,16 @@ kshell 使用 kerberos 5 认证的远程 Shell 守护进程。
                     渝ICP备17003502号 | Copyright &copy; Vincent 2018
                     <br>
                     <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
-                    <span id="busuanzi_container_site_pv"> 您是本站第<span id="busuanzi_value_site_pv"></span>位访问者</span>  | 
+                    <span id="busuanzi_container_site_pv">
+                        总访问量<span id="busuanzi_value_site_pv"></span>次
+                    </span>
+                    <span id="busuanzi_container_site_uv">
+                        访客数<span id="busuanzi_value_site_uv"></span>人次
+                      </span>
+                    <!-- <span id="busuanzi_container_site_pv"> 您是本站第<span id="busuanzi_value_site_pv"></span>位访问者</span>  |  -->
                     <!-- umeng 站长统计 -->
 <!--                     <script src="https://s22.cnzz.com/z_stat.php?id=1263843451&web_id=1263843451" language="JavaScript"></script> |  -->
-                    Theme by <a target="_blank" href="http://huangxuan.me">Hux</a> |
+                    | Theme by <a target="_blank" href="http://huangxuan.me">Hux</a> |
                     <iframe
                         style="margin-left: 2px; margin-bottom:-5px;"
                         frameborder="0" scrolling="0" width="100px" height="20px"
@@ -917,11 +1129,6 @@ kshell 使用 kerberos 5 认证的远程 Shell 守护进程。
 </script>
 
 
-
-
-<!-- Image to hack wechat -->
-<img src="/img/icon_wechat.png" width="0" height="0" />
-<!-- Migrate from head to bottom, no longer block render and still work -->
 
 </body>
 

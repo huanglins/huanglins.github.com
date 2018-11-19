@@ -179,8 +179,7 @@ netfilter/iptables IP 信息包过滤系统是一种功能强大的工具，可�
 </script>
 
 
-    <!-- Image to hack wechat -->
-<!-- <img src="/img/post-bg-12-iptables.jpg" width="0" height="0"> -->
+    <!-- <img src="/img/post-bg-12-iptables.jpg" width="0" height="0"> -->
 
 <!-- Post Header -->
 
@@ -246,8 +245,9 @@ iptables包含4个表，5个链。其中表是按照对数据包的操作区分�
 
 <h4 id="1iptables-语法规则">1.iptables 语法规则</h4>
 
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>iptables [-t 表] 大写选项子命令(-A) [规则号] 链名 匹配标准(-s xx.xx.xx.xx) -j 目标（规则）
-</code></pre></div></div>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+</pre></td><td class="rouge-code"><pre>iptables [-t 表] 大写选项子命令(-A) [规则号] 链名 匹配标准(-s xx.xx.xx.xx) -j 目标（规则）
+</pre></td></tr></tbody></table></code></pre></div></div>
 
 <p><strong>注意：所有表名必须小写，命令动作必须大写，链名必须大写，匹配标准必须小写，目标规则必须大写</strong></p>
 
@@ -432,7 +432,18 @@ iptables 中表和链的对应关系如下：
 
 <h5 id="51基本使用">5.1.基本使用</h5>
 
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>列出 iptables 规则
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+</pre></td><td class="rouge-code"><pre>列出 iptables 规则
 # iptables -L		# 默认选择 filter 表
 # iptables -t nat -L
 
@@ -443,10 +454,40 @@ iptables 中表和链的对应关系如下：
 清除自定义规则
 # iptables -X
 # iptables -t nat -F 
-</code></pre></div></div>
+</pre></td></tr></tbody></table></code></pre></div></div>
 
 <h5 id="52filter">5.2.filter</h5>
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>禁止某个IP访问
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+</pre></td><td class="rouge-code"><pre>禁止某个IP访问
 # iptables -I INPUT -s xxx.xxx.xx.x -j DROP
 
 服务器禁止被 ping
@@ -476,11 +517,21 @@ iptables 中表和链的对应关系如下：
 # iptables -A INPUT -p tcp --dport 80 -m limit --limit 25/minute --limit-burst 100 -j ACCEPT
 - litmit 25/minute 每分钟限制最大连接数为25
 - litmit-burst 100 当总连接数超过100时，启动 limit/minute 限制
-</code></pre></div></div>
+</pre></td></tr></tbody></table></code></pre></div></div>
 
 <h5 id="53-nat">5.3 nat</h5>
 
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>目的地址转换，映射内部地址
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+</pre></td><td class="rouge-code"><pre>目的地址转换，映射内部地址
 # iptables -t nat -A PREROUTING -i ppp0 -p tcp --dprot 81 -j DNAT --to 192.168.0.2:80
 # iptables -t nat -A PREROUTING -i ppp0 -p tcp --dprot 81 -j DNAT --to 192.168.0.1-192.168.0.10
 
@@ -490,16 +541,18 @@ iptables 中表和链的对应关系如下：
 
 地址伪装，动态ip的NAT（地址转换）
 # iptables -t nat -A POSTROUTING -s 192.168.0.0/24 -j MASQUERADE
-</code></pre></div></div>
+</pre></td></tr></tbody></table></code></pre></div></div>
 <p><code class="highlighter-rouge">masquerade</code> 和 <code class="highlighter-rouge">snat</code> 的主要区别在于，snat 是把源地址转换为固定的 IP 地址或者是地址池，而 masquerade 在 adsl 等方式拨号上网时候非常有用，因为是拨号上网所以网卡的外网IP经常变化，这样在进行地址转换的时候就要在每次都要修改转换策略里面的 ip，使用 masquerade 就很好的解决了这个问题，他会自己去探测外网卡获得的ip地址然后自动进行地址转换，这样就算外网获得的 ip 经常变化也不用人工干预了。</p>
 
 <h5 id="54-删除规则">5.4 删除规则</h5>
 
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>iptables -D chain rulenum [options]
-</code></pre></div></div>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+</pre></td><td class="rouge-code"><pre>iptables -D chain rulenum [options]
+</pre></td></tr></tbody></table></code></pre></div></div>
 <p>chain 是链的意思，就是 INPUT FORWARD 之类的定语，rulenum 是该条规则的编号，从1开始。可以使用<code class="highlighter-rouge">iptables -L INPUT --line</code>列出指定的链的规则的编号来。然后通过编号删除</p>
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>iptables -D INPUT 1
-</code></pre></div></div>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+</pre></td><td class="rouge-code"><pre>iptables -D INPUT 1
+</pre></td></tr></tbody></table></code></pre></div></div>
 
 <p>第二种办法是 <code class="highlighter-rouge">-A</code> 命令的映射，不过用 <code class="highlighter-rouge">-D</code> 替换 <code class="highlighter-rouge">-A</code> 。当你的链中规则很复杂，而你不想计算它们的编号的时候这就十分有用了。
 也就是说，你如何一开始时用 <code class="highlighter-rouge">iptables -A.... </code>语句定义了一个规则，那么删除此条规则时直接用 <code class="highlighter-rouge">-D</code> 来代替 <code class="highlighter-rouge">-A</code>， 其余的都不变即可，而不需要什么编号了。</p>
@@ -512,23 +565,30 @@ iptables 中表和链的对应关系如下：
 <p><strong>如何确定是否受到DDoS攻击了呢?</strong></p>
 
 <p>执行 <em>netstat</em> 命令</p>
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>netstat -ntu | awk '{print $5}' | cut -d: -f1 | sort | uniq -c | sort -n
-</code></pre></div></div>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+</pre></td><td class="rouge-code"><pre>netstat -ntu | awk '{print $5}' | cut -d: -f1 | sort | uniq -c | sort -n
+</pre></td></tr></tbody></table></code></pre></div></div>
 <p>或者</p>
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>netstat -ntu | awk '{print $5}' | cut -d: -f1 | sed -n '/[0-9]/p' | sort |
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+</pre></td><td class="rouge-code"><pre>netstat -ntu | awk '{print $5}' | cut -d: -f1 | sed -n '/[0-9]/p' | sort |
  uniq -c | sort -nr
-</code></pre></div></div>
+</pre></td></tr></tbody></table></code></pre></div></div>
 <p>下一段会过滤掉其中不是 IP 的一些记录，结果如下：
 <img src="/img/p-iptables/netstat_result.png" alt="" />
 第一个表示每个IP当前的连接数，一般IP几十个以内都算比较正常。如果突然某个IP的连接数有成百上千个，那肯定就不正常了。</p>
 
 <h4 id="1安装-ddos-deflate">1.安装 DDoS deflate</h4>
 
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code># cd /tmp
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+</pre></td><td class="rouge-code"><pre># cd /tmp
 # wget http://www.inetbase.com/scripts/ddos/install.sh
 # chmod 0700 install.sh
 # ./install.sh
-</code></pre></div></div>
+</pre></td></tr></tbody></table></code></pre></div></div>
 <p><code class="highlighter-rouge">分别是：1.下载文件，2.给文件添加权限，3.执行安装 </code></p>
 
 <h4 id="2配置-ddos-deflate">2.配置 DDoS deflate</h4>
@@ -543,7 +603,38 @@ iptables 中表和链的对应关系如下：
 
 <p><code class="highlighter-rouge">ddos.conf</code> 配置如下</p>
 
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>##### Paths of the script and other files
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+</pre></td><td class="rouge-code"><pre>##### Paths of the script and other files
 PROGDIR="/usr/local/ddos"
 PROG="/usr/local/ddos/ddos.sh"
 IGNORE_IP_LIST="/usr/local/ddos/ignore.ip.list" # ip 地址白名单
@@ -574,19 +665,23 @@ EMAIL_TO="1@vincents.cn"	# 当IP被屏蔽时给指定邮箱发送邮件。
 
 ##### Number of seconds the banned ip should remain in blacklist.
 BAN_PERIOD=600			# 禁用IP时长,默认为600秒
-</code></pre></div></div>
+</pre></td></tr></tbody></table></code></pre></div></div>
 
 <p><code class="highlighter-rouge">ddos.sh</code> 中，可以将第 117 行的内容修改为，就是上面那句 <em>netstat</em> 命令：</p>
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>netstat -ntu | awk '{print $5}' | cut -d: -f1 | sed -n '/[0-9]/p' | sort |
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+</pre></td><td class="rouge-code"><pre>netstat -ntu | awk '{print $5}' | cut -d: -f1 | sed -n '/[0-9]/p' | sort |
  uniq -c | sort -nr
-</code></pre></div></div>
+</pre></td></tr></tbody></table></code></pre></div></div>
 
 <p>有文件内容更改后，执行：</p>
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code># sh /usr/local/ddos/ddos.sh
-</code></pre></div></div>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+</pre></td><td class="rouge-code"><pre># sh /usr/local/ddos/ddos.sh
+</pre></td></tr></tbody></table></code></pre></div></div>
 <p>会在<code class="highlighter-rouge">/etc/cron.d/</code>目录下生成一个定时任务<code class="highlighter-rouge">ddos.cron</code>。内容为：</p>
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>0-59/1 * * * * root /usr/local/ddos/ddos.sh &gt;/dev/null 2&gt;&amp;1
-</code></pre></div></div>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+</pre></td><td class="rouge-code"><pre>0-59/1 * * * * root /usr/local/ddos/ddos.sh &gt;/dev/null 2&gt;&amp;1
+</pre></td></tr></tbody></table></code></pre></div></div>
 <h4 id="3测试">3.测试</h4>
 
 <p>接下来你就可以使用压力测软件 <a href="/2017/03/28/web-pressure-test/">webbench,Siege</a> 来进行测试实验了。我的测试结果如下， 通过 <code class="highlighter-rouge">webbench</code> 开启压力测试后，IP就立即被封禁，且很快就收到邮件,效果还是非常明显的。
@@ -748,6 +843,9 @@ ps: 为了让图片少占点位置，只有这么拼接一下了。将就看。�
     </div>
 </article>
 
+<!-- 动态几何线条背景 -->
+<!-- <script type="text/javascript" src="//cdn.bootcss.com/canvas-nest.js/1.0.0/canvas-nest.min.js"></script> -->
+
 
 <!-- disqus 公共JS代码 start (一个网页只需插入一次) -->
 <script type="text/javascript">
@@ -865,10 +963,16 @@ ps: 为了让图片少占点位置，只有这么拼接一下了。将就看。�
                     渝ICP备17003502号 | Copyright &copy; Vincent 2018
                     <br>
                     <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
-                    <span id="busuanzi_container_site_pv"> 您是本站第<span id="busuanzi_value_site_pv"></span>位访问者</span>  | 
+                    <span id="busuanzi_container_site_pv">
+                        总访问量<span id="busuanzi_value_site_pv"></span>次
+                    </span>
+                    <span id="busuanzi_container_site_uv">
+                        访客数<span id="busuanzi_value_site_uv"></span>人次
+                      </span>
+                    <!-- <span id="busuanzi_container_site_pv"> 您是本站第<span id="busuanzi_value_site_pv"></span>位访问者</span>  |  -->
                     <!-- umeng 站长统计 -->
 <!--                     <script src="https://s22.cnzz.com/z_stat.php?id=1263843451&web_id=1263843451" language="JavaScript"></script> |  -->
-                    Theme by <a target="_blank" href="http://huangxuan.me">Hux</a> |
+                    | Theme by <a target="_blank" href="http://huangxuan.me">Hux</a> |
                     <iframe
                         style="margin-left: 2px; margin-bottom:-5px;"
                         frameborder="0" scrolling="0" width="100px" height="20px"
@@ -1033,11 +1137,6 @@ ps: 为了让图片少占点位置，只有这么拼接一下了。将就看。�
 </script>
 
 
-
-
-<!-- Image to hack wechat -->
-<img src="/img/icon_wechat.png" width="0" height="0" />
-<!-- Migrate from head to bottom, no longer block render and still work -->
 
 </body>
 

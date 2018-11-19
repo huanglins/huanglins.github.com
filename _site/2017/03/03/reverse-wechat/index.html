@@ -188,8 +188,7 @@ buginux
 </script>
 
 
-    <!-- Image to hack wechat -->
-<!-- <img src="/img/post-bg-5-reverse-wechat.jpg" width="0" height="0"> -->
+    <!-- <img src="/img/post-bg-5-reverse-wechat.jpg" width="0" height="0"> -->
 
 <!-- Post Header -->
 
@@ -263,8 +262,9 @@ buginux
 
 <p><img src="/img/reverse_wechat/result.jpg" /></p>
 
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>PS：目前最新的 6.5.5 版本红包并不能使用。
-</code></pre></div></div>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+</pre></td><td class="rouge-code"><pre>PS：目前最新的 6.5.5 版本红包并不能使用。
+</pre></td></tr></tbody></table></code></pre></div></div>
 
 <h2 id="1获取砸壳后的微信ipa">1.获取砸壳后的微信ipa</h2>
 <p>有两种方法</p>
@@ -275,41 +275,54 @@ buginux
 
 <p>由于手里没有越狱的手机，所以就直接在 PP助手上下载了。
 将下载后的 <code class="highlighter-rouge">wechat.ipa</code> 解压</p>
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$ unzip wechat.ipa -d wechat
-</code></pre></div></div>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+</pre></td><td class="rouge-code"><pre>$ unzip wechat.ipa -d wechat
+</pre></td></tr></tbody></table></code></pre></div></div>
 
 <h2 id="2使用-class-dump-导出微信头文件">2.使用 class-dump 导出微信头文件</h2>
 
 <h4 id="21-下载-class-dump">2.1 下载 class-dump</h4>
 
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$ https://code.google.com/archive/p/networkpx/downloads
-</code></pre></div></div>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+</pre></td><td class="rouge-code"><pre>$ https://code.google.com/archive/p/networkpx/downloads
+</pre></td></tr></tbody></table></code></pre></div></div>
 <p>1.1 解压并拷入到 /usr/bin/</p>
 
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$ tar -zxvf class-dump-z_0.2a.tar.gz
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+</pre></td><td class="rouge-code"><pre>$ tar -zxvf class-dump-z_0.2a.tar.gz
 $ sudo cp mac_x86/class-dump-z /usr/bin/
-</code></pre></div></div>
+</pre></td></tr></tbody></table></code></pre></div></div>
 
 <h4 id="211-或者下载安装-opendev-环境">2.1.1 或者下载安装 <code class="highlighter-rouge">OpenDev</code> 环境。</h4>
 
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>class-dump已经包含在openDev中,openDev 存放文件夹opt/IOSOpenDev/bin 中,
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+</pre></td><td class="rouge-code"><pre>class-dump已经包含在openDev中,openDev 存放文件夹opt/IOSOpenDev/bin 中,
 
 并在/Users/vincent/bash_profile 注册了系统变量 路径
-</code></pre></div></div>
+</pre></td></tr></tbody></table></code></pre></div></div>
 
 <h4 id="22-导出-h-头文件">2.2 导出 <code class="highlighter-rouge">.h</code> 头文件</h4>
 
 <p>可执行文件位置在</p>
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>~/wechat/Payload/WeChat.app/WeChat
-</code></pre></div></div>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+</pre></td><td class="rouge-code"><pre>~/wechat/Payload/WeChat.app/WeChat
+</pre></td></tr></tbody></table></code></pre></div></div>
 <p>拷贝出来执行</p>
 
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$ class-dump
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+</pre></td><td class="rouge-code"><pre>$ class-dump
 -H
 WeChat
 -o
 heads
-</code></pre></div></div>
+</pre></td></tr></tbody></table></code></pre></div></div>
 <ol>
   <li>WeChat 是应用的可执行文件的路径</li>
   <li>headers 是存放dump出来头文件的文件夹路径</li>
@@ -318,17 +331,42 @@ heads
 <h2 id="3-准备-dylib-动态链接库">3. 准备 dylib 动态链接库</h2>
 <p>将 <a href="https://github.com/huanglins/WeChatRedEnvelop">WeChatRedEnvelop</a> clone 下来。执行 <code class="highlighter-rouge">make</code> , dylib 文件在 <code class="highlighter-rouge">WeChatRedEnvelop/.theos/obj/debug/WeChatRedEnvelop.dylib</code></p>
 
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$ git https://github.com/huanglins/WeChatRedEnvelop
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+</pre></td><td class="rouge-code"><pre>$ git https://github.com/huanglins/WeChatRedEnvelop
 $ cd WeChatRedEnvelop
 make
 
 $ cp .theos/obj/debug/WeChatRedEnvelop.dylib ~/Desktop # 注意是 .theos 目录，这是个隐藏目录
-</code></pre></div></div>
+</pre></td></tr></tbody></table></code></pre></div></div>
 
 <h4 id="31-修改动态链接库依赖项">3.1 修改动态链接库依赖项</h4>
 <p>使用 macOS 自带的 <code class="highlighter-rouge">otool</code> 工具检查 dylib 的依赖项</p>
 
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$ otool -L WeChatRedEnvelop.dylib
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+</pre></td><td class="rouge-code"><pre>$ otool -L WeChatRedEnvelop.dylib
 
 WeChatRedEnvelop2.dylib (architecture armv7):
 	/Library/MobileSubstrate/DynamicLibraries/WeChatRedEnvelop.dylib (compatibility version 0.0.0, current version 0.0.0)
@@ -348,12 +386,14 @@ WeChatRedEnvelop2.dylib (architecture arm64):
 	/Library/Frameworks/CydiaSubstrate.framework/CydiaSubstrate (compatibility version 0.0.0, current version 0.0.0)
 	/usr/lib/libc++.1.dylib (compatibility version 1.0.0, current version 307.4.0)
 	/usr/lib/libSystem.B.dylib (compatibility version 1.0.0, current version 1238.0.0)
-</code></pre></div></div>
+</pre></td></tr></tbody></table></code></pre></div></div>
 <p>修改 <code class="highlighter-rouge">/Library/Frameworks/CydiaSubstrate.framework/CydiaSubstrate</code> 链接地址到 <code class="highlighter-rouge">libsubstrate.dylib</code></p>
 
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$ install_name_tool -change /Library/Frameworks/CydiaSubstrate.framework/CydiaSubstrate 
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+</pre></td><td class="rouge-code"><pre>$ install_name_tool -change /Library/Frameworks/CydiaSubstrate.framework/CydiaSubstrate 
 @loader_path/libsubstrate.dylib WeChatRedEnvelop.dylib
-</code></pre></div></div>
+</pre></td></tr></tbody></table></code></pre></div></div>
 
 <blockquote>
   <p>PS：libsubstrate.dylib 是越狱环境 MobileSubstrate 提供动态注入的一个链接库</p>
@@ -363,24 +403,32 @@ WeChatRedEnvelop2.dylib (architecture arm64):
 
 <h4 id="41-将-libsubstratedylib-和-wechatredenvelopdylib-拷贝到wechatapp中">4.1 将 <code class="highlighter-rouge">libsubstrate.dylib</code> 和 <code class="highlighter-rouge">WeChatRedEnvelop.dylib</code> 拷贝到WeChat.app中</h4>
 
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$ cp libsubstrate.dylib WeChatRedEnvelop.dylib wechat/Payload/WeChat.app
-</code></pre></div></div>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+</pre></td><td class="rouge-code"><pre>$ cp libsubstrate.dylib WeChatRedEnvelop.dylib wechat/Payload/WeChat.app
+</pre></td></tr></tbody></table></code></pre></div></div>
 
 <h4 id="42-使用开源的-optool-工具">4.2 使用开源的 <a href="https://github.com/alexzielenski/optool">optool</a> 工具</h4>
 <p>编译安装 <code class="highlighter-rouge">optool</code> 工具</p>
 
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code># 因为 optool 添加了 submodule，因为需要使用 --recuresive 选项，将子模块全部 clone 下来
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+</pre></td><td class="rouge-code"><pre># 因为 optool 添加了 submodule，因为需要使用 --recuresive 选项，将子模块全部 clone 下来
 $ git clone --recursive https://github.com/alexzielenski/optool.git
 $ cd optool
 $ xcodebuild -project optool.xcodeproj -configuration Release ARCHS="x86_64" build
-</code></pre></div></div>
+</pre></td></tr></tbody></table></code></pre></div></div>
 
 <h4 id="43-optool-注入">4.3 optool 注入</h4>
 
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$ /path/to/optool install -c load -p "@executable_path/WeChatRedEnvelop.dylib" 
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+</pre></td><td class="rouge-code"><pre>$ /path/to/optool install -c load -p "@executable_path/WeChatRedEnvelop.dylib" 
 -t 
 wechat/Payload/WeChat.app/WeChat
-</code></pre></div></div>
+</pre></td></tr></tbody></table></code></pre></div></div>
 
 <h2 id="5-打包重新签名">5. 打包，重新签名</h2>
 <p>打包和重新签名可以直接使用图形化操作工具 <a href="https://github.com/DanTheMan827/ios-app-signer">ios-app-signer</a> 来完成。</p>
@@ -545,6 +593,9 @@ wechat/Payload/WeChat.app/WeChat
     </div>
 </article>
 
+<!-- 动态几何线条背景 -->
+<!-- <script type="text/javascript" src="//cdn.bootcss.com/canvas-nest.js/1.0.0/canvas-nest.min.js"></script> -->
+
 
 <!-- disqus 公共JS代码 start (一个网页只需插入一次) -->
 <script type="text/javascript">
@@ -662,10 +713,16 @@ wechat/Payload/WeChat.app/WeChat
                     渝ICP备17003502号 | Copyright &copy; Vincent 2018
                     <br>
                     <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
-                    <span id="busuanzi_container_site_pv"> 您是本站第<span id="busuanzi_value_site_pv"></span>位访问者</span>  | 
+                    <span id="busuanzi_container_site_pv">
+                        总访问量<span id="busuanzi_value_site_pv"></span>次
+                    </span>
+                    <span id="busuanzi_container_site_uv">
+                        访客数<span id="busuanzi_value_site_uv"></span>人次
+                      </span>
+                    <!-- <span id="busuanzi_container_site_pv"> 您是本站第<span id="busuanzi_value_site_pv"></span>位访问者</span>  |  -->
                     <!-- umeng 站长统计 -->
 <!--                     <script src="https://s22.cnzz.com/z_stat.php?id=1263843451&web_id=1263843451" language="JavaScript"></script> |  -->
-                    Theme by <a target="_blank" href="http://huangxuan.me">Hux</a> |
+                    | Theme by <a target="_blank" href="http://huangxuan.me">Hux</a> |
                     <iframe
                         style="margin-left: 2px; margin-bottom:-5px;"
                         frameborder="0" scrolling="0" width="100px" height="20px"
@@ -830,11 +887,6 @@ wechat/Payload/WeChat.app/WeChat
 </script>
 
 
-
-
-<!-- Image to hack wechat -->
-<img src="/img/icon_wechat.png" width="0" height="0" />
-<!-- Migrate from head to bottom, no longer block render and still work -->
 
 </body>
 

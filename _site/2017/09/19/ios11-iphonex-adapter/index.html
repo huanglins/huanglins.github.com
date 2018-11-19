@@ -176,8 +176,7 @@
 </script>
 
 
-    <!-- Image to hack wechat -->
-<!-- <img src="/img/post-bg-14-ios11-iphonex-adapter.jpg" width="0" height="0"> -->
+    <!-- <img src="/img/post-bg-14-ios11-iphonex-adapter.jpg" width="0" height="0"> -->
 
 <!-- Post Header -->
 
@@ -236,12 +235,17 @@
 
 <h4 id="1-uitableview-contentoffset-下移-20">1. UITableView contentOffset 下移 20</h4>
 
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>if (@available(iOS 11.0, *)) {
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+</pre></td><td class="rouge-code"><pre>if (@available(iOS 11.0, *)) {
 	if ([self.tableView respondsToSelector:@selector(setContentInsetAdjustmentBehavior:)]) {
 		self.tableView.contentInsetAdjustmentBehavior = UIScrollViewContentInsetAdjustmentNever;
 	}
 }
-</code></pre></div></div>
+</pre></td></tr></tbody></table></code></pre></div></div>
 
 <h2 id="适配-iphone-x">适配 iPhone X</h2>
 
@@ -306,9 +310,11 @@
 
 <p><strong>iPhone X</strong> 宏定义</p>
 
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>#define iPhoneX ([UIScreen instancesRespondToSelector:@selector(currentMode)] ? \
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+</pre></td><td class="rouge-code"><pre>#define iPhoneX ([UIScreen instancesRespondToSelector:@selector(currentMode)] ? \
         CGSizeEqualToSize(CGSizeMake(1125, 2436), [[UIScreen mainScreen] currentMode].size) : NO)
-</code></pre></div></div>
+</pre></td></tr></tbody></table></code></pre></div></div>
 
 <h2 id="我的开源项目">我的开源项目</h2>
 
@@ -462,6 +468,9 @@
     </div>
 </article>
 
+<!-- 动态几何线条背景 -->
+<!-- <script type="text/javascript" src="//cdn.bootcss.com/canvas-nest.js/1.0.0/canvas-nest.min.js"></script> -->
+
 
 <!-- disqus 公共JS代码 start (一个网页只需插入一次) -->
 <script type="text/javascript">
@@ -579,10 +588,16 @@
                     渝ICP备17003502号 | Copyright &copy; Vincent 2018
                     <br>
                     <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
-                    <span id="busuanzi_container_site_pv"> 您是本站第<span id="busuanzi_value_site_pv"></span>位访问者</span>  | 
+                    <span id="busuanzi_container_site_pv">
+                        总访问量<span id="busuanzi_value_site_pv"></span>次
+                    </span>
+                    <span id="busuanzi_container_site_uv">
+                        访客数<span id="busuanzi_value_site_uv"></span>人次
+                      </span>
+                    <!-- <span id="busuanzi_container_site_pv"> 您是本站第<span id="busuanzi_value_site_pv"></span>位访问者</span>  |  -->
                     <!-- umeng 站长统计 -->
 <!--                     <script src="https://s22.cnzz.com/z_stat.php?id=1263843451&web_id=1263843451" language="JavaScript"></script> |  -->
-                    Theme by <a target="_blank" href="http://huangxuan.me">Hux</a> |
+                    | Theme by <a target="_blank" href="http://huangxuan.me">Hux</a> |
                     <iframe
                         style="margin-left: 2px; margin-bottom:-5px;"
                         frameborder="0" scrolling="0" width="100px" height="20px"
@@ -747,11 +762,6 @@
 </script>
 
 
-
-
-<!-- Image to hack wechat -->
-<img src="/img/icon_wechat.png" width="0" height="0" />
-<!-- Migrate from head to bottom, no longer block render and still work -->
 
 </body>
 

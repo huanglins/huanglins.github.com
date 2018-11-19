@@ -351,9 +351,14 @@ mysql支持单向、异步复制，复制过程中一个服务器充当主服务
 
 1. UITableView contentOffset 下移 20
 
+1
+2
+3
+4
+5
 if (@available(iOS 11.0, *)) {
 	if ([self.tableView respondsToSelector:@selector(setContentInsetAdjustmentBehavior:)]) {
-		self.tableView.contentInsetA...
+		self.tableView.con...
         </div>
     </a>
     <p class="post-meta">
@@ -451,11 +456,12 @@ Charles 是一款在Mac下常用的网络封包截取工具。Charles 可以将�
 
 打开终端输入 ifconfig 查看当前的局域网IP
 
+1
 ifconfig
 
 
 
-然后...
+...
         </div>
     </a>
     <p class="post-meta">
@@ -793,10 +799,16 @@ var _hmt = _hmt || [];
                     渝ICP备17003502号 | Copyright &copy; Vincent 2018
                     <br>
                     <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
-                    <span id="busuanzi_container_site_pv"> 您是本站第<span id="busuanzi_value_site_pv"></span>位访问者</span>  | 
+                    <span id="busuanzi_container_site_pv">
+                        总访问量<span id="busuanzi_value_site_pv"></span>次
+                    </span>
+                    <span id="busuanzi_container_site_uv">
+                        访客数<span id="busuanzi_value_site_uv"></span>人次
+                      </span>
+                    <!-- <span id="busuanzi_container_site_pv"> 您是本站第<span id="busuanzi_value_site_pv"></span>位访问者</span>  |  -->
                     <!-- umeng 站长统计 -->
 <!--                     <script src="https://s22.cnzz.com/z_stat.php?id=1263843451&web_id=1263843451" language="JavaScript"></script> |  -->
-                    Theme by <a target="_blank" href="http://huangxuan.me">Hux</a> |
+                    | Theme by <a target="_blank" href="http://huangxuan.me">Hux</a> |
                     <iframe
                         style="margin-left: 2px; margin-bottom:-5px;"
                         frameborder="0" scrolling="0" width="100px" height="20px"
@@ -917,11 +929,6 @@ var _hmt = _hmt || [];
 <!-- Side Catalog -->
 
 
-
-
-<!-- Image to hack wechat -->
-<img src="/img/icon_wechat.png" width="0" height="0" />
-<!-- Migrate from head to bottom, no longer block render and still work -->
 
 </body>
 

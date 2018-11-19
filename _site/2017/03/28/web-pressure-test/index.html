@@ -178,8 +178,7 @@
 </script>
 
 
-    <!-- Image to hack wechat -->
-<!-- <img src="/img/post-bg-9-webbench.jpg" width="0" height="0"> -->
+    <!-- <img src="/img/post-bg-9-webbench.jpg" width="0" height="0"> -->
 
 <!-- Post Header -->
 
@@ -252,7 +251,19 @@
 
 <p>在Mac环境下，通过<code class="highlighter-rouge">brew</code>进行安装</p>
 
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>brew install ctags # 依赖安装
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+</pre></td><td class="rouge-code"><pre>brew install ctags # 依赖安装
 
 wget http://blog.zyan.cc/soft/linux/webbench/webbench-1.5.tar.gz
 
@@ -264,18 +275,37 @@ sudo mkdir -pv /usr/local/man/man1 # 创建文件夹
 
 sudo make &amp;&amp; sudo make install # 安装
 
-</code></pre></div></div>
+</pre></td></tr></tbody></table></code></pre></div></div>
 
 <h4 id="使用">使用</h4>
 
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>webbench -c 100 -t 30 [URL]
-</code></pre></div></div>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+</pre></td><td class="rouge-code"><pre>webbench -c 100 -t 30 [URL]
+</pre></td></tr></tbody></table></code></pre></div></div>
 
 <p>参数说明：<code class="highlighter-rouge">-c</code>表示并发数，<code class="highlighter-rouge">-t</code>表示时间(秒)</p>
 
 <h4 id="相关命令">相关命令</h4>
 
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+</pre></td><td class="rouge-code"><pre>
 webbench [option]... URL
 
   -f|--force               压测时不等待服务端返回
@@ -293,7 +323,7 @@ webbench [option]... URL
   -?|-h|--help             This information.
   -V|--version             显示当前版本
 
-</code></pre></div></div>
+</pre></td></tr></tbody></table></code></pre></div></div>
 
 <h4 id="使用结果">使用结果</h4>
 
@@ -312,16 +342,44 @@ webbench [option]... URL
 
 <h4 id="mac-安装">mac 安装</h4>
 
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code># wget http://download.joedog.org/siege/siege-latest.tar.gz
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+</pre></td><td class="rouge-code"><pre># wget http://download.joedog.org/siege/siege-latest.tar.gz
 # tar -zxvf siege-latest.tar.gz
 # cd siege-latest/
 # ./configure
 # make &amp;&amp; make install
-</code></pre></div></div>
+</pre></td></tr></tbody></table></code></pre></div></div>
 
 <h4 id="相关命令-1">相关命令</h4>
 
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>-V, --version             VERSION, prints the version number.
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+</pre></td><td class="rouge-code"><pre>-V, --version             VERSION, prints the version number.
   -h, --help                HELP, prints this section.
   -C, --config              CONFIGURATION, show the current config.
   -v, --verbose             VERBOSE, prints notification to screen.
@@ -344,39 +402,45 @@ webbench [option]... URL
   -H, --header="text"       Add a header to request (can be many)
   -A, --user-agent="text"   Sets User-Agent in request
   -T, --content-type="text" Sets Content-Type in request
-</code></pre></div></div>
+</pre></td></tr></tbody></table></code></pre></div></div>
 
 <h4 id="使用-1">使用</h4>
 
 <p>100个并发访问 <code class="highlighter-rouge">http://www.baidu.com</code>，并重复20次</p>
 
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>siege -c 100 -r 20 http://www.baidu.com
-</code></pre></div></div>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+</pre></td><td class="rouge-code"><pre>siege -c 100 -r 20 http://www.baidu.com
+</pre></td></tr></tbody></table></code></pre></div></div>
 
 <p>在 urls.txt 中列出所有网址</p>
 
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>siege -c 100 -r 20 -f urls.txt  
-</code></pre></div></div>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+</pre></td><td class="rouge-code"><pre>siege -c 100 -r 20 -f urls.txt  
+</pre></td></tr></tbody></table></code></pre></div></div>
 
 <p>随机选取 urls.txt 中列出的网址</p>
 
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>siege -c 100 -r 20 -f urls.txt -i
-</code></pre></div></div>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+</pre></td><td class="rouge-code"><pre>siege -c 100 -r 20 -f urls.txt -i
+</pre></td></tr></tbody></table></code></pre></div></div>
 
 <p>不等待返回结果,100个并发随机选取urls.txt重复请求20个</p>
 
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>siege -c 2000 -r 100 -f urls.txt -i -b  
-</code></pre></div></div>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+</pre></td><td class="rouge-code"><pre>siege -c 2000 -r 100 -f urls.txt -i -b  
+</pre></td></tr></tbody></table></code></pre></div></div>
 
 <p><strong>»</strong> 指定 http 请求头请求</p>
 
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>siege -H "Content-Type:application/json" -c 100 -r 20 -f urls.txt -i -b  
-</code></pre></div></div>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+</pre></td><td class="rouge-code"><pre>siege -H "Content-Type:application/json" -c 100 -r 20 -f urls.txt -i -b  
+</pre></td></tr></tbody></table></code></pre></div></div>
 
 <p><strong>»</strong> POST 请求</p>
 
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>siege -c 100 -r 20 http://www.baidu.com/ POST p1=v1&amp;p2=v2  
-</code></pre></div></div>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+</pre></td><td class="rouge-code"><pre>siege -c 100 -r 20 http://www.baidu.com/ POST p1=v1&amp;p2=v2  
+</pre></td></tr></tbody></table></code></pre></div></div>
 
 <h4 id="siege-输出结果说明">Siege 输出结果说明</h4>
 
@@ -582,6 +646,9 @@ webbench [option]... URL
     </div>
 </article>
 
+<!-- 动态几何线条背景 -->
+<!-- <script type="text/javascript" src="//cdn.bootcss.com/canvas-nest.js/1.0.0/canvas-nest.min.js"></script> -->
+
 
 <!-- disqus 公共JS代码 start (一个网页只需插入一次) -->
 <script type="text/javascript">
@@ -699,10 +766,16 @@ webbench [option]... URL
                     渝ICP备17003502号 | Copyright &copy; Vincent 2018
                     <br>
                     <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
-                    <span id="busuanzi_container_site_pv"> 您是本站第<span id="busuanzi_value_site_pv"></span>位访问者</span>  | 
+                    <span id="busuanzi_container_site_pv">
+                        总访问量<span id="busuanzi_value_site_pv"></span>次
+                    </span>
+                    <span id="busuanzi_container_site_uv">
+                        访客数<span id="busuanzi_value_site_uv"></span>人次
+                      </span>
+                    <!-- <span id="busuanzi_container_site_pv"> 您是本站第<span id="busuanzi_value_site_pv"></span>位访问者</span>  |  -->
                     <!-- umeng 站长统计 -->
 <!--                     <script src="https://s22.cnzz.com/z_stat.php?id=1263843451&web_id=1263843451" language="JavaScript"></script> |  -->
-                    Theme by <a target="_blank" href="http://huangxuan.me">Hux</a> |
+                    | Theme by <a target="_blank" href="http://huangxuan.me">Hux</a> |
                     <iframe
                         style="margin-left: 2px; margin-bottom:-5px;"
                         frameborder="0" scrolling="0" width="100px" height="20px"
@@ -867,11 +940,6 @@ webbench [option]... URL
 </script>
 
 
-
-
-<!-- Image to hack wechat -->
-<img src="/img/icon_wechat.png" width="0" height="0" />
-<!-- Migrate from head to bottom, no longer block render and still work -->
 
 </body>
 
