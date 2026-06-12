@@ -15,7 +15,6 @@
     
     <meta property="og:type" content="article">
     <meta property="og:description" content="想要通过域名直接访问路由器的公网IP，但是路由器的外网IP不是固定的，每次重启路由器都会改变。于是想要实现阿里云的DDNS(动态解析)。
-
 ">
     
     <meta property="article:published_time" content="2017-03-27T00:00:00Z">
@@ -27,7 +26,7 @@
     <meta property="article:tag" content="Python">
     
     
-    <meta property="og:image" content="http://localhost:4000/img/avatar-sea-vincent.jpg">
+    <meta property="og:image" content="http://qiniu.vincents.cn/blog/avatar-sea-vincent.jpg">
     <meta property="og:url" content="http://localhost:4000/2017/03/27/aliyun-ddns/">
     <meta property="og:site_name" content="Vincent's Blog | 永远年轻，永远热泪盈眶">
     
@@ -37,7 +36,7 @@
     <link rel="manifest" href="/pwa/manifest.json">
 
     <!-- Favicon -->
-    <link rel="shortcut icon" href="/img/favicon.ico">
+    <link rel="shortcut icon" href="http://qiniu.vincents.cn/blog/favicon.ico">
     
     <!-- Canonical URL -->
     <link rel="canonical" href="http://localhost:4000/2017/03/27/aliyun-ddns/">
@@ -48,10 +47,13 @@
     <!-- Custom CSS -->
     <link rel="stylesheet" href="/css/hux-blog.min.css">
 
+    <style>a:focus,a:active{outline:none}</style>
+
     <!-- Custom Fonts -->
     <!-- <link href="http://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet" type="text/css"> -->
     <!-- Hux change font-awesome CDN to qiniu -->
-    <link href="//cdnjs.cloudflare.com/ajax/libs/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+    <!-- <link href="//cdnjs.cloudflare.com/ajax/libs/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet" type="text/css"> -->
+<link href="//cdn.bootcdn.net/ajax/libs/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet" type="text/css">
 
 
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
@@ -63,6 +65,11 @@
 
     <!-- ga & ba script hoook -->
     <script></script>
+
+    <!-- WebP support detection -->
+    <script>
+        (function(){var w=document.createElement('canvas');w.toDataURL('image/webp').indexOf('data:image/webp')==0&&(document.documentElement.className+=' webp')})();
+    </script>
 </head>
 
 
@@ -176,16 +183,23 @@
 </script>
 
 
-    <!-- <img src="/img/post-bg-8-aliyun-ddns.jpg" width="0" height="0"> -->
+    <!-- <picture><source srcset="http://qiniu.vincents.cn/blog/post-bg-8-aliyun-ddns.webp" type="image/webp"><img src="http://qiniu.vincents.cn/blog/post-bg-8-aliyun-ddns.jpg" width="0" height="0"></picture> -->
 
 <!-- Post Header -->
+
+
+
 
 
 
 <style type="text/css">
     header.intro-header{
         position: relative;
-        background-image: url('/img/post-bg-8-aliyun-ddns.jpg');
+        background-image: url('http://qiniu.vincents.cn/blog/post-bg-8-aliyun-ddns.jpg');
+        background: ;
+    }
+    .webp header.intro-header{
+        background-image: url('http://qiniu.vincents.cn/blog/post-bg-8-aliyun-ddns.webp');
         background: ;
     }
 
@@ -240,7 +254,7 @@
 <h4 id="安装-python-sdk">安装 python sdk</h4>
 <p>首先需要在当前机器上安装阿里云的 python SDK</p>
 
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
 </pre></td><td class="rouge-code"><pre>pip install aliyun-python-sdk-alidns
 </pre></td></tr></tbody></table></code></pre></div></div>
 
@@ -257,7 +271,7 @@
 
 <h4 id="添加一条域名解析">添加一条域名解析</h4>
 
-<p>添加一条A记录，主机记录可以为你的二级域名，例如： <code class="highlighter-rouge">xx.vincents.cn</code>。记录值随便写 <code class="highlighter-rouge">8.8.8.8</code>，因为后面会根据实际的IP进行动态更改。</p>
+<p>添加一条A记录，主机记录可以为你的二级域名，例如： <code class="language-plaintext highlighter-rouge">xx.vincents.cn</code>。记录值随便写 <code class="language-plaintext highlighter-rouge">8.8.8.8</code>，因为后面会根据实际的IP进行动态更改。</p>
 
 <h2 id="使用阿里云的-python-sdk">使用阿里云的 python SDK</h2>
 
@@ -276,13 +290,13 @@
 <p>可以通过访问 <a href="ip.cn">ip.cn</a>这个网站，获取本机的IP。
 在终端中输入</p>
 
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
 </pre></td><td class="rouge-code"><pre>curl -s ip.cn
 </pre></td></tr></tbody></table></code></pre></div></div>
 
 <p>结果为：</p>
 
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
 2
 </pre></td><td class="rouge-code"><pre>Vincents-iMac:~ vincent$ curl -s ip.cn
 当前 IP：xx.xx.xxx.xxx 来自：重庆市 联通
@@ -290,7 +304,7 @@
 
 <p>python code:</p>
 
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
 2
 3
 4
@@ -312,7 +326,7 @@ def get_my_publick_ip():
 
 <h4 id="获取解析记录id">获取解析记录ID</h4>
 
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
 2
 3
 4
@@ -337,7 +351,7 @@ def check_records(dns_domain):
 </pre></td></tr></tbody></table></code></pre></div></div>
 
 <h4 id="根据解析记录id查询上一次的记录值">根据解析记录ID查询上一次的记录值</h4>
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
 2
 3
 4
@@ -364,7 +378,7 @@ def get_old_ip(record_id):
 </pre></td></tr></tbody></table></code></pre></div></div>
 
 <h4 id="更新解析记录">更新解析记录</h4>
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
 2
 3
 4
@@ -395,7 +409,7 @@ def update_dns(dns_rr, dns_type, dns_value, dns_record_id, dns_ttl, dns_format):
 </pre></td></tr></tbody></table></code></pre></div></div>
 
 <h2 id="完整脚本">完整脚本</h2>
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
 2
 3
 4
@@ -503,123 +517,123 @@ def update_dns(dns_rr, dns_type, dns_value, dns_record_id, dns_ttl, dns_format):
 106
 107
 108
-</pre></td><td class="rouge-code"><pre><span class="c">#!/usr/bin/env python</span>
-<span class="c"># -*- coding: utf-8 -*-</span>
+</pre></td><td class="rouge-code"><pre>#!/usr/bin/env python
+# -*- coding: utf-8 -*-
 
-<span class="kn">import</span> <span class="nn">json</span>
-<span class="kn">import</span> <span class="nn">os</span>
-<span class="kn">import</span> <span class="nn">re</span>
-<span class="kn">from</span> <span class="nn">datetime</span> <span class="kn">import</span> <span class="n">datetime</span>
+import json
+import os
+import re
+from datetime import datetime
 
-<span class="kn">from</span> <span class="nn">aliyunsdkcore</span> <span class="kn">import</span> <span class="n">client</span>
-<span class="kn">from</span> <span class="nn">aliyunsdkalidns.request.v20150109</span> <span class="kn">import</span> <span class="n">DescribeDomainRecordsRequest</span>
-<span class="kn">from</span> <span class="nn">aliyunsdkalidns.request.v20150109</span> <span class="kn">import</span> <span class="n">DescribeDomainRecordInfoRequest</span>
-<span class="kn">from</span> <span class="nn">aliyunsdkalidns.request.v20150109</span> <span class="kn">import</span> <span class="n">UpdateDomainRecordRequest</span>
+from aliyunsdkcore import client
+from aliyunsdkalidns.request.v20150109 import DescribeDomainRecordsRequest
+from aliyunsdkalidns.request.v20150109 import DescribeDomainRecordInfoRequest
+from aliyunsdkalidns.request.v20150109 import UpdateDomainRecordRequest
 
-<span class="c"># 阿里云 Access Key ID</span>
-<span class="n">access_key_id</span> <span class="o">=</span> <span class="s">"xxxxx"</span>
-<span class="c"># 阿里云 Access Key Secret</span>
-<span class="n">access_key_secret</span> <span class="o">=</span> <span class="s">"xxxxxxxx"</span>
-<span class="c"># 阿里云 一级域名</span>
-<span class="n">rc_domain</span> <span class="o">=</span> <span class="s">'xxx.cn'</span>
-<span class="c"># 返回内容格式</span>
-<span class="n">rc_format</span> <span class="o">=</span> <span class="s">'json'</span>
+# 阿里云 Access Key ID
+access_key_id = "xxxxx"
+# 阿里云 Access Key Secret
+access_key_secret = "xxxxxxxx"
+# 阿里云 一级域名
+rc_domain = 'xxx.cn'
+# 返回内容格式
+rc_format = 'json'
 
-<span class="s">"""
+"""
 获取域名的解析信息
-"""</span>
-<span class="k">def</span> <span class="nf">check_records</span><span class="p">(</span><span class="n">dns_domain</span><span class="p">):</span>
-    <span class="n">clt</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">AcsClient</span><span class="p">(</span><span class="n">access_key_id</span><span class="p">,</span> <span class="n">access_key_secret</span><span class="p">,</span> <span class="s">'cn-hangzhou'</span><span class="p">)</span>
-    <span class="n">request</span> <span class="o">=</span> <span class="n">DescribeDomainRecordsRequest</span><span class="o">.</span><span class="n">DescribeDomainRecordsRequest</span><span class="p">()</span>
-    <span class="n">request</span><span class="o">.</span><span class="n">set_DomainName</span><span class="p">(</span><span class="n">dns_domain</span><span class="p">)</span>
-    <span class="n">request</span><span class="o">.</span><span class="n">set_accept_format</span><span class="p">(</span><span class="n">rc_format</span><span class="p">)</span>
-    <span class="n">result</span> <span class="o">=</span> <span class="n">clt</span><span class="o">.</span><span class="n">do_action</span><span class="p">(</span><span class="n">request</span><span class="p">)</span>
-    <span class="n">result</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">JSONDecoder</span><span class="p">()</span><span class="o">.</span><span class="n">decode</span><span class="p">(</span><span class="n">result</span><span class="p">)</span>
-    <span class="k">return</span> <span class="n">result</span>
+"""
+def check_records(dns_domain):
+    clt = client.AcsClient(access_key_id, access_key_secret, 'cn-hangzhou')
+    request = DescribeDomainRecordsRequest.DescribeDomainRecordsRequest()
+    request.set_DomainName(dns_domain)
+    request.set_accept_format(rc_format)
+    result = clt.do_action(request)
+    result = json.JSONDecoder().decode(result)
+    return result
 
-<span class="s">"""
+"""
 根据域名解析记录ID查询上一次的IP记录
-"""</span>
-<span class="k">def</span> <span class="nf">get_old_ip</span><span class="p">(</span><span class="n">record_id</span><span class="p">):</span>
-    <span class="n">clt</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">AcsClient</span><span class="p">(</span><span class="n">access_key_id</span><span class="p">,</span><span class="n">access_key_secret</span><span class="p">,</span><span class="s">'cn-hangzhou'</span><span class="p">)</span>
-    <span class="n">request</span> <span class="o">=</span> <span class="n">DescribeDomainRecordInfoRequest</span><span class="o">.</span><span class="n">DescribeDomainRecordInfoRequest</span><span class="p">()</span>
-    <span class="n">request</span><span class="o">.</span><span class="n">set_RecordId</span><span class="p">(</span><span class="n">record_id</span><span class="p">)</span>
-    <span class="n">request</span><span class="o">.</span><span class="n">set_accept_format</span><span class="p">(</span><span class="n">rc_format</span><span class="p">)</span>
-    <span class="n">result</span> <span class="o">=</span> <span class="n">clt</span><span class="o">.</span><span class="n">do_action</span><span class="p">(</span><span class="n">request</span><span class="p">)</span>
-    <span class="n">result</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">JSONDecoder</span><span class="p">()</span><span class="o">.</span><span class="n">decode</span><span class="p">(</span><span class="n">result</span><span class="p">)</span>
-    <span class="n">result</span> <span class="o">=</span> <span class="n">result</span><span class="p">[</span><span class="s">'Value'</span><span class="p">]</span>
-    <span class="k">return</span> <span class="n">result</span>
+"""
+def get_old_ip(record_id):
+    clt = client.AcsClient(access_key_id,access_key_secret,'cn-hangzhou')
+    request = DescribeDomainRecordInfoRequest.DescribeDomainRecordInfoRequest()
+    request.set_RecordId(record_id)
+    request.set_accept_format(rc_format)
+    result = clt.do_action(request)
+    result = json.JSONDecoder().decode(result)
+    result = result['Value']
+    return result
 
-<span class="s">"""
+"""
 更新阿里云域名解析记录信息
-"""</span>
-<span class="k">def</span> <span class="nf">update_dns</span><span class="p">(</span><span class="n">dns_rr</span><span class="p">,</span> <span class="n">dns_type</span><span class="p">,</span> <span class="n">dns_value</span><span class="p">,</span> <span class="n">dns_record_id</span><span class="p">,</span> <span class="n">dns_ttl</span><span class="p">,</span> <span class="n">dns_format</span><span class="p">):</span>
-    <span class="n">clt</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">AcsClient</span><span class="p">(</span><span class="n">access_key_id</span><span class="p">,</span> <span class="n">access_key_secret</span><span class="p">,</span> <span class="s">'cn-hangzhou'</span><span class="p">)</span>
-    <span class="n">request</span> <span class="o">=</span> <span class="n">UpdateDomainRecordRequest</span><span class="o">.</span><span class="n">UpdateDomainRecordRequest</span><span class="p">()</span>
-    <span class="n">request</span><span class="o">.</span><span class="n">set_RR</span><span class="p">(</span><span class="n">dns_rr</span><span class="p">)</span>
-    <span class="n">request</span><span class="o">.</span><span class="n">set_Type</span><span class="p">(</span><span class="n">dns_type</span><span class="p">)</span>
-    <span class="n">request</span><span class="o">.</span><span class="n">set_Value</span><span class="p">(</span><span class="n">dns_value</span><span class="p">)</span>
-    <span class="n">request</span><span class="o">.</span><span class="n">set_RecordId</span><span class="p">(</span><span class="n">dns_record_id</span><span class="p">)</span>
-    <span class="n">request</span><span class="o">.</span><span class="n">set_TTL</span><span class="p">(</span><span class="n">dns_ttl</span><span class="p">)</span>
-    <span class="n">request</span><span class="o">.</span><span class="n">set_accept_format</span><span class="p">(</span><span class="n">dns_format</span><span class="p">)</span>
-    <span class="n">result</span> <span class="o">=</span> <span class="n">clt</span><span class="o">.</span><span class="n">do_action</span><span class="p">(</span><span class="n">request</span><span class="p">)</span>
-    <span class="k">return</span> <span class="n">result</span>
+"""
+def update_dns(dns_rr, dns_type, dns_value, dns_record_id, dns_ttl, dns_format):
+    clt = client.AcsClient(access_key_id, access_key_secret, 'cn-hangzhou')
+    request = UpdateDomainRecordRequest.UpdateDomainRecordRequest()
+    request.set_RR(dns_rr)
+    request.set_Type(dns_type)
+    request.set_Value(dns_value)
+    request.set_RecordId(dns_record_id)
+    request.set_TTL(dns_ttl)
+    request.set_accept_format(dns_format)
+    result = clt.do_action(request)
+    return result
 
-<span class="s">"""
+"""
 通过 ip.cn 获取当前主机的外网IP
-"""</span>
-<span class="k">def</span> <span class="nf">get_my_publick_ip</span><span class="p">():</span>
-    <span class="n">get_ip_method</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">popen</span><span class="p">(</span><span class="s">'curl -s ip.cn'</span><span class="p">)</span>
-    <span class="n">get_ip_responses</span> <span class="o">=</span> <span class="n">get_ip_method</span><span class="o">.</span><span class="n">readlines</span><span class="p">()[</span><span class="mi">0</span><span class="p">]</span>
-    <span class="n">get_ip_pattern</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="nb">compile</span><span class="p">(</span><span class="s">r'\d+\.\d+\.\d+\.\d+'</span><span class="p">)</span>
-    <span class="n">get_ip_value</span> <span class="o">=</span> <span class="n">get_ip_pattern</span><span class="o">.</span><span class="n">findall</span><span class="p">(</span><span class="n">get_ip_responses</span><span class="p">)</span>
-    <span class="k">return</span> <span class="n">get_ip_value</span>
+"""
+def get_my_publick_ip():
+    get_ip_method = os.popen('curl -s ip.cn')
+    get_ip_responses = get_ip_method.readlines()[0]
+    get_ip_pattern = re.compile(r'\d+\.\d+\.\d+\.\d+')
+    get_ip_value = get_ip_pattern.findall(get_ip_responses)
+    return get_ip_value
 
-<span class="k">def</span> <span class="nf">write_to_file</span><span class="p">(</span><span class="n">new_ip</span><span class="p">):</span>
-    <span class="n">time_now</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">now</span><span class="p">()</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="s">'</span><span class="si">%</span><span class="s">Y-</span><span class="si">%</span><span class="s">m-</span><span class="si">%</span><span class="s">d </span><span class="si">%</span><span class="s">H:</span><span class="si">%</span><span class="s">M:</span><span class="si">%</span><span class="s">S'</span><span class="p">)</span>
-    <span class="n">write_log</span> <span class="o">=</span> <span class="nb">open</span><span class="p">(</span><span class="s">'aliyun_ddns.txt'</span><span class="p">,</span> <span class="s">'a'</span><span class="p">)</span>
-    <span class="n">write_log</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">time_now</span> <span class="o">+</span> <span class="s">' '</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">new_ip</span><span class="p">)</span> <span class="o">+</span> <span class="s">'</span><span class="se">\n</span><span class="s">'</span><span class="p">)</span>
-    <span class="k">return</span>
+def write_to_file(new_ip):
+    time_now = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
+    write_log = open('aliyun_ddns.txt', 'a')
+    write_log.write(time_now + ' ' + str(new_ip) + '\n')
+    return
 
-<span class="k">if</span> <span class="n">__name__</span> <span class="o">==</span> <span class="s">'__main__'</span><span class="p">:</span>
-    <span class="c"># # 之前的解析记录</span>
-    <span class="n">old_ip</span> <span class="o">=</span> <span class="s">""</span>
-    <span class="n">record_id</span> <span class="o">=</span> <span class="s">""</span>
-    <span class="n">dns_records</span> <span class="o">=</span> <span class="n">check_records</span><span class="p">(</span><span class="n">rc_domain</span><span class="p">)</span>
-    <span class="k">for</span> <span class="n">record</span> <span class="ow">in</span> <span class="n">dns_records</span><span class="p">[</span><span class="s">"DomainRecords"</span><span class="p">][</span><span class="s">"Record"</span><span class="p">]:</span>
-        <span class="k">if</span> <span class="n">record</span><span class="p">[</span><span class="s">"Type"</span><span class="p">]</span> <span class="o">==</span> <span class="s">'A'</span> <span class="ow">and</span> <span class="n">record</span><span class="p">[</span><span class="s">"RR"</span><span class="p">]</span> <span class="o">==</span> <span class="s">'q'</span><span class="p">:</span>
-            <span class="n">record_id</span> <span class="o">=</span> <span class="n">record</span><span class="p">[</span><span class="s">"RecordId"</span><span class="p">]</span>
-            <span class="k">print</span> <span class="s">"q.vincents.cn recordID is </span><span class="si">%</span><span class="s">s"</span> <span class="o">%</span> <span class="p">(</span><span class="n">record_id</span><span class="p">)</span>
-            <span class="k">if</span> <span class="n">record_id</span> <span class="o">!=</span> <span class="s">""</span><span class="p">:</span>
-                <span class="n">old_ip</span> <span class="o">=</span> <span class="n">get_old_ip</span><span class="p">(</span><span class="n">record_id</span><span class="p">)</span>
+if __name__ == '__main__':
+    # # 之前的解析记录
+    old_ip = ""
+    record_id = ""
+    dns_records = check_records(rc_domain)
+    for record in dns_records["DomainRecords"]["Record"]:
+        if record["Type"] == 'A' and record["RR"] == 'q':
+            record_id = record["RecordId"]
+            print "q.vincents.cn recordID is %s" % (record_id)
+            if record_id != "":
+                old_ip = get_old_ip(record_id)
                
-    <span class="n">old_ip</span> <span class="o">=</span> <span class="n">get_old_ip</span><span class="p">(</span><span class="n">record_id</span><span class="p">)</span>
-    <span class="c"># 获取主机当前的IP</span>
-    <span class="n">now_ip</span> <span class="o">=</span> <span class="n">get_my_publick_ip</span><span class="p">()[</span><span class="mi">0</span><span class="p">]</span>
-    <span class="k">print</span> <span class="s">"now host ip is </span><span class="si">%</span><span class="s">s, dns ip is </span><span class="si">%</span><span class="s">s"</span> <span class="o">%</span> <span class="p">(</span><span class="n">now_ip</span><span class="p">,</span> <span class="n">old_ip</span><span class="p">)</span>
+    old_ip = get_old_ip(record_id)
+    # 获取主机当前的IP
+    now_ip = get_my_publick_ip()[0]
+    print "now host ip is %s, dns ip is %s" % (now_ip, old_ip)
 
-    <span class="k">if</span> <span class="n">old_ip</span> <span class="o">==</span> <span class="n">now_ip</span><span class="p">:</span>
-        <span class="k">print</span> <span class="s">"The specified value of parameter Value is the same as old"</span>
-    <span class="k">else</span><span class="p">:</span>
-        <span class="n">rc_rr</span> <span class="o">=</span> <span class="s">'q'</span>                 <span class="c"># 解析记录</span>
-        <span class="n">rc_type</span> <span class="o">=</span> <span class="s">'a'</span>               <span class="c"># 记录类型, DDNS填写A记录</span>
-        <span class="n">rc_value</span> <span class="o">=</span> <span class="n">now_ip</span>           <span class="c"># 新的解析记录值</span>
-        <span class="n">rc_record_id</span> <span class="o">=</span> <span class="n">record_id</span>    <span class="c"># 记录ID</span>
-        <span class="n">rc_ttl</span> <span class="o">=</span> <span class="s">'1000'</span>             <span class="c"># 解析记录有效生存时间TTL,单位:秒</span>
+    if old_ip == now_ip:
+        print "The specified value of parameter Value is the same as old"
+    else:
+        rc_rr = 'q'                 # 解析记录
+        rc_type = 'a'               # 记录类型, DDNS填写A记录
+        rc_value = now_ip           # 新的解析记录值
+        rc_record_id = record_id    # 记录ID
+        rc_ttl = '1000'             # 解析记录有效生存时间TTL,单位:秒
 
-        <span class="k">print</span> <span class="n">update_dns</span><span class="p">(</span><span class="n">rc_rr</span><span class="p">,</span> <span class="n">rc_type</span><span class="p">,</span> <span class="n">rc_value</span><span class="p">,</span> <span class="n">rc_record_id</span><span class="p">,</span> <span class="n">rc_ttl</span><span class="p">,</span> <span class="n">rc_format</span><span class="p">)</span>
+        print update_dns(rc_rr, rc_type, rc_value, rc_record_id, rc_ttl, rc_format)
 
-        <span class="n">write_to_file</span><span class="p">(</span><span class="n">now_ip</span><span class="p">)</span>
+        write_to_file(now_ip)
 
 </pre></td></tr></tbody></table></code></pre></div></div>
 
 <h2 id="crontab-定时运行">crontab 定时运行</h2>
 
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
 </pre></td><td class="rouge-code"><pre>crontab -e
 </pre></td></tr></tbody></table></code></pre></div></div>
 
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
 </pre></td><td class="rouge-code"><pre>*/10 * * * * /usr/bin/python aliyun_ddns.py /dev/null 1&gt;/dev/null
 </pre></td></tr></tbody></table></code></pre></div></div>
 
@@ -629,11 +643,11 @@ def update_dns(dns_rr, dns_type, dns_value, dns_record_id, dns_ttl, dns_format):
 
 <p>由于个人使用的服务器配置一般都不高，重启服务器又能释放一些占用的内存。所以在凌晨定时重启服务器还是很有必要的。亲测，自己1G的内存，使用一段时间省了100M左右的内存可以使用，重启后，又变成600M多了。2333…</p>
 
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
 </pre></td><td class="rouge-code"><pre>crontab -e
 </pre></td></tr></tbody></table></code></pre></div></div>
 
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
 2
 </pre></td><td class="rouge-code"><pre># 凌晨5点重启一次服务器
 0 5 * * * /sbin/reboot
@@ -641,10 +655,10 @@ def update_dns(dns_rr, dns_type, dns_value, dns_record_id, dns_ttl, dns_format):
 
 <p>查看系统重启记录</p>
 
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
 </pre></td><td class="rouge-code"><pre>last reboot
 </pre></td></tr></tbody></table></code></pre></div></div>
-<p><img src="/img/p-aliyun-ddns/reboot_result.png" alt="" /></p>
+<p><img src="http://qiniu.vincents.cn/blog/p-aliyun-ddns/reboot_result.png" alt="" /></p>
 
 <h2 id="参考学习">参考学习</h2>
 <ol>
@@ -724,7 +738,7 @@ def update_dns(dns_rr, dns_type, dns_value, dns_record_id, dns_ttl, dns_format):
         </a>
         
         
-                <a data-sort="0016" 
+                <a data-sort="0017" 
                     href="/archive/?tag=%E6%8A%8A%E9%85%92%E6%85%B0%E9%A3%8E%E5%B0%98"
                     title="把酒慰风尘"
                     rel="2">把酒慰风尘</a>
@@ -732,34 +746,34 @@ def update_dns(dns_rr, dns_type, dns_value, dns_record_id, dns_ttl, dns_format):
                 <a data-sort="0013" 
                     href="/archive/?tag=iOS"
                     title="iOS"
-                    rel="5">iOS</a>
+                    rel="6">iOS</a>
         
-                <a data-sort="0015" 
+                <a data-sort="0016" 
                     href="/archive/?tag=Web%E6%9C%8D%E5%8A%A1%E5%99%A8"
                     title="Web服务器"
                     rel="3">Web服务器</a>
         
-                <a data-sort="0016" 
+                <a data-sort="0017" 
                     href="/archive/?tag=%E6%97%85%E8%A1%8C"
                     title="旅行"
                     rel="2">旅行</a>
         
-                <a data-sort="0016" 
+                <a data-sort="0017" 
                     href="/archive/?tag=%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B"
                     title="逆向工程"
                     rel="2">逆向工程</a>
         
-                <a data-sort="0016" 
+                <a data-sort="0017" 
                     href="/archive/?tag=CentOS"
                     title="CentOS"
                     rel="2">CentOS</a>
         
-                <a data-sort="0016" 
+                <a data-sort="0017" 
                     href="/archive/?tag=MySQL"
                     title="MySQL"
                     rel="2">MySQL</a>
         
-                <a data-sort="0016" 
+                <a data-sort="0017" 
                     href="/archive/?tag=Python"
                     title="Python"
                     rel="2">Python
@@ -773,23 +787,9 @@ def update_dns(dns_rr, dns_type, dns_value, dns_record_id, dns_ttl, dns_format):
 <h5>FRIENDS</h5>
 <ul class="list-inline">
   
-  <li><a href="https://shop130631028.taobao.com/">在回忆中 - 卖点小东西</a></li>
-  
-  <li><a href="https://unsplash.com">unsplash - 好看的图片</a></li>
-  
-  <li><a href="https://api.vincents.cn/udid">获取UDID</a></li>
+  <li><a href="https://app.vincents.cn/">Apps</a></li>
   
   <li><a href="https://www.vincents.cn/saylove/">say - vincents.cn</a></li>
-  
-  <li><a href="https://wechat.vincents.cn">wechat.vincents.cn</a></li>
-  
-  <li><a href="https://api.vincents.cn/manager">api.vincents.cn</a></li>
-  
-  <li><a href="http://git.vincents.cn">git.vincents.cn</a></li>
-  
-  <li><a href="http://idea.vincents.cn">idea.vincents.cn</a></li>
-  
-  <li><a href="http://rap.vincents.cn">rap.vincents.cn</a></li>
   
 </ul>
 
@@ -914,7 +914,7 @@ def update_dns(dns_rr, dns_type, dns_value, dns_record_id, dns_ttl, dns_format):
   
 </ul>
 
-                <p class="copyright text-muted">
+                <p class="copyright text-muted text-center">
                     渝ICP备17003502号 | Copyright &copy; Vincent 2018
                     <br>
                     <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
@@ -923,16 +923,9 @@ def update_dns(dns_rr, dns_type, dns_value, dns_record_id, dns_ttl, dns_format):
                     </span>
                     <span id="busuanzi_container_site_uv">
                         访客数<span id="busuanzi_value_site_uv"></span>人次
-                      </span>
-                    <!-- <span id="busuanzi_container_site_pv"> 您是本站第<span id="busuanzi_value_site_pv"></span>位访问者</span>  |  -->
-                    <!-- umeng 站长统计 -->
-<!--                     <script src="https://s22.cnzz.com/z_stat.php?id=1263843451&web_id=1263843451" language="JavaScript"></script> |  -->
-                    | Theme by <a target="_blank" href="http://huangxuan.me">Hux</a> |
-                    <iframe
-                        style="margin-left: 2px; margin-bottom:-5px;"
-                        frameborder="0" scrolling="0" width="100px" height="20px"
-                        src="https://ghbtns.com/github-btn.html?user=huxpro&repo=huxpro.github.io&type=star&count=true" >
-                    </iframe>
+                    </span>
+                    |
+                    Theme by <a target="_blank" href="http://huangxuan.me">Hux</a>
                 </p>
             </div>
         </div>
@@ -993,15 +986,7 @@ def update_dns(dns_rr, dns_type, dns_value, dns_record_id, dns_ttl, dns_format):
 
 <!--fastClick.js -->
 <script>
-    async("//cdnjs.cloudflare.com/ajax/libs/fastclick/1.0.6/fastclick.min.js", function(){
-        var $nav = document.querySelector("nav");
-        if($nav) FastClick.attach($nav);
-    })
-</script>
-
-<!--fastClick.js -->
-<script>
-    async("//cdnjs.cloudflare.com/ajax/libs/fastclick/1.0.6/fastclick.min.js", function(){
+    async("//cdn.bootcdn.net/ajax/libs/fastclick/1.0.6/fastclick.min.js", function(){
         var $nav = document.querySelector("nav");
         if($nav) FastClick.attach($nav);
     })

@@ -26,7 +26,7 @@
     <meta property="og:type" content="website">
     <meta property="og:description" content="{% if page.description %}{{ page.description }}{% else %}{{ site.description }}{% endif %}">
     {% endcase %}
-    <meta property="og:image" content="{{ site.url }}{{ site.sidebar-avatar }}">
+    <meta property="og:image" content="{% if site.image_cdn != '' %}{{ site.sidebar-avatar | remove_first: '/img' | prepend: site.image_cdn }}{% else %}{{ site.url }}{{ site.sidebar-avatar }}{% endif %}">
     <meta property="og:url" content="{{ site.url }}{{ page.url }}">
     <meta property="og:site_name" content="{{ site.SEOTitle }}">
     
@@ -36,7 +36,7 @@
     <link rel="manifest" href="{{ site.baseurl }}/pwa/manifest.json">
 
     <!-- Favicon -->
-    <link rel="shortcut icon" href="{{ site.baseurl }}/img/favicon.ico">
+    <link rel="shortcut icon" href="{% if site.image_cdn != '' %}{{ site.image_cdn }}/favicon.ico{% else %}/img/favicon.ico{% endif %}">
     
     <!-- Canonical URL -->
     <link rel="canonical" href="{{ page.url | replace:'index.html','' | prepend: site.baseurl | prepend: site.url }}">
@@ -47,10 +47,13 @@
     <!-- Custom CSS -->
     <link rel="stylesheet" href="{{ "/css/hux-blog.min.css" | prepend: site.baseurl }}">
 
+    <style>a:focus,a:active{outline:none}</style>
+
     <!-- Custom Fonts -->
     <!-- <link href="http://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet" type="text/css"> -->
     <!-- Hux change font-awesome CDN to qiniu -->
-    <link href="//cdnjs.cloudflare.com/ajax/libs/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+    <!-- <link href="//cdnjs.cloudflare.com/ajax/libs/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet" type="text/css"> -->
+<link href="//cdn.bootcdn.net/ajax/libs/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet" type="text/css">
 
 
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
@@ -62,4 +65,9 @@
 
     <!-- ga & ba script hoook -->
     <script></script>
+
+    <!-- WebP support detection -->
+    <script>
+        (function(){var w=document.createElement('canvas');w.toDataURL('image/webp').indexOf('data:image/webp')==0&&(document.documentElement.className+=' webp')})();
+    </script>
 </head>

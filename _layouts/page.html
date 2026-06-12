@@ -56,7 +56,7 @@ layout: default
                 <hr>
                 <h5>微信公众号</h5>
                 <div class="short-about">
-                    <img src="/img/wechat-pub-qrcode.jpg">
+                    <img src="{% if site.image_cdn != '' %}{{ site.image_cdn }}/wechat-pub-qrcode.jpg{% else %}/img/wechat-pub-qrcode.jpg{% endif %}">
                 </div>
 
                 <!-- Friends Blog -->

@@ -17,7 +17,6 @@
     <meta property="og:description" content="在 ibireme 的 不再安全的 OSSpinLock 一文中，有一张图简单比较了各种所的加锁性能
 
 下面根据顺序分析每个加锁的实现原理。注意：加解锁速度并不表示锁的效率，只表示加解锁的操作在执行时的复杂度。
-
 ">
     
     <meta property="article:published_time" content="2017-03-14T00:00:00Z">
@@ -29,7 +28,7 @@
     <meta property="article:tag" content="iOS">
     
     
-    <meta property="og:image" content="http://localhost:4000/img/avatar-sea-vincent.jpg">
+    <meta property="og:image" content="http://qiniu.vincents.cn/blog/avatar-sea-vincent.jpg">
     <meta property="og:url" content="http://localhost:4000/2017/03/14/ios-lock/">
     <meta property="og:site_name" content="Vincent's Blog | 永远年轻，永远热泪盈眶">
     
@@ -39,7 +38,7 @@
     <link rel="manifest" href="/pwa/manifest.json">
 
     <!-- Favicon -->
-    <link rel="shortcut icon" href="/img/favicon.ico">
+    <link rel="shortcut icon" href="http://qiniu.vincents.cn/blog/favicon.ico">
     
     <!-- Canonical URL -->
     <link rel="canonical" href="http://localhost:4000/2017/03/14/ios-lock/">
@@ -50,10 +49,13 @@
     <!-- Custom CSS -->
     <link rel="stylesheet" href="/css/hux-blog.min.css">
 
+    <style>a:focus,a:active{outline:none}</style>
+
     <!-- Custom Fonts -->
     <!-- <link href="http://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet" type="text/css"> -->
     <!-- Hux change font-awesome CDN to qiniu -->
-    <link href="//cdnjs.cloudflare.com/ajax/libs/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+    <!-- <link href="//cdnjs.cloudflare.com/ajax/libs/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet" type="text/css"> -->
+<link href="//cdn.bootcdn.net/ajax/libs/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet" type="text/css">
 
 
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
@@ -65,6 +67,11 @@
 
     <!-- ga & ba script hoook -->
     <script></script>
+
+    <!-- WebP support detection -->
+    <script>
+        (function(){var w=document.createElement('canvas');w.toDataURL('image/webp').indexOf('data:image/webp')==0&&(document.documentElement.className+=' webp')})();
+    </script>
 </head>
 
 
@@ -178,16 +185,23 @@
 </script>
 
 
-    <!-- <img src="/img/post-bg-7-ios-lock.jpg" width="0" height="0"> -->
+    <!-- <picture><source srcset="http://qiniu.vincents.cn/blog/post-bg-7-ios-lock.webp" type="image/webp"><img src="http://qiniu.vincents.cn/blog/post-bg-7-ios-lock.jpg" width="0" height="0"></picture> -->
 
 <!-- Post Header -->
+
+
+
 
 
 
 <style type="text/css">
     header.intro-header{
         position: relative;
-        background-image: url('/img/post-bg-7-ios-lock.jpg');
+        background-image: url('http://qiniu.vincents.cn/blog/post-bg-7-ios-lock.jpg');
+        background: ;
+    }
+    .webp header.intro-header{
+        background-image: url('http://qiniu.vincents.cn/blog/post-bg-7-ios-lock.webp');
         background: ;
     }
 
@@ -234,7 +248,7 @@
                 post-container">
 
 				<p>在 <strong>ibireme</strong> 的 <a href="https://bestswifter.com/ios-lock/">不再安全的 OSSpinLock</a> 一文中，有一张图简单比较了各种所的加锁性能
-<img src="/img/p-ios-lock/lock_benchmark.png" alt="" />
+<img src="http://qiniu.vincents.cn/blog/p-ios-lock/lock_benchmark.png" alt="" />
 下面根据顺序分析每个加锁的实现原理。注意：加解锁速度并不表示锁的效率，只表示加解锁的操作在执行时的复杂度。</p>
 
 <h2 id="锁之间的关系">锁之间的关系</h2>
@@ -262,7 +276,7 @@
 
 <p>自旋锁的实现思路很简单，理论上来说只要定义一个全局变量，用来表示锁的可用情况即可，伪代码如下:</p>
 
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
 2
 3
 4
@@ -286,7 +300,7 @@ do {
 
 <p>示例代码</p>
 
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
 2
 3
 4
@@ -340,10 +354,10 @@ do {
 <p>参考学习中的连接已经说明 OSSpinLock 其实已经不再安全。主要原因在于</p>
 
 <blockquote>
-  <p>当低优先级线程拿到锁时，高优先级线程进入忙等(budy-wait)状态，消耗大量 CPU 时间，从而导致低优先级线程拿不到 CPU 时间，也就无法完成任务并释放锁。这种问题被称为 <code class="highlighter-rouge">优先级反转</code></p>
+  <p>当低优先级线程拿到锁时，高优先级线程进入忙等(budy-wait)状态，消耗大量 CPU 时间，从而导致低优先级线程拿不到 CPU 时间，也就无法完成任务并释放锁。这种问题被称为 <code class="language-plaintext highlighter-rouge">优先级反转</code></p>
 </blockquote>
 
-<p>而且，实际上苹果在<code class="highlighter-rouge">iOS10</code>中也不再推荐使用 OSSpinLock,转而使用 <code class="highlighter-rouge">os_unfair_lock()</code></p>
+<p>而且，实际上苹果在<code class="language-plaintext highlighter-rouge">iOS10</code>中也不再推荐使用 OSSpinLock,转而使用 <code class="language-plaintext highlighter-rouge">os_unfair_lock()</code></p>
 
 <h2 id="os_unfair_lock">os_unfair_lock</h2>
 
@@ -351,7 +365,7 @@ do {
 
 <p>示例代码</p>
 
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
 2
 3
 4
@@ -379,7 +393,7 @@ os_unfair_lock_unlock(unfairlock);
 
 <p>示例代码</p>
 
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
 2
 3
 4
@@ -441,7 +455,7 @@ os_unfair_lock_unlock(unfairlock);
 
 <p>示例代码</p>
 
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
 2
 3
 4
@@ -499,13 +513,13 @@ os_unfair_lock_unlock(unfairlock);
 
 <p><strong>\/</strong> 一般情况下，一个线程只能申请一次锁，也只能在获得锁的情况下才能释放锁，多次申请锁或者释放未获得的锁都会导致崩溃。假设在已经获得锁的情况下再次申请锁，线程会因为等待锁的释放而进入睡眠状态，因此就不可能再释放锁，从而导致死锁。</p>
 
-<p>然而这种情况会经常发生，比如某个函数申请了锁，在临界区内又递归调用了自己。幸运的是 <code class="highlighter-rouge">pthread_mutex</code> 支持递归锁，也就是允许一个线程递归的申请锁。</p>
+<p>然而这种情况会经常发生，比如某个函数申请了锁，在临界区内又递归调用了自己。幸运的是 <code class="language-plaintext highlighter-rouge">pthread_mutex</code> 支持递归锁，也就是允许一个线程递归的申请锁。</p>
 
 <h4 id="pthread_mutex-递归锁">pthread_mutex 递归锁</h4>
 
 <p>示例代码</p>
 
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
 2
 3
 4
@@ -589,11 +603,11 @@ os_unfair_lock_unlock(unfairlock);
 
 <h4 id="互斥锁的实现">互斥锁的实现</h4>
 
-<p>互斥锁在申请锁时，调用了<code class="highlighter-rouge">pthread_mutex_lock</code>方法，它在不同的系统上实现各有不同，有时候它的内部是使用信号量来实现，即使不用信号量，也会调用到<code class="highlighter-rouge">lll_futex_wait</code>函数，从而导致线程休眠。</p>
+<p>互斥锁在申请锁时，调用了<code class="language-plaintext highlighter-rouge">pthread_mutex_lock</code>方法，它在不同的系统上实现各有不同，有时候它的内部是使用信号量来实现，即使不用信号量，也会调用到<code class="language-plaintext highlighter-rouge">lll_futex_wait</code>函数，从而导致线程休眠。</p>
 
 <p>上面提到说，如果线程等待的临界区很短，忙等的效率也许更高，所以在有些版本的实现中，会首先尝试一定次数(比如1000次)的test and set，这样可以在错误使用互斥锁时提高性能。</p>
 
-<p>另外，由于 <code class="highlighter-rouge">pthread_mutex</code>有多种类型，可以支持递归锁等，因此在申请加锁时，需要对锁的类型加以判断，这也就是为什么它和信号量的实现类似，但效率略低的原因。</p>
+<p>另外，由于 <code class="language-plaintext highlighter-rouge">pthread_mutex</code>有多种类型，可以支持递归锁等，因此在申请加锁时，需要对锁的类型加以判断，这也就是为什么它和信号量的实现类似，但效率略低的原因。</p>
 
 <h2 id="nslock-和-nsrecursivelock">NSLock 和 NSRecursiveLock</h2>
 
@@ -601,7 +615,7 @@ os_unfair_lock_unlock(unfairlock);
 
 <p>示例代码</p>
 
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
 2
 3
 4
@@ -627,9 +641,9 @@ os_unfair_lock_unlock(unfairlock);
 }
 </pre></td></tr></tbody></table></code></pre></div></div>
 
-<p>这里的 NSLock 和 NSRecursiveLock 都是封装的互斥锁 <code class="highlighter-rouge">pthread_mutex</code>。</p>
+<p>这里的 NSLock 和 NSRecursiveLock 都是封装的互斥锁 <code class="language-plaintext highlighter-rouge">pthread_mutex</code>。</p>
 
-<p>NSLock 只是在内部封装了一个 pthread_mutex，属性为 <code class="highlighter-rouge">PTHREAD_MUTEX_ERRORCHECK</code>，他会损失一定的性能换来错误提示。理论上来说，NSLock 和 pthread_mutex 拥有相同的运行效率，实际由于封装的原因会略慢一点。由于有缓存存在，相差不会很多。</p>
+<p>NSLock 只是在内部封装了一个 pthread_mutex，属性为 <code class="language-plaintext highlighter-rouge">PTHREAD_MUTEX_ERRORCHECK</code>，他会损失一定的性能换来错误提示。理论上来说，NSLock 和 pthread_mutex 拥有相同的运行效率，实际由于封装的原因会略慢一点。由于有缓存存在，相差不会很多。</p>
 
 <p>NSRecursiveLock 与 NSLock 的区别在于内部封装的 pthread_mutex_t 对象的类型不同，NSRecursiveLock 的类型为 PTHREAD_MUTEX_RECURSIVE。</p>
 
@@ -637,15 +651,15 @@ os_unfair_lock_unlock(unfairlock);
 
 <p>它通常用于表明共享资源是佛偶可被访问或者确保一系列任务能按照指定的执行顺序执行。如果一个线程视图访问一个共享资源，而正在访问该资源的线程将其条件设置为不可访问，那么该线程会被阻塞，知道正在访问该资源的线程将访问条件更改为可访问状态或者说给被阻塞的线程发送信号后，被阻塞的线程才能正常访问这个资源。</p>
 
-<p><code class="highlighter-rouge">NSCondition</code> 的底层是通过条件变量(condition variable) <code class="highlighter-rouge">pthread_cond_t</code> 来实现的。条件变量有点像信号量，提供了线程阻塞与信号机制，隐藏可以用来阻塞某个线程，并等待某个数据就绪，随后唤醒线程。比如常见的  生产者–消费者模式。</p>
+<p><code class="language-plaintext highlighter-rouge">NSCondition</code> 的底层是通过条件变量(condition variable) <code class="language-plaintext highlighter-rouge">pthread_cond_t</code> 来实现的。条件变量有点像信号量，提供了线程阻塞与信号机制，隐藏可以用来阻塞某个线程，并等待某个数据就绪，随后唤醒线程。比如常见的  生产者–消费者模式。</p>
 
 <h4 id="nsconditionlock">NSConditionLock</h4>
 
-<p><code class="highlighter-rouge">NSConditionLock</code> 借助 <code class="highlighter-rouge">NSCondition</code> 来实现，它的本质就是个【生产者–消费者】模型。’条件被满足’可以理解为生产者提供了新的内容。<code class="highlighter-rouge">NSConditionLock</code> 的内部持有一个 <code class="highlighter-rouge">NSCondition</code> 对象，以及 <code class="highlighter-rouge">_condition_value</code> 属性。</p>
+<p><code class="language-plaintext highlighter-rouge">NSConditionLock</code> 借助 <code class="language-plaintext highlighter-rouge">NSCondition</code> 来实现，它的本质就是个【生产者–消费者】模型。’条件被满足’可以理解为生产者提供了新的内容。<code class="language-plaintext highlighter-rouge">NSConditionLock</code> 的内部持有一个 <code class="language-plaintext highlighter-rouge">NSCondition</code> 对象，以及 <code class="language-plaintext highlighter-rouge">_condition_value</code> 属性。</p>
 
 <p>示例代码</p>
 
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
 2
 3
 4
@@ -721,7 +735,7 @@ os_unfair_lock_unlock(unfairlock);
 
 <p>示例代码</p>
 
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
 2
 3
 </pre></td><td class="rouge-code"><pre>@synchronized (self) {
@@ -754,7 +768,7 @@ os_unfair_lock_unlock(unfairlock);
 
 <h4 id="自旋锁实现原理">自旋锁实现原理</h4>
 
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
 2
 3
 4
@@ -780,7 +794,7 @@ do{
 
 <h4 id="信号量的实现">信号量的实现</h4>
 
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
 2
 3
 4
@@ -928,7 +942,7 @@ do{
         </a>
         
         
-                <a data-sort="0016" 
+                <a data-sort="0017" 
                     href="/archive/?tag=%E6%8A%8A%E9%85%92%E6%85%B0%E9%A3%8E%E5%B0%98"
                     title="把酒慰风尘"
                     rel="2">把酒慰风尘</a>
@@ -936,34 +950,34 @@ do{
                 <a data-sort="0013" 
                     href="/archive/?tag=iOS"
                     title="iOS"
-                    rel="5">iOS</a>
+                    rel="6">iOS</a>
         
-                <a data-sort="0015" 
+                <a data-sort="0016" 
                     href="/archive/?tag=Web%E6%9C%8D%E5%8A%A1%E5%99%A8"
                     title="Web服务器"
                     rel="3">Web服务器</a>
         
-                <a data-sort="0016" 
+                <a data-sort="0017" 
                     href="/archive/?tag=%E6%97%85%E8%A1%8C"
                     title="旅行"
                     rel="2">旅行</a>
         
-                <a data-sort="0016" 
+                <a data-sort="0017" 
                     href="/archive/?tag=%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B"
                     title="逆向工程"
                     rel="2">逆向工程</a>
         
-                <a data-sort="0016" 
+                <a data-sort="0017" 
                     href="/archive/?tag=CentOS"
                     title="CentOS"
                     rel="2">CentOS</a>
         
-                <a data-sort="0016" 
+                <a data-sort="0017" 
                     href="/archive/?tag=MySQL"
                     title="MySQL"
                     rel="2">MySQL</a>
         
-                <a data-sort="0016" 
+                <a data-sort="0017" 
                     href="/archive/?tag=Python"
                     title="Python"
                     rel="2">Python
@@ -977,23 +991,9 @@ do{
 <h5>FRIENDS</h5>
 <ul class="list-inline">
   
-  <li><a href="https://shop130631028.taobao.com/">在回忆中 - 卖点小东西</a></li>
-  
-  <li><a href="https://unsplash.com">unsplash - 好看的图片</a></li>
-  
-  <li><a href="https://api.vincents.cn/udid">获取UDID</a></li>
+  <li><a href="https://app.vincents.cn/">Apps</a></li>
   
   <li><a href="https://www.vincents.cn/saylove/">say - vincents.cn</a></li>
-  
-  <li><a href="https://wechat.vincents.cn">wechat.vincents.cn</a></li>
-  
-  <li><a href="https://api.vincents.cn/manager">api.vincents.cn</a></li>
-  
-  <li><a href="http://git.vincents.cn">git.vincents.cn</a></li>
-  
-  <li><a href="http://idea.vincents.cn">idea.vincents.cn</a></li>
-  
-  <li><a href="http://rap.vincents.cn">rap.vincents.cn</a></li>
   
 </ul>
 
@@ -1118,7 +1118,7 @@ do{
   
 </ul>
 
-                <p class="copyright text-muted">
+                <p class="copyright text-muted text-center">
                     渝ICP备17003502号 | Copyright &copy; Vincent 2018
                     <br>
                     <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
@@ -1127,16 +1127,9 @@ do{
                     </span>
                     <span id="busuanzi_container_site_uv">
                         访客数<span id="busuanzi_value_site_uv"></span>人次
-                      </span>
-                    <!-- <span id="busuanzi_container_site_pv"> 您是本站第<span id="busuanzi_value_site_pv"></span>位访问者</span>  |  -->
-                    <!-- umeng 站长统计 -->
-<!--                     <script src="https://s22.cnzz.com/z_stat.php?id=1263843451&web_id=1263843451" language="JavaScript"></script> |  -->
-                    | Theme by <a target="_blank" href="http://huangxuan.me">Hux</a> |
-                    <iframe
-                        style="margin-left: 2px; margin-bottom:-5px;"
-                        frameborder="0" scrolling="0" width="100px" height="20px"
-                        src="https://ghbtns.com/github-btn.html?user=huxpro&repo=huxpro.github.io&type=star&count=true" >
-                    </iframe>
+                    </span>
+                    |
+                    Theme by <a target="_blank" href="http://huangxuan.me">Hux</a>
                 </p>
             </div>
         </div>
@@ -1197,15 +1190,7 @@ do{
 
 <!--fastClick.js -->
 <script>
-    async("//cdnjs.cloudflare.com/ajax/libs/fastclick/1.0.6/fastclick.min.js", function(){
-        var $nav = document.querySelector("nav");
-        if($nav) FastClick.attach($nav);
-    })
-</script>
-
-<!--fastClick.js -->
-<script>
-    async("//cdnjs.cloudflare.com/ajax/libs/fastclick/1.0.6/fastclick.min.js", function(){
+    async("//cdn.bootcdn.net/ajax/libs/fastclick/1.0.6/fastclick.min.js", function(){
         var $nav = document.querySelector("nav");
         if($nav) FastClick.attach($nav);
     })

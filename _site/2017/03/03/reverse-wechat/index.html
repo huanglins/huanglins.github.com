@@ -25,7 +25,6 @@ buginux
     
   
 
-
 ">
     
     <meta property="article:published_time" content="2017-03-03T00:00:00Z">
@@ -39,7 +38,7 @@ buginux
     <meta property="article:tag" content="逆向工程">
     
     
-    <meta property="og:image" content="http://localhost:4000/img/avatar-sea-vincent.jpg">
+    <meta property="og:image" content="http://qiniu.vincents.cn/blog/avatar-sea-vincent.jpg">
     <meta property="og:url" content="http://localhost:4000/2017/03/03/reverse-wechat/">
     <meta property="og:site_name" content="Vincent's Blog | 永远年轻，永远热泪盈眶">
     
@@ -49,7 +48,7 @@ buginux
     <link rel="manifest" href="/pwa/manifest.json">
 
     <!-- Favicon -->
-    <link rel="shortcut icon" href="/img/favicon.ico">
+    <link rel="shortcut icon" href="http://qiniu.vincents.cn/blog/favicon.ico">
     
     <!-- Canonical URL -->
     <link rel="canonical" href="http://localhost:4000/2017/03/03/reverse-wechat/">
@@ -60,10 +59,13 @@ buginux
     <!-- Custom CSS -->
     <link rel="stylesheet" href="/css/hux-blog.min.css">
 
+    <style>a:focus,a:active{outline:none}</style>
+
     <!-- Custom Fonts -->
     <!-- <link href="http://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet" type="text/css"> -->
     <!-- Hux change font-awesome CDN to qiniu -->
-    <link href="//cdnjs.cloudflare.com/ajax/libs/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+    <!-- <link href="//cdnjs.cloudflare.com/ajax/libs/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet" type="text/css"> -->
+<link href="//cdn.bootcdn.net/ajax/libs/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet" type="text/css">
 
 
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
@@ -75,6 +77,11 @@ buginux
 
     <!-- ga & ba script hoook -->
     <script></script>
+
+    <!-- WebP support detection -->
+    <script>
+        (function(){var w=document.createElement('canvas');w.toDataURL('image/webp').indexOf('data:image/webp')==0&&(document.documentElement.className+=' webp')})();
+    </script>
 </head>
 
 
@@ -188,16 +195,23 @@ buginux
 </script>
 
 
-    <!-- <img src="/img/post-bg-5-reverse-wechat.jpg" width="0" height="0"> -->
+    <!-- <picture><source srcset="http://qiniu.vincents.cn/blog/post-bg-5-reverse-wechat.webp" type="image/webp"><img src="http://qiniu.vincents.cn/blog/post-bg-5-reverse-wechat.jpg" width="0" height="0"></picture> -->
 
 <!-- Post Header -->
+
+
+
 
 
 
 <style type="text/css">
     header.intro-header{
         position: relative;
-        background-image: url('/img/post-bg-5-reverse-wechat.jpg');
+        background-image: url('http://qiniu.vincents.cn/blog/post-bg-5-reverse-wechat.jpg');
+        background: ;
+    }
+    .webp header.intro-header{
+        background-image: url('http://qiniu.vincents.cn/blog/post-bg-5-reverse-wechat.webp');
         background: ;
     }
 
@@ -257,12 +271,12 @@ buginux
   </ul>
 </blockquote>
 
-<p>鉴于<code class="highlighter-rouge">《iOS逆向工程》</code>这本书其实买了很久，但是又断断续续的荒废了。看到 <a href="https://github.com/buginux/WeChatRedEnvelop">buginux</a> 写的这篇文章后，果断又尝试起来。
+<p>鉴于<code class="language-plaintext highlighter-rouge">《iOS逆向工程》</code>这本书其实买了很久，但是又断断续续的荒废了。看到 <a href="https://github.com/buginux/WeChatRedEnvelop">buginux</a> 写的这篇文章后，果断又尝试起来。
 由于目前手上没有能越狱越狱的手机，打包尝试起来特别麻烦。好在最后还是完成了。上图。</p>
 
-<p><img src="/img/reverse_wechat/result.jpg" /></p>
+<p><img src="http://qiniu.vincents.cn/blog/reverse_wechat/result.jpg" /></p>
 
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
 </pre></td><td class="rouge-code"><pre>PS：目前最新的 6.5.5 版本红包并不能使用。
 </pre></td></tr></tbody></table></code></pre></div></div>
 
@@ -274,8 +288,8 @@ buginux
 </ol>
 
 <p>由于手里没有越狱的手机，所以就直接在 PP助手上下载了。
-将下载后的 <code class="highlighter-rouge">wechat.ipa</code> 解压</p>
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+将下载后的 <code class="language-plaintext highlighter-rouge">wechat.ipa</code> 解压</p>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
 </pre></td><td class="rouge-code"><pre>$ unzip wechat.ipa -d wechat
 </pre></td></tr></tbody></table></code></pre></div></div>
 
@@ -283,20 +297,20 @@ buginux
 
 <h4 id="21-下载-class-dump">2.1 下载 class-dump</h4>
 
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
 </pre></td><td class="rouge-code"><pre>$ https://code.google.com/archive/p/networkpx/downloads
 </pre></td></tr></tbody></table></code></pre></div></div>
 <p>1.1 解压并拷入到 /usr/bin/</p>
 
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
 2
 </pre></td><td class="rouge-code"><pre>$ tar -zxvf class-dump-z_0.2a.tar.gz
 $ sudo cp mac_x86/class-dump-z /usr/bin/
 </pre></td></tr></tbody></table></code></pre></div></div>
 
-<h4 id="211-或者下载安装-opendev-环境">2.1.1 或者下载安装 <code class="highlighter-rouge">OpenDev</code> 环境。</h4>
+<h4 id="211-或者下载安装-opendev-环境">2.1.1 或者下载安装 <code class="language-plaintext highlighter-rouge">OpenDev</code> 环境。</h4>
 
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
 2
 3
 </pre></td><td class="rouge-code"><pre>class-dump已经包含在openDev中,openDev 存放文件夹opt/IOSOpenDev/bin 中,
@@ -304,15 +318,15 @@ $ sudo cp mac_x86/class-dump-z /usr/bin/
 并在/Users/vincent/bash_profile 注册了系统变量 路径
 </pre></td></tr></tbody></table></code></pre></div></div>
 
-<h4 id="22-导出-h-头文件">2.2 导出 <code class="highlighter-rouge">.h</code> 头文件</h4>
+<h4 id="22-导出-h-头文件">2.2 导出 <code class="language-plaintext highlighter-rouge">.h</code> 头文件</h4>
 
 <p>可执行文件位置在</p>
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
 </pre></td><td class="rouge-code"><pre>~/wechat/Payload/WeChat.app/WeChat
 </pre></td></tr></tbody></table></code></pre></div></div>
 <p>拷贝出来执行</p>
 
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
 2
 3
 4
@@ -329,9 +343,9 @@ heads
 </ol>
 
 <h2 id="3-准备-dylib-动态链接库">3. 准备 dylib 动态链接库</h2>
-<p>将 <a href="https://github.com/huanglins/WeChatRedEnvelop">WeChatRedEnvelop</a> clone 下来。执行 <code class="highlighter-rouge">make</code> , dylib 文件在 <code class="highlighter-rouge">WeChatRedEnvelop/.theos/obj/debug/WeChatRedEnvelop.dylib</code></p>
+<p>将 <a href="https://github.com/huanglins/WeChatRedEnvelop">WeChatRedEnvelop</a> clone 下来。执行 <code class="language-plaintext highlighter-rouge">make</code> , dylib 文件在 <code class="language-plaintext highlighter-rouge">WeChatRedEnvelop/.theos/obj/debug/WeChatRedEnvelop.dylib</code></p>
 
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
 2
 3
 4
@@ -344,9 +358,9 @@ $ cp .theos/obj/debug/WeChatRedEnvelop.dylib ~/Desktop # 注意是 .theos 目录
 </pre></td></tr></tbody></table></code></pre></div></div>
 
 <h4 id="31-修改动态链接库依赖项">3.1 修改动态链接库依赖项</h4>
-<p>使用 macOS 自带的 <code class="highlighter-rouge">otool</code> 工具检查 dylib 的依赖项</p>
+<p>使用 macOS 自带的 <code class="language-plaintext highlighter-rouge">otool</code> 工具检查 dylib 的依赖项</p>
 
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
 2
 3
 4
@@ -387,9 +401,9 @@ WeChatRedEnvelop2.dylib (architecture arm64):
 	/usr/lib/libc++.1.dylib (compatibility version 1.0.0, current version 307.4.0)
 	/usr/lib/libSystem.B.dylib (compatibility version 1.0.0, current version 1238.0.0)
 </pre></td></tr></tbody></table></code></pre></div></div>
-<p>修改 <code class="highlighter-rouge">/Library/Frameworks/CydiaSubstrate.framework/CydiaSubstrate</code> 链接地址到 <code class="highlighter-rouge">libsubstrate.dylib</code></p>
+<p>修改 <code class="language-plaintext highlighter-rouge">/Library/Frameworks/CydiaSubstrate.framework/CydiaSubstrate</code> 链接地址到 <code class="language-plaintext highlighter-rouge">libsubstrate.dylib</code></p>
 
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
 2
 </pre></td><td class="rouge-code"><pre>$ install_name_tool -change /Library/Frameworks/CydiaSubstrate.framework/CydiaSubstrate 
 @loader_path/libsubstrate.dylib WeChatRedEnvelop.dylib
@@ -401,16 +415,16 @@ WeChatRedEnvelop2.dylib (architecture arm64):
 
 <h2 id="4-将动态链接库注入到二进制文件中">4 将动态链接库注入到二进制文件中</h2>
 
-<h4 id="41-将-libsubstratedylib-和-wechatredenvelopdylib-拷贝到wechatapp中">4.1 将 <code class="highlighter-rouge">libsubstrate.dylib</code> 和 <code class="highlighter-rouge">WeChatRedEnvelop.dylib</code> 拷贝到WeChat.app中</h4>
+<h4 id="41-将-libsubstratedylib-和-wechatredenvelopdylib-拷贝到wechatapp中">4.1 将 <code class="language-plaintext highlighter-rouge">libsubstrate.dylib</code> 和 <code class="language-plaintext highlighter-rouge">WeChatRedEnvelop.dylib</code> 拷贝到WeChat.app中</h4>
 
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
 </pre></td><td class="rouge-code"><pre>$ cp libsubstrate.dylib WeChatRedEnvelop.dylib wechat/Payload/WeChat.app
 </pre></td></tr></tbody></table></code></pre></div></div>
 
 <h4 id="42-使用开源的-optool-工具">4.2 使用开源的 <a href="https://github.com/alexzielenski/optool">optool</a> 工具</h4>
-<p>编译安装 <code class="highlighter-rouge">optool</code> 工具</p>
+<p>编译安装 <code class="language-plaintext highlighter-rouge">optool</code> 工具</p>
 
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
 2
 3
 4
@@ -422,7 +436,7 @@ $ xcodebuild -project optool.xcodeproj -configuration Release ARCHS="x86_64" bui
 
 <h4 id="43-optool-注入">4.3 optool 注入</h4>
 
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
 2
 3
 </pre></td><td class="rouge-code"><pre>$ /path/to/optool install -c load -p "@executable_path/WeChatRedEnvelop.dylib" 
@@ -437,13 +451,13 @@ wechat/Payload/WeChat.app/WeChat
   <p>需要使用开发者证书 ~~<del>(&gt;_&lt;)</del>~~</p>
 </blockquote>
 
-<p><img src="/img/p-reverse_wechat/ios-app-signer.png" alt="" /></p>
+<p><img src="http://qiniu.vincents.cn/blog/p-reverse_wechat/ios-app-signer.png" alt="" /></p>
 
 <p>点击 start 后，指定保存路径，iOS App Signer 就会帮你搞定所有事情。</p>
 
 <h2 id="6-安装">6. 安装</h2>
 <p>使用 Xcode 菜单 - Window - Devices 中打开设置窗口 
-<img src="/img/reverse_wechat/xcode.png" alt="" /></p>
+<img src="http://qiniu.vincents.cn/blog/reverse_wechat/xcode.png" alt="" /></p>
 
 <h2 id="end">End</h2>
 
@@ -519,7 +533,7 @@ wechat/Payload/WeChat.app/WeChat
         </a>
         
         
-                <a data-sort="0016" 
+                <a data-sort="0017" 
                     href="/archive/?tag=%E6%8A%8A%E9%85%92%E6%85%B0%E9%A3%8E%E5%B0%98"
                     title="把酒慰风尘"
                     rel="2">把酒慰风尘</a>
@@ -527,34 +541,34 @@ wechat/Payload/WeChat.app/WeChat
                 <a data-sort="0013" 
                     href="/archive/?tag=iOS"
                     title="iOS"
-                    rel="5">iOS</a>
+                    rel="6">iOS</a>
         
-                <a data-sort="0015" 
+                <a data-sort="0016" 
                     href="/archive/?tag=Web%E6%9C%8D%E5%8A%A1%E5%99%A8"
                     title="Web服务器"
                     rel="3">Web服务器</a>
         
-                <a data-sort="0016" 
+                <a data-sort="0017" 
                     href="/archive/?tag=%E6%97%85%E8%A1%8C"
                     title="旅行"
                     rel="2">旅行</a>
         
-                <a data-sort="0016" 
+                <a data-sort="0017" 
                     href="/archive/?tag=%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B"
                     title="逆向工程"
                     rel="2">逆向工程</a>
         
-                <a data-sort="0016" 
+                <a data-sort="0017" 
                     href="/archive/?tag=CentOS"
                     title="CentOS"
                     rel="2">CentOS</a>
         
-                <a data-sort="0016" 
+                <a data-sort="0017" 
                     href="/archive/?tag=MySQL"
                     title="MySQL"
                     rel="2">MySQL</a>
         
-                <a data-sort="0016" 
+                <a data-sort="0017" 
                     href="/archive/?tag=Python"
                     title="Python"
                     rel="2">Python
@@ -568,23 +582,9 @@ wechat/Payload/WeChat.app/WeChat
 <h5>FRIENDS</h5>
 <ul class="list-inline">
   
-  <li><a href="https://shop130631028.taobao.com/">在回忆中 - 卖点小东西</a></li>
-  
-  <li><a href="https://unsplash.com">unsplash - 好看的图片</a></li>
-  
-  <li><a href="https://api.vincents.cn/udid">获取UDID</a></li>
+  <li><a href="https://app.vincents.cn/">Apps</a></li>
   
   <li><a href="https://www.vincents.cn/saylove/">say - vincents.cn</a></li>
-  
-  <li><a href="https://wechat.vincents.cn">wechat.vincents.cn</a></li>
-  
-  <li><a href="https://api.vincents.cn/manager">api.vincents.cn</a></li>
-  
-  <li><a href="http://git.vincents.cn">git.vincents.cn</a></li>
-  
-  <li><a href="http://idea.vincents.cn">idea.vincents.cn</a></li>
-  
-  <li><a href="http://rap.vincents.cn">rap.vincents.cn</a></li>
   
 </ul>
 
@@ -709,7 +709,7 @@ wechat/Payload/WeChat.app/WeChat
   
 </ul>
 
-                <p class="copyright text-muted">
+                <p class="copyright text-muted text-center">
                     渝ICP备17003502号 | Copyright &copy; Vincent 2018
                     <br>
                     <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
@@ -718,16 +718,9 @@ wechat/Payload/WeChat.app/WeChat
                     </span>
                     <span id="busuanzi_container_site_uv">
                         访客数<span id="busuanzi_value_site_uv"></span>人次
-                      </span>
-                    <!-- <span id="busuanzi_container_site_pv"> 您是本站第<span id="busuanzi_value_site_pv"></span>位访问者</span>  |  -->
-                    <!-- umeng 站长统计 -->
-<!--                     <script src="https://s22.cnzz.com/z_stat.php?id=1263843451&web_id=1263843451" language="JavaScript"></script> |  -->
-                    | Theme by <a target="_blank" href="http://huangxuan.me">Hux</a> |
-                    <iframe
-                        style="margin-left: 2px; margin-bottom:-5px;"
-                        frameborder="0" scrolling="0" width="100px" height="20px"
-                        src="https://ghbtns.com/github-btn.html?user=huxpro&repo=huxpro.github.io&type=star&count=true" >
-                    </iframe>
+                    </span>
+                    |
+                    Theme by <a target="_blank" href="http://huangxuan.me">Hux</a>
                 </p>
             </div>
         </div>
@@ -788,15 +781,7 @@ wechat/Payload/WeChat.app/WeChat
 
 <!--fastClick.js -->
 <script>
-    async("//cdnjs.cloudflare.com/ajax/libs/fastclick/1.0.6/fastclick.min.js", function(){
-        var $nav = document.querySelector("nav");
-        if($nav) FastClick.attach($nav);
-    })
-</script>
-
-<!--fastClick.js -->
-<script>
-    async("//cdnjs.cloudflare.com/ajax/libs/fastclick/1.0.6/fastclick.min.js", function(){
+    async("//cdn.bootcdn.net/ajax/libs/fastclick/1.0.6/fastclick.min.js", function(){
         var $nav = document.querySelector("nav");
         if($nav) FastClick.attach($nav);
     })

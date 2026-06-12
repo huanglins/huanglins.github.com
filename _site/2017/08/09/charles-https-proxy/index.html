@@ -16,7 +16,6 @@
     <meta property="og:type" content="article">
     <meta property="og:description" content="前言
 Charles 是一款在Mac下常用的网络封包截取工具。Charles 可以将自己设置为系统的网络代理服务器，使得所有的网络请求都通过它来完成。这样，方便自己开发的时候进行接口调试和已经调试别的APP网络接口。。。
-
 ">
     
     <meta property="article:published_time" content="2017-08-09T00:00:00Z">
@@ -28,7 +27,7 @@ Charles 是一款在Mac下常用的网络封包截取工具。Charles 可以将�
     <meta property="article:tag" content="macOS">
     
     
-    <meta property="og:image" content="http://localhost:4000/img/avatar-sea-vincent.jpg">
+    <meta property="og:image" content="http://qiniu.vincents.cn/blog/avatar-sea-vincent.jpg">
     <meta property="og:url" content="http://localhost:4000/2017/08/09/charles-https-proxy/">
     <meta property="og:site_name" content="Vincent's Blog | 永远年轻，永远热泪盈眶">
     
@@ -38,7 +37,7 @@ Charles 是一款在Mac下常用的网络封包截取工具。Charles 可以将�
     <link rel="manifest" href="/pwa/manifest.json">
 
     <!-- Favicon -->
-    <link rel="shortcut icon" href="/img/favicon.ico">
+    <link rel="shortcut icon" href="http://qiniu.vincents.cn/blog/favicon.ico">
     
     <!-- Canonical URL -->
     <link rel="canonical" href="http://localhost:4000/2017/08/09/charles-https-proxy/">
@@ -49,10 +48,13 @@ Charles 是一款在Mac下常用的网络封包截取工具。Charles 可以将�
     <!-- Custom CSS -->
     <link rel="stylesheet" href="/css/hux-blog.min.css">
 
+    <style>a:focus,a:active{outline:none}</style>
+
     <!-- Custom Fonts -->
     <!-- <link href="http://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet" type="text/css"> -->
     <!-- Hux change font-awesome CDN to qiniu -->
-    <link href="//cdnjs.cloudflare.com/ajax/libs/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+    <!-- <link href="//cdnjs.cloudflare.com/ajax/libs/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet" type="text/css"> -->
+<link href="//cdn.bootcdn.net/ajax/libs/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet" type="text/css">
 
 
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
@@ -64,6 +66,11 @@ Charles 是一款在Mac下常用的网络封包截取工具。Charles 可以将�
 
     <!-- ga & ba script hoook -->
     <script></script>
+
+    <!-- WebP support detection -->
+    <script>
+        (function(){var w=document.createElement('canvas');w.toDataURL('image/webp').indexOf('data:image/webp')==0&&(document.documentElement.className+=' webp')})();
+    </script>
 </head>
 
 
@@ -177,16 +184,23 @@ Charles 是一款在Mac下常用的网络封包截取工具。Charles 可以将�
 </script>
 
 
-    <!-- <img src="/img/post-bg-11-hack-tools.jpg" width="0" height="0"> -->
+    <!-- <picture><source srcset="http://qiniu.vincents.cn/blog/post-bg-11-hack-tools.webp" type="image/webp"><img src="http://qiniu.vincents.cn/blog/post-bg-11-hack-tools.jpg" width="0" height="0"></picture> -->
 
 <!-- Post Header -->
+
+
+
 
 
 
 <style type="text/css">
     header.intro-header{
         position: relative;
-        background-image: url('/img/post-bg-11-hack-tools.jpg');
+        background-image: url('http://qiniu.vincents.cn/blog/post-bg-11-hack-tools.jpg');
+        background: ;
+    }
+    .webp header.intro-header{
+        background-image: url('http://qiniu.vincents.cn/blog/post-bg-11-hack-tools.webp');
         background: ;
     }
 
@@ -237,15 +251,15 @@ Charles 是一款在Mac下常用的网络封包截取工具。Charles 可以将�
 
 <h2 id="启用http代理">启用HTTP代理</h2>
 
-<p><img src="/img/p-charles/charles-set.png" alt="" />
-这里启用 Charles 的代理，设置代理IP 为 <code class="highlighter-rouge">8888</code></p>
+<p><picture><source srcset="http://qiniu.vincents.cn/blog/p-charles/charles-set.webp" type="image/webp"><img src="http://qiniu.vincents.cn/blog/p-charles/charles-set.png" alt="" /></picture>
+这里启用 Charles 的代理，设置代理IP 为 <code class="language-plaintext highlighter-rouge">8888</code></p>
 
 <p>打开终端输入 ifconfig 查看当前的局域网IP</p>
 
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
 </pre></td><td class="rouge-code"><pre>ifconfig
 </pre></td></tr></tbody></table></code></pre></div></div>
-<p><img src="/img/p-charles/ifconfig.png" alt="" /></p>
+<p><img src="http://qiniu.vincents.cn/blog/p-charles/ifconfig.png" alt="" /></p>
 
 <p>然后将手机连入同一个Wi-Fi, 在Wi-Fi的 HTTP代理中设置为电脑的IP地址和端口。</p>
 
@@ -256,35 +270,35 @@ Charles 是一款在Mac下常用的网络封包截取工具。Charles 可以将�
 <h4 id="电脑端设置">电脑端设置</h4>
 
 <p>想要抓取https的包的话，需要使用Charles自己的CA证书并进行
-<img src="/img/p-charles/charles-https-set.png" alt="" />
+<picture><source srcset="http://qiniu.vincents.cn/blog/p-charles/charles-https-set.webp" type="image/webp"><img src="http://qiniu.vincents.cn/blog/p-charles/charles-https-set.png" alt="" /></picture>
 打开钥匙串，点击证书详情，设置为始终信任
-<img src="/img/p-charles/chain-set.png" alt="" /></p>
+<picture><source srcset="http://qiniu.vincents.cn/blog/p-charles/chain-set.webp" type="image/webp"><img src="http://qiniu.vincents.cn/blog/p-charles/chain-set.png" alt="" /></picture></p>
 
 <h4 id="手机端设置">手机端设置</h4>
 
-<p><img src="/img/p-charles/charles-https-set-ios.png" alt="" /></p>
+<p><picture><source srcset="http://qiniu.vincents.cn/blog/p-charles/charles-https-set-ios.webp" type="image/webp"><img src="http://qiniu.vincents.cn/blog/p-charles/charles-https-set-ios.png" alt="" /></picture></p>
 
-<p>如果你已经将手机的网络代理设置 Charles，那么可以直接在浏览器中输入网址 <code class="highlighter-rouge">charlesproxy.com/getssl</code> ,会提示安装证书描述文件:</p>
+<p>如果你已经将手机的网络代理设置 Charles，那么可以直接在浏览器中输入网址 <code class="language-plaintext highlighter-rouge">charlesproxy.com/getssl</code> ,会提示安装证书描述文件:</p>
 
-<p><img src="/img/p-charles/iphone-profile.png" alt="" /></p>
+<p><picture><source srcset="http://qiniu.vincents.cn/blog/p-charles/iphone-profile.webp" type="image/webp"><img src="http://qiniu.vincents.cn/blog/p-charles/iphone-profile.png" alt="" /></picture></p>
 
 <p>安装证书
 点击安装即可，如果出现的不是这个界面，那么把链接换成 https://www.charlesproxy.com/documentation/additional/legacy-ssl-proxying/，点击安装 itself 后面的 here 就可以了。</p>
 
 <p>设置监听端口</p>
 
-<p><img src="/img/p-charles/charles-https-set2.png" alt="" /></p>
+<p><picture><source srcset="http://qiniu.vincents.cn/blog/p-charles/charles-https-set2.webp" type="image/webp"><img src="http://qiniu.vincents.cn/blog/p-charles/charles-https-set2.png" alt="" /></picture></p>
 
 <p>这里是设置所有的地址的 443 端口都进行代理。如果只抓取部分，也可以进行单独的地址设置。</p>
 
 <p>现在就可以愉快的玩耍啦~ 以知乎为例</p>
 
-<p><img src="/img/p-charles/charles-https-result-zhihu.png" alt="" /></p>
+<p><picture><source srcset="http://qiniu.vincents.cn/blog/p-charles/charles-https-result-zhihu.webp" type="image/webp"><img src="http://qiniu.vincents.cn/blog/p-charles/charles-https-result-zhihu.png" alt="" /></picture></p>
 
 <h2 id="问题解决">问题解决</h2>
 <h4 id="ios-103-以上-https-代理问题">iOS 10.3 以上 HTTPS 代理问题</h4>
-<p>因为升级到 iOS11 后发现 HTTPS 不能使用了，需要在<code class="highlighter-rouge">关于本机</code>-<code class="highlighter-rouge">证书信任设置</code>中开启完全信任。
-<img src="/img/p-charles/charles-https-set-about.png" alt="" /></p>
+<p>因为升级到 iOS11 后发现 HTTPS 不能使用了，需要在<code class="language-plaintext highlighter-rouge">关于本机</code>-<code class="language-plaintext highlighter-rouge">证书信任设置</code>中开启完全信任。
+<picture><source srcset="http://qiniu.vincents.cn/blog/p-charles/charles-https-set-about.webp" type="image/webp"><img src="http://qiniu.vincents.cn/blog/p-charles/charles-https-set-about.png" alt="" /></picture></p>
 
 <h2 id="参考学习">参考学习</h2>
 <ol>
@@ -364,7 +378,7 @@ Charles 是一款在Mac下常用的网络封包截取工具。Charles 可以将�
         </a>
         
         
-                <a data-sort="0016" 
+                <a data-sort="0017" 
                     href="/archive/?tag=%E6%8A%8A%E9%85%92%E6%85%B0%E9%A3%8E%E5%B0%98"
                     title="把酒慰风尘"
                     rel="2">把酒慰风尘</a>
@@ -372,34 +386,34 @@ Charles 是一款在Mac下常用的网络封包截取工具。Charles 可以将�
                 <a data-sort="0013" 
                     href="/archive/?tag=iOS"
                     title="iOS"
-                    rel="5">iOS</a>
+                    rel="6">iOS</a>
         
-                <a data-sort="0015" 
+                <a data-sort="0016" 
                     href="/archive/?tag=Web%E6%9C%8D%E5%8A%A1%E5%99%A8"
                     title="Web服务器"
                     rel="3">Web服务器</a>
         
-                <a data-sort="0016" 
+                <a data-sort="0017" 
                     href="/archive/?tag=%E6%97%85%E8%A1%8C"
                     title="旅行"
                     rel="2">旅行</a>
         
-                <a data-sort="0016" 
+                <a data-sort="0017" 
                     href="/archive/?tag=%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B"
                     title="逆向工程"
                     rel="2">逆向工程</a>
         
-                <a data-sort="0016" 
+                <a data-sort="0017" 
                     href="/archive/?tag=CentOS"
                     title="CentOS"
                     rel="2">CentOS</a>
         
-                <a data-sort="0016" 
+                <a data-sort="0017" 
                     href="/archive/?tag=MySQL"
                     title="MySQL"
                     rel="2">MySQL</a>
         
-                <a data-sort="0016" 
+                <a data-sort="0017" 
                     href="/archive/?tag=Python"
                     title="Python"
                     rel="2">Python
@@ -413,23 +427,9 @@ Charles 是一款在Mac下常用的网络封包截取工具。Charles 可以将�
 <h5>FRIENDS</h5>
 <ul class="list-inline">
   
-  <li><a href="https://shop130631028.taobao.com/">在回忆中 - 卖点小东西</a></li>
-  
-  <li><a href="https://unsplash.com">unsplash - 好看的图片</a></li>
-  
-  <li><a href="https://api.vincents.cn/udid">获取UDID</a></li>
+  <li><a href="https://app.vincents.cn/">Apps</a></li>
   
   <li><a href="https://www.vincents.cn/saylove/">say - vincents.cn</a></li>
-  
-  <li><a href="https://wechat.vincents.cn">wechat.vincents.cn</a></li>
-  
-  <li><a href="https://api.vincents.cn/manager">api.vincents.cn</a></li>
-  
-  <li><a href="http://git.vincents.cn">git.vincents.cn</a></li>
-  
-  <li><a href="http://idea.vincents.cn">idea.vincents.cn</a></li>
-  
-  <li><a href="http://rap.vincents.cn">rap.vincents.cn</a></li>
   
 </ul>
 
@@ -554,7 +554,7 @@ Charles 是一款在Mac下常用的网络封包截取工具。Charles 可以将�
   
 </ul>
 
-                <p class="copyright text-muted">
+                <p class="copyright text-muted text-center">
                     渝ICP备17003502号 | Copyright &copy; Vincent 2018
                     <br>
                     <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
@@ -563,16 +563,9 @@ Charles 是一款在Mac下常用的网络封包截取工具。Charles 可以将�
                     </span>
                     <span id="busuanzi_container_site_uv">
                         访客数<span id="busuanzi_value_site_uv"></span>人次
-                      </span>
-                    <!-- <span id="busuanzi_container_site_pv"> 您是本站第<span id="busuanzi_value_site_pv"></span>位访问者</span>  |  -->
-                    <!-- umeng 站长统计 -->
-<!--                     <script src="https://s22.cnzz.com/z_stat.php?id=1263843451&web_id=1263843451" language="JavaScript"></script> |  -->
-                    | Theme by <a target="_blank" href="http://huangxuan.me">Hux</a> |
-                    <iframe
-                        style="margin-left: 2px; margin-bottom:-5px;"
-                        frameborder="0" scrolling="0" width="100px" height="20px"
-                        src="https://ghbtns.com/github-btn.html?user=huxpro&repo=huxpro.github.io&type=star&count=true" >
-                    </iframe>
+                    </span>
+                    |
+                    Theme by <a target="_blank" href="http://huangxuan.me">Hux</a>
                 </p>
             </div>
         </div>
@@ -633,15 +626,7 @@ Charles 是一款在Mac下常用的网络封包截取工具。Charles 可以将�
 
 <!--fastClick.js -->
 <script>
-    async("//cdnjs.cloudflare.com/ajax/libs/fastclick/1.0.6/fastclick.min.js", function(){
-        var $nav = document.querySelector("nav");
-        if($nav) FastClick.attach($nav);
-    })
-</script>
-
-<!--fastClick.js -->
-<script>
-    async("//cdnjs.cloudflare.com/ajax/libs/fastclick/1.0.6/fastclick.min.js", function(){
+    async("//cdn.bootcdn.net/ajax/libs/fastclick/1.0.6/fastclick.min.js", function(){
         var $nav = document.querySelector("nav");
         if($nav) FastClick.attach($nav);
     })

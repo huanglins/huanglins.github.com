@@ -3,7 +3,11 @@
   <h5><a href="{{'/about/' | prepend: site.baseurl }}">ABOUT ME</a></h5>
   <div class="short-about">
     {% if site.sidebar-avatar %}
-    <img src="{{site.sidebar-avatar}}" />
+    {% if site.image_cdn != '' %}
+    <img src="{{ site.sidebar-avatar | remove_first: '/img' | prepend: site.image_cdn }}" />
+    {% else %}
+    <img src="{{ site.sidebar-avatar }}" />
+    {% endif %}
     {% endif %}
     {% if site.sidebar-about-description %}
     <p>{{site.sidebar-about-description}}</p>

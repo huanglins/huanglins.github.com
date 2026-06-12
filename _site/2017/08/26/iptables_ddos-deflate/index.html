@@ -16,7 +16,6 @@
     <meta property="og:type" content="article">
     <meta property="og:description" content="iptables
 netfilter/iptables IP 信息包过滤系统是一种功能强大的工具，可用于添加、编辑和除去规则，这些规则是在做信息包过滤决定时，防火墙所遵循和组成的规则。这些规则存储在专用的信息包过滤表中，而这些表集成在 Linux 内核中。在信息包过滤表中，规则被分组放在我们所谓的链（chain）中。
-
 ">
     
     <meta property="article:published_time" content="2017-08-26T00:00:00Z">
@@ -30,7 +29,7 @@ netfilter/iptables IP 信息包过滤系统是一种功能强大的工具，可�
     <meta property="article:tag" content="Web服务器">
     
     
-    <meta property="og:image" content="http://localhost:4000/img/avatar-sea-vincent.jpg">
+    <meta property="og:image" content="http://qiniu.vincents.cn/blog/avatar-sea-vincent.jpg">
     <meta property="og:url" content="http://localhost:4000/2017/08/26/iptables_ddos-deflate/">
     <meta property="og:site_name" content="Vincent's Blog | 永远年轻，永远热泪盈眶">
     
@@ -40,7 +39,7 @@ netfilter/iptables IP 信息包过滤系统是一种功能强大的工具，可�
     <link rel="manifest" href="/pwa/manifest.json">
 
     <!-- Favicon -->
-    <link rel="shortcut icon" href="/img/favicon.ico">
+    <link rel="shortcut icon" href="http://qiniu.vincents.cn/blog/favicon.ico">
     
     <!-- Canonical URL -->
     <link rel="canonical" href="http://localhost:4000/2017/08/26/iptables_ddos-deflate/">
@@ -51,10 +50,13 @@ netfilter/iptables IP 信息包过滤系统是一种功能强大的工具，可�
     <!-- Custom CSS -->
     <link rel="stylesheet" href="/css/hux-blog.min.css">
 
+    <style>a:focus,a:active{outline:none}</style>
+
     <!-- Custom Fonts -->
     <!-- <link href="http://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet" type="text/css"> -->
     <!-- Hux change font-awesome CDN to qiniu -->
-    <link href="//cdnjs.cloudflare.com/ajax/libs/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+    <!-- <link href="//cdnjs.cloudflare.com/ajax/libs/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet" type="text/css"> -->
+<link href="//cdn.bootcdn.net/ajax/libs/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet" type="text/css">
 
 
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
@@ -66,6 +68,11 @@ netfilter/iptables IP 信息包过滤系统是一种功能强大的工具，可�
 
     <!-- ga & ba script hoook -->
     <script></script>
+
+    <!-- WebP support detection -->
+    <script>
+        (function(){var w=document.createElement('canvas');w.toDataURL('image/webp').indexOf('data:image/webp')==0&&(document.documentElement.className+=' webp')})();
+    </script>
 </head>
 
 
@@ -179,16 +186,23 @@ netfilter/iptables IP 信息包过滤系统是一种功能强大的工具，可�
 </script>
 
 
-    <!-- <img src="/img/post-bg-12-iptables.jpg" width="0" height="0"> -->
+    <!-- <picture><source srcset="http://qiniu.vincents.cn/blog/post-bg-12-iptables.webp" type="image/webp"><img src="http://qiniu.vincents.cn/blog/post-bg-12-iptables.jpg" width="0" height="0"></picture> -->
 
 <!-- Post Header -->
+
+
+
 
 
 
 <style type="text/css">
     header.intro-header{
         position: relative;
-        background-image: url('/img/post-bg-12-iptables.jpg');
+        background-image: url('http://qiniu.vincents.cn/blog/post-bg-12-iptables.jpg');
+        background: ;
+    }
+    .webp header.intro-header{
+        background-image: url('http://qiniu.vincents.cn/blog/post-bg-12-iptables.webp');
         background: ;
     }
 
@@ -245,7 +259,7 @@ iptables包含4个表，5个链。其中表是按照对数据包的操作区分�
 
 <h4 id="1iptables-语法规则">1.iptables 语法规则</h4>
 
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
 </pre></td><td class="rouge-code"><pre>iptables [-t 表] 大写选项子命令(-A) [规则号] 链名 匹配标准(-s xx.xx.xx.xx) -j 目标（规则）
 </pre></td></tr></tbody></table></code></pre></div></div>
 
@@ -304,9 +318,9 @@ iptables包含4个表，5个链。其中表是按照对数据包的操作区分�
 </table>
 
 <p>如图：
-<img src="/img/p-iptables/iptables_chain.png" alt="" />
+<img src="http://qiniu.vincents.cn/blog/p-iptables/iptables_chain.png" alt="" />
 iptables 中表和链的对应关系如下：
-<img src="/img/p-iptables/iptables_chain1.png" alt="" /></p>
+<img src="http://qiniu.vincents.cn/blog/p-iptables/iptables_chain1.png" alt="" /></p>
 
 <table>
   <thead>
@@ -428,11 +442,11 @@ iptables 中表和链的对应关系如下：
 
 <h4 id="5iptables-实际操作">5.iptables 实际操作</h4>
 
-<p>以上是 iptables 语法规则的相关参数和说明，现在让我们来实际操作使用一下。一般常用操作的是 <code class="highlighter-rouge">filter</code>表， <code class="highlighter-rouge">mangle</code> 和 <code class="highlighter-rouge">raw</code> 请自行 google 高级用法。</p>
+<p>以上是 iptables 语法规则的相关参数和说明，现在让我们来实际操作使用一下。一般常用操作的是 <code class="language-plaintext highlighter-rouge">filter</code>表， <code class="language-plaintext highlighter-rouge">mangle</code> 和 <code class="language-plaintext highlighter-rouge">raw</code> 请自行 google 高级用法。</p>
 
 <h5 id="51基本使用">5.1.基本使用</h5>
 
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
 2
 3
 4
@@ -457,7 +471,7 @@ iptables 中表和链的对应关系如下：
 </pre></td></tr></tbody></table></code></pre></div></div>
 
 <h5 id="52filter">5.2.filter</h5>
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
 2
 3
 4
@@ -521,7 +535,7 @@ iptables 中表和链的对应关系如下：
 
 <h5 id="53-nat">5.3 nat</h5>
 
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
 2
 3
 4
@@ -542,45 +556,45 @@ iptables 中表和链的对应关系如下：
 地址伪装，动态ip的NAT（地址转换）
 # iptables -t nat -A POSTROUTING -s 192.168.0.0/24 -j MASQUERADE
 </pre></td></tr></tbody></table></code></pre></div></div>
-<p><code class="highlighter-rouge">masquerade</code> 和 <code class="highlighter-rouge">snat</code> 的主要区别在于，snat 是把源地址转换为固定的 IP 地址或者是地址池，而 masquerade 在 adsl 等方式拨号上网时候非常有用，因为是拨号上网所以网卡的外网IP经常变化，这样在进行地址转换的时候就要在每次都要修改转换策略里面的 ip，使用 masquerade 就很好的解决了这个问题，他会自己去探测外网卡获得的ip地址然后自动进行地址转换，这样就算外网获得的 ip 经常变化也不用人工干预了。</p>
+<p><code class="language-plaintext highlighter-rouge">masquerade</code> 和 <code class="language-plaintext highlighter-rouge">snat</code> 的主要区别在于，snat 是把源地址转换为固定的 IP 地址或者是地址池，而 masquerade 在 adsl 等方式拨号上网时候非常有用，因为是拨号上网所以网卡的外网IP经常变化，这样在进行地址转换的时候就要在每次都要修改转换策略里面的 ip，使用 masquerade 就很好的解决了这个问题，他会自己去探测外网卡获得的ip地址然后自动进行地址转换，这样就算外网获得的 ip 经常变化也不用人工干预了。</p>
 
 <h5 id="54-删除规则">5.4 删除规则</h5>
 
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
 </pre></td><td class="rouge-code"><pre>iptables -D chain rulenum [options]
 </pre></td></tr></tbody></table></code></pre></div></div>
-<p>chain 是链的意思，就是 INPUT FORWARD 之类的定语，rulenum 是该条规则的编号，从1开始。可以使用<code class="highlighter-rouge">iptables -L INPUT --line</code>列出指定的链的规则的编号来。然后通过编号删除</p>
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+<p>chain 是链的意思，就是 INPUT FORWARD 之类的定语，rulenum 是该条规则的编号，从1开始。可以使用<code class="language-plaintext highlighter-rouge">iptables -L INPUT --line</code>列出指定的链的规则的编号来。然后通过编号删除</p>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
 </pre></td><td class="rouge-code"><pre>iptables -D INPUT 1
 </pre></td></tr></tbody></table></code></pre></div></div>
 
-<p>第二种办法是 <code class="highlighter-rouge">-A</code> 命令的映射，不过用 <code class="highlighter-rouge">-D</code> 替换 <code class="highlighter-rouge">-A</code> 。当你的链中规则很复杂，而你不想计算它们的编号的时候这就十分有用了。
-也就是说，你如何一开始时用 <code class="highlighter-rouge">iptables -A.... </code>语句定义了一个规则，那么删除此条规则时直接用 <code class="highlighter-rouge">-D</code> 来代替 <code class="highlighter-rouge">-A</code>， 其余的都不变即可，而不需要什么编号了。</p>
+<p>第二种办法是 <code class="language-plaintext highlighter-rouge">-A</code> 命令的映射，不过用 <code class="language-plaintext highlighter-rouge">-D</code> 替换 <code class="language-plaintext highlighter-rouge">-A</code> 。当你的链中规则很复杂，而你不想计算它们的编号的时候这就十分有用了。
+也就是说，你如何一开始时用 <code class="language-plaintext highlighter-rouge">iptables -A.... </code>语句定义了一个规则，那么删除此条规则时直接用 <code class="language-plaintext highlighter-rouge">-D</code> 来代替 <code class="language-plaintext highlighter-rouge">-A</code>， 其余的都不变即可，而不需要什么编号了。</p>
 
 <h2 id="ddos-deflate">DDoS deflate</h2>
-<p>DDos deflate 是一款免费的用来防御和减轻 DDos 攻击的脚本。它通过 <code class="highlighter-rouge">netstat</code> 监测跟踪与服务器创建了大量网络连接的IP地址，在监测到某个节点超过预设的限制时，该程序会通过 APF 或者 iptables 对这些 IP 进行一段时间内的禁止访问。</p>
+<p>DDos deflate 是一款免费的用来防御和减轻 DDos 攻击的脚本。它通过 <code class="language-plaintext highlighter-rouge">netstat</code> 监测跟踪与服务器创建了大量网络连接的IP地址，在监测到某个节点超过预设的限制时，该程序会通过 APF 或者 iptables 对这些 IP 进行一段时间内的禁止访问。</p>
 
 <p>DDoS deflate官方网站：<a href="http://deflate.medialayer.com/">http://deflate.medialayer.com/</a></p>
 
 <p><strong>如何确定是否受到DDoS攻击了呢?</strong></p>
 
 <p>执行 <em>netstat</em> 命令</p>
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
 </pre></td><td class="rouge-code"><pre>netstat -ntu | awk '{print $5}' | cut -d: -f1 | sort | uniq -c | sort -n
 </pre></td></tr></tbody></table></code></pre></div></div>
 <p>或者</p>
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
 2
 </pre></td><td class="rouge-code"><pre>netstat -ntu | awk '{print $5}' | cut -d: -f1 | sed -n '/[0-9]/p' | sort |
  uniq -c | sort -nr
 </pre></td></tr></tbody></table></code></pre></div></div>
 <p>下一段会过滤掉其中不是 IP 的一些记录，结果如下：
-<img src="/img/p-iptables/netstat_result.png" alt="" />
+<img src="http://qiniu.vincents.cn/blog/p-iptables/netstat_result.png" alt="" />
 第一个表示每个IP当前的连接数，一般IP几十个以内都算比较正常。如果突然某个IP的连接数有成百上千个，那肯定就不正常了。</p>
 
 <h4 id="1安装-ddos-deflate">1.安装 DDoS deflate</h4>
 
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
 2
 3
 4
@@ -589,11 +603,11 @@ iptables 中表和链的对应关系如下：
 # chmod 0700 install.sh
 # ./install.sh
 </pre></td></tr></tbody></table></code></pre></div></div>
-<p><code class="highlighter-rouge">分别是：1.下载文件，2.给文件添加权限，3.执行安装 </code></p>
+<p><code class="language-plaintext highlighter-rouge">分别是：1.下载文件，2.给文件添加权限，3.执行安装 </code></p>
 
 <h4 id="2配置-ddos-deflate">2.配置 DDoS deflate</h4>
 
-<p>文件安装目录位于 <code class="highlighter-rouge">/usr/local/ddos</code>，其中文件有：</p>
+<p>文件安装目录位于 <code class="language-plaintext highlighter-rouge">/usr/local/ddos</code>，其中文件有：</p>
 <ul>
   <li><strong>ddos.conf</strong>     	// 相关配置文件</li>
   <li><strong>ssos.sh</strong>		  		// shell脚本</li>
@@ -601,9 +615,9 @@ iptables 中表和链的对应关系如下：
   <li><strong>LICENSE</strong>				// 许可</li>
 </ul>
 
-<p><code class="highlighter-rouge">ddos.conf</code> 配置如下</p>
+<p><code class="language-plaintext highlighter-rouge">ddos.conf</code> 配置如下</p>
 
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
 2
 3
 4
@@ -667,25 +681,25 @@ EMAIL_TO="1@vincents.cn"	# 当IP被屏蔽时给指定邮箱发送邮件。
 BAN_PERIOD=600			# 禁用IP时长,默认为600秒
 </pre></td></tr></tbody></table></code></pre></div></div>
 
-<p><code class="highlighter-rouge">ddos.sh</code> 中，可以将第 117 行的内容修改为，就是上面那句 <em>netstat</em> 命令：</p>
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+<p><code class="language-plaintext highlighter-rouge">ddos.sh</code> 中，可以将第 117 行的内容修改为，就是上面那句 <em>netstat</em> 命令：</p>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
 2
 </pre></td><td class="rouge-code"><pre>netstat -ntu | awk '{print $5}' | cut -d: -f1 | sed -n '/[0-9]/p' | sort |
  uniq -c | sort -nr
 </pre></td></tr></tbody></table></code></pre></div></div>
 
 <p>有文件内容更改后，执行：</p>
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
 </pre></td><td class="rouge-code"><pre># sh /usr/local/ddos/ddos.sh
 </pre></td></tr></tbody></table></code></pre></div></div>
-<p>会在<code class="highlighter-rouge">/etc/cron.d/</code>目录下生成一个定时任务<code class="highlighter-rouge">ddos.cron</code>。内容为：</p>
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+<p>会在<code class="language-plaintext highlighter-rouge">/etc/cron.d/</code>目录下生成一个定时任务<code class="language-plaintext highlighter-rouge">ddos.cron</code>。内容为：</p>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
 </pre></td><td class="rouge-code"><pre>0-59/1 * * * * root /usr/local/ddos/ddos.sh &gt;/dev/null 2&gt;&amp;1
 </pre></td></tr></tbody></table></code></pre></div></div>
 <h4 id="3测试">3.测试</h4>
 
-<p>接下来你就可以使用压力测软件 <a href="/2017/03/28/web-pressure-test/">webbench,Siege</a> 来进行测试实验了。我的测试结果如下， 通过 <code class="highlighter-rouge">webbench</code> 开启压力测试后，IP就立即被封禁，且很快就收到邮件,效果还是非常明显的。
-<img src="/img/p-iptables/ddos_result.png" alt="" />
+<p>接下来你就可以使用压力测软件 <a href="/2017/03/28/web-pressure-test/">webbench,Siege</a> 来进行测试实验了。我的测试结果如下， 通过 <code class="language-plaintext highlighter-rouge">webbench</code> 开启压力测试后，IP就立即被封禁，且很快就收到邮件,效果还是非常明显的。
+<picture><source srcset="http://qiniu.vincents.cn/blog/p-iptables/ddos_result.webp" type="image/webp"><img src="http://qiniu.vincents.cn/blog/p-iptables/ddos_result.jpg" alt="" /></picture>
 ps: 为了让图片少占点位置，只有这么拼接一下了。将就看。。。</p>
 
 <h2 id="参考学习">参考学习</h2>
@@ -769,7 +783,7 @@ ps: 为了让图片少占点位置，只有这么拼接一下了。将就看。�
         </a>
         
         
-                <a data-sort="0016" 
+                <a data-sort="0017" 
                     href="/archive/?tag=%E6%8A%8A%E9%85%92%E6%85%B0%E9%A3%8E%E5%B0%98"
                     title="把酒慰风尘"
                     rel="2">把酒慰风尘</a>
@@ -777,34 +791,34 @@ ps: 为了让图片少占点位置，只有这么拼接一下了。将就看。�
                 <a data-sort="0013" 
                     href="/archive/?tag=iOS"
                     title="iOS"
-                    rel="5">iOS</a>
+                    rel="6">iOS</a>
         
-                <a data-sort="0015" 
+                <a data-sort="0016" 
                     href="/archive/?tag=Web%E6%9C%8D%E5%8A%A1%E5%99%A8"
                     title="Web服务器"
                     rel="3">Web服务器</a>
         
-                <a data-sort="0016" 
+                <a data-sort="0017" 
                     href="/archive/?tag=%E6%97%85%E8%A1%8C"
                     title="旅行"
                     rel="2">旅行</a>
         
-                <a data-sort="0016" 
+                <a data-sort="0017" 
                     href="/archive/?tag=%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B"
                     title="逆向工程"
                     rel="2">逆向工程</a>
         
-                <a data-sort="0016" 
+                <a data-sort="0017" 
                     href="/archive/?tag=CentOS"
                     title="CentOS"
                     rel="2">CentOS</a>
         
-                <a data-sort="0016" 
+                <a data-sort="0017" 
                     href="/archive/?tag=MySQL"
                     title="MySQL"
                     rel="2">MySQL</a>
         
-                <a data-sort="0016" 
+                <a data-sort="0017" 
                     href="/archive/?tag=Python"
                     title="Python"
                     rel="2">Python
@@ -818,23 +832,9 @@ ps: 为了让图片少占点位置，只有这么拼接一下了。将就看。�
 <h5>FRIENDS</h5>
 <ul class="list-inline">
   
-  <li><a href="https://shop130631028.taobao.com/">在回忆中 - 卖点小东西</a></li>
-  
-  <li><a href="https://unsplash.com">unsplash - 好看的图片</a></li>
-  
-  <li><a href="https://api.vincents.cn/udid">获取UDID</a></li>
+  <li><a href="https://app.vincents.cn/">Apps</a></li>
   
   <li><a href="https://www.vincents.cn/saylove/">say - vincents.cn</a></li>
-  
-  <li><a href="https://wechat.vincents.cn">wechat.vincents.cn</a></li>
-  
-  <li><a href="https://api.vincents.cn/manager">api.vincents.cn</a></li>
-  
-  <li><a href="http://git.vincents.cn">git.vincents.cn</a></li>
-  
-  <li><a href="http://idea.vincents.cn">idea.vincents.cn</a></li>
-  
-  <li><a href="http://rap.vincents.cn">rap.vincents.cn</a></li>
   
 </ul>
 
@@ -959,7 +959,7 @@ ps: 为了让图片少占点位置，只有这么拼接一下了。将就看。�
   
 </ul>
 
-                <p class="copyright text-muted">
+                <p class="copyright text-muted text-center">
                     渝ICP备17003502号 | Copyright &copy; Vincent 2018
                     <br>
                     <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
@@ -968,16 +968,9 @@ ps: 为了让图片少占点位置，只有这么拼接一下了。将就看。�
                     </span>
                     <span id="busuanzi_container_site_uv">
                         访客数<span id="busuanzi_value_site_uv"></span>人次
-                      </span>
-                    <!-- <span id="busuanzi_container_site_pv"> 您是本站第<span id="busuanzi_value_site_pv"></span>位访问者</span>  |  -->
-                    <!-- umeng 站长统计 -->
-<!--                     <script src="https://s22.cnzz.com/z_stat.php?id=1263843451&web_id=1263843451" language="JavaScript"></script> |  -->
-                    | Theme by <a target="_blank" href="http://huangxuan.me">Hux</a> |
-                    <iframe
-                        style="margin-left: 2px; margin-bottom:-5px;"
-                        frameborder="0" scrolling="0" width="100px" height="20px"
-                        src="https://ghbtns.com/github-btn.html?user=huxpro&repo=huxpro.github.io&type=star&count=true" >
-                    </iframe>
+                    </span>
+                    |
+                    Theme by <a target="_blank" href="http://huangxuan.me">Hux</a>
                 </p>
             </div>
         </div>
@@ -1038,15 +1031,7 @@ ps: 为了让图片少占点位置，只有这么拼接一下了。将就看。�
 
 <!--fastClick.js -->
 <script>
-    async("//cdnjs.cloudflare.com/ajax/libs/fastclick/1.0.6/fastclick.min.js", function(){
-        var $nav = document.querySelector("nav");
-        if($nav) FastClick.attach($nav);
-    })
-</script>
-
-<!--fastClick.js -->
-<script>
-    async("//cdnjs.cloudflare.com/ajax/libs/fastclick/1.0.6/fastclick.min.js", function(){
+    async("//cdn.bootcdn.net/ajax/libs/fastclick/1.0.6/fastclick.min.js", function(){
         var $nav = document.querySelector("nav");
         if($nav) FastClick.attach($nav);
     })

@@ -4,10 +4,23 @@
 {% endcomment %}
 
 {% if include.type == 'post' %}
+{% assign header_img = page.header-img | default: site.header-img %}
+{% assign header_img_webp = header_img | replace: '.jpg', '.webp' | replace: '.jpeg', '.webp' | replace: '.png', '.webp' %}
+{% if site.image_cdn != '' %}
+  {% assign header_img_url = header_img | remove_first: 'img/' | prepend: '/' | prepend: site.image_cdn %}
+  {% assign header_img_webp_url = header_img_webp | remove_first: 'img/' | prepend: '/' | prepend: site.image_cdn %}
+{% else %}
+  {% assign header_img_url = header_img | prepend: '/' | prepend: site.baseurl %}
+  {% assign header_img_webp_url = header_img_webp | prepend: '/' | prepend: site.baseurl %}
+{% endif %}
 <style type="text/css">
     header.intro-header{
         position: relative;
-        background-image: url('{{ site.baseurl }}/{% if page.header-img %}{{ page.header-img }}{% else %}{{ site.header-img }}{% endif %}');
+        background-image: url('{{ header_img_url }}');
+        background: {{ page.header-bg-css }};
+    }
+    .webp header.intro-header{
+        background-image: url('{{ header_img_webp_url }}');
         background: {{ page.header-bg-css }};
     }
 
@@ -91,7 +104,20 @@
 {% endif %}
 
 {% if include.type == 'page' %}
-<header class="intro-header" style="background-image: url('{{ site.baseurl }}/{% if page.header-img %}{{ page.header-img }}{% else %}{{ site.header-img }}{% endif %}')">
+{% assign page_header_img = page.header-img | default: site.header-img %}
+{% assign page_header_webp = page_header_img | replace: '.jpg', '.webp' | replace: '.jpeg', '.webp' | replace: '.png', '.webp' %}
+{% if site.image_cdn != '' %}
+  {% assign page_header_img_url = page_header_img | remove_first: 'img/' | prepend: '/' | prepend: site.image_cdn %}
+  {% assign page_header_webp_url = page_header_webp | remove_first: 'img/' | prepend: '/' | prepend: site.image_cdn %}
+{% else %}
+  {% assign page_header_img_url = page_header_img | prepend: '/' | prepend: site.baseurl %}
+  {% assign page_header_webp_url = page_header_webp | prepend: '/' | prepend: site.baseurl %}
+{% endif %}
+<style>
+    header.intro-header{background-image:url('{{ page_header_img_url }}')}
+    .webp header.intro-header{background-image:url('{{ page_header_webp_url }}')}
+</style>
+<header class="intro-header">
   <div class="container">
     <div class="row">
       <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">

@@ -261,7 +261,7 @@ netstat -ntu | awk '{print $5}' | cut -d: -f1 | sed -n '/[0-9]/p' | sort |
 #### 3.测试
 
 接下来你就可以使用压力测软件 [webbench,Siege](/2017/03/28/web-pressure-test/) 来进行测试实验了。我的测试结果如下， 通过 `webbench` 开启压力测试后，IP就立即被封禁，且很快就收到邮件,效果还是非常明显的。
-![](/img/p-iptables/ddos_result.png)
+![](/img/p-iptables/ddos_result.jpg)
 ps: 为了让图片少占点位置，只有这么拼接一下了。将就看。。。
 
 ## 参考学习
