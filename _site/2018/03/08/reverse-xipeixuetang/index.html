@@ -28,7 +28,7 @@
     <meta property="article:tag" content="iOS 逆向">
     
     
-    <meta property="og:image" content="http://qiniu.vincents.cn/blog/avatar-sea-vincent.jpg">
+    <meta property="og:image" content="http://localhost:4000/img/avatar-sea-vincent.jpg">
     <meta property="og:url" content="http://localhost:4000/2018/03/08/reverse-xipeixuetang/">
     <meta property="og:site_name" content="Vincent's Blog | 永远年轻，永远热泪盈眶">
     
@@ -38,7 +38,7 @@
     <link rel="manifest" href="/pwa/manifest.json">
 
     <!-- Favicon -->
-    <link rel="shortcut icon" href="http://qiniu.vincents.cn/blog/favicon.ico">
+    <link rel="shortcut icon" href="/img/favicon.ico">
     
     <!-- Canonical URL -->
     <link rel="canonical" href="http://localhost:4000/2018/03/08/reverse-xipeixuetang/">
@@ -185,7 +185,7 @@
 </script>
 
 
-    <!-- <picture><source srcset="http://qiniu.vincents.cn/blog/post-bg-15-reverse-xipeixuetang.webp" type="image/webp"><img src="http://qiniu.vincents.cn/blog/post-bg-15-reverse-xipeixuetang.jpg" width="0" height="0"></picture> -->
+    <!-- <picture><source srcset="/img/post-bg-15-reverse-xipeixuetang.webp" type="image/webp"><img src="/img/post-bg-15-reverse-xipeixuetang.jpg" width="0" height="0"></picture> -->
 
 <!-- Post Header -->
 
@@ -197,11 +197,11 @@
 <style type="text/css">
     header.intro-header{
         position: relative;
-        background-image: url('http://qiniu.vincents.cn/blog/post-bg-15-reverse-xipeixuetang.jpg');
+        background-image: url('/img/post-bg-15-reverse-xipeixuetang.jpg');
         background: ;
     }
     .webp header.intro-header{
-        background-image: url('http://qiniu.vincents.cn/blog/post-bg-15-reverse-xipeixuetang.webp');
+        background-image: url('/img/post-bg-15-reverse-xipeixuetang.webp');
         background: ;
     }
 
@@ -253,7 +253,7 @@
 
 <h4 id="抓包测试">抓包测试</h4>
 
-<p><img src="http://qiniu.vincents.cn/blog/p-xipeixuetang/uploadimage.png" alt="" />
+<p><img src="/img/p-xipeixuetang/uploadimage.png" alt="" />
 抓包测试发现，人脸识别是在本地进行校验的，识别成功后再将识别的结果图片上传到服务器进行保存，并记录时间。那么这样的话，我们就可以在本地将人脸识别绕过，并传一张假图片给服务器就行了(手动滑稽..)</p>
 
 <h4 id="导出头文件">导出头文件</h4>
@@ -267,12 +267,12 @@
 <h4 id="分析测试">分析测试</h4>
 
 <p>搜索 <code class="language-plaintext highlighter-rouge">face</code> 相关的文件
-<picture><source srcset="http://qiniu.vincents.cn/blog/p-xipeixuetang/search_face.webp" type="image/webp"><img src="http://qiniu.vincents.cn/blog/p-xipeixuetang/search_face.png" alt="" /></picture></p>
+<picture><source srcset="/img/p-xipeixuetang/search_face.webp" type="image/webp"><img src="/img/p-xipeixuetang/search_face.png" alt="" /></picture></p>
 
 <p>打开 Xcode 新建一个 <a href="https://github.com/AloneMonkey/MonkeyDev">MonkeyDev</a> 工程，将 ipa 导入工程。</p>
 
 <p>经测试，<strong>TbCameraWalk</strong> 这个文件用来处理学习计时和调用摄像头进行人脸识别的相关操作。
-<picture><source srcset="http://qiniu.vincents.cn/blog/p-xipeixuetang/file_source.webp" type="image/webp"><img src="http://qiniu.vincents.cn/blog/p-xipeixuetang/file_source.png" alt="" /></picture></p>
+<picture><source srcset="/img/p-xipeixuetang/file_source.webp" type="image/webp"><img src="/img/p-xipeixuetang/file_source.png" alt="" /></picture></p>
 
 <p>其中检测到需要人脸识别摄像头被调用时，会响应以下方法:</p>
 <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
@@ -280,7 +280,7 @@
 </pre></td></tr></tbody></table></code></pre></div></div>
 <p>该文件中有一个人脸识别结果回调，返回一个图片信息，界面收到回调时将会调用接口上传人脸识别图片并计时。</p>
 
-<p><img src="http://qiniu.vincents.cn/blog/p-xipeixuetang/delegate_source.png" alt="" /></p>
+<p><img src="/img/p-xipeixuetang/delegate_source.png" alt="" /></p>
 
 <p>检测完成，关闭人脸识别界面方法为：</p>
 <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
@@ -289,7 +289,7 @@
 
 <h4 id="编码">编码</h4>
 
-<p><picture><source srcset="http://qiniu.vincents.cn/blog/p-xipeixuetang/reverse_code.webp" type="image/webp"><img src="http://qiniu.vincents.cn/blog/p-xipeixuetang/reverse_code.png" alt="" /></picture></p>
+<p><picture><source srcset="/img/p-xipeixuetang/reverse_code.webp" type="image/webp"><img src="/img/p-xipeixuetang/reverse_code.png" alt="" /></picture></p>
 
 <p>在摄像头回调中直接将上面抓包的 Image Base64的数据，手动调用给 Delegate，测试发现后台服务器并没有再次进行图像比较。然后手动调用检测成功，关闭页面。</p>
 

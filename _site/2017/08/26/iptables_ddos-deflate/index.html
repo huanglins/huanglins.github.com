@@ -29,7 +29,7 @@ netfilter/iptables IP 信息包过滤系统是一种功能强大的工具，可�
     <meta property="article:tag" content="Web服务器">
     
     
-    <meta property="og:image" content="http://qiniu.vincents.cn/blog/avatar-sea-vincent.jpg">
+    <meta property="og:image" content="http://localhost:4000/img/avatar-sea-vincent.jpg">
     <meta property="og:url" content="http://localhost:4000/2017/08/26/iptables_ddos-deflate/">
     <meta property="og:site_name" content="Vincent's Blog | 永远年轻，永远热泪盈眶">
     
@@ -39,7 +39,7 @@ netfilter/iptables IP 信息包过滤系统是一种功能强大的工具，可�
     <link rel="manifest" href="/pwa/manifest.json">
 
     <!-- Favicon -->
-    <link rel="shortcut icon" href="http://qiniu.vincents.cn/blog/favicon.ico">
+    <link rel="shortcut icon" href="/img/favicon.ico">
     
     <!-- Canonical URL -->
     <link rel="canonical" href="http://localhost:4000/2017/08/26/iptables_ddos-deflate/">
@@ -186,7 +186,7 @@ netfilter/iptables IP 信息包过滤系统是一种功能强大的工具，可�
 </script>
 
 
-    <!-- <picture><source srcset="http://qiniu.vincents.cn/blog/post-bg-12-iptables.webp" type="image/webp"><img src="http://qiniu.vincents.cn/blog/post-bg-12-iptables.jpg" width="0" height="0"></picture> -->
+    <!-- <picture><source srcset="/img/post-bg-12-iptables.webp" type="image/webp"><img src="/img/post-bg-12-iptables.jpg" width="0" height="0"></picture> -->
 
 <!-- Post Header -->
 
@@ -198,11 +198,11 @@ netfilter/iptables IP 信息包过滤系统是一种功能强大的工具，可�
 <style type="text/css">
     header.intro-header{
         position: relative;
-        background-image: url('http://qiniu.vincents.cn/blog/post-bg-12-iptables.jpg');
+        background-image: url('/img/post-bg-12-iptables.jpg');
         background: ;
     }
     .webp header.intro-header{
-        background-image: url('http://qiniu.vincents.cn/blog/post-bg-12-iptables.webp');
+        background-image: url('/img/post-bg-12-iptables.webp');
         background: ;
     }
 
@@ -318,9 +318,9 @@ iptables包含4个表，5个链。其中表是按照对数据包的操作区分�
 </table>
 
 <p>如图：
-<img src="http://qiniu.vincents.cn/blog/p-iptables/iptables_chain.png" alt="" />
+<img src="/img/p-iptables/iptables_chain.png" alt="" />
 iptables 中表和链的对应关系如下：
-<img src="http://qiniu.vincents.cn/blog/p-iptables/iptables_chain1.png" alt="" /></p>
+<img src="/img/p-iptables/iptables_chain1.png" alt="" /></p>
 
 <table>
   <thead>
@@ -589,7 +589,7 @@ iptables 中表和链的对应关系如下：
  uniq -c | sort -nr
 </pre></td></tr></tbody></table></code></pre></div></div>
 <p>下一段会过滤掉其中不是 IP 的一些记录，结果如下：
-<img src="http://qiniu.vincents.cn/blog/p-iptables/netstat_result.png" alt="" />
+<img src="/img/p-iptables/netstat_result.png" alt="" />
 第一个表示每个IP当前的连接数，一般IP几十个以内都算比较正常。如果突然某个IP的连接数有成百上千个，那肯定就不正常了。</p>
 
 <h4 id="1安装-ddos-deflate">1.安装 DDoS deflate</h4>
@@ -699,7 +699,7 @@ BAN_PERIOD=600			# 禁用IP时长,默认为600秒
 <h4 id="3测试">3.测试</h4>
 
 <p>接下来你就可以使用压力测软件 <a href="/2017/03/28/web-pressure-test/">webbench,Siege</a> 来进行测试实验了。我的测试结果如下， 通过 <code class="language-plaintext highlighter-rouge">webbench</code> 开启压力测试后，IP就立即被封禁，且很快就收到邮件,效果还是非常明显的。
-<picture><source srcset="http://qiniu.vincents.cn/blog/p-iptables/ddos_result.webp" type="image/webp"><img src="http://qiniu.vincents.cn/blog/p-iptables/ddos_result.jpg" alt="" /></picture>
+<picture><source srcset="/img/p-iptables/ddos_result.webp" type="image/webp"><img src="/img/p-iptables/ddos_result.jpg" alt="" /></picture>
 ps: 为了让图片少占点位置，只有这么拼接一下了。将就看。。。</p>
 
 <h2 id="参考学习">参考学习</h2>

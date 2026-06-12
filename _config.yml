@@ -7,7 +7,8 @@ description: "// iOS Developer，也写Android和Python。正在学习全栈。�
 keyword: "vincent，vincents，黄霖，黄金霖，darnel，darnel studio，个人网站，APP，微信公众号"
 url: "https://www.vincents.cn"
 baseurl: ""
-image_cdn: "http://qiniu.vincents.cn/blog"
+image_cdn: ""
+#image_cdn: "http://qiniu.vincents.cn/blog"
 
 # SNS setting 社交网络ID
 zhihu_username: huang-lin-70-49

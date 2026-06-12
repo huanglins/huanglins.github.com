@@ -26,7 +26,7 @@
     <meta property="article:tag" content="MySQL">
     
     
-    <meta property="og:image" content="http://qiniu.vincents.cn/blog/avatar-sea-vincent.jpg">
+    <meta property="og:image" content="http://localhost:4000/img/avatar-sea-vincent.jpg">
     <meta property="og:url" content="http://localhost:4000/2018/10/30/mysql-slave/">
     <meta property="og:site_name" content="Vincent's Blog | 永远年轻，永远热泪盈眶">
     
@@ -36,7 +36,7 @@
     <link rel="manifest" href="/pwa/manifest.json">
 
     <!-- Favicon -->
-    <link rel="shortcut icon" href="http://qiniu.vincents.cn/blog/favicon.ico">
+    <link rel="shortcut icon" href="/img/favicon.ico">
     
     <!-- Canonical URL -->
     <link rel="canonical" href="http://localhost:4000/2018/10/30/mysql-slave/">
@@ -183,7 +183,7 @@
 </script>
 
 
-    <!-- <picture><source srcset="http://qiniu.vincents.cn/blog/post-bg-18-mysql-slave.webp" type="image/webp"><img src="http://qiniu.vincents.cn/blog/post-bg-18-mysql-slave.jpg" width="0" height="0"></picture> -->
+    <!-- <picture><source srcset="/img/post-bg-18-mysql-slave.webp" type="image/webp"><img src="/img/post-bg-18-mysql-slave.jpg" width="0" height="0"></picture> -->
 
 <!-- Post Header -->
 
@@ -195,11 +195,11 @@
 <style type="text/css">
     header.intro-header{
         position: relative;
-        background-image: url('http://qiniu.vincents.cn/blog/post-bg-18-mysql-slave.jpg');
+        background-image: url('/img/post-bg-18-mysql-slave.jpg');
         background: ;
     }
     .webp header.intro-header{
-        background-image: url('http://qiniu.vincents.cn/blog/post-bg-18-mysql-slave.webp');
+        background-image: url('/img/post-bg-18-mysql-slave.webp');
         background: ;
     }
 
@@ -282,7 +282,7 @@
   <li>master 将改变记录到二进制日志(binary log)中（这些记录叫做二进制日志事件，binary log events）</li>
   <li>slave 将 master 的 binary log events 拷贝到它的中继日志(relay log)</li>
   <li>slave 重做中继日志中的事件，将改变反映它自己的数据。
-<img src="http://qiniu.vincents.cn/blog/p-mysql-slave/15408656565076.jpg" alt="" /></li>
+<img src="/img/p-mysql-slave/15408656565076.jpg" alt="" /></li>
 </ol>
 
 <p>master 接收到了SQL的时候，会存入到一个 binlog 的文件并入库，binlog 数据存储完毕后会开启一个 dump thread 线程，
@@ -338,7 +338,7 @@ binlog-ignore-db = mysql
 </pre></td><td class="rouge-code"><pre>show variables like 'server%'; 
 show master status; 
 </pre></td></tr></tbody></table></code></pre></div></div>
-<p><img src="http://qiniu.vincents.cn/blog/p-mysql-slave/Screen%20Shot%202018-10-30%20at%2011.06.31%20AM.png" alt="Screen Shot 2018-10-30 at 11.06.31 A" /></p>
+<p><img src="/img/p-mysql-slave/Screen%20Shot%202018-10-30%20at%2011.06.31%20AM.png" alt="Screen Shot 2018-10-30 at 11.06.31 A" /></p>
 
 <h4 id="211-重启出现报错">2.1.1 重启出现报错</h4>
 <ol>
@@ -460,13 +460,13 @@ STOP SLAVE;     # 停止
 </pre></td><td class="rouge-code"><pre>SHOW SLAVE STATUS;
 </pre></td></tr></tbody></table></code></pre></div></div>
 
-<p><img src="http://qiniu.vincents.cn/blog/p-mysql-slave/Screen%20Shot%202018-10-30%20at%202.20.56%20PM.png" alt="Screen Shot 2018-10-30 at 2.20.56 P" /></p>
+<p><img src="/img/p-mysql-slave/Screen%20Shot%202018-10-30%20at%202.20.56%20PM.png" alt="Screen Shot 2018-10-30 at 2.20.56 P" /></p>
 
 <p>可以看出当前从服务器已经在等待主服务器的 event 了，此时我们在主数据库的 <code class="language-plaintext highlighter-rouge">test</code> 库操作数据，看下是否已经自动同步过来了。</p>
 
 <h2 id="3-读写分离">3. 读写分离</h2>
 <p>读写分离就是在主服务器上修改，数据会同步到从服务器，从服务器只能提供读取数据，不能写入，实现备份的同时也实现了数据库性能的优化，以及提升了服务器安全。 
-<picture><source srcset="http://qiniu.vincents.cn/blog/p-mysql-slave/15408811811696.webp" type="image/webp"><img src="http://qiniu.vincents.cn/blog/p-mysql-slave/15408811811696.png" alt="" /></picture></p>
+<picture><source srcset="/img/p-mysql-slave/15408811811696.webp" type="image/webp"><img src="/img/p-mysql-slave/15408811811696.png" alt="" /></picture></p>
 
 <h4 id="31-读写分离实现方式">3.1 读写分离实现方式</h4>
 
@@ -485,7 +485,7 @@ STOP SLAVE;     # 停止
   <li>
     <p><strong>mysql-proxy</strong></p>
 
-    <p><picture><source srcset="http://qiniu.vincents.cn/blog/p-mysql-slave/15408909948035.webp" type="image/webp"><img src="http://qiniu.vincents.cn/blog/p-mysql-slave/15408909948035.jpg" alt="" /></picture>
+    <p><picture><source srcset="/img/p-mysql-slave/15408909948035.webp" type="image/webp"><img src="/img/p-mysql-slave/15408909948035.jpg" alt="" /></picture>
   优点：直接实现读写分离和负载均衡，不用修改代码，master和slave用一样的帐号
   缺点：字符集问题，lua语言编程，还只是alpha版本，时间消耗有点高</p>
   </li>

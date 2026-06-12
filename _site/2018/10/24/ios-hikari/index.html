@@ -30,7 +30,7 @@
     <meta property="article:tag" content="逆向工程">
     
     
-    <meta property="og:image" content="http://qiniu.vincents.cn/blog/avatar-sea-vincent.jpg">
+    <meta property="og:image" content="http://localhost:4000/img/avatar-sea-vincent.jpg">
     <meta property="og:url" content="http://localhost:4000/2018/10/24/ios-hikari/">
     <meta property="og:site_name" content="Vincent's Blog | 永远年轻，永远热泪盈眶">
     
@@ -40,7 +40,7 @@
     <link rel="manifest" href="/pwa/manifest.json">
 
     <!-- Favicon -->
-    <link rel="shortcut icon" href="http://qiniu.vincents.cn/blog/favicon.ico">
+    <link rel="shortcut icon" href="/img/favicon.ico">
     
     <!-- Canonical URL -->
     <link rel="canonical" href="http://localhost:4000/2018/10/24/ios-hikari/">
@@ -187,7 +187,7 @@
 </script>
 
 
-    <!-- <picture><source srcset="http://qiniu.vincents.cn/blog/post-bg-17-hikari.webp" type="image/webp"><img src="http://qiniu.vincents.cn/blog/post-bg-17-hikari.jpg" width="0" height="0"></picture> -->
+    <!-- <picture><source srcset="/img/post-bg-17-hikari.webp" type="image/webp"><img src="/img/post-bg-17-hikari.jpg" width="0" height="0"></picture> -->
 
 <!-- Post Header -->
 
@@ -199,11 +199,11 @@
 <style type="text/css">
     header.intro-header{
         position: relative;
-        background-image: url('http://qiniu.vincents.cn/blog/post-bg-17-hikari.jpg');
+        background-image: url('/img/post-bg-17-hikari.jpg');
         background: ;
     }
     .webp header.intro-header{
-        background-image: url('http://qiniu.vincents.cn/blog/post-bg-17-hikari.webp');
+        background-image: url('/img/post-bg-17-hikari.webp');
         background: ;
     }
 
@@ -302,7 +302,7 @@
   <li>删除代码中的所有注释和空行。</li>
 </ul>
 
-<p><picture><source srcset="http://qiniu.vincents.cn/blog/p-ios-hikari/15402030163246.webp" type="image/webp"><img src="http://qiniu.vincents.cn/blog/p-ios-hikari/15402030163246.jpg" alt="-w910" /></picture></p>
+<p><picture><source srcset="/img/p-ios-hikari/15402030163246.webp" type="image/webp"><img src="/img/p-ios-hikari/15402030163246.jpg" alt="-w910" /></picture></p>
 
 <p>示例：</p>
 <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
@@ -335,7 +335,7 @@
 -deleteComments
 </pre></td></tr></tbody></table></code></pre></div></div>
 
-<p><picture><source srcset="http://qiniu.vincents.cn/blog/p-ios-hikari/15402873574819.webp" type="image/webp"><img src="http://qiniu.vincents.cn/blog/p-ios-hikari/15402873574819.jpg" alt="-w1075" /></picture></p>
+<p><picture><source srcset="/img/p-ios-hikari/15402873574819.webp" type="image/webp"><img src="/img/p-ios-hikari/15402873574819.jpg" alt="-w1075" /></picture></p>
 
 <p>修改工程名后，如果包含 pod，需要到文件夹下重新执行 <code class="language-plaintext highlighter-rouge">pod update</code></p>
 
@@ -428,7 +428,7 @@ xx (for architecture arm64):	Mach-O 64-bit executable arm64
 
 <p>也可以可以查看导出后的头文件目录：</p>
 
-<p><picture><source srcset="http://qiniu.vincents.cn/blog/p-ios-hikari/15402749967715.webp" type="image/webp"><img src="http://qiniu.vincents.cn/blog/p-ios-hikari/15402749967715.jpg" alt="-w621" /></picture></p>
+<p><picture><source srcset="/img/p-ios-hikari/15402749967715.webp" type="image/webp"><img src="/img/p-ios-hikari/15402749967715.jpg" alt="-w621" /></picture></p>
 
 <h3 id="25-hopper">2.5 hopper</h3>
 
@@ -436,7 +436,7 @@ xx (for architecture arm64):	Mach-O 64-bit executable arm64
 
 <p>将 Mach-O 文件拖入 <a href="https://www.hopperapp.com">hopper</a> 可以查看。</p>
 
-<p><picture><source srcset="http://qiniu.vincents.cn/blog/p-ios-hikari/15402820640765.webp" type="image/webp"><img src="http://qiniu.vincents.cn/blog/p-ios-hikari/15402820640765.jpg" alt="-w1425" /></picture></p>
+<p><picture><source srcset="/img/p-ios-hikari/15402820640765.webp" type="image/webp"><img src="/img/p-ios-hikari/15402820640765.jpg" alt="-w1425" /></picture></p>
 
 <p>通过以上的方式，别人可以对照应用的功能来分析代码逻辑，从而进行针对性的破解。所以对项目的核心的代码进行混淆就是非常有必要的了。</p>
 
@@ -590,20 +590,20 @@ yy_isAllow
 
 <p>然后在 <code class="language-plaintext highlighter-rouge">Build Phases</code> 中，左上角加号添加 <code class="language-plaintext highlighter-rouge">run script</code> 填入地址</p>
 
-<p><picture><source srcset="http://qiniu.vincents.cn/blog/p-ios-hikari/15402815261872.webp" type="image/webp"><img src="http://qiniu.vincents.cn/blog/p-ios-hikari/15402815261872.jpg" alt="-w1125" /></picture></p>
+<p><picture><source srcset="/img/p-ios-hikari/15402815261872.webp" type="image/webp"><img src="/img/p-ios-hikari/15402815261872.jpg" alt="-w1125" /></picture></p>
 
 <h3 id="32-查看编译结果">3.2 查看编译结果</h3>
 
-<p><picture><source srcset="http://qiniu.vincents.cn/blog/p-ios-hikari/15403674704990.webp" type="image/webp"><img src="http://qiniu.vincents.cn/blog/p-ios-hikari/15403674704990.jpg" alt="-w899" /></picture>
+<p><picture><source srcset="/img/p-ios-hikari/15403674704990.webp" type="image/webp"><img src="/img/p-ios-hikari/15403674704990.jpg" alt="-w899" /></picture>
 成功编译后，会在指定目录下生成一个 <code class="language-plaintext highlighter-rouge">codeObfuscation.h</code> 文件。这里可以看到，在编译过程中会执行 shell 脚本，对相关字符串进行替换</p>
 
 <p>添加 <code class="language-plaintext highlighter-rouge">.pch</code> 文件，并在 <code class="language-plaintext highlighter-rouge">Build Setttings</code> &gt; <code class="language-plaintext highlighter-rouge">Prefix Header</code> 中链接该 <code class="language-plaintext highlighter-rouge">.pch</code> 文件，在 <code class="language-plaintext highlighter-rouge">.pch</code> 文件中导入 <code class="language-plaintext highlighter-rouge">codeObfuscation.h</code>，此时项目中指定的方法都被替换成了<code class="language-plaintext highlighter-rouge">codeObfuscation.h</code> 中的宏定义。</p>
 
-<p><picture><source srcset="http://qiniu.vincents.cn/blog/p-ios-hikari/15402867506913.webp" type="image/webp"><img src="http://qiniu.vincents.cn/blog/p-ios-hikari/15402867506913.jpg" alt="-w906" /></picture></p>
+<p><picture><source srcset="/img/p-ios-hikari/15402867506913.webp" type="image/webp"><img src="/img/p-ios-hikari/15402867506913.jpg" alt="-w906" /></picture></p>
 
 <p>运行成功后将 Products 中的二进制文件拖入到 hopper 中查看</p>
 
-<p><picture><source srcset="http://qiniu.vincents.cn/blog/p-ios-hikari/15402864436528.webp" type="image/webp"><img src="http://qiniu.vincents.cn/blog/p-ios-hikari/15402864436528.jpg" alt="-w1008" /></picture></p>
+<p><picture><source srcset="/img/p-ios-hikari/15402864436528.webp" type="image/webp"><img src="/img/p-ios-hikari/15402864436528.jpg" alt="-w1008" /></picture></p>
 
 <p>此时，方法已经被混淆了。</p>
 
@@ -629,7 +629,7 @@ yy_isAllow
 
 <p>Xcode 编译过程：</p>
 
-<p><picture><source srcset="http://qiniu.vincents.cn/blog/p-ios-hikari/15403733934272.webp" type="image/webp"><img src="http://qiniu.vincents.cn/blog/p-ios-hikari/15403733934272.jpg" alt="-w1132" /></picture></p>
+<p><picture><source srcset="/img/p-ios-hikari/15403733934272.webp" type="image/webp"><img src="/img/p-ios-hikari/15403733934272.jpg" alt="-w1132" /></picture></p>
 
 <h3 id="42-编译器">4.2 编译器</h3>
 
@@ -657,7 +657,7 @@ yy_isAllow
 </blockquote>
 
 <p>编译器前端的任务是进行：语法分析，语义分析，生成中间代码(intermediate representation )。在这个过程中，会进行类型检查，如果发现错误或者警告会标注出来在哪一行。
-<picture><source srcset="http://qiniu.vincents.cn/blog/p-ios-hikari/15403735367044.webp" type="image/webp"><img src="http://qiniu.vincents.cn/blog/p-ios-hikari/15403735367044.jpg" alt="" /></picture></p>
+<picture><source srcset="/img/p-ios-hikari/15403735367044.webp" type="image/webp"><img src="/img/p-ios-hikari/15403735367044.jpg" alt="" /></picture></p>
 
 <blockquote>
   <p>后端编译器</p>
@@ -667,11 +667,11 @@ yy_isAllow
 
 <p>LVVM 优化器会进行 BitCode 的生成，链接期优化等等。</p>
 
-<p><picture><source srcset="http://qiniu.vincents.cn/blog/p-ios-hikari/15403741982298.webp" type="image/webp"><img src="http://qiniu.vincents.cn/blog/p-ios-hikari/15403741982298.jpg" alt="" /></picture></p>
+<p><picture><source srcset="/img/p-ios-hikari/15403741982298.webp" type="image/webp"><img src="/img/p-ios-hikari/15403741982298.jpg" alt="" /></picture></p>
 
 <p>LLVM机器码生成器会针对不同的架构，比如arm64等生成不同的机器码。</p>
 
-<p><picture><source srcset="http://qiniu.vincents.cn/blog/p-ios-hikari/15403742042150.webp" type="image/webp"><img src="http://qiniu.vincents.cn/blog/p-ios-hikari/15403742042150.jpg" alt="" /></picture></p>
+<p><picture><source srcset="/img/p-ios-hikari/15403742042150.webp" type="image/webp"><img src="/img/p-ios-hikari/15403742042150.jpg" alt="" /></picture></p>
 
 <p>2000年，伊利诺伊大学厄巴纳－香槟分校（University of Illinois at Urbana-Champaign 简称UIUC）这所享有世界声望的一流公立研究型大学的 <strong>Chris Lattner</strong>（他的 twitter <a href="https://twitter.com/clattner_llvm">@clattner_llvm</a> ） 开发了一个叫作 Low Level Virtual Machine 的编译器开发工具套件，后来涉及范围越来越大，可以用于常规编译器，JIT编译器，汇编器，调试器，静态分析工具等一系列跟编程语言相关的工作，于是就把简称 LLVM 这个简称作为了正式的名字。Chris Lattner 后来又开发了 Clang，使得 LLVM 直接挑战 GCC 的地位。2012年，LLVM 获得美国计算机学会 ACM 的软件系统大奖，和 UNIX，WWW，TCP/IP，Tex，JAVA 等齐名。</p>
 
@@ -694,7 +694,7 @@ yy_isAllow
 
 <p>然后重启 Xcode 就能看到已经有 Kikari 编译工具</p>
 
-<p><picture><source srcset="http://qiniu.vincents.cn/blog/p-ios-hikari/15403757992100.webp" type="image/webp"><img src="http://qiniu.vincents.cn/blog/p-ios-hikari/15403757992100.jpg" alt="-w640" /></picture></p>
+<p><picture><source srcset="/img/p-ios-hikari/15403757992100.webp" type="image/webp"><img src="/img/p-ios-hikari/15403757992100.jpg" alt="-w640" /></picture></p>
 
 <h4 id="432-使用">4.3.2 使用</h4>
 
@@ -729,7 +729,7 @@ yy_isAllow
 
 <p>将编译后的二进制文件拖入 hopper 中进行对比</p>
 
-<p><picture><source srcset="http://qiniu.vincents.cn/blog/p-ios-hikari/15403763613907.webp" type="image/webp"><img src="http://qiniu.vincents.cn/blog/p-ios-hikari/15403763613907.jpg" alt="-w1194" /></picture></p>
+<p><picture><source srcset="/img/p-ios-hikari/15403763613907.webp" type="image/webp"><img src="/img/p-ios-hikari/15403763613907.jpg" alt="-w1194" /></picture></p>
 
 <p>发现代码已经被混淆过了。
 <strong>最新的 Xcode10 通过非官方默认的 Toolchains 编译后的的 ipa 是拒绝提交审核的。</strong></p>
