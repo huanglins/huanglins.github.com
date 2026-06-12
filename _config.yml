@@ -80,7 +80,7 @@ service-worker: true
 # Friends 友链
 friends: [
     {
-        title: "Apps",
+        title: "app.vincents.cn",
         href: "https://app.vincents.cn/"
     },
     {
